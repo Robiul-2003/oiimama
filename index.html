@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Store",
+  "name": "Adarsha BD",
+  "url": "https://oiimama.com/"
+}
+</script>
+<title>oiimama - Online Shopping in Bangladesh | Fashion, Electronics & More</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<meta name="description" content="Adarsha BD is an online shopping store in Bangladesh. Buy fashion, electronics, gadgets, home products at best price with fast delivery.">
+<meta name="keywords" content="online shopping Bangladesh, Adarsha BD, ecommerce Bangladesh, fashion, electronics, gadgets, buy online">
+<meta property="og:title" content="Adarsha BD - Online Shopping">
+<meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
+<meta property="og:image" content="banner.png">
+<meta property="og:url" content="https://adarshaagent.com/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://adarshaagent.com/">
+<style>
+body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
+
+/* header */
+header{
+  background:#031f50; position: fixed;width:100%;top:0;z-index:999;
+}
+.header1{
+  width:1200px;margin: auto;display: flex;justify-content:space-between;color:white;
+}
+/* search */
+#search{
+  height:30px;margin-top:15px;
+  padding:6px;
+  width:600px;
+}
+.fa-list{
+  font-size:27px;margin-top:27px;
+}
+.fa-magnifying-glass{
+   display:none;
+}
+/* products */
+.container{
+  display:flex; max-width:1400px;margin: auto;
+  flex-wrap:wrap;
+  gap:10px;margin-top:40px;
+  justify-content:center;
+}
+
+.product{
+  width:200px;border-radius:4px;
+  height:300px;
+  border:1px solid #ccc;
+  cursor:pointer;background: white;
+  padding:5px;
+}
+
+.product img{
+  width:100%;
+  height:80%;
+  object-fit:cover;
+}
+
+/* modal */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:black;
+}
+#openlistbox{
+  position:fixed;
+  top:0;
+  left:80%;
+  width:20%;
+  height:100%;
+  background:white;
+  display:none;
+  z-index:9999;
+}
+h2{
+  margin-left:10%;
+}
+.modal-content{
+  background:white;
+  width:100%;
+  height:1000px;
+  margin: auto;
+}
+.productboxin{
+  background:white;
+ max-width:500px;
+  height:1000px;
+  margin: auto;
+}
+#back{
+ float:right;cursor:pointer; color:red; font-size:30px;
+}
+.modal img{
+  width:100%;
+}
+.thumbs img{
+  width:60px;border:1px solid rgb(161, 154, 154);
+  height:60px;
+  cursor:pointer;
+}
+#pname{
+  font-size:17px;font-weight:400;
+}
+#pcode{
+  text-align: center; font-size:20px; color:red;
+}
+#ppieces,
+#pprice{
+  display:flex;
+  justify-content:space-between;
+  text-align:center;
+}
+#ppieces span,
+#pprice span{
+  width:33%;
+}
+#Obtn{
+  width:40%;background: #031f50;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border-radius:3px;
+}
+#Obtn1{
+   width:40%;background: tomato;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border:none;border-radius:3px;
+}
+h4{
+  text-align: center;
+}
+/* modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;z-index:999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  overflow-y: auto; /* 👈 এই লাইনটি যুক্ত করুন */
+}
+.banner{
+  display:none;
+}
+.fa-angle-left{
+  font-size:30px;margin-left:5%;
+}
+#mainImg{
+ border:1px solid rgb(229, 223, 223);
+  max-width:500px;height:500px;
+}
+.box{
+  display:none;
+
+}
+.clickbo{
+  display:none;
+}
+.click{
+  display:none;
+}
+@media(max-width:600px){
+  .header1{
+    width:100%;
+  }
+  h1{
+    margin-left:4%;font-size:25px;
+  }
+  #search{display:none;
+  }
+  .fa-list{
+      font-size:24px;margin-top:20px; margin-right:4%;
+  }
+  .fa-magnifying-glass{
+   display:inline-block;font-size:23px;margin-top:20px;margin-left:35%;
+}
+.modal-content{
+  background:white;
+  width:100%;
+  height:1000px;
+  margin: auto;
+ 
+}
+
+
+.productboxin{
+  background:white;
+  width:100%;
+  height:1000px;
+  margin: auto;
+
+}
+.banner{
+  display: block;
+  margin-top:70px;
+  width:98%;margin-left:1%;
+  height:100px; animation: shrink 2s ease-in-out infinite alternate;
+}
+.box{
+  width:97%; display: flex;margin-left:2%;margin-top:15px;background:white;
+  height:80px;gap:8px;text-align: center;
+  overflow-x:auto;     /* 👈 এটা must */
+  white-space:nowrap;  /* 👈 important */
+  scroll-behavior:smooth;
+}
+.box::-webkit-scrollbar{
+  display:none;
+}
+.clickbox{
+  scroll-snap-align:start;
+}
+.clickbox{
+  border:px solid rgb(230, 218, 218);width:55px;height:60px;border-radius:5px;font-size:13px;font-family: 'Poppins', sans-serif;
+}
+.click{
+  width:50px;height:50px;border-radius:10px;display: block;margin: auto;
+}
+@keyframes shrink{
+  from{
+    transform:scale(1);
+  }
+  to{
+    transform:scale(0.9);
+  }
+}
+.container{
+  margin-top:5px;
+}
+#opensearchbox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:60px;
+  background:#031f50;
+  display:none;
+  z-index:9999;
+}
+#openseachbox{
+ display: flex;
+}
+#ONEsearch{
+  margin-left:7%;height:30px;width:80%;margin-top:10px;
+}
+#X{
+  color:red;font-size:30px;margin-top:12px;margin-left:10px;
+}
+#openlistbox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:white;
+  display:none;
+  z-index:9999;
+}
+.product{
+  width:45%;
+  height:250px;
+  border:1px solid #ccc;
+  cursor:pointer;
+  padding:5px;
+}
+#Obtn{
+  width:40%;background: #031f50;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border-radius:3px;margin-left:5%;
+}
+#Obtn1{
+   width:40%;background: tomato;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border:none;border-radius:3px;
+}
+h2{
+  margin-left:7%;
+}
+#mainImg{
+  max-width:500px;height:350px;margin-top:50px;
+}
+#pname{
+  margin-left:5%;
+}
+#pdetails{
+  margin-left:5%;
+}
+#back{
+  padding:10px;
+}
+}
+</style>
+</head>
+<body>
+<header>
+  <h2>helllo </h2>
+  <div class="header1">
+      <h1>Oiimama</h1>
+  <input id="search" placeholder="Search..." onkeyup="searchProduct()">
+  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
+  <i class="fa-solid fa-list" onclick="demo()"  id="list"></i>
+  </div>
+</header>
+<div id="opensearchbox">
+  <div id="openseachbox">
+    <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()"><p onclick="searchclose()" id="X">X</p>
+  </div>
+</div>
+<div id="openlistbox">
+  <div id="listbox">
+  <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p><br>
+  <h2 onclick="window.location='https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank'">Chat</h2><hr>
+  <h2>Notification</h2><hr>
+  <h2 onclick="window.location.href='https://adarshaagent.com/'">Service</h2><hr>
+  <h2 onclick="window.location.href='login.html'">login</h2><hr>
+  <h2 onclick="window.location.href='signin.html'">Sign in</h2><hr>
+  </div>
+</div>
+  <img src="banner.png" class="banner"> 
+ <div class="box">
+  <div class="clickbox" onclick="filterProducts('all')"><img src="logo.png" class="click"> All <br>products</div>
+  <div class="clickbox" onclick="filterProducts('Free Delivery')"><img src="free delivary.png" class="click"> Free <br>Delivery</div>
+  <div class="clickbox" onclick="filterProducts('man')"><img src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" class="click"> man </div>
+  <div class="clickbox" onclick="filterProducts('woman')"><img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="click"> woman </div>
+  <div class="clickbox" onclick="filterProducts('baby')"><img src="baby.png" class="click"> baby </div>
+  <div class="clickbox" onclick="filterProducts('Electrical')"> <img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="light bulb" class="click"> Electrical </div>
+  <div class="clickbox" onclick="filterProducts('Kitchen')"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="frying pan"  class="click"> Kitchen </div>
+  <div class="clickbox" onclick="filterProducts('accessories')"><img src="https://cdn-icons-png.flaticon.com/512/3659/3659898.png" alt="Phone Accessories" class="click">accessories </div>
+ </div>
+
+<!-- PRODUCTS -->
+<div class="container" id="productList"></div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="productboxin">
+  <span onclick="closeModal()" id="back">X</span>
+
+    <img id="mainImg">
+
+    <div class="thumbs" id="thumbs"></div>
+
+    <h3 id="pname"></h3>
+    <p id="pcode"></p>
+    <p id="ppieces"><span>pieces</span><span>pieces</span></p>
+    <p id="pprice"><span>Price</span><span>180 TK</span></p>
+   <button onclick="orderNow()" id="Obtn">Order Now</button> <button onclick="window.location=''" id="Obtn1">Add To Cart</button>
+    <h4>Details</h4><hr>
+    <p id="pdetails"></p>
+
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+/* ================= DATA ================= */
+const products = [
+{
+id:1,
+category:["man","woman"],
+name:"Adjustable Back Strap",
+code:"1010",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
+price:["180 TK", "100 TK","80 TK"],
+images:["belt.webp","belt2.jpg","best3.webp"],
+details:"best product ",
+},
+{
+id:2,
+category:"kitchen",
+name:"Water Bottle",
+code:"0011",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
+price:["180 TK", "100 TK","80 TK"],
+images:["bottol.jpg"],
+details:"best price",
+},
+{
+id:3,
+category:"baby",
+name:"LCD Tablet",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
+price:["180 TK", "100 TK","80 TK"],
+images:["lcd table1.jpg","lcd table2.jpg"],
+details:" aaaaaaaaaaaaaaa",
+},
+{
+id:4,
+category:"accessories",
+name:"Headphon",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
+price:["180 TK", "100 TK","80 TK"],
+images:["200headphone2.webp","200hheadphon1.webp"],
+details:" aaaaaaaaaaaaaaa",
+},
+{
+id:5,
+category:"woman",
+name:"3pc",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
+price:["180 TK", "100 TK","80 TK"],
+images:["3pcp.png","3pcy.png"],
+details:" aaaaaaaaaaaaaaa",
+},
+{
+id:6,
+category:"accessories",
+name:"Headphon",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-50"],
+price:["180 TK", "100 TK","80 TK"],
+images:["appleheadphon.jpg","appleheadphon2.jpg"],
+details:"bbbbbbbbbb",
+},
+{
+id:7,
+category:"accessories",
+name:"whatch",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-50"],
+price:["180 TK", "100 TK","80 TK"],
+images:["whtch1.jpg","watch2.jpg","watch3.jpg"],
+details:"bbbbbbbbbb",
+},
+{
+id:8,
+category:"woman",
+name:"ring",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-50"],
+price:["180 TK", "100 TK","80 TK"],
+images:["two130.png","two150.png",""],
+details:"bbbbbbbbbb",
+},
+{
+id:9,
+category:"woman",
+name:"ring",
+code:"5050",
+ppieces:["pieces 1-10","pieces 12-20","pieces 22-50"],
+price:["180 TK", "100 TK","80 TK"],
+images:["two130.png","two150.png",""],
+details:"bbbbbbbbbb",
+}
+];
+
+/* ================= LOAD PRODUCTS ================= */
+function loadProducts(){
+let box = document.getElementById("productList");
+box.innerHTML="";
+
+products.forEach(p=>{
+box.innerHTML += `
+<div class="product" onclick="openModal(${p.id})">
+<img src="${p.images[0]}" alt="${p.name} online shopping Bangladesh">
+<p>${p.name}</p>
+</div>
+`;
+});
+}
+
+loadProducts();
+
+/* ================= MODAL ================= */
+function openModal(id){
+let p = products.find(x=>x.id===id);
+
+document.getElementById("modal").style.display="block";
+document.getElementById("mainImg").src=p.images[0];
+document.getElementById("pname").innerText=p.name;
+document.getElementById("pcode").innerText="Code: "+p.code;
+document.getElementById("ppieces").innerHTML =p.ppieces.map(x => `<span>${x}</span>`).join("");
+document.getElementById("pprice").innerHTML =p.price.map(x => `<span>${x}</span>`).join("");
+document.getElementById("pdetails").innerText=p.details;
+let thumbs=document.getElementById("thumbs");
+thumbs.innerHTML="";
+
+p.images.forEach(img=>{
+thumbs.innerHTML+=`
+<img src="${img}" onclick="document.getElementById('mainImg').src='${img}'">
+`;
+});
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* ================= SEARCH ================= */
+function searchProduct(){
+
+let input1 = document.getElementById("search").value.toLowerCase();
+let input2 = document.getElementById("ONEsearch").value.toLowerCase();
+
+let input = input1 || input2;
+
+let items = document.querySelectorAll(".product");
+
+items.forEach(item=>{
+if(item.innerText.toLowerCase().includes(input)){
+item.style.display="block";
+}else{
+item.style.display="none";
+}
+});
+
+}
+function filterProducts(category){
+
+let box = document.getElementById("productList");
+box.innerHTML = "";
+
+let filtered = category === "all"
+  ? products
+  : products.filter(p => {
+
+      if(Array.isArray(p.category)){
+        return p.category.includes(category);
+      }
+
+      return p.category === category;
+  });
+
+filtered.forEach(p=>{
+box.innerHTML += `
+<div class="product" onclick="openModal(${p.id})">
+<img src="${p.images[0]}">
+<p>${p.name}</p>
+</div>
+`;
+});
+
+}
+
+ // <-- এই ব্র্যাকেটটা যোগ করতে হবে
+
+/* ================= click icon open ================= */
+function searchicon(){
+   document.getElementById("opensearchbox").style.display= "block";
+}
+/* ================= click icon open ================= */
+function searchicon(){
+   document.getElementById("opensearchbox").style.display= "block";
+}
+function searchclose(){
+   document.getElementById("opensearchbox").style.display= "none";
+}
+
+function demo(){
+   document.getElementById("openlistbox").style.display= "block";
+}
+function listclose(){
+ document.getElementById("openlistbox").style.display= "none";
+}
+
+
+/* ================= whaisapp click  open massage ================= */
+function orderNow(){
+
+  let productName = document.getElementById("pname").innerText;
+  let productCode = document.getElementById("pcode").innerText.replace("Code: ","");
+
+  let message = `🛒 New Order Request
+
+📦 Product: ${productName}
+🔢 Code: ${productCode}
+
+👉 Please confirm availability & price.`;
+
+  let url = "https://wa.me/8801614153820?text=" + encodeURIComponent(message);
+
+  window.open(url, "_blank");
+}
+</script>
+</body>
+</html>

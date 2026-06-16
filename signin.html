@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>Sign in -oiimama </title>
+<link rel="icon" href="logo.png">
+<style>
+body{
+    font-family: Arial;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    width:340px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    position:relative;
+}
+
+/* BACK BUTTON */
+.back{
+    position:absolute;
+    top:10px;
+    left:10px;
+    font-size:20px;
+    cursor:pointer;
+    color:#333;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+input{
+    width:90%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.signup{
+    background:#28a745;
+    color:white;
+}
+
+.login{
+    background:#007bff;
+    color:white;
+    margin-top:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <!-- BACK BUTTON -->
+    <div class="back" onclick="window.location.href='index.html'">
+        <i class="fa-solid fa-arrow-left"></i>
+    </div>
+
+    <h2>Create Account</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+   <input type="email" id="email" placeholder="Email" list="emailList" autocomplete="on">
+<datalist id="emailList"></datalist>
+    <input type="password" id="password" placeholder="Password">
+
+    <button class="signup" onclick="signup()">Sign Up</button>
+
+    <!-- LOGIN PAGE BUTTON -->
+    <button class="login" onclick="window.location.href='login.html'">
+         Login
+    </button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import { getFirestore, setDoc, doc } 
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAfFIdMnjruh3850JTePGMH7UI7IGO5srg",
+  authDomain: "adarsha-bd-7199f.firebaseapp.com",
+  projectId: "adarsha-bd-7199f",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ================= SIGN UP =================
+window.signup = async function(){
+
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    if(!name || !phone || !email || !password){
+        alert("সব ঘর পূরণ করুন!");
+        return;
+    }
+
+    if(password.length < 6){
+        alert("Password কমপক্ষে 6 character হতে হবে!");
+        return;
+    }
+
+    try{
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name: name,
+            phone: phone,
+            email: email
+        });
+
+        alert("Account Created Successfully!");
+        window.location.href = "login.html";
+
+    }catch(error){
+        alert(error.message);
+    }
+};
+
+window.addEventListener("load", () => {
+    let emails = JSON.parse(localStorage.getItem("emails")) || [];
+    let list = document.getElementById("emailList");
+
+    list.innerHTML = "";
+
+    emails.forEach(email => {
+        let option = document.createElement("option");
+        option.value = email;
+        list.appendChild(option);
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>Login - oiimama</title>
+<link rel="icon" href="logo.png">
+<style>
+body{
+    font-family: Arial;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    width:340px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    position:relative;
+}
+
+.back{
+    position:absolute;
+    top:10px;
+    left:10px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+input{
+    width:90%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.login{
+    background:#007bff;
+    color:white;
+}
+
+.signup{
+    background:#28a745;
+    color:white;
+    margin-top:8px;
+}
+
+.forgot{
+    text-align:right;
+    font-size:13px;
+    margin-top:5px;
+    cursor:pointer;
+    color:#007bff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <!-- Back Button -->
+    <div class="back" onclick="window.location.href='index.html'">
+        <i class="fa-solid fa-arrow-left"></i>
+    </div>
+
+    <h2>Login</h2>
+
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <div class="forgot" onclick="forgotPassword()">
+        Forgot Password?
+    </div>
+ <br>
+    <button class="login" onclick="login()">Login</button>
+    <button class="signup" onclick="window.location.href='signin.html'">Create Account</button>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { 
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAfFIdMnjruh3850JTePGMH7UI7IGO5srg",
+  authDomain: "adarsha-bd-7199f.firebaseapp.com",
+  projectId: "adarsha-bd-7199f",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// ================= LOGIN =================
+window.login = async function(){
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    if(!email || !password){
+        alert("Email এবং Password দিন!");
+        return;
+    }
+
+    try{
+        await signInWithEmailAndPassword(auth, email, password);
+
+        alert("Login Successful!");
+        window.location.href = "index.html";
+
+    }catch(error){
+
+        if(error.code === "auth/user-not-found"){
+            alert("❌ এই account খুঁজে পাওয়া যায়নি!");
+        }
+        else if(error.code === "auth/wrong-password"){
+            alert("❌ Password ভুল!");
+        }
+        else{
+            alert("❌ Login Failed!");
+        }
+    }
+};
+
+
+// ================= FORGOT PASSWORD =================
+window.forgotPassword = async function(){
+
+    let email = document.getElementById("email").value;
+
+    if(!email){
+        alert("আগে Email লিখুন!");
+        return;
+    }
+
+    try{
+        await sendPasswordResetEmail(auth, email);
+        alert("📩 Password reset email পাঠানো হয়েছে!");
+    }catch(error){
+        alert("❌ Email পাওয়া যায়নি!");
+    }
+};
+
+</script>
+
+</body>
+</html>
+echo "# oiimama" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Robiul-2003/oiimama.git
+git push -u origin main
+
+
+git remote add origin https://github.com/Robiul-2003/oiimama.git
+git branch -M main
+git push -u origin main
