@@ -53,17 +53,22 @@ header{
 }
 
 .product{
-  width:200px;border-radius:4px;
+  width:200px;
+  border-radius:4px;
   height:300px;
   border:1px solid #ccc;
-  cursor:pointer;background: white;
+  cursor:pointer;
+  background: white;
   padding:5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .product img{
   width:100%;
-  height:80%;
+  height: 180px;
   object-fit:cover;
+    border-radius:4px;
 }
 
 /* modal */
@@ -91,13 +96,13 @@ h2{
 .modal-content{
   background:white;
   width:100%;
-  height:1000px;
+  height:1500px;
   margin: auto;
 }
 .productboxin{
   background:white;
  max-width:500px;
-  height:1000px;
+  height:1500px;
   margin: auto;
 }
 #back{
@@ -112,7 +117,16 @@ h2{
   cursor:pointer;
 }
 #pname{
-  font-size:17px;font-weight:400;
+ font-size:14px;
+  font-weight:600;
+  height:35px;
+  overflow:hidden;
+
+}
+.pprice{
+  color:green;
+  font-weight:700;
+  margin-top:2px;
 }
 #pcode{
   text-align: center; font-size:20px; color:red;
@@ -120,12 +134,20 @@ h2{
 #ppieces,
 #pprice{
   display:flex;
-  justify-content:space-between;
+    gap:10px;   
+  justify-content:flex-start;
   text-align:center;
 }
 #ppieces span,
 #pprice span{
   width:33%;
+    padding:4px 8px;
+  background:#f2f2f2;
+  border-radius:5px;
+  font-size:13px;
+}
+.product p{
+  margin:3px 0;
 }
 #Obtn{
   width:40%;background: #031f50;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border-radius:3px;
@@ -188,8 +210,6 @@ h4{
   margin: auto;
  
 }
-
-
 .productboxin{
   background:white;
   width:100%;
@@ -264,7 +284,7 @@ h4{
 }
 .product{
   width:45%;
-  height:250px;
+  height:280px;
   border:1px solid #ccc;
   cursor:pointer;
   padding:5px;
@@ -498,6 +518,22 @@ Battery Capacity: 1800mAh.
 Port Type: USB.`
 ,
 },
+{
+id:13,
+category:["man","woman","accessories",],
+name:"CAT STN-28",
+code:"5050",
+ppieces:["pieces 1-5","pieces 8-15","pieces 17-30"],
+price:["450 TK", "430 TK","400 TK"],
+images:["blob:https://web.whatsapp.com/736c3102-3108-4d9d-8e7d-aae7a1d0de28",""],
+details:`
+BrandIrovami
+ColourPink
+Ear placementOver Ear
+Form factorOver Ear
+Headphone jack3.5 mm Jack
+Connectivity technologyWired, Wireless Wired,`
+},
 ];
 
 /* ================= LOAD PRODUCTS ================= */
@@ -510,6 +546,7 @@ box.innerHTML += `
 <div class="product" onclick="openModal(${p.id})">
 <img src="${p.images[0]}" alt="${p.name} online shopping Bangladesh">
 <p>${p.name}</p>
+ <p class="pprice">${p.price[1]}</p>
 </div>
 `;
 });
