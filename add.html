@@ -1,0 +1,721 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product - 5 Image Slots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212; /* Dark theme to match your screenshot */
+            color: #fff;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 650px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #bbb;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            background-color: #2a2a2a;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #007bff;
+        }
+
+        /* Image Grid Styling matching your screenshot */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .image-slot {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* Square Aspect Ratio */
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            border: 1px solid #3a3a3a;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* Number Tag (Top Left) */
+        .slot-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background-color: #0b2f61;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        /* Delete Button (Top Right) */
+        .delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #581515;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: none; /* Default e lukiye thakbe */
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #8a1f1f;
+        }
+
+        /* Uploaded Image style */
+        .image-slot img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        /* Upload Icon Placeholder */
+        .upload-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add New Product</h2>
+    <form id="productForm">
+        
+        <div class="form-group">
+            <label for="productName">Product Name *</label>
+            <input type="text" id="productName" placeholder="Product Name" required>
+        </div>
+        <div class="form-group">
+            <label for="productprice">Product price *</label>
+            <input type="number" id="productprice" placeholder="price" required>
+        </div>
+         <div class="form-group">
+            <label for="Codenumber">Product price *</label>
+            <input type="number" id="Codenumber" placeholder="Code Number" required>
+        </div>
+        <div class="form-group">
+            <label for="productCategory">Category *</label>
+            <select id="productCategory" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="clothing">Clothing & Fashion</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="gadget">Gadget</option>
+                    <option value="man">Man</option>
+                    <option value="woman">Woman</option>
+                    <option value="baby">Baby</option>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="accessories">Accessories</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Product Images (Click slots to upload)</label>
+            <div class="image-grid">
+                <div class="image-slot" onclick="triggerInput(1)">
+                    <div class="slot-number">1</div>
+                    <div class="delete-btn" id="delete-1" onclick="deleteImage(event, 1)">X</div>
+                    <span class="upload-icon" id="icon-1">+</span>
+                    <img id="img-1" alt="Preview">
+                    <input type="file" id="input-1" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 1)">
+                </div>
+
+                <div class="image-slot" onclick="triggerInput(2)">
+                    <div class="slot-number">2</div>
+                    <div class="delete-btn" id="delete-2" onclick="deleteImage(event, 2)">X</div>
+                    <span class="upload-icon" id="icon-2">+</span>
+                    <img id="img-2" alt="Preview">
+                    <input type="file" id="input-2" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 2)">
+                </div>
+
+                <div class="image-slot" onclick="triggerInput(3)">
+                    <div class="slot-number">3</div>
+                    <div class="delete-btn" id="delete-3" onclick="deleteImage(event, 3)">X</div>
+                    <span class="upload-icon" id="icon-3">+</span>
+                    <img id="img-3" alt="Preview">
+                    <input type="file" id="input-3" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 3)">
+                </div>
+
+                <div class="image-slot" onclick="triggerInput(4)">
+                    <div class="slot-number">4</div>
+                    <div class="delete-btn" id="delete-4" onclick="deleteImage(event, 4)">X</div>
+                    <span class="upload-icon" id="icon-4">+</span>
+                    <img id="img-4" alt="Preview">
+                    <input type="file" id="input-4" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 4)">
+                </div>
+
+                <div class="image-slot" onclick="triggerInput(5)">
+                    <div class="slot-number">5</div>
+                    <div class="delete-btn" id="delete-5" onclick="deleteImage(event, 5)">X</div>
+                    <span class="upload-icon" id="icon-5">+</span>
+                    <img id="img-5" alt="Preview">
+                    <input type="file" id="input-5" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 5)">
+                </div>
+
+            </div>
+        </div>
+       <div class="form-group">
+            <label for="productDescription">Discription</label>
+            <input type="text" id="productDescription" placeholder="Write product description..." required>
+        </div>
+        <button type="submit" class="btn-submit">Add Product</button>
+    </form>
+</div>
+
+<script>
+    // Slot a click korle input trigger hobe
+    function triggerInput(slotNum) {
+        document.getElementById(`input-${slotNum}`).click();
+    }
+
+    // Image upload hole preview hobe ebang X button asbe
+    function previewSlotImage(input, slotNum) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Image show korbe
+                const imgElement = document.getElementById(`img-${slotNum}`);
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+
+                // Delete 'X' button show korbe
+                document.getElementById(`delete-${slotNum}`).style.display = 'flex';
+                
+                // Plus icon lukiye felbe
+                document.getElementById(`icon-${slotNum}`).style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // X click korle image o input data clear hobe
+    function deleteImage(event, slotNum) {
+        event.stopPropagation(); // Box trigger off rakhar jonno
+        
+        // Input file clear
+        document.getElementById(`input-${slotNum}`).value = "";
+        
+        // Image & X button hye jabe
+        document.getElementById(`img-${slotNum}`).style.display = 'none';
+        document.getElementById(`img-${slotNum}`).src = '';
+        document.getElementById(`delete-${slotNum}`).style.display = 'none';
+        
+        // Plus icon back korbe
+        document.getElementById(`icon-${slotNum}`).style.display = 'block';
+    }
+
+    // Form Submit Event
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Product with selected images submitted successfully!');
+    });
+
+
+
+
+
+
+document.getElementById("productForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let images = [];
+
+    for(let i=1;i<=5;i++){
+        let img = document.getElementById("img-"+i).src;
+        if(img){
+            images.push(img);
+        }
+    }
+
+    let product = {
+        id: Date.now(),
+        category: [document.getElementById("productCategory").value],
+        name: document.getElementById("productName").value,
+        code: Date.now().toString().slice(-6),
+        ppieces:["1-5","6-10","11-20"],
+        price:[
+            document.getElementById("productprice").value+" TK",
+            document.getElementById("productprice").value+" TK",
+            document.getElementById("productprice").value+" TK"
+        ],
+        images: images,
+        details: document.getElementById("productDescription").value
+    };
+
+    let userProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
+
+    userProducts.push(product);
+
+    localStorage.setItem("userProducts", JSON.stringify(userProducts));
+
+    alert("Product Added Successfully");
+
+    window.location.href="index.html";
+});
+</script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// এখানে submit event লিখবে
+
+</script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product - 5 Image Slots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212; 
+            color: #fff;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 650px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #bbb;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            background-color: #2a2a2a;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #007bff;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .image-slot {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; 
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            border: 1px solid #3a3a3a;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .slot-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background-color: #0b2f61;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #581515;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #8a1f1f;
+        }
+
+        .image-slot img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .upload-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add New Product</h2>
+    <form id="productForm">
+        
+        <div class="form-group">
+            <label for="productName">Product Name *</label>
+            <input type="text" id="productName" placeholder="Product Name" required>
+        </div>
+        <div class="form-group">
+            <label for="productprice">Product Price *</label>
+            <input type="number" id="productprice" placeholder="Price" required>
+        </div>
+         <div class="form-group">
+            <label for="Codenumber">Code Number *</label>
+            <input type="number" id="Codenumber" placeholder="Code Number" required>
+        </div>
+        <div class="form-group">
+            <label for="productCategory">Category *</label>
+            <select id="productCategory" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="clothing">Clothing & Fashion</option>
+                <option value="electronics">Electronics</option>
+                <option value="gadget">Gadget</option>
+                <option value="man">Man</option>
+                <option value="woman">Woman</option>
+                <option value="baby">Baby</option>
+                <option value="Kitchen">Kitchen</option>
+                <option value="accessories">Accessories</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Product Images (Click slots to upload)</label>
+            <div class="image-grid">
+                <div class="image-slot" onclick="triggerInput(1)">
+                    <div class="slot-number">1</div>
+                    <div class="delete-btn" id="delete-1" onclick="deleteImage(event, 1)">X</div>
+                    <span class="upload-icon" id="icon-1">+</span>
+                    <img id="img-1" alt="Preview">
+                    <input type="file" id="input-1" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 1)">
+                </div>
+                <div class="image-slot" onclick="triggerInput(2)">
+                    <div class="slot-number">2</div>
+                    <div class="delete-btn" id="delete-2" onclick="deleteImage(event, 2)">X</div>
+                    <span class="upload-icon" id="icon-2">+</span>
+                    <img id="img-2" alt="Preview">
+                    <input type="file" id="input-2" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 2)">
+                </div>
+                <div class="image-slot" onclick="triggerInput(3)">
+                    <div class="slot-number">3</div>
+                    <div class="delete-btn" id="delete-3" onclick="deleteImage(event, 3)">X</div>
+                    <span class="upload-icon" id="icon-3">+</span>
+                    <img id="img-3" alt="Preview">
+                    <input type="file" id="input-3" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 3)">
+                </div>
+                <div class="image-slot" onclick="triggerInput(4)">
+                    <div class="slot-number">4</div>
+                    <div class="delete-btn" id="delete-4" onclick="deleteImage(event, 4)">X</div>
+                    <span class="upload-icon" id="icon-4">+</span>
+                    <img id="img-4" alt="Preview">
+                    <input type="file" id="input-4" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 4)">
+                </div>
+                <div class="image-slot" onclick="triggerInput(5)">
+                    <div class="slot-number">5</div>
+                    <div class="delete-btn" id="delete-5" onclick="deleteImage(event, 5)">X</div>
+                    <span class="upload-icon" id="icon-5">+</span>
+                    <img id="img-5" alt="Preview">
+                    <input type="file" id="input-5" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 5)">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Description</label>
+            <input type="text" id="productDescription" placeholder="Write product description..." required>
+        </div>
+        <button type="submit" class="btn-submit">Add Product</button>
+    </form>
+</div>
+
+<script>
+    // Slot a click korle input trigger hobe
+    function triggerInput(slotNum) {
+        document.getElementById(`input-${slotNum}`).click();
+    }
+
+    // Image upload hole preview hobe ebang X button asbe
+    function previewSlotImage(input, slotNum) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgElement = document.getElementById(`img-${slotNum}`);
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+                document.getElementById(`delete-${slotNum}`).style.display = 'flex';
+                document.getElementById(`icon-${slotNum}`).style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // X click korle image o input data clear hobe
+    function deleteImage(event, slotNum) {
+        event.stopPropagation(); 
+        document.getElementById(`input-${slotNum}`).value = "";
+        const imgElement = document.getElementById(`img-${slotNum}`);
+        imgElement.style.display = 'none';
+        imgElement.removeAttribute('src'); // src attribute clear করা হলো
+        document.getElementById(`delete-${slotNum}`).style.display = 'none';
+        document.getElementById(`icon-${slotNum}`).style.display = 'block';
+    }
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// এখানে ফায়ারবেস এবং লোকালস্টোরেজ এর সাবমিট লজিক এক করা হয়েছে
+document.getElementById("productForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    let images = [];
+    for(let i = 1; i <= 5; i++){
+        let imgElement = document.getElementById("img-" + i);
+        // শুধুমাত্র ছবি আপলোড করা হয়েছে এমন স্লটগুলোর src নেওয়া হচ্ছে (Base64 ফরম্যাটে)
+        if(imgElement && imgElement.style.display === 'block' && imgElement.src) {
+            images.push(imgElement.src);
+        }
+    }
+
+    let priceValue = document.getElementById("productprice").value;
+
+    let product = {
+        id: Date.now(),
+        category: [document.getElementById("productCategory").value],
+        name: document.getElementById("productName").value,
+        code: document.getElementById("Codenumber").value || Date.now().toString().slice(-6),
+        ppieces: ["1-5", "6-10", "11-20"],
+        price: [
+            priceValue + " TK",
+            priceValue + " TK",
+            priceValue + " TK"
+        ],
+        images: images,
+        details: document.getElementById("productDescription").value
+    };
+
+    try {
+        // ১. ফায়ারবেস ফায়ারস্টোরে "products" নামক কালেকশনে ডেটা সেভ করা হচ্ছে
+        await addDoc(collection(db, "products"), product);
+        console.log("Firebase-e data save hoyeche!");
+
+        // ২. লোকাল স্টোরেজেও ব্যাকআপ হিসেবে ডেটা সেভ করা হচ্ছে
+        let userProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
+        userProducts.push(product);
+        localStorage.setItem("userProducts", JSON.stringify(userProducts));
+
+        alert("Product Added Successfully to Firebase & LocalStorage");
+        window.location.href = "index.html";
+
+    } catch (error) {
+        console.error("Firebase error: ", error);
+        alert("Firebase-e data pathate somossa hoyeche! " + error.message);
+    }
+});
+</script>
+</body>
+</html>
