@@ -39,16 +39,16 @@ header{
   width:600px;
 }
 .fa-list{
-  font-size:27px;margin-top:27px;
+  font-size:27px;margin-top:27px;cursor: pointer;
 }
 .fa-magnifying-glass{
-   display:none;
+   display:none;cursor: pointer;
 }
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
   flex-wrap:wrap;
-  gap:10px;margin-top:40px;
+  gap:10px;margin-top:80px; 
   justify-content:center;
 }
 
@@ -62,25 +62,16 @@ header{
   padding:5px;
   display: flex;
   flex-direction: column;
-    overflow:hidden;
+  overflow:hidden;
 }
 
 .product img{
   width:100%;
   height:170px;
   object-fit:cover;
-    border-radius:4px;
+  border-radius:4px;
 }
 
-/* modal */
-.modal{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  background:black;
-}
 #openlistbox{
   position:fixed;
   top:0;
@@ -90,27 +81,34 @@ header{
   background:white;
   display:none;
   z-index:9999;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
 }
 h2{
   margin-left:10%;
+  cursor: pointer;
 }
 .modal-content{
   background:white;
   width:100%;
-  height:1500px;
-  margin: auto;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
 }
 .productboxin{
   background:white;
- max-width:500px;
-  height:1500px;
-  margin: auto;
+  width:100%;
 }
 #back{
- float:right;cursor:pointer; color:red; font-size:30px;
+  float:right;cursor:pointer; color:red; font-size:30px;
 }
 .modal img{
   width:100%;
+}
+.thumbs{
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
 }
 .thumbs img{
   width:60px;border:1px solid rgb(161, 154, 154);
@@ -122,7 +120,6 @@ h2{
   font-weight:600;
   height:35px;
   overflow:hidden;
-
 }
 .pprice{
   color:green;
@@ -135,14 +132,14 @@ h2{
 #ppieces,
 #pprice{
   display:flex;
-    gap:10px;   
+  gap:10px;   
   justify-content:flex-start;
   text-align:center;
 }
 #ppieces span,
 #pprice span{
   width:33%;
-    padding:4px 8px;
+  padding:4px 8px;
   background:#f2f2f2;
   border-radius:5px;
   font-size:13px;
@@ -151,39 +148,32 @@ h2{
   margin:3px 0;
 }
 #Obtn{
-  width:40%;background: #031f50;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border-radius:3px;
+  width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
 }
 #Obtn1{
-   width:40%;background: tomato;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border:none;border-radius:3px;
-}
-h4{
-  text-align: center;
+   width:45%;background: tomato;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
 }
 /* modal */
 .modal {
   display: none;
   position: fixed;
-  top: 0; left: 0;z-index:999;
+  top: 0; left: 0;z-index:9999;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.7);
-  overflow-y: auto; /* 👈 এই লাইনটি যুক্ত করুন */
+  overflow-y: auto;
 }
 .banner{
   display:none;
 }
 .fa-angle-left{
-  font-size:30px;margin-left:5%;
+  font-size:30px;margin-left:5%;cursor: pointer;
 }
 #mainImg{
  border:1px solid rgb(229, 223, 223);
-  max-width:500px;height:500px;
+ width:100%;height:350px;object-fit: cover;
 }
 .box{
-  display:none;
-
-}
-.clickbo{
   display:none;
 }
 .click{
@@ -194,22 +184,19 @@ h4{
   margin: auto;
   display:none;
   width:90%;
- 
   border:1px solid red;
+  padding: 10px;
 }
 #pac{
- margin-left:90%;font-size:25px;
+ float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
 }
-#number{
-  margin: auto;margin-left:8%;
-  width:80%;height:30px;
-}
-#pin{
-  margin: auto;margin-left:8%;
-  width:80%;height:30px;
+#number, #pin{
+  margin: auto;
+  width:90%;height:30px;
+  display: block;
 }
 #btnop{
-  width:80px;margin-left:39%;height:25px;
+  width:80px;display: block; margin: 10px auto; height:25px;
 }
 @media(max-width:600px){
   .header1{
@@ -218,121 +205,68 @@ h4{
   h1{
     margin-left:4%;font-size:25px;
   }
-  #search{display:none;
-  }
+  #search{display:none;}
   .fa-list{
       font-size:24px;margin-top:20px; margin-right:4%;
   }
   .fa-magnifying-glass{
    display:inline-block;font-size:23px;margin-top:20px;margin-left:35%;
-}
-.modal-content{
-  background:white;
-  width:100%;
-  height:1500px;
-  margin: auto;
- 
-}
-.productboxin{
-  background:white;
-  width:100%;
-  height:1500px;
-  margin: auto;
-
-}
-.banner{
-  display: block;
-  margin-top:70px;
-  width:98%;margin-left:1%;
-  height:100px; animation: shrink 2s ease-in-out infinite alternate;
-}
-.box{
-  width:97%; display: flex;margin-left:2%;margin-top:15px;background:white;
-  height:80px;gap:8px;text-align: center;
-  overflow-x:auto;     /* 👈 এটা must */
-  white-space:nowrap;  /* 👈 important */
-  scroll-behavior:smooth;
-}
-.box::-webkit-scrollbar{
-  display:none;
-}
-.clickbox{
-  scroll-snap-align:start;
-}
-.clickbox{
-  border:px solid rgb(230, 218, 218);width:55px;height:60px;border-radius:5px;font-size:13px;font-family: 'Poppins', sans-serif;
-}
-.click{
-  width:50px;height:50px;border-radius:10px;display: block;margin: auto;
-}
-@keyframes shrink{
-  from{
-    transform:scale(1);
   }
-  to{
-    transform:scale(0.9);
+  .container{
+    margin-top:10px;
   }
-}
-.container{
-  margin-top:5px;
-}
-#opensearchbox{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:60px;
-  background:#031f50;
-  display:none;
-  z-index:9999;
-}
-#openseachbox{
- display: flex;
-}
-#ONEsearch{
-  margin-left:7%;height:30px;width:80%;margin-top:10px;
-}
-#X{
-  color:red;font-size:30px;margin-top:12px;margin-left:10px;
-}
-#openlistbox{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:white;
-  display:none;
-  z-index:9999;
-}
-.product{
-  width:45%;
-  height:280px;
-  border:1px solid #ccc;
-  cursor:pointer;
-  padding:5px;
-}
-#Obtn{
-  width:40%;background: #031f50;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border-radius:3px;margin-left:5%;
-}
-#Obtn1{
-   width:40%;background: tomato;height:30px;color:white;font-size:16px;font-weight:600;font-family: 'Poppins', sans-serif;border:none;border-radius:3px;
-}
-h2{
-  margin-left:7%;
-}
-#mainImg{
-  max-width:500px;height:350px;margin-top:50px;
-}
-#pname{
-  margin-left:5%;
-}
-#pdetails{
-  margin-left:5%;
-}
-#back{
-  padding:10px;
-}
+  .modal-content{
+    width:90%;
+    margin: 20px auto;
+  }
+  .banner{
+    display: block;
+    margin-top:70px;
+    width:98%;margin-left:1%;
+    height:100px; animation: shrink 2s ease-in-out infinite alternate;
+  }
+  .box{
+    width:97%; display: flex;margin-left:2%;margin-top:15px;background:white;
+    height:80px;gap:8px;text-align: center;
+    overflow-x:auto;     
+    white-space:nowrap;  
+    scroll-behavior:smooth;
+  }
+  .box::-webkit-scrollbar{
+    display:none;
+  }
+  .clickbox{
+    scroll-snap-align:start;
+    border:1px solid rgb(230, 218, 218);width:55px;height:60px;border-radius:5px;font-size:13px;display: inline-block;vertical-align: top;
+  }
+  .click{
+    width:40px;height:40px;border-radius:10px;display: block;margin: auto;
+  }
+  @keyframes shrink{
+    from{transform:scale(1);}
+    to{transform:scale(0.9);}
+  }
+  #opensearchbox{
+    position:fixed;
+    top:0;left:0;width:100%;height:60px;
+    background:#031f50;display:none;z-index:9999;
+  }
+  #opensearchbox .search-inner{
+   display: flex; justify-content: space-between; align-items: center; padding: 10px;
+  }
+  #ONEsearch{
+    height:30px;width:80%;
+  }
+  #X{
+    color:red;font-size:30px;cursor: pointer; margin: 0;
+  }
+  #openlistbox{
+    left:0; width:100%;
+  }
+  .product{
+    width:45%;
+    height:280px;
+  }
 }
 </style>
 </head>
@@ -342,403 +276,231 @@ h2{
       <h1>Adarsha</h1>
   <input id="search" placeholder="Search..." onkeyup="searchProduct()">
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="demo()"  id="list"></i>
+  <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
   </div>
 </header>
+
 <div id="opensearchbox">
-  <div id="openseachbox">
-    <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()"><p onclick="searchclose()" id="X">X</p>
+  <div class="search-inner">
+    <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
+    <p onclick="searchclose()" id="X">X</p>
   </div>
 </div>
+
 <div id="openlistbox">
   <div id="listbox">
   <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p><br>
 
-
-
   <h2 onclick="padd()" id="productsadd">Products Add</h2>
   <div id="productcloseo">
-  <div id="productcloset">
-  <p onclick="proclose()" id="pac">X</p>
-
-    
-    <input type="text" id="number" placeholder="Enter your number"><br><br>
-
-    <input type="password" id="pin" placeholder="Enter your pin"><br><br>
-
+    <p onclick="proclose()" id="pac">X</p><br>
+    <input type="text" id="number" placeholder="Enter your number"><br>
+    <input type="password" id="pin" placeholder="Enter your pin"><br>
     <button onclick="checkLogin()" id="btnop">open</button>
-  </div>
   </div>
   <hr>
 
-
-  <h2 onclick="window.location='https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank'">Chat</h2><hr>
+  <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
   <h2>Notification</h2><hr>
   <h2 onclick="window.location.href='https://adarshaagent.com/'">Service</h2><hr>
   <h2 onclick="window.location.href='login.html'">login</h2><hr>
   <h2 onclick="window.location.href='signin.html'">Sign in</h2><hr>
   </div>
 </div>
-  <img src="banner.png" class="banner"> 
- <div class="box">
+
+<img src="banner.png" class="banner" alt="Banner"> 
+<div class="box">
   <div class="clickbox" onclick="filterProducts('all')"><img src="logo.png" class="click"> All <br>products</div>
   <div class="clickbox" onclick="filterProducts('Free Delivery')"><img src="free delivary.png" class="click"> Free <br>Delivery</div>
   <div class="clickbox" onclick="filterProducts('man')"><img src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" class="click"> man </div>
   <div class="clickbox" onclick="filterProducts('woman')"><img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="click"> woman </div>
   <div class="clickbox" onclick="filterProducts('baby')"><img src="baby.png" class="click"> baby </div>
   <div class="clickbox" onclick="filterProducts('Electrical')"> <img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="light bulb" class="click"> Electrical </div>
-  <div class="clickbox" onclick="filterProducts('Kitchen')"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="frying pan"  class="click"> Kitchen </div>
+  <div class="clickbox" onclick="filterProducts('Kitchen')"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="frying pan" class="click"> Kitchen </div>
   <div class="clickbox" onclick="filterProducts('accessories')"><img src="https://cdn-icons-png.flaticon.com/512/3659/3659898.png" alt="Phone Accessories" class="click">accessories </div>
- </div>
+</div>
 
-<!-- PRODUCTS -->
 <div class="container" id="productList"></div>
 
-<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="productboxin">
-  <span onclick="closeModal()" id="back">X</span>
-
-    <img id="mainImg">
-
-    <div class="thumbs" id="thumbs"></div>
-
-    <h3 id="pname"></h3>
-    <p id="pcode"></p>
-    <p id="ppieces"><span>pieces</span><span>pieces</span></p>
-    <p id="pprice"><span>Price</span><span>180 TK</span></p>
-   <button onclick="orderNow()" id="Obtn">Order Now</button> <button onclick="window.location=''" id="Obtn1">Add To Cart</button>
-    <h4>Details</h4><hr>
-    <p id="pdetails"></p>
-
-
-
+      <span onclick="closeModal()" id="back">X</span>
+      <img id="mainImg" src="" alt="Product Image">
+      <div class="thumbs" id="thumbs"></div>
+      <h3 id="pname"></h3>
+      <p id="pcode"></p>
+      <div id="ppieces"></div>
+      <div id="pprice"></div><br>
+      <button onclick="orderNow()" id="Obtn">Order Now</button> 
+      <button onclick="alert('Added to Cart')" id="Obtn1">Add To Cart</button>
+      <h4>Details</h4><hr>
+      <p id="pdetails"></p>
     </div>
   </div>
 </div>
 
 <script type="module">
+// global array to store all products combined
+window.allProducts = [];
 
-/* ================= DATA ================= */
-const products = [
+const localProducts = [
   {
-id:11,
-category:["man","woman","accessories",],
-name:"Airpods Pro 2nd Generation ANC ",
-code:"9638852",
-ppieces:["pieces 1-6","pieces 8-15","pieces 16-30"],
-price:["500 TK", "450 TK","400 TK"],
-images:["https://images.othoba.com/images/thumbs/2323240_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg","https://images.othoba.com/images/thumbs/2323241_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg","https://images.othoba.com/images/thumbs/2323242_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black_400.jpeg"],
-details:`Apple AirPods Pro (2nd generation) feature Apple's
-         H2 chip for Pro-level Active Noise Cancellation,
-         Adaptive Audio, Transparency Mode, 
-         and Personalized Spatial Audio with dynamic head tracking. 
-         They offer up to 6 hours of listening time,
-         come with a MagSafe Charging Case providing up to 30 hours,
-         and include features like Conversation Awareness and Voice Isolation. 
-         The earbuds are IP54 rated for dust, sweat,
-         and water resistance and support Bluetooth 5.3 connectivity.`
-},
+    id: 11,
+    category: ["man", "woman", "accessories"],
+    name: "Airpods Pro 2nd Generation ANC ",
+    code: "9638852",
+    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
+    price: ["500 TK", "450 TK", "400 TK"],
+    images: ["https://images.othoba.com/images/thumbs/2323240_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg"],
+    details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
+  },
   {
-id:10,
-category:["man","woman","accessories",],
-name:"Airpods Pro 2nd Generation ANC ",
-code:"123456",
-ppieces:["pieces 1-6","pieces 8-15","pieces 16-30"],
-price:["400 TK", "380 TK","350 TK"],
-images:["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg","https://images.othoba.com/images/thumbs/2029127_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg","https://images.othoba.com/images/thumbs/2029129_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
-details:`Apple AirPods Pro (2nd generation) feature Apple's
-         H2 chip for Pro-level Active Noise Cancellation,
-         Adaptive Audio, Transparency Mode, 
-         and Personalized Spatial Audio with dynamic head tracking. 
-         They offer up to 6 hours of listening time,
-         come with a MagSafe Charging Case providing up to 30 hours,
-         and include features like Conversation Awareness and Voice Isolation. 
-         The earbuds are IP54 rated for dust, sweat,
-         and water resistance and support Bluetooth 5.3 connectivity.`
-},
-{
-id:1,
-category:["man","woman","accessories",],
-name:"Ultrapods Max  Wireless 5,3",
-code:"1010",
-ppieces:["pieces 1-10","pieces 12-20","pieces 22-30"],
-price:["250 TK", "215 TK","200 TK"],
-images:["Ultrapods Max black.png","Ultrapods Max sky.png","Ultrapods Max green.jpg"],
-details:`Charging Type : C
-Compatibility: All Smartphones
-Model Name: Ultrapods Max
-Play Time: 12 Hours
-Type: In-Ear
-Water Resistant: IP4,`
-},
-{
-id:2,
-category:["man","woman","accessories",],
-name:"geoo plus 120w USB Type-C  Charging Cable",
-code:"0011",
-ppieces:["pieces 1-3","pieces 5-15","pieces 20-30"],
-price:["100 TK", "90 TK","80 TK"],
-images:["geoo plus.webp","geoo cable.jpg"],
-details:
-`
-Product Type: Type C Charging Data Cable 
-Brand: GEOO Plus
-Cable: Type C
-Color: White
-Country of Origin: China
-Cable Length: 1m
-`,
-},
-{
-id:3,
-category:["man","woman","accessories",],
-name:"Oraimo I12",
-code:"5050",
-ppieces:["pieces 1-5","pieces 8-15","pieces 22-30"],
-price:["470 TK", "450 TK","440 TK"],
-images:["https://foodpanda.dhmedia.io/image/darkstores/nv-global-catalog/bd/9bc6b2fa-1cc4-49c6-afd6-c6ef6693290f.jpg?height=480","https://storola-client-space.sgp1.cdn.digitaloceanspaces.com/resources/clients/storola-clients/smfcollectionbd.com/cache/catalog/Oraimo%20I12%20wireless%20headset/69df4679_aed9_4afe_9c68_844878417185-600x600.jpg"],
-details:`
-Pure Bass Sound: Engineered with 40mm dynamic drivers to deliver oraimo's signature deep and powerful bass.
-10-Hour Long Playtime: Massive 400mAh battery provides up to 10 hours of continuous music on a single charge.
-Stable Bluetooth 5.0: Enjoy seamless, lag-free connectivity within a 10-meter range for music and gaming.
-`,
-},
-{
-id:4,
-category:["man","woman","accessories",],
-name:"Hoco EQ24 ",
-code:"5050",
-ppieces:["pieces 1-5","pieces 7-15","pieces 22-30"],
-price:["750 TK", "700 TK","680 TK"],
-images:["https://static-01.daraz.com.bd/p/e0e581dce2040beacc7d4159da3d1798.jpg","https://adminapi.applegadgetsbd.com/storage/media/large/Hoco-EQ24-Estrella-TWS-Earbudsdfh-5762.png","https://static-01.daraz.com.bd/p/213d06ecb01c668fb872dfdca5028949.png"],
-details:`
-Bluetooth Version: 5.4
-Chipset: JL AC6983D2
-Battery (Case): 320mAh
-Battery (Earbud): 40mAh
-Usage Time: Up to 7 hours
-Compact Size: 61 × 48 × 27 mm
-Total Weight: 46.5g
-USB-C Magnetic & Qi Wireless Charging
-`
-},
-{
-id:5,
-category:["woman","accessories",],
-name:"CAT STN-28",
-code:"5050",
-ppieces:["pieces 1-5","pieces 8-15","pieces 17-30"],
-price:["450 TK", "430 TK","400 TK"],
-images:["https://artronyx.com/wp-content/uploads/2024/12/1000045715.jpg","https://bd-live-21.slatic.net/kf/S65e5e93a5d054af2bbdabae0d02510acR.jpg"],
-details:`
-BrandIrovami
-ColourPink
-Ear placementOver Ear
-Form factorOver Ear
-Headphone jack3.5 mm Jack
-Connectivity technologyWired, Wireless Wired,`
-},
-{
-id:12,
-category:["man","woman","accessories",],
-name:"W15 Bluetooth Portable Wireless Speaker",
-code:"5050",
-ppieces:["pieces 1-5","pieces 8-15","pieces 17-30"],
-price:["500 TK", "450 TK","420 TK"],
-images:["https://images.othoba.com/images/thumbs/2029037_w15-bluetooth-portable-wireless-speaker-green.jpeg","https://images.othoba.com/images/thumbs/2029036_w15-bluetooth-portable-wireless-speaker-green.jpeg"],
-details:`
-Brand: W15.
-
-Color: Black.
-
-Country of Origin: China.
-
-Battery Capacity: 1800mAh.
-
-Port Type: USB.`
-,
-},
-{
-id:13,
-category:["man","woman","accessories",],
-name:"Ankeer ankeet  USB-A to USB-C Charging Cable (1.2m TPE)",
-code:"5050",
-ppieces:["pieces 1-5","pieces 8-15","pieces 17-30"],
-price:["110 TK", "100 TK","90 TK"],
-images:["ankerfont.jpeg","anker.jpeg"],
-details:`
-Data based on internal laboratory testing
-`
-},
-{
-id:14,
-category:["man","woman","accessories",],
-name:"X-CEL Fast Charging USB Type-C and B  Charging Cable",
-code:"5555",
-ppieces:["pieces 1-5","pieces 8-15","pieces 17-30"],
-price:["70 TK", "50 TK","40 TK"],
-images:["https://ik.imagekit.io/otbgrtfsy/products/xcel/type-c.webp?tr=w-800,f-auto,q-auto","https://ik.imagekit.io/otbgrtfsy/products/xcel/charging.webp?tr=w-800,f-auto,q-auto","https://bd-live-21.slatic.net/kf/S53da374646224d8497b2509ea2e88d35x.jpg"],
-details:`
-1 Meter Cable Length
-3A Quick Charging
-Nylon Fiber braid inside
-`
-},
+    id: 10,
+    category: ["man", "woman", "accessories"],
+    name: "Airpods Pro 2nd Generation ANC ",
+    code: "123456",
+    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
+    price: ["400 TK", "380 TK", "350 TK"],
+    images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
+    details: `Apple AirPods Pro (2nd generation)...`
+  }
 ];
 
-/* ================= LOAD PRODUCTS =================
-function loadProducts(){
-let box = document.getElementById("productList");
-box.innerHTML="";
+// ১. হার্ডকোডেড প্রোডাক্টগুলো যোগ করা হলো
+window.allProducts = [...localProducts];
 
-products.forEach(p=>{
-box.innerHTML += `
-<div class="product" onclick="openModal(${p.id})">
-<img src="${p.images[0]}" alt="${p.name} online shopping Bangladesh">
-<p>${p.name}</p>
- <p class="pprice">${p.price[1]}</p>
-</div>
-`;
-});
-} */
+// ২. লোকালস্টোরেজ থেকে ইউজারদের অ্যাড করা প্রোডাক্টগুলো যোগ করা হলো
+let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
+window.allProducts = [...window.allProducts, ...savedUserProducts];
 
-loadProducts();
 
-/* ================= MODAL ================= */
+function renderProducts(productsToDisplay) {
+  let box = document.getElementById("productList");
+  box.innerHTML = "";
+  productsToDisplay.forEach(p => {
+    let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
+    let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK"); // ডিফল্ট প্রথম প্রাইস শো করবে
+    box.innerHTML += `
+      <div class="product" onclick="openModal(${p.id})">
+        <img src="${imgSrc}" alt="${p.name}">
+        <p>${p.name}</p>
+        <p class="pprice">${displayPrice}</p>
+      </div>
+    `;
+  });
+}
+
 function openModal(id){
-let p = products.find(x=>x.id===id);
-document.getElementById("modal").style.display="block";
-document.getElementById("mainImg").src=p.images[0];
-document.getElementById("pname").innerText=p.name;
-document.getElementById("pcode").innerText="Code: "+p.code;
-document.getElementById("ppieces").innerHTML =p.ppieces.map(x => `<span>${x}</span>`).join("");
-document.getElementById("pprice").innerHTML =p.price.map(x => `<span>${x}</span>`).join("");
-document.getElementById("pdetails").innerText=p.details;
-let thumbs=document.getElementById("thumbs");
-thumbs.innerHTML="";
-
-p.images.forEach(img=>{
-thumbs.innerHTML+=`
-<img src="${img}" onclick="document.getElementById('mainImg').src='${img}'">
-`;
-});
+  let p = window.allProducts.find(x => x.id == id);
+  if(!p) return;
+  
+  document.getElementById("modal").style.display="block";
+  document.getElementById("mainImg").src = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
+  document.getElementById("pname").innerText = p.name;
+  document.getElementById("pcode").innerText = "Code: " + (p.code || 'N/A');
+  
+  if(p.ppieces && Array.isArray(p.ppieces)) {
+    document.getElementById("ppieces").innerHTML = p.ppieces.map(x => `<span>${x}</span>`).join("");
+  } else {
+    document.getElementById("ppieces").innerHTML = "<span>Standard</span>";
+  }
+  
+  if(p.price && Array.isArray(p.price)) {
+    document.getElementById("pprice").innerHTML = p.price.map(x => `<span>${x}</span>`).join("");
+  } else {
+    document.getElementById("pprice").innerHTML = `<span>${p.price} TK</span>`;
+  }
+  
+  document.getElementById("pdetails").innerText = p.details || '';
+  
+  let thumbs = document.getElementById("thumbs");
+  thumbs.innerHTML = "";
+  if(p.images && Array.isArray(p.images)){
+    p.images.forEach(img => {
+      thumbs.innerHTML += `<img src="${img}" onclick="document.getElementById('mainImg').src='${img}'">`;
+    });
+  }
 }
 
 function closeModal(){
-document.getElementById("modal").style.display="none";
+  document.getElementById("modal").style.display="none";
 }
 
 function checkLogin(){
-
     let number = document.getElementById("number").value.trim();
     let pin = document.getElementById("pin").value.trim();
-
     if(number === "123456789" && pin === "2026"){
-
         window.location.href = "add.html";
-
     }else{
-
         alert("Wrong Number or PIN");
-
     }
-
 }
 
-/* ================= SEARCH ================= */
 function searchProduct(){
+  let input1 = document.getElementById("search").value.toLowerCase();
+  let input2 = document.getElementById("ONEsearch").value.toLowerCase();
+  let input = input1 || input2;
+  let items = document.querySelectorAll(".product");
 
-let input1 = document.getElementById("search").value.toLowerCase();
-let input2 = document.getElementById("ONEsearch").value.toLowerCase();
-
-let input = input1 || input2;
-
-let items = document.querySelectorAll(".product");
-
-items.forEach(item=>{
-if(item.innerText.toLowerCase().includes(input)){
-item.style.display="block";
-}else{
-item.style.display="none";
+  items.forEach(item => {
+    if(item.innerText.toLowerCase().includes(input)){
+      item.style.display="block";
+    }else{
+      item.style.display="none";
+    }
+  });
 }
-});
 
-}
 function filterProducts(category){
-
-let box = document.getElementById("productList");
-box.innerHTML = "";
-
-let filtered = category === "all"
-  ? products
-  : products.filter(p => {
-
+  if(category === "all") {
+    renderProducts(window.allProducts);
+  } else {
+    let filtered = window.allProducts.filter(p => {
       if(Array.isArray(p.category)){
         return p.category.includes(category);
       }
-
       return p.category === category;
-  });
-
-filtered.forEach(p=>{
-box.innerHTML += `
-<div class="product" onclick="openModal(${p.id})">
-<img src="${p.images[0]}">
-<p>${p.name}</p>
-</div>
-`;
-});
-
+    });
+    renderProducts(filtered);
+  }
 }
 
- // <-- এই ব্র্যাকেটটা যোগ করতে হবে
+function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
+function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
+function demo(){ document.getElementById("openlistbox").style.display= "block"; }
+function listclose(){ document.getElementById("openlistbox").style.display= "none"; }
+function padd(){ document.getElementById("productcloseo").style.display= "block"; }
+function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
 
-/* ================= click icon open ================= */
-function searchicon(){
-   document.getElementById("opensearchbox").style.display= "block";
-}
-/* ================= click icon open ================= */
-function searchicon(){
-   document.getElementById("opensearchbox").style.display= "block";
-}
-function searchclose(){
-   document.getElementById("opensearchbox").style.display= "none";
-}
-
-function demo(){
-   document.getElementById("openlistbox").style.display= "block";
-}
-function listclose(){
- document.getElementById("openlistbox").style.display= "none";
-}
-function padd(){
-  document.getElementById("productcloseo").style.display= "block";
-}
-function proclose(){
-  document.getElementById("productcloseo").style.display= "none";
-}
-
-/* ================= whaisapp click  open massage ================= */
 function orderNow(){
-
   let productName = document.getElementById("pname").innerText;
   let productCode = document.getElementById("pcode").innerText.replace("Code: ","");
-
-  let message = `🛒 New Order Request
-
-📦 Product: ${productName}
-🔢 Code: ${productCode}
-
-👉 Please confirm availability & price.`;
-
+  let message = `🛒 New Order Request\n\n📦 Product: ${productName}\n🔢 Code: ${productCode}`;
   let url = "https://wa.me/8801614153820?text=" + encodeURIComponent(message);
-
   window.open(url, "_blank");
 }
 
+// Window object mapping
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.checkLogin = checkLogin;
+window.searchProduct = searchProduct;
+window.filterProducts = filterProducts;
+window.searchicon = searchicon;
+window.searchclose = searchclose;
+window.demo = demo;
+window.listclose = listclose;
+window.padd = padd;
+window.proclose = proclose;
+window.orderNow = orderNow;
+
+// Initial Render
+renderProducts(window.allProducts);
+
+/* ================= FIREBASE ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -750,46 +512,27 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-console.log("Firebase Connected Successfully");
-
-
-
-
-import {
-  getFirestore,
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-
-
-
-
-// Firestore চালু
 const db = getFirestore(app);
 
-// Firestore থেকে products collection পড়া
 async function loadFirebaseProducts() {
-
-  const querySnapshot = await getDocs(collection(db, "products"));
-
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, doc.data());
-
-    let p = doc.data();
-
-    document.getElementById("productList").innerHTML += `
-      <div class="product">
-        <p>${p.name}</p>
-        <p class="pprice">${p.price} TK</p>
-      </div>
-    `;
-  });
-
+  try {
+    const querySnapshot = await getDocs(collection(db, "products"));
+    querySnapshot.forEach((doc) => {
+      let p = doc.data();
+      if(!p.id) p.id = doc.id; 
+      
+      // ডুপ্লিকেট ডেটা এড়াতে চেক করে পুশ করা হচ্ছে
+      if (!window.allProducts.some(x => x.id == p.id)) {
+         window.allProducts.push(p);
+      }
+    });
+    // ফায়ারবেসের ডেটাসহ সব প্রোডাক্ট আবার রেন্ডার হবে
+    renderProducts(window.allProducts);
+  } catch (error) {
+    console.error("Error loading products: ", error);
+  }
 }
 
-// Call function
 loadFirebaseProducts();
 </script>
 </body>
