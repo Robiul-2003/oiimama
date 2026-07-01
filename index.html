@@ -8,7 +8,7 @@
   "@context": "https://schema.org/",
   "@type": "Store",
   "name": "Adarsha BD",
-  "url": "https://oiimama.com/"
+  "url": "http://adarshabd.com/"
 }
 </script>
 <title>Adarsh BD - Online Shopping in Bangladesh | Fashion, Electronics & More</title>
@@ -19,9 +19,9 @@
 <meta property="og:title" content="Adarsha BD - Online Shopping">
 <meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
 <meta property="og:image" content="banner.png">
-<meta property="og:url" content="https://adarshaagent.com/">
+<meta property="og:url" content="http://adarshabd.com/">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://adarshaagent.com/">
+<link rel="canonical" href="http://adarshabd.com/">
 <style>
 body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
 
@@ -72,6 +72,30 @@ header{
   border-radius:4px;
 }
 
+/* X Button Style */
+.p-delete-x {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(255, 0, 0, 0.85);
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.p-delete-x:hover {
+  background: red;
+  transform: scale(1.1);
+}
+
 #openlistbox{
   position:fixed;
   top:0;
@@ -97,7 +121,7 @@ h2{
 }
 .productboxin{
   background:white;
-  width:100%;
+  width:100%;height:1500px;
 }
 #back{
   float:right;cursor:pointer; color:red; font-size:30px;
@@ -196,7 +220,7 @@ h2{
   display: block;
 }
 #btnop{
-  width:80px;display: block; margin: 10px auto; height:25px;
+  width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
 }
 @media(max-width:600px){
   .header1{
@@ -226,7 +250,7 @@ h2{
     height:100px; animation: shrink 2s ease-in-out infinite alternate;
   }
   .box{
-    width:97%; display: flex;margin-left:2%;margin-top:15px;background:white;
+    width:97%; display: flex;margin-left:2%;margin-top:10px;background:white;
     height:80px;gap:8px;text-align: center;
     overflow-x:auto;     
     white-space:nowrap;  
@@ -236,7 +260,7 @@ h2{
     display:none;
   }
   .clickbox{
-    scroll-snap-align:start;
+    scroll-snap-align:start;margin-top:8px;
     font-size:13px;display: inline-block;vertical-align: top;
   }
   .click{
@@ -255,7 +279,7 @@ h2{
    display: flex; justify-content: space-between; align-items: center; padding: 10px;
   }
   #ONEsearch{
-    height:30px;width:80%;
+    height:30px;width:80%;margin-left:8%;
   }
   #X{
     color:red;font-size:30px;cursor: pointer; margin: 0;
@@ -313,7 +337,7 @@ h2{
 
   <h2 onclick="padd()" id="productsadd">Products Add</h2>
   <div id="productcloseo">
-    <p onclick="proclose()" id="pac">X</p><br>
+    <p onclick="proclose()" id="pac">X</p><br><br><br>
     <input type="text" id="number" placeholder="Enter your number"><br>
     <input type="password" id="pin" placeholder="Enter your pin"><br>
     <button onclick="checkLogin()" id="btnop">open</button>
@@ -364,7 +388,21 @@ h2{
 </div>
 
 <script type="module">
-// global array to store all products combined
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:b4dc619f0290a2241b1039"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 window.allProducts = [];
 
 const localProducts = [
@@ -390,28 +428,56 @@ const localProducts = [
   }
 ];
 
-// ১. হার্ডকোডেড প্রোডাক্টগুলো যোগ করা হলো
+// 初期 (Initial setup)
 window.allProducts = [...localProducts];
-
-// ২. লোকালস্টোরেজ থেকে ইউজারদের অ্যাড করা প্রোডাক্টগুলো যোগ করা হলো
 let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
 window.allProducts = [...window.allProducts, ...savedUserProducts];
-
 
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
   box.innerHTML = "";
   productsToDisplay.forEach(p => {
     let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
-    let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK"); // ডিফল্ট প্রথম প্রাইস শো করবে
+    let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK");
+    
+    // ১০ এবং ১১ বাদে বাকি ইউজার প্রোডাক্টে X দেখাবে
+    let deleteBtn = "";
+    if (p.id != 10 && p.id != 11) {
+      deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
+    }
+
     box.innerHTML += `
-      <div class="product" onclick="openModal(${p.id})">
+      <div class="product" onclick="openModal('${p.id}')" style="position: relative;">
+        ${deleteBtn}
         <img src="${imgSrc}" alt="${p.name}">
         <p>${p.name}</p>
         <p class="pprice">${displayPrice}</p>
       </div>
     `;
   });
+}
+
+async function deleteProduct(id, event) {
+  if (event) event.stopPropagation(); // modal ওপেন হওয়া আটকাবে
+  if (!confirm("আপনি কি এই প্রোডাক্টটি ডিলিট করতে চান?")) return;
+
+  // ১. LocalStorage থেকে রিমুভ
+  let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
+  let updatedUserProducts = savedUserProducts.filter(x => x.id != id);
+  localStorage.setItem("userProducts", JSON.stringify(updatedUserProducts));
+
+  // ২. Firebase থেকে রিমুভ
+  try {
+    const docRef = doc(db, "products", id.toString());
+    await deleteDoc(docRef);
+    alert("প্রোডাক্টটি সফলভাবে ডিলিট হয়েছে!");
+  } catch (error) {
+    console.log("Firebase ডিলিট এরর বা লোকাল প্রোডাক্ট:", error);
+  }
+
+  // ৩. স্ক্রিন রি-রেন্ডার
+  window.allProducts = window.allProducts.filter(x => x.id != id);
+  renderProducts(window.allProducts);
 }
 
 function openModal(id){
@@ -464,15 +530,11 @@ function searchProduct(){
   let input1 = document.getElementById("search").value.toLowerCase();
   let input2 = document.getElementById("ONEsearch").value.toLowerCase();
   let input = input1 || input2;
-  let items = document.querySelectorAll(".product");
-
-  items.forEach(item => {
-    if(item.innerText.toLowerCase().includes(input)){
-      item.style.display="block";
-    }else{
-      item.style.display="none";
-    }
-  });
+  
+  let filtered = window.allProducts.filter(p => 
+    p.name.toLowerCase().includes(input)
+  );
+  renderProducts(filtered);
 }
 
 function filterProducts(category){
@@ -504,7 +566,24 @@ function orderNow(){
   window.open(url, "_blank");
 }
 
-// Window object mapping
+async function loadFirebaseProducts() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "products"));
+    querySnapshot.forEach((doc) => {
+      let p = doc.data();
+      if(!p.id) p.id = doc.id; 
+      
+      if (!window.allProducts.some(x => x.id == p.id)) {
+         window.allProducts.push(p);
+      }
+    });
+    renderProducts(window.allProducts);
+  } catch (error) {
+    console.error("Error loading products: ", error);
+  }
+}
+
+// Window object mappings
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.checkLogin = checkLogin;
@@ -517,45 +596,10 @@ window.listclose = listclose;
 window.padd = padd;
 window.proclose = proclose;
 window.orderNow = orderNow;
+window.deleteProduct = deleteProduct;
 
-// Initial Render
+// ফার্স্ট রেন্ডার এবং ফায়ারবেস কল
 renderProducts(window.allProducts);
-
-/* ================= FIREBASE ================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-  authDomain: "robiul-84377.firebaseapp.com",
-  projectId: "robiul-84377",
-  storageBucket: "robiul-84377.firebasestorage.app",
-  messagingSenderId: "476907665212",
-  appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function loadFirebaseProducts() {
-  try {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    querySnapshot.forEach((doc) => {
-      let p = doc.data();
-      if(!p.id) p.id = doc.id; 
-      
-      // ডুপ্লিকেট ডেটা এড়াতে চেক করে পুশ করা হচ্ছে
-      if (!window.allProducts.some(x => x.id == p.id)) {
-         window.allProducts.push(p);
-      }
-    });
-    // ফায়ারবেসের ডেটাসহ সব প্রোডাক্ট আবার রেন্ডার হবে
-    renderProducts(window.allProducts);
-  } catch (error) {
-    console.error("Error loading products: ", error);
-  }
-}
-
 loadFirebaseProducts();
 </script>
 </body>

@@ -243,7 +243,6 @@
 </div>
 
 <script>
-    // Global scope-e function mapping (যাতে HTML onclick খুঁজে পায়)
     window.triggerInput = function(slotNum) {
         document.getElementById(`input-${slotNum}`).click();
     }
@@ -256,11 +255,8 @@
                 const img = new Image();
                 img.src = e.target.result;
                 img.onload = function() {
-                    // বড় ইমেজ সাইজ ছোট (Compress) করার চমৎকার ট্রিক
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-                    
-                    // সর্বোচ্চ ৫০০ পিক্সেল সাইজে রিসাইজ হবে
                     const max_size = 500;
                     let width = img.width;
                     let height = img.height;
@@ -275,9 +271,7 @@
                     canvas.height = height;
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // খুবই কম সাইজের JPEG টেক্সট তৈরি করবে (0.6 क्वालिटी)
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                    
                     const imgElement = document.getElementById(`img-${slotNum}`);
                     imgElement.src = compressedBase64;
                     imgElement.style.display = 'block';
@@ -302,7 +296,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -332,12 +326,13 @@ document.getElementById("productForm").addEventListener("submit", async function
     }
 
     let priceValue = document.getElementById("productprice").value;
+    let customId = Date.now().toString(); // ইউনিক আইডি তৈরি করা হলো (String ফর্মাটে)
 
     let product = {
-        id: Date.now(),
+        id: customId,
         category: [document.getElementById("productCategory").value],
         name: document.getElementById("productName").value,
-        code: document.getElementById("Codenumber").value || Date.now().toString().slice(-6),
+        code: document.getElementById("Codenumber").value || customId.slice(-6),
         ppieces: ["1-5", "6-10", "11-20"],
         price: [
             priceValue + " TK",
@@ -349,8 +344,8 @@ document.getElementById("productForm").addEventListener("submit", async function
     };
 
     try {
-        // ১. ফায়ারবেসে ডেটা আপলোড
-        await addDoc(collection(db, "products"), product);
+        // ১. ফায়ারবেসে কাস্টম আইডি ব্যবহার করে ডেটা আপলোড (setDoc দিয়ে)
+        await setDoc(doc(db, "products", customId), product);
 
         // ২. লোকাল স্টোরেজেও সেভ
         let userProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
