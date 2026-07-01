@@ -252,7 +252,7 @@ h2{
   .box{
     width:97%; display: flex;margin-left:2%;margin-top:10px;background:white;
     height:80px;gap:8px;text-align: center;
-    overflow-x:auto;     
+    overflow-x:auto;    
     white-space:nowrap;  
     scroll-behavior:smooth;
   }
@@ -289,7 +289,8 @@ h2{
   }
   .product{
     width:45%;
-    height:280px;
+    height:auto; /* পরিবর্তন করা হয়েছে যেন কন্টেন্ট কেটে না যায় */
+    min-height: 260px;
   }
   .allicon{
    text-align: center;
@@ -407,7 +408,7 @@ window.allProducts = [];
 
 const localProducts = [
   {
-    id: 11,
+    id: 1,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
     code: "9638852",
@@ -417,7 +418,7 @@ const localProducts = [
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
   {
-    id: 10,
+    id: 2,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
     code: "123456",
@@ -425,14 +426,35 @@ const localProducts = [
     price: ["400 TK", "380 TK", "350 TK"],
     images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
     details: `Apple AirPods Pro (2nd generation)...`
+  },
+  {
+    id: 3,
+    category: ["man", "woman", "accessories"],
+    name: "HOCO EQ24",
+    code: "123457",
+    ppieces: ["pieces 1-4", "pieces 8-15", "pieces 16-30"],
+    price: ["700 TK", "680 TK", "650 TK"],
+    images: ["hoco.jpg","Hoco-EQ24-Estrella-TWS-Earbudsdfh-5762.png","hocowhite.png"],
+    details: `HOCO EQ24 model `
+  },
+  {
+    id: 4,
+    category: ["man", "woman", "accessories"],
+    name: "geoo",
+    code: "123457",
+    ppieces: ["pieces 1-4", "pieces 8-15", "pieces 16-30"],
+    price: ["150 TK", "135 TK", "120 TK"],
+    images: ["geoo plus.webp","geoo cable.jpg"],
+    details: `geoo `
   }
 ];
 
-// 初期 (Initial setup)
+// Initial setup
 window.allProducts = [...localProducts];
 let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
 window.allProducts = [...window.allProducts, ...savedUserProducts];
 
+// Functions Definitions 
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
   box.innerHTML = "";
@@ -440,11 +462,12 @@ function renderProducts(productsToDisplay) {
     let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
     let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK");
     
-    // ১০ এবং ১১ বাদে বাকি ইউজার প্রোডাক্টে X দেখাবে
-    let deleteBtn = "";
-    if (p.id != 10 && p.id != 11) {
-      deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
-    }
+    // ১০ এবং ১১ বাদে বাকি ইউজার প্রোডাক্টে X দেখাবে (String & Number নিরাপদ তুলনা করা হয়েছে)
+    let isLocal = ["1", "2", "3", "4"].includes(String(p.id));
+let deleteBtn = "";
+if (!isLocal) {
+  deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
+}
 
     box.innerHTML += `
       <div class="product" onclick="openModal('${p.id}')" style="position: relative;">
@@ -458,30 +481,30 @@ function renderProducts(productsToDisplay) {
 }
 
 async function deleteProduct(id, event) {
-  if (event) event.stopPropagation(); // modal ওপেন হওয়া আটকাবে
+  if (event) event.stopPropagation(); 
   if (!confirm("আপনি কি এই প্রোডাক্টটি ডিলিট করতে চান?")) return;
 
-  // ১. LocalStorage থেকে রিমুভ
+  // LocalStorage থেকে রিমুভ
   let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
-  let updatedUserProducts = savedUserProducts.filter(x => x.id != id);
+  let updatedUserProducts = savedUserProducts.filter(x => String(x.id) !== String(id));
   localStorage.setItem("userProducts", JSON.stringify(updatedUserProducts));
 
-  // ২. Firebase থেকে রিমুভ
+  // Firebase থেকে রিমুভ
   try {
     const docRef = doc(db, "products", id.toString());
     await deleteDoc(docRef);
-    alert("প্রোডাক্টটি সফলভাবে ডিলিট হয়েছে!");
+    alert("প্রোডাক্টটি সফলভাবে ডিলিট হয়েছে!");
   } catch (error) {
     console.log("Firebase ডিলিট এরর বা লোকাল প্রোডাক্ট:", error);
   }
 
-  // ৩. স্ক্রিন রি-রেন্ডার
-  window.allProducts = window.allProducts.filter(x => x.id != id);
+  // স্ক্রিন রি-রেন্ডার
+  window.allProducts = window.allProducts.filter(x => String(x.id) !== String(id));
   renderProducts(window.allProducts);
 }
 
 function openModal(id){
-  let p = window.allProducts.find(x => x.id == id);
+  let p = window.allProducts.find(x => String(x.id) === String(id));
   if(!p) return;
   
   document.getElementById("modal").style.display="block";
@@ -573,7 +596,7 @@ async function loadFirebaseProducts() {
       let p = doc.data();
       if(!p.id) p.id = doc.id; 
       
-      if (!window.allProducts.some(x => x.id == p.id)) {
+      if (!window.allProducts.some(x => String(x.id) === String(p.id))) {
          window.allProducts.push(p);
       }
     });
@@ -583,7 +606,7 @@ async function loadFirebaseProducts() {
   }
 }
 
-// Window object mappings
+// Global window object mapping (ফাংশন রেন্ডার করার পূর্বেই উইন্ডোতে এসাইন করা হলো)
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.checkLogin = checkLogin;
@@ -598,7 +621,7 @@ window.proclose = proclose;
 window.orderNow = orderNow;
 window.deleteProduct = deleteProduct;
 
-// ফার্স্ট রেন্ডার এবং ফায়ারবেস কল
+// প্রথমবার প্রোডাক্ট রেন্ডার এবং ফায়ারবেস ডাটা কল
 renderProducts(window.allProducts);
 loadFirebaseProducts();
 </script>
