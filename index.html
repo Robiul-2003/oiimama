@@ -222,6 +222,12 @@ h2{
 #btnop{
   width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
 }
+  .fa-facebook-messenger{
+   display:none;
+  }
+  .fa-bell{
+   display:none;
+  }
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -234,7 +240,7 @@ h2{
       font-size:24px;margin-top:20px; margin-right:4%;
   }
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:20px;margin-left:35%;
+   display:inline-block;font-size:23px;margin-top:20px;
   }
   .container{
     margin-top:10px;
@@ -289,7 +295,7 @@ h2{
   }
   .product{
     width:45%;
-    height:auto; /* পরিবর্তন করা হয়েছে যেন কন্টেন্ট কেটে না যায় */
+    height:auto; 
     min-height: 260px;
   }
   .allicon{
@@ -312,13 +318,25 @@ h2{
   .fa-instagram{
     color:#E1306C;margin-left:15px;
   }
+  .adds{
+    width:70%;border:1px solid rgb(221, 210, 210);margin: auto;animation: shrink 2s ease-in-out infinite alternate;
+  }
+  .ads{
+    height:180px;
+  }
+  .fa-facebook-messenger{
+    font-size:25px;margin-top:20px;margin-left:10%;display:inline-block;
+  }
+  .fa-bell{
+    font-size:25px;margin-top:20px;margin-left:3%;display:inline-block;
+  }
 }
 </style>
 </head>
 <body>
 <header>
   <div class="header1">
-      <h1>Adarsha</h1>
+      <h1 onclick="adminMode()">Adarsha</h1><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-bell"></i>
   <input id="search" placeholder="Search..." onkeyup="searchProduct()">
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
   <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
@@ -385,6 +403,7 @@ h2{
       <h4>Details</h4><hr>
       <p id="pdetails"></p>
     </div>
+     <div class="adds"><img src="ads.png" class="ads"> </div>
   </div>
 </div>
 
@@ -426,48 +445,31 @@ const localProducts = [
     price: ["400 TK", "380 TK", "350 TK"],
     images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
     details: `Apple AirPods Pro (2nd generation)...`
-  },
-  {
-    id: 3,
-    category: ["man", "woman", "accessories"],
-    name: "HOCO EQ24",
-    code: "123457",
-    ppieces: ["pieces 1-4", "pieces 8-15", "pieces 16-30"],
-    price: ["700 TK", "680 TK", "650 TK"],
-    images: ["hoco.jpg","Hoco-EQ24-Estrella-TWS-Earbudsdfh-5762.png","hocowhite.png"],
-    details: `HOCO EQ24 model `
-  },
-  {
-    id: 4,
-    category: ["man", "woman", "accessories"],
-    name: "geoo",
-    code: "123457",
-    ppieces: ["pieces 1-4", "pieces 8-15", "pieces 16-30"],
-    price: ["150 TK", "135 TK", "120 TK"],
-    images: ["geoo plus.webp","geoo cable.jpg"],
-    details: `geoo `
   }
 ];
 
-// Initial setup
 window.allProducts = [...localProducts];
 let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
 window.allProducts = [...window.allProducts, ...savedUserProducts];
 
-// Functions Definitions 
+// ডিলিট বাটন দেখানোর লজিক (শুধুমাত্র অ্যাডমিন ভেরিফাইড হলে শো করবে)
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
   box.innerHTML = "";
+  
+  // চেক করা হচ্ছে ব্রাউজারে ডিলিট করার পারমিশন অ্যাক্টিভ আছে কি না
+  let isAdmin = localStorage.getItem("isDeleteAdmin") === "true";
+
   productsToDisplay.forEach(p => {
     let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
     let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK");
-    
-    // ১০ এবং ১১ বাদে বাকি ইউজার প্রোডাক্টে X দেখাবে (String & Number নিরাপদ তুলনা করা হয়েছে)
     let isLocal = ["1", "2", "3", "4"].includes(String(p.id));
-let deleteBtn = "";
-if (!isLocal) {
-  deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
-}
+    
+    let deleteBtn = "";
+    // আপনি অ্যাডমিন হলে এবং প্রোডাক্টটি লোকাল না হলে (ইউজার বা ফায়ারবেসের হলে) X দেখাবে
+    if (isAdmin && !isLocal) {
+      deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
+    }
 
     box.innerHTML += `
       <div class="product" onclick="openModal('${p.id}')" style="position: relative;">
@@ -480,25 +482,38 @@ if (!isLocal) {
   });
 }
 
+// সিক্রেট অ্যাডমিন মোড অ্যাক্টিভ করার ফাংশন
+function adminMode() {
+  let pin = prompt("ডিলিট অপশন চালু করতে সিক্রেট পিন দিন:");
+  if(pin === "2026") { // আপনার সিক্রেট পিন
+    localStorage.setItem("isDeleteAdmin", "true");
+    alert("ডিলিট মোড সফলভাবে চালু হয়েছে!");
+    renderProducts(window.allProducts);
+  } else if(pin === "logout") { 
+    localStorage.removeItem("isDeleteAdmin");
+    alert("ডিলিট মোড বন্ধ করা হয়েছে।");
+    renderProducts(window.allProducts);
+  } else {
+    alert("ভুল পিন!");
+  }
+}
+
 async function deleteProduct(id, event) {
   if (event) event.stopPropagation(); 
   if (!confirm("আপনি কি এই প্রোডাক্টটি ডিলিট করতে চান?")) return;
 
-  // LocalStorage থেকে রিমুভ
   let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
   let updatedUserProducts = savedUserProducts.filter(x => String(x.id) !== String(id));
   localStorage.setItem("userProducts", JSON.stringify(updatedUserProducts));
 
-  // Firebase থেকে রিমুভ
   try {
     const docRef = doc(db, "products", id.toString());
     await deleteDoc(docRef);
     alert("প্রোডাক্টটি সফলভাবে ডিলিট হয়েছে!");
   } catch (error) {
-    console.log("Firebase ডিলিট এরর বা লোকাল প্রোডাক্ট:", error);
+    console.log("ডিলিট এরর:", error);
   }
 
-  // স্ক্রিন রি-রেন্ডার
   window.allProducts = window.allProducts.filter(x => String(x.id) !== String(id));
   renderProducts(window.allProducts);
 }
@@ -606,7 +621,7 @@ async function loadFirebaseProducts() {
   }
 }
 
-// Global window object mapping (ফাংশন রেন্ডার করার পূর্বেই উইন্ডোতে এসাইন করা হলো)
+// Global window mapping
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.checkLogin = checkLogin;
@@ -620,8 +635,8 @@ window.padd = padd;
 window.proclose = proclose;
 window.orderNow = orderNow;
 window.deleteProduct = deleteProduct;
+window.adminMode = adminMode;
 
-// প্রথমবার প্রোডাক্ট রেন্ডার এবং ফায়ারবেস ডাটা কল
 renderProducts(window.allProducts);
 loadFirebaseProducts();
 </script>
