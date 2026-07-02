@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<title>Sign in -oiimama </title>
+<title>Sign in -AdarshaBD </title>
 <link rel="icon" href="logo.png">
 <style>
 body{
@@ -97,17 +97,26 @@ button{
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-import { getFirestore, setDoc, doc } 
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAfFIdMnjruh3850JTePGMH7UI7IGO5srg",
-  authDomain: "adarsha-bd-7199f.firebaseapp.com",
-  projectId: "adarsha-bd-7199f",
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
 };
 
 const app = initializeApp(firebaseConfig);
