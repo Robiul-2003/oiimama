@@ -4,73 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<title>Login - oiimama</title>
+<title>Login - AdarshaBD</title>
 <link rel="icon" href="logo.png">
 <style>
-body{
-    font-family: Arial;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.box{
-    width:340px;
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    position:relative;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6f9;
 }
 
-.back{
-    position:absolute;
-    top:10px;
-    left:10px;
-    font-size:20px;
-    cursor:pointer;
+.box {
+    width: 360px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    position: relative;
 }
 
-h2{
-    text-align:center;
-    margin-bottom:15px;
+/* BACK BUTTON */
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s;
+}
+.back:hover {
+    color: #007bff;
 }
 
-input{
-    width:90%;
-    padding:12px;
-    margin:8px 0;
-    border:1px solid #ddd;
-    border-radius:6px;
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
 }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
+.input-group {
+    position: relative;
+    margin-bottom: 16px;
 }
 
-.login{
-    background:#007bff;
-    color:white;
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 16px;
 }
 
-.signup{
-    background:#28a745;
-    color:white;
-    margin-top:8px;
+input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
-.forgot{
-    text-align:right;
-    font-size:13px;
-    margin-top:5px;
-    cursor:pointer;
-    color:#007bff;
+input:focus {
+    border-color: #007bff;
+}
+
+.forgot {
+    text-align: right;
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    color: #007bff;
+    font-weight: 500;
+}
+.forgot:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background 0.2s;
+}
+
+.login-btn {
+    background: #007bff;
+    color: white;
+}
+.login-btn:hover {
+    background: #0056b3;
+}
+
+.or-divider {
+    text-align: center;
+    margin: 15px 0;
+    color: #888;
+    font-size: 13px;
+    position: relative;
+}
+
+.signup-btn {
+    background: transparent;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+.signup-btn:hover {
+    background: #f0fff4;
 }
 </style>
 </head>
@@ -79,69 +135,98 @@ button{
 
 <div class="box">
 
-    <!-- Back Button -->
     <div class="back" onclick="window.location.href='index.html'">
         <i class="fa-solid fa-arrow-left"></i>
     </div>
 
     <h2>Login</h2>
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
+    <div class="input-group">
+        <i class="fa-solid fa-address-book"></i>
+        <input type="text" id="identifier" placeholder="Email or Phone Number">
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="password" placeholder="Password">
+    </div>
 
     <div class="forgot" onclick="forgotPassword()">
         Forgot Password?
     </div>
- <br>
-    <button class="login" onclick="login()">Login</button>
-    <button class="signup" onclick="window.location.href='signin.html'">Create Account</button>
+
+    <button class="login-btn" onclick="login()">Login</button>
+
+    <div class="or-divider">Don't have an account?</div>
+
+    <button class="signup-btn" onclick="window.location.href='signin.html'">
+         Create Account
+    </button>
+
 </div>
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-    getAuth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+// লগইন এবং পাসওয়ার্ড রিসেটের সঠিক ফাংশন ইমপোর্ট করা হলো
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAfFIdMnjruh3850JTePGMH7UI7IGO5srg",
-  authDomain: "adarsha-bd-7199f.firebaseapp.com",
-  projectId: "adarsha-bd-7199f",
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // ================= LOGIN =================
 window.login = async function(){
 
-    let email = document.getElementById("email").value;
+    let identifier = document.getElementById("identifier").value.trim();
     let password = document.getElementById("password").value;
 
-    if(!email || !password){
-        alert("Email এবং Password দিন!");
+    if(!identifier || !password){
+        alert("Email/Phone এবং Password দিন!");
         return;
     }
 
+    let emailToAuth = "";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // সাইন-আপ এর মতো এখানেও ফোন নাম্বার চেক করা হচ্ছে
+    if(emailRegex.test(identifier)){
+        emailToAuth = identifier;
+    } else {
+        emailToAuth = identifier + "@phone.com";
+    }
+
     try{
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, emailToAuth, password);
 
         alert("Login Successful!");
         window.location.href = "index.html";
 
     }catch(error){
-
-        if(error.code === "auth/user-not-found"){
-            alert("❌ এই account খুঁজে পাওয়া যায়নি!");
-        }
-        else if(error.code === "auth/wrong-password"){
-            alert("❌ Password ভুল!");
-        }
-        else{
-            alert("❌ Login Failed!");
+        console.error(error);
+        // Firebase v10+ এর নতুন এরর কোড হ্যান্ডেলিং
+        if(error.code === "auth/invalid-credential") {
+            alert("❌ ইমেইল/ফোন নাম্বার অথবা পাসওয়ার্ড ভুল হয়েছে!");
+        } else if(error.code === "auth/too-many-requests") {
+            alert("❌ অনেকবার ভুল চেষ্টা করা হয়েছে! কিছুক্ষণ পর আবার চেষ্টা করুন।");
+        } else {
+            alert("❌ লগইন ব্যর্থ হয়েছে! আবার চেষ্টা করুন।");
         }
     }
 };
@@ -150,18 +235,26 @@ window.login = async function(){
 // ================= FORGOT PASSWORD =================
 window.forgotPassword = async function(){
 
-    let email = document.getElementById("email").value;
+    let identifier = document.getElementById("identifier").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if(!email){
-        alert("আগে Email লিখুন!");
+    if(!identifier){
+        alert("আগে Email বা Phone লিখুন!");
+        return;
+    }
+
+    // যদি কেউ ফোন নাম্বার দিয়ে অ্যাকাউন্ট খোলে, তাকে অ্যালার্ট দেওয়া
+    if(!emailRegex.test(identifier)){
+        alert("❌ ফোন নাম্বার দিয়ে খোলা অ্যাকাউন্টের পাসওয়ার্ড এভাবে রিসেট করা যাবে না!");
         return;
     }
 
     try{
-        await sendPasswordResetEmail(auth, email);
-        alert("📩 Password reset email পাঠানো হয়েছে!");
-    }catch(error){
-        alert("❌ Email পাওয়া যায়নি!");
+        await sendPasswordResetEmail(auth, identifier);
+        alert("📩 Password reset email পাঠানো হয়েছে! আপনার ইনবক্স চেক করুন।");
+    }catch(error) {
+        console.error(error);
+        alert("❌ এই ইমেইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি!");
     }
 };
 
