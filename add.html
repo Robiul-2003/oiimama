@@ -242,61 +242,20 @@
     </form>
 </div>
 
-<!--<script>
-    window.triggerInput = function(slotNum) {
-        document.getElementById(`input-${slotNum}`).click();
-    }
-
-    window.previewSlotImage = function(input, slotNum) {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const max_size = 500;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    if (width > height) {
-                        if (width > max_size) { height *= max_size / width; width = max_size; }
-                    } else {
-                        if (height > max_size) { width *= max_size / height; height = max_size; }
-                    }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                    const imgElement = document.getElementById(`img-${slotNum}`);
-                    imgElement.src = compressedBase64;
-                    imgElement.style.display = 'block';
-                    document.getElementById(`delete-${slotNum}`).style.display = 'flex';
-                    document.getElementById(`icon-${slotNum}`).style.display = 'none';
-                }
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    window.deleteImage = function(event, slotNum) {
-        event.stopPropagation(); 
-        document.getElementById(`input-${slotNum}`).value = "";
-        const imgElement = document.getElementById(`img-${slotNum}`);
-        imgElement.style.display = 'none';
-        imgElement.removeAttribute('src'); 
-        document.getElementById(`delete-${slotNum}`).style.display = 'none';
-        document.getElementById(`icon-${slotNum}`).style.display = 'block';
-    }
-</script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -309,146 +268,160 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-document.getElementById("productForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-    
-    let submitBtn = document.getElementById("submitBtn");
-    submitBtn.innerText = "Uploading... Please wait...";
-    submitBtn.disabled = true;
+let currentUser = null;
 
-    let images = [];
-    for(let i = 1; i <= 5; i++){
-        let imgElement = document.getElementById("img-" + i);
-        if(imgElement && imgElement.style.display === 'block' && imgElement.src) {
-            images.push(imgElement.src);
-        }
+// Login user detect
+onAuthStateChanged(auth, (user) => {
+
+    if(user){
+        currentUser = user;
+        console.log("Login:", user.uid);
+    }else{
+        currentUser = null;
+        console.log("Not Login");
     }
 
-    let priceValue = document.getElementById("productprice").value;
-    let customId = Date.now().toString(); // ইউনিক আইডি তৈরি করা হলো (String ফর্মাটে)
-
-    let product = {
-        id: customId,
-        category: [document.getElementById("productCategory").value],
-        name: document.getElementById("productName").value,
-        code: document.getElementById("Codenumber").value || customId.slice(-6),
-        ppieces: ["1-5", "6-10", "11-20"],
-        price: [
-            priceValue + " TK",
-            priceValue + " TK",
-            priceValue + " TK"
-        ],
-        images: images,
-        details: document.getElementById("productDescription").value
-    };
-
-    try {
-        // ১. ফায়ারবেসে কাস্টম আইডি ব্যবহার করে ডেটা আপলোড (setDoc দিয়ে)
-        await setDoc(doc(db, "products", customId), product);
-
-        // ২. লোকাল স্টোরেজেও সেভ
-        let userProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
-        userProducts.push(product);
-        localStorage.setItem("userProducts", JSON.stringify(userProducts));
-
-        alert("Product Added Successfully to Firebase & LocalStorage!");
-        window.location.href = "index.html";
-
-    } catch (error) {
-        console.error("Firebase error: ", error);
-        alert("Error saving data: " + error.message);
-        submitBtn.innerText = "Add Product";
-        submitBtn.disabled = false;
-    }
 });
 
+// ================= IMAGE =================
 
-</script>-->
+window.triggerInput = function(id){
+    document.getElementById("input-"+id).click();
+}
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-// এখানে getAuth ইম্পোর্ট করা হয়েছে
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+window.previewSlotImage = function(input,id){
 
-const firebaseConfig = {
-    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-    authDomain: "robiul-84377.firebaseapp.com",
-    projectId: "robiul-84377",
-    storageBucket: "robiul-84377.firebasestorage.app",
-    messagingSenderId: "476907665212",
-    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
-};
+    const file=input.files[0];
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app); // অথেনটিকেশন ইনিশিয়ালাইজ করা হলো
+    if(!file) return;
 
-document.getElementById("productForm").addEventListener("submit", async function(e) {
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+        document.getElementById("img-"+id).src=e.target.result;
+        document.getElementById("img-"+id).style.display="block";
+
+        document.getElementById("icon-"+id).style.display="none";
+
+        document.getElementById("delete-"+id).style.display="flex";
+
+    }
+
+    reader.readAsDataURL(file);
+
+}
+
+window.deleteImage=function(event,id){
+
+    event.stopPropagation();
+
+    document.getElementById("input-"+id).value="";
+
+    document.getElementById("img-"+id).src="";
+
+    document.getElementById("img-"+id).style.display="none";
+
+    document.getElementById("icon-"+id).style.display="block";
+
+    document.getElementById("delete-"+id).style.display="none";
+
+}
+
+// ================= ADD PRODUCT =================
+
+document.getElementById("productForm").addEventListener("submit",async(e)=>{
+
     e.preventDefault();
-    
-    let submitBtn = document.getElementById("submitBtn");
-    
-    // ১. চেক করুন ইউজার লগইন আছে কি না
-    const user = auth.currentUser;
-    if (!user) {
-        alert("অনুমতি নেই! অনুগ্রহ করে আগে সঠিক অ্যাকাউন্ট দিয়ে লগইন করুন।");
+
+    if(!currentUser){
+
+        alert("Please Login First.");
+
         return;
+
     }
 
-    submitBtn.innerText = "Uploading... Please wait...";
-    submitBtn.disabled = true;
+    const btn=document.getElementById("submitBtn");
 
-    let images = [];
-    for(let i = 1; i <= 5; i++){
-        let imgElement = document.getElementById("img-" + i);
-        if(imgElement && imgElement.style.display === 'block' && imgElement.src) {
-            images.push(imgElement.src);
+    btn.disabled=true;
+    btn.innerText="Uploading...";
+
+    let images=[];
+
+    for(let i=1;i<=5;i++){
+
+        const img=document.getElementById("img-"+i);
+
+        if(img.style.display=="block"){
+
+            images.push(img.src);
+
         }
+
     }
 
-    let priceValue = document.getElementById("productprice").value;
-    let customId = Date.now().toString(); // ইউনিক আইডি তৈরি করা হলো
+    const id=Date.now().toString();
 
-    let product = {
-        id: customId,
-        category: [document.getElementById("productCategory").value],
-        name: document.getElementById("productName").value,
-        code: document.getElementById("Codenumber").value || customId.slice(-6),
-        ppieces: ["1-5", "6-10", "11-20"],
-        price: [
-            priceValue + " TK",
-            priceValue + " TK",
-            priceValue + " TK"
+    const price=document.getElementById("productprice").value;
+
+    const product={
+
+        id:id,
+
+        name:document.getElementById("productName").value,
+
+        code:document.getElementById("Codenumber").value,
+
+        category:[
+            document.getElementById("productCategory").value
         ],
-        images: images,
-        details: document.getElementById("productDescription").value,
-        
-        // ফায়ারবেস সিকিউরিটি রুলস মেলানোর জন্য এই লাইনটি অত্যন্ত জরুরি:
-        ownerUid: user.uid 
+
+        details:document.getElementById("productDescription").value,
+
+        ppieces:["1-5","6-10","11-20"],
+
+        price:[
+            price+" TK",
+            price+" TK",
+            price+" TK"
+        ],
+
+        images:images,
+
+        ownerUid:currentUser.uid,
+
+        ownerEmail:currentUser.email,
+
+        createdAt:serverTimestamp()
+
     };
 
-    try {
-        // ফায়ারবেসে কাস্টম আইডি ব্যবহার করে ডেটা আপলোড
-        await setDoc(doc(db, "products", customId), product);
+    try{
 
-        // লোকাল স্টোরেজেও সেভ
-        let userProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
-        userProducts.push(product);
-        localStorage.setItem("userProducts", JSON.stringify(userProducts));
+        await setDoc(doc(db,"products",id),product);
 
-        alert("Product Added Successfully to Firebase & LocalStorage!");
-        window.location.href = "index.html";
+        alert("✅ Product Added Successfully");
 
-    } catch (error) {
-        console.error("Firebase error: ", error);
-        alert("Error saving data: " + error.message);
-        submitBtn.innerText = "Add Product";
-        submitBtn.disabled = false;
+        document.getElementById("productForm").reset();
+
+        location.href="index.html";
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        btn.disabled=false;
+
+        btn.innerText="Add Product";
+
     }
+
 });
 </script>
-
 </body>
 </html>
