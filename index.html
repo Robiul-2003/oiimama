@@ -228,6 +228,9 @@ h2{
   .fa-bell{
    display:none;
   }
+  .fa-camera{
+      display:none;
+  }
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -237,7 +240,7 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:24px;margin-top:20px; margin-right:4%;
+      font-size:23px;margin-top:20px; margin-right:2%;
   }
   .fa-magnifying-glass{
    display:inline-block;font-size:23px;margin-top:20px;
@@ -325,10 +328,13 @@ h2{
     height:180px;
   }
   .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;margin-left:10%;display:inline-block;
+    font-size:23px;margin-top:20px;margin-left:12%;display:inline-block;
   }
   .fa-bell{
-    font-size:25px;margin-top:20px;margin-left:3%;display:inline-block;
+    font-size:23px;margin-top:20px;display:inline-block;
+  }
+  .fa-camera{
+      font-size:23px;margin-top:20px;display:inline-block;
   }
 }
 </style>
@@ -336,7 +342,8 @@ h2{
 <body>
 <header>
   <div class="header1">
-      <h1 onclick="adminMode()">Adarsha</h1><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-bell"></i>
+      <h1 onclick="adminMode()">Adarsha</h1><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> <i class="fa-solid fa-bell"></i>
+    
   <input id="search" placeholder="Search..." onkeyup="searchProduct()">
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
   <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
@@ -389,6 +396,7 @@ h2{
       <img id="mainImg" src="" alt="Product Image">
       <div class="thumbs" id="thumbs"></div>
       <h3 id="pname"></h3>
+      <h3 id="pcolor"></h3>
       <p id="pcode"></p>
       <div id="ppieces"></div>
       <div id="pprice"></div><br>
@@ -434,6 +442,7 @@ const localProducts = [
     id: 2,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
+    color:"", 
     code: "123456",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["400 TK", "380 TK", "350 TK"],
