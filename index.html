@@ -450,24 +450,59 @@ const localProducts = [
     details: `Apple AirPods Pro (2nd generation)...`
   },
     {
-    id: 2,
+    id: 3,
     category: ["man", "woman", "accessories"],
-    name: "Airpods Pro 2nd Generation ANC ",
-    code: "123456",
+    name: "Hoco EQ24 Estrella Wireless BT Earbuds - Time Square",
+    code: "123457",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["400 TK", "380 TK", "350 TK"],
-    images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
-    details: `Apple AirPods Pro (2nd generation)...`
+    price: ["700 TK", "670 TK", "350 TK"],
+    images: ["https://www.startech.com.bd/image/cache/catalog/earbuds/hoco/eq24-estrella/eq24-estrella-500x500.webp","https://static-01.daraz.com.bd/p/6681d308bee6def5f64b994e0acfb92b.jpg","https://static-01.daraz.com.bd/p/e0e581dce2040beacc7d4159da3d1798.jpg"],
+    details: `Bluetooth 5.4; Chip: JL AC6983D2
+Battery capacity: Charging compartment 320mAh; Headphones 40mAh
+Usage time: 7 hours
+Size: 61 * 48 * 27mm; Total weight: 46.5g
+Support master-slave switching and summoning Siri`
   },
    {
-    id: 2,
+    id: 4,
     category: ["man", "woman", "accessories"],
-    name: "Airpods Pro 2nd Generation ANC ",
-    code: "123456",
+    name: "Oraimo i12 Pure Bass Wireless Headphone - Bluetooth 5.0 Foldable Stereo Headset with Microphone",
+    code: "123458",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["400 TK", "380 TK", "350 TK"],
-    images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
-    details: `Apple AirPods Pro (2nd generation)...`
+    price: ["450TK", "420 TK", "400 TK"],
+    images: ["https://foodpanda.dhmedia.io/image/darkstores/nv-global-catalog/bd/9bc6b2fa-1cc4-49c6-afd6-c6ef6693290f.jpg?height=480","https://static-01.daraz.com.bd/p/83c4b52c931bb8db831df8f02cafbc0e.jpg"],
+    details: `Brand: Oraimo
+Model: i12
+Bluetooth Version: V5.0
+Battery Capacity: 400mAh
+Play/Talk Time: Up to 10 Hours
+Charging Time: Approximately 2 Hours
+Transmission Distance: 10m
+Driver Unit: 40mm
+Support: TF Card / FM / AUX / Bluetooth
+Powerful Sound: Experience high-definition (HD) audio with booming pure bass for an immersive music experience.
+Long Playback: Enjoy up to 6 hours of continuous music playback on a single charge.
+Comfortable Design: Lightweight, over-ear design with an adjustable contoured headband for long-term comfort.
+Seamless Connectivity: Equipped with Bluetooth 5.0 for stable and fast wireless connection.
+Multi-functional Controls: Built-in microphone for hands-free calls and easy-to-use buttons for volume and track control.`
+  },
+  {
+    id: 5,
+    category: ["man", "woman", "accessories"],
+    name: "JBL M3 Mini Portable Speaker Wireless Bluetooth Speaker - Bluetooth Speaker",
+    code: "123458",
+    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
+    price: ["250TK", "230 TK", "210 TK"],
+    images: ["https://static-01.daraz.com.bd/p/33607a6e8f9052b9636e9d385dd510ae.jpg","https://salebazarbd.com/uploads/products/meta/c8769461cec01a5a9220564185ce793d.png","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJq_uR7IUr9VjQ7wp9wP3Ojec1z7huunuVz0MVk0JH1LpLUnqROABP9R5q&s=10"],
+    details: `
+    Total Speaker: One Speaker
+Satellite Speaker: Standard
+Audio Input: Wireless
+M3 Description
+Size: 50*33mm
+Bluetooth Compliant: V5.0
+Battery: 300mAh
+    `
   }
 ];
 
@@ -486,7 +521,7 @@ function renderProducts(productsToDisplay) {
   productsToDisplay.forEach(p => {
     let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
     let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK");
-    let isLocal = ["1", "2", "3", "4"].includes(String(p.id));
+    let isLocal = ["1", "2", "3", "4","5"].includes(String(p.id));
     
     let deleteBtn = "";
     // আপনি অ্যাডমিন হলে এবং প্রোডাক্টটি লোকাল না হলে (ইউজার বা ফায়ারবেসের হলে) X দেখাবে

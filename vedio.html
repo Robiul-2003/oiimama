@@ -222,10 +222,10 @@ h2{
    </div>
   </div>
 </div>
-
 <div class="vedio">
-  <div class="vedioadd" id="videoFeed"></div>
+  <div class="vedioadd" id="videoFeed"></div><br>
 </div>
+<div id="videoFeed"></div>
 
 <script>
 function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
@@ -239,9 +239,12 @@ function veclose(){ document.getElementById("vediocloseo").style.display= "none"
 function searchProduct() {}
 function checkLogin() {}
 </script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -269,7 +272,10 @@ function checkLogin() {}
       await addDoc(collection(db, "videos"), {
         link: videoLink,
         caption: videoCaption,
-        createdAt: new Date()
+        createdAt: new Date(),
+        likes: 0,
+        views: 0,
+        comments: []
       });
 
       document.getElementById("vedioline").value = "";
@@ -282,89 +288,161 @@ function checkLogin() {}
     }
   }
 
-  // ২. ডাটাবেজ থেকে রিয়েল-টাইমে ভিডিও এনে পেজে দেখানোর ফাংশন
+  // তোমার দেওয়া সেই ৪টি ফাংশন (লাইক, ভিউ, কমেন্ট, শেয়ার)
+  window.likeVideo = async function(videoId) {
+    const videoRef = doc(db, "videos", videoId);
+    await updateDoc(videoRef, {
+      likes: increment(1)
+    });
+  }
+
+  window.countView = async function(videoId) {
+    const videoRef = doc(db, "videos", videoId);
+    await updateDoc(videoRef, {
+      views: increment(1)
+    });
+  }
+
+  window.addComment = async function(videoId) {
+    const commentInput = document.getElementById(`commentInput-${videoId}`);
+    const commentText = commentInput.value.trim();
+    
+    if(commentText === "") return;
+
+    const videoRef = doc(db, "videos", videoId);
+    await updateDoc(videoRef, {
+      comments: arrayUnion({
+        text: commentText,
+        time: new Date().toLocaleString()
+      })
+    });
+    commentInput.value = ""; 
+  }
+
+  window.shareVideoLink = function(link) {
+    navigator.clipboard.writeText(link).then(() => {
+      alert("ভিডিওর লিংকটি কপি করা হয়েছে!");
+    }).catch(err => {
+      console.error("লিংক কপি করা যায়নি: ", err);
+    });
+  }
+
+  // ২. ডাটাবেজ থেকে রিয়েল-টাইমে ভিডিও এনে পেজে দেখানোর আপডেট ফাংশন
   const videoFeed = document.getElementById("videoFeed");
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
 
   onSnapshot(q, (querySnapshot) => {
-    videoFeed.innerHTML = ""; // পেজ রিফ্রেশ ছাড়া কন্টেন্ট ক্লিয়ার করা
+    // লক্ষ্য করো: আমরা পুরো ফিড খালি করছি না, শুধু নতুন বা পরিবর্তিত ডাটা আলাদা করে হ্যান্ডেল করছি
+    querySnapshot.docChanges().forEach((change) => {
+      const data = change.doc.data();
+      const videoId = change.doc.id;
 
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      const videoCard = document.createElement("div");
-      
-      videoCard.style.border = "1px solid #ddd";
-      videoCard.style.margin = "15px auto";
-      videoCard.style.padding = "10px";
-      videoCard.style.background = "#fff";
-      videoCard.style.borderRadius = "6px";
-      videoCard.style.maxWidth = "100%";
+      // ক) যদি নতুন ভিডিও অ্যাড হয় (added)
+      if (change.type === "added") {
+        const videoCard = document.createElement("div");
+        videoCard.id = `card-${videoId}`; // প্রতিটি কার্ডের ইউনিক আইডি
+        videoCard.style.border = "1px solid #ddd";
+        videoCard.style.margin = "15px auto";
+        videoCard.style.padding = "15px";
+        videoCard.style.background = "#fff";
+        videoCard.style.borderRadius = "8px";
+        videoCard.style.maxWidth = "500px";
+        videoCard.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
 
-      // --- সোশ্যাল মিডিয়া লিংক চেকিং কন্ডিশন (লুপের ভেতরে) ---
-      
-      // ১. YouTube Link বা Shorts হলে
-      if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
-        let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
-        if(embedLink.includes("shorts/")) {
-          embedLink = embedLink.replace("shorts/", "embed/");
+        let videoElement = "";
+
+        // সোশ্যাল মিডিয়া লিংক চেকিং কন্ডিশন
+        if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
+          let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
+          if(embedLink.includes("shorts/")) embedLink = embedLink.replace("shorts/", "embed/");
+          videoElement = `<iframe width="100%" height="500" src="${embedLink}" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
+        } 
+        else if (data.link.includes("facebook.com")) {
+          let fbEmbedLink = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(data.link)}&show_text=false&width=500`;
+          videoElement = `<iframe src="${fbEmbedLink}" width="100%" height="500" style="border:none;overflow:hidden;border-radius:4px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
+        } 
+        else if (data.link.includes("instagram.com")) {
+          let instaLink = data.link.split('?')[0]; 
+          if (!instaLink.endsWith('/')) instaLink += '/';
+          let instaEmbedLink = instaLink + "embed/";
+          videoElement = `<iframe src="${instaEmbedLink}" width="100%" height="500" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius:4px;"></iframe>`;
+        } 
+        else if (data.link.includes("tiktok.com")) {
+          let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
+          if (!tiktokEmbedLink.includes("undefined")) {
+            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="500" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
+          } else {
+            videoElement = `
+              <div style="padding:20px; background:#eee; text-align:center; border-radius:4px;">
+                <i class="fa-brands fa-tiktok" style="font-size:30px;"></i>
+                <p><a href="${data.link}" target="_blank" style="color:#000; font-weight:bold;">Watch TikTok Video</a></p>
+              </div>`;
+          }
+        } 
+        else {
+          videoElement = `
+            <video width="100%" height="500" controls style="border-radius:4px;" onplay="countView('${videoId}')">
+              <source src="${data.link}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>`;
         }
-        videoCard.innerHTML = `
-          <iframe width="100%" height="300" src="${embedLink}" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>
-          <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-        `;
-      } 
-      // ২. Facebook Link বা Reels হলে
-      else if (data.link.includes("facebook.com")) {
-        let fbEmbedLink = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(data.link)}&show_text=false&width=500`;
-        videoCard.innerHTML = `
-          <iframe src="${fbEmbedLink}" width="100%" height="300" style="border:none;overflow:hidden;border-radius:4px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-          <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-        `;
-      } 
-      // ৩. Instagram Link বা Reels হলে
-      else if (data.link.includes("instagram.com")) {
-        let instaLink = data.link.split('?')[0]; 
-        if (!instaLink.endsWith('/')) {
-          instaLink += '/';
+
+        // কমেন্ট লিস্ট জেনারেট করা
+        let commentListHTML = "";
+        if (data.comments && data.comments.length > 0) {
+          data.comments.forEach(c => {
+            commentListHTML += `<p style="margin:4px 0; background:#f1f1f1; padding:6px; border-radius:4px; font-size:13px; color:#555;">${c.text}</p>`;
+          });
         }
-        let instaEmbedLink = instaLink + "embed/";
+
         videoCard.innerHTML = `
-          <iframe src="${instaEmbedLink}" width="100%" height="400" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius:4px;"></iframe>
-          <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-        `;
-      } 
-      // ৪. TikTok Link হলে
-      else if (data.link.includes("tiktok.com")) {
-        let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
-        
-        if (!tiktokEmbedLink.includes("undefined")) {
-          videoCard.innerHTML = `
-            <iframe src="${tiktokEmbedLink}" width="100%" height="450" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>
-            <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-          `;
-        } else {
-          videoCard.innerHTML = `
-            <div style="padding:20px; background:#eee; text-align:center; border-radius:4px;">
-              <i class="fa-brands fa-tiktok" style="font-size:30px;"></i>
-              <p><a href="${data.link}" target="_blank" style="color:#000; font-weight:bold;">Watch TikTok Video</a></p>
+          ${videoElement}
+          <p style="padding: 8px 5px; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
+          
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#777; padding:0 5px 8px; border-bottom:1px solid #eee;">
+            <span id="views-${videoId}"><i class="fa-solid fa-eye"></i> ${data.views || 0} views</span>
+            <span id="likes-${videoId}">${data.likes || 0} likes</span>
+          </div>
+
+          <div class="count" style="display:flex; justify-content:space-between; padding: 10px 0 5px;">
+            <button onclick="likeVideo('${videoId}'); countView('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
+            <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'; countView('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
+            <button onclick="shareVideoLink('${data.link}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;"><i class="fa-solid fa-share"></i> Share</button>
+          </div>
+
+          <div id="commentBox-${videoId}" style="margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
+            <div style="display:flex; gap:5px; margin-bottom:8px;">
+              <input type="text" id="commentInput-${videoId}" placeholder="একটি কমেন্ট লিখুন..." style="flex:1; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:13px;">
+              <button onclick="addComment('${videoId}')" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">Post</button>
             </div>
-            <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-          `;
-        }
-      } 
-      // ৫. অন্য কোনো ডিরেক্ট MP4 ভিডিও লিংক হলে
-      else {
-        videoCard.innerHTML = `
-          <video width="100%" height="300" controls style="border-radius:4px;">
-            <source src="${data.link}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          <p style="padding: 8px 5px 0; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
+            <div id="commentList-${videoId}" style="max-height:120px; overflow-y:auto;">
+              ${commentListHTML}
+            </div>
+          </div>
         `;
+
+        // ভিডিওটি লিস্টের সবার উপরে যুক্ত হবে
+        videoFeed.appendChild(videoCard);
       }
 
-      // কার্ডটি মেইন ফিডে যুক্ত করা হচ্ছে
-      videoFeed.appendChild(videoCard);
+      // খ) যদি এক্সিসটিং ভিডিও মডিফাই বা আপডেট হয় (modified) - এখানেই যাদু!
+      if (change.type === "modified") {
+        // ভিডিও প্লেয়ারে কোনো টাচ না করে, শুধু লাইক, ভিউ এবং কমেন্ট টেক্সট আপডেট হবে
+        const likeSpan = document.getElementById(`likes-${videoId}`);
+        const viewSpan = document.getElementById(`views-${videoId}`);
+        const commentListDiv = document.getElementById(`commentList-${videoId}`);
+
+        if(likeSpan) likeSpan.innerText = `${data.likes || 0} likes`;
+        if(viewSpan) viewSpan.innerHTML = `<i class="fa-solid fa-eye"></i> ${data.views || 0} views`;
+        
+        if(commentListDiv && data.comments) {
+          let updatedCommentsHTML = "";
+          data.comments.forEach(c => {
+            updatedCommentsHTML += `<p style="margin:4px 0; background:#f1f1f1; padding:6px; border-radius:4px; font-size:13px; color:#555;">${c.text}</p>`;
+          });
+          commentListDiv.innerHTML = updatedCommentsHTML;
+        }
+      }
     });
   });
 </script>
