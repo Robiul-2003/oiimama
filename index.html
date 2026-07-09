@@ -27,7 +27,7 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
 
 /* header */
 header{
-  background:#031f50; position: fixed;width:100%;top:0;z-index:999;
+  background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;
 }
 .header1{
   width:1200px;margin: auto;display: flex;justify-content:space-between;color:white;
@@ -328,13 +328,19 @@ h2{
     height:180px;
   }
   .fa-facebook-messenger{
-    font-size:23px;margin-top:20px;margin-left:12%;display:inline-block;
+    font-size:25px;margin-top:20px;margin-left:5%;display:inline-block;
   }
   .fa-bell{
-    font-size:23px;margin-top:20px;display:inline-block;
+    font-size:25px;margin-top:20px;display:inline-block;
   }
   .fa-camera{
-      font-size:23px;margin-top:20px;display:inline-block;
+      font-size:25px;margin-top:20px;display:inline-block;
+  }
+    .fa-circle-user{
+     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+  }
+  .fa-house{
+    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
   }
 }
 </style>
@@ -342,7 +348,7 @@ h2{
 <body>
 <header>
   <div class="header1">
-      <h1 onclick="adminMode()">Adarsha</h1><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
+      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
     
   <input id="search" placeholder="Search..." onkeyup="searchProduct()">
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
@@ -377,7 +383,7 @@ h2{
    </div>
   </div>
 </div>
-<img src="banner.png" class="banner" alt="Banner"> 
+<img src="banner.png" class="banner" alt="Banner" onclick="adminMode()"> 
 <div class="box">
   <div class="clickbox" onclick="filterProducts('all')"><img src="logo.png" class="click"> All <br>products</div>
   <div class="clickbox" onclick="filterProducts('Free Delivery')"><img src="free delivary.png" class="click"> Free <br>Delivery</div>

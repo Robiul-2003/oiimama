@@ -26,7 +26,7 @@
 body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
 /* header */
 header{
-  background:#031f50; position: fixed;width:100%;top:0;z-index:999;
+  background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;
 }
 .header1{
   width:1200px;margin: auto;display: flex;justify-content:space-between;color:white;
@@ -81,8 +81,14 @@ h2{
 #number, #pin, #vedioline, #caption{
   margin: auto;
   width:90%;height:30px;
-  display: block;
+  display:none;
 }
+   .fa-camera{
+      display:none;
+  }
+   .fa-facebook-messenger{
+   display:none;
+  }
 #btnop{
   width:150px;display: block; margin: 10px auto; height:30px;background:#031f50;color:white;border-radius:5px;border:none;
   font-size:18px;
@@ -105,6 +111,7 @@ h2{
   .vedioadd{
     max-width:500px;
   }
+
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -114,10 +121,10 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:23px;margin-top:20px; margin-right:2%;
+      font-size:25px;margin-top:20px; margin-right:2%;
   }
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:20px;
+   display:inline-block;font-size:25px;margin-top:20px;
   }
   .click{
     width:40px;height:40px;border-radius:10px;display: block;margin: auto;
@@ -161,13 +168,19 @@ h2{
     color:#E1306C;margin-left:15px;
   }
   .fa-facebook-messenger{
-    font-size:23px;margin-top:20px;margin-left:12%;display:inline-block;
+     font-size:25px;margin-top:20px;margin-left:5%;display:inline-block;
   }
   .fa-bell{
-    font-size:23px;margin-top:20px;display:inline-block;
+    font-size:25px;margin-top:20px;display:inline-block;
   }
   .fa-camera{
-      font-size:23px;margin-top:20px;display:inline-block;
+      font-size:25px;margin-top:20px;display:inline-block;
+  }
+  .fa-circle-user{
+     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+  }
+  .fa-house{
+    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
   }
 }
 </style>
@@ -175,7 +188,7 @@ h2{
 <body>
 <header>
   <div class="header1">
-      <h1 onclick="window.location.href='index.html'">Adarsha</h1><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-camera"></i> 
+      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i> <i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> <i class="fa-solid fa-camera"></i> 
     
   <input id="search" placeholder="Search..." onkeyup="searchProduct()">
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
@@ -225,8 +238,6 @@ h2{
 <div class="vedio">
   <div class="vedioadd" id="videoFeed"></div><br>
 </div>
-<div id="videoFeed"></div>
-
 <script>
 function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
 function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
@@ -320,12 +331,22 @@ function checkLogin() {}
   }
 
   window.shareVideoLink = function(link) {
-    navigator.clipboard.writeText(link).then(() => {
-      alert("ভিডিওর লিংকটি কপি করা হয়েছে!");
-    }).catch(err => {
-      console.error("লিংক কপি করা যায়নি: ", err);
-    });
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Adarsha BD Video",
+      text: "এই ভিডিওটি দেখুন",
+      url: link
+    })
+    .then(() => console.log("Shared"))
+    .catch((error) => console.log(error));
+
+  } else {
+    navigator.clipboard.writeText(link);
+    alert("ভিডিও লিংক কপি হয়েছে");
   }
+
+}
 
   // ২. ডাটাবেজ থেকে রিয়েল-টাইমে ভিডিও এনে পেজে দেখানোর আপডেট ফাংশন
   const videoFeed = document.getElementById("videoFeed");
@@ -370,7 +391,7 @@ function checkLogin() {}
         else if (data.link.includes("tiktok.com")) {
           let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
           if (!tiktokEmbedLink.includes("undefined")) {
-            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="500" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
+            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="500px" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
           } else {
             videoElement = `
               <div style="padding:20px; background:#eee; text-align:center; border-radius:4px;">
@@ -380,11 +401,20 @@ function checkLogin() {}
           }
         } 
         else {
-          videoElement = `
-            <video width="100%" height="500" controls style="border-radius:4px;" onplay="countView('${videoId}')">
-              <source src="${data.link}" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>`;
+         videoElement = `
+<video 
+id="video-${videoId}"
+width="100%" 
+height="500" 
+autoplay 
+muted 
+loop 
+playsinline 
+style="border-radius:4px;">
+
+<source src="${data.link}" type="video/mp4">
+
+</video>`;
         }
 
         // কমেন্ট লিস্ট জেনারেট করা
@@ -400,17 +430,18 @@ function checkLogin() {}
           <p style="padding: 8px 5px; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
           
           <div style="display:flex; justify-content:space-between; font-size:12px; color:#777; padding:0 5px 8px; border-bottom:1px solid #eee;">
-            <span id="views-${videoId}"><i class="fa-solid fa-eye"></i> ${data.views || 0} views</span>
-            <span id="likes-${videoId}">${data.likes || 0} likes</span>
+            <span id="likes-${videoId}">
+            ${data.likes || 0} likes</span>
+            <span id="views-${videoId}">${data.views || 0} </span>
           </div>
 
           <div class="count" style="display:flex; justify-content:space-between; padding: 10px 0 5px;">
-            <button onclick="likeVideo('${videoId}'); countView('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
-            <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'; countView('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
+            <button onclick="likeVideo('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
+            <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
             <button onclick="shareVideoLink('${data.link}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;"><i class="fa-solid fa-share"></i> Share</button>
           </div>
 
-          <div id="commentBox-${videoId}" style="margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
+           <div id="commentBox-${videoId}" style="display:none; margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
             <div style="display:flex; gap:5px; margin-bottom:8px;">
               <input type="text" id="commentInput-${videoId}" placeholder="একটি কমেন্ট লিখুন..." style="flex:1; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:13px;">
               <button onclick="addComment('${videoId}')" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">Post</button>
@@ -422,9 +453,28 @@ function checkLogin() {}
         `;
 
         // ভিডিওটি লিস্টের সবার উপরে যুক্ত হবে
-        videoFeed.appendChild(videoCard);
+       videoFeed.appendChild(videoCard);
       }
 
+
+const video = document.getElementById(`video-${videoId}`);
+
+let viewed = false;
+
+if(video){
+
+  video.addEventListener("timeupdate", () => {
+
+    if(video.currentTime >= 5 && !viewed){
+
+      countView(videoId);
+      viewed = true;
+
+    }
+
+  });
+
+}
       // খ) যদি এক্সিসটিং ভিডিও মডিফাই বা আপডেট হয় (modified) - এখানেই যাদু!
       if (change.type === "modified") {
         // ভিডিও প্লেয়ারে কোনো টাচ না করে, শুধু লাইক, ভিউ এবং কমেন্ট টেক্সট আপডেট হবে
@@ -446,6 +496,5 @@ function checkLogin() {}
     });
   });
 </script>
-
 </body>
 </html>
