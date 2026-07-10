@@ -40,6 +40,12 @@ header{
 .fa-list{
   font-size:27px;margin-top:27px;cursor: pointer;
 }
+ .fa-circle-user{
+     font-size:27px;margin-top:27px;cursor: pointer;
+  }
+  .fa-house{
+    font-size:27px;margin-top:27px;cursor: pointer;
+  }
 .fa-magnifying-glass{
    display:none;cursor: pointer;
 }
@@ -81,7 +87,6 @@ h2{
 #number, #pin, #vedioline, #caption{
   margin: auto;
   width:90%;height:30px;
-  display:none;
 }
    .fa-camera{
       display:none;
@@ -217,14 +222,14 @@ h2{
   
   <div id="productcloseo">
     <p onclick="proclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="number" placeholder="Enter your number"><br>
+    <input type="text" id="number" placeholder="Enter your number"><br><br>
     <input type="password" id="pin" placeholder="Enter your pin"><br>
     <button onclick="checkLogin()" id="btnop">open</button>
   </div>
   
   <div id="vediocloseo">
     <p onclick="veclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="vedioline" placeholder="Video link"><br>
+    <input type="text" id="vedioline" placeholder="Video link"><br><br>
     <input type="text" id="caption" placeholder="Caption"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
   </div>
@@ -246,10 +251,7 @@ h2{
 <div class="userfile">
 <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" class="userid">
 <h2 id="showName"></h2>
-
 </div>
-
-
 <script>
 function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
 function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
@@ -270,14 +272,11 @@ import {
   getAuth,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
 import {
   getFirestore,
   doc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
   authDomain: "robiul-84377.firebaseapp.com",
@@ -286,17 +285,10 @@ const firebaseConfig = {
   messagingSenderId: "476907665212",
   appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
 };
-
-
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
-
-
 onAuthStateChanged(auth, async (user)=>{
-
     if(user){
 
         const userRef = doc(db,"users",user.uid);
@@ -311,15 +303,11 @@ onAuthStateChanged(auth, async (user)=>{
             document.getElementById("showName").innerHTML = data.name;
 
         }
-
     }else{
 
         document.getElementById("showName").innerHTML = "Guest User";
-
     }
-
 });
-
 </script>
 </body>
 </html>

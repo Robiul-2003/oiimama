@@ -40,6 +40,12 @@ header{
 .fa-list{
   font-size:27px;margin-top:27px;cursor: pointer;
 }
+ .fa-circle-user{
+     font-size:27px;margin-top:27px;cursor: pointer;
+  }
+  .fa-house{
+    font-size:27px;margin-top:27px;cursor: pointer;
+  }
 .fa-magnifying-glass{
    display:none;cursor: pointer;
 }
@@ -81,7 +87,7 @@ h2{
 #number, #pin, #vedioline, #caption{
   margin: auto;
   width:90%;height:30px;
-  display:none;
+  
 }
    .fa-camera{
       display:none;
@@ -105,13 +111,33 @@ h2{
   }
   .vedio{
     max-width:500px;
-    min-height:100px;margin: auto;border-radius:6px;margin:65px auto 0;
+    min-height:100px;margin: auto;border-radius:6px;margin:3px auto 0;
     background: #fff; padding: 10px; box-sizing: border-box;
   }
   .vedioadd{
     max-width:500px;
   }
-
+  .productads{
+    width:40%;display: flex;position: relative;
+    border:1px solid  rgb(164, 150, 150);margin: auto;border-radius:10px;
+     cursor:pointer;
+  }
+    .ads-delete{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:50%;
+  background:rgb(240, 6, 6);
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+  #adsproduct{
+    width:50%;border-radius:10px;
+  }
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -182,6 +208,13 @@ h2{
   .fa-house{
     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
   }
+   .productads{
+    width:97%;margin-top:63px;
+    border:1px solid rgb(164, 150, 150);border-radius:10px;background:white;
+  }
+  #adsproduct{
+    width:50%;border-radius:10px;
+  }
 }
 </style>
 </head>
@@ -209,14 +242,14 @@ h2{
   
   <div id="productcloseo">
     <p onclick="proclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="number" placeholder="Enter your number"><br>
+    <input type="text" id="number" placeholder="Enter your number"><br><br>
     <input type="password" id="pin" placeholder="Enter your pin"><br>
     <button onclick="checkLogin()" id="btnop">open</button>
   </div>
   
   <div id="vediocloseo">
     <p onclick="veclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="vedioline" placeholder="Video link"><br>
+    <input type="text" id="vedioline" placeholder="Video link"><br><br>
     <input type="text" id="caption" placeholder="Caption"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
   </div>
@@ -235,6 +268,13 @@ h2{
    </div>
   </div>
 </div>
+
+  <div class="productads" onclick="window.location.href='index.html'">
+    <button class="ads-delete" onclick="event.stopPropagation(); deleteAds()">✖</button>
+    <img src="ads.png" id="adsproduct">
+    <p> Adarsha BD-তে নতুন নতুন পণ্য, আকর্ষণীয় দাম এবং সহজ অনলাইন শপিং সুবিধা উপভোগ করুন আপনার প্রয়োজনীয় সব পণ্য এক জায়গায়। নিরাপদ কেনাকাটা, দ্রুত ডেলিভারি এবং সহজ অর্ডার সুবিধা।</p>
+  </div>
+
 <div class="vedio">
   <div class="vedioadd" id="videoFeed"></div><br>
 </div>
@@ -249,6 +289,10 @@ function vadd(){ document.getElementById("vediocloseo").style.display= "block"; 
 function veclose(){ document.getElementById("vediocloseo").style.display= "none"; }
 function searchProduct() {}
 function checkLogin() {}
+
+function deleteAds(){
+  document.querySelector(".productads").remove();
+}
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -345,9 +389,7 @@ function checkLogin() {}
     navigator.clipboard.writeText(link);
     alert("ভিডিও লিংক কপি হয়েছে");
   }
-
 }
-
   // ২. ডাটাবেজ থেকে রিয়েল-টাইমে ভিডিও এনে পেজে দেখানোর আপডেট ফাংশন
   const videoFeed = document.getElementById("videoFeed");
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
@@ -495,6 +537,7 @@ if(video){
       }
     });
   });
+
 </script>
 </body>
 </html>
