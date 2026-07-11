@@ -39,17 +39,15 @@ header{
   width:600px;
 }
 .fa-list{
-  font-size:27px;margin-top:27px;cursor: pointer;
+  font-size:25px;margin-top:20px;cursor: pointer;
 }
  .fa-circle-user{
-     font-size:27px;margin-top:27px;cursor: pointer;
+     font-size:25px;margin-top:20px;cursor: pointer;
   }
   .fa-house{
-    font-size:27px;margin-top:27px;cursor: pointer;
+    font-size:25px;margin-top:20px;cursor: pointer;
   }
-.fa-magnifying-glass{
-   display:none;cursor: pointer;
-}
+ 
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
@@ -220,6 +218,36 @@ h2{
 #pac{
  float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
 }
+  .allicon{
+   text-align: center;
+   font-size:27px;margin-top:70px;
+  }
+  .fa-youtube{
+    margin-left:15px;
+   color:red;
+  }
+  .fa-square-whatsapp{
+    color:rgb(26, 191, 26);margin-left:15px;
+  }
+  .fa-facebook{
+    color:#1877F2;margin-left:15px;
+  }
+  .fa-tiktok{
+    color:#000000;margin-left:15px;
+  }
+  .fa-instagram{
+    color:#E1306C;margin-left:15px;
+  }
+  
+  .fa-camera{
+      font-size:25px;margin-top:20px;
+  }
+   .fa-facebook-messenger{
+    font-size:25px;margin-top:20px;
+  }
+  .fa-magnifying-glass{
+    font-size:25px;margin-top:20px;margin-left:5%;
+  }
 #number, #pin{
   margin: auto;
   width:90%;height:30px;
@@ -228,15 +256,6 @@ h2{
 #btnop{
   width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
 }
-  .fa-facebook-messenger{
-   display:none;
-  }
-  .fa-bell{
-   display:none;
-  }
-  .fa-camera{
-      display:none;
-  }
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -334,19 +353,19 @@ h2{
     height:180px;
   }
   .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;margin-left:5%;display:inline-block;
+    font-size:25px;margin-top:20px;margin-left:5%;
   }
   .fa-bell{
-    font-size:25px;margin-top:20px;display:inline-block;
+    font-size:25px;margin-top:20px;
   }
   .fa-camera{
-      font-size:25px;margin-top:20px;display:inline-block;
+      font-size:25px;margin-top:20px;
   }
     .fa-circle-user{
-     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+     font-size:25px;margin-top:20px;margin-left:4%;
   }
   .fa-house{
-    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+    font-size:25px;margin-top:20px;margin-left:4%;
   }
 }
 </style>
@@ -370,8 +389,9 @@ h2{
 </div>
 <div id="openlistbox">
   <div id="listbox">
-  <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p><br>
-  <h2 onclick="padd()" id="productsadd">Products Add</h2>
+  <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p>
+  <h2 onclick="padd()" id="productsadd">Products Add</h2><hr>
+   <h2 onclick="vadd()" id="vedioadd">Video Add</h2>
   <div id="productcloseo">
     <p onclick="proclose()" id="pac">X</p><br><br><br>
     <input type="text" id="number" placeholder="Enter your number"><br>
@@ -420,10 +440,11 @@ h2{
      <div class="adds"><img src="ads.png" class="ads"> </div>
   </div>
 </div>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+// ১. সঠিক Firebase ভার্সন ইমপোর্ট করা হলো (10.12.2)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -435,8 +456,19 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Login check
+onAuthStateChanged(auth,(user)=>{
+    if(user){
+        console.log("Login User:", user.email);
+    } else {
+        console.log("Guest User");
+    }
+});
+
+// ২. প্রোডাক্ট ডাটাবেস
 window.allProducts = [];
 
 const localProducts = [
@@ -461,7 +493,7 @@ const localProducts = [
     images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
     details: `Apple AirPods Pro (2nd generation)...`
   },
-    {
+  {
     id: 3,
     category: ["man", "woman", "accessories"],
     name: "Hoco EQ24 Estrella Wireless BT Earbuds - Time Square",
@@ -469,52 +501,27 @@ const localProducts = [
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["700 TK", "670 TK", "350 TK"],
     images: ["https://www.startech.com.bd/image/cache/catalog/earbuds/hoco/eq24-estrella/eq24-estrella-500x500.webp","https://static-01.daraz.com.bd/p/6681d308bee6def5f64b994e0acfb92b.jpg","https://static-01.daraz.com.bd/p/e0e581dce2040beacc7d4159da3d1798.jpg"],
-    details: `Bluetooth 5.4; Chip: JL AC6983D2
-Battery capacity: Charging compartment 320mAh; Headphones 40mAh
-Usage time: 7 hours
-Size: 61 * 48 * 27mm; Total weight: 46.5g
-Support master-slave switching and summoning Siri`
+    details: `Bluetooth 5.4; Chip: JL AC6983D2...`
   },
-   {
+  {
     id: 4,
     category: ["man", "woman", "accessories"],
-    name: "Oraimo i12 Pure Bass Wireless Headphone - Bluetooth 5.0 Foldable Stereo Headset with Microphone",
+    name: "Oraimo i12 Pure Bass Wireless Headphone",
     code: "123458",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["450TK", "420 TK", "400 TK"],
+    price: ["450 TK", "420 TK", "400 TK"],
     images: ["https://foodpanda.dhmedia.io/image/darkstores/nv-global-catalog/bd/9bc6b2fa-1cc4-49c6-afd6-c6ef6693290f.jpg?height=480","https://static-01.daraz.com.bd/p/83c4b52c931bb8db831df8f02cafbc0e.jpg"],
-    details: `Brand: Oraimo
-Model: i12
-Bluetooth Version: V5.0
-Battery Capacity: 400mAh
-Play/Talk Time: Up to 10 Hours
-Charging Time: Approximately 2 Hours
-Transmission Distance: 10m
-Driver Unit: 40mm
-Support: TF Card / FM / AUX / Bluetooth
-Powerful Sound: Experience high-definition (HD) audio with booming pure bass for an immersive music experience.
-Long Playback: Enjoy up to 6 hours of continuous music playback on a single charge.
-Comfortable Design: Lightweight, over-ear design with an adjustable contoured headband for long-term comfort.
-Seamless Connectivity: Equipped with Bluetooth 5.0 for stable and fast wireless connection.
-Multi-functional Controls: Built-in microphone for hands-free calls and easy-to-use buttons for volume and track control.`
+    details: `Brand: Oraimo Model: i12...`
   },
   {
     id: 5,
     category: ["man", "woman", "accessories"],
-    name: "JBL M3 Mini Portable Speaker Wireless Bluetooth Speaker - Bluetooth Speaker",
+    name: "JBL M3 Mini Portable Speaker",
     code: "123458",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["250TK", "230 TK", "210 TK"],
-    images: ["https://static-01.daraz.com.bd/p/33607a6e8f9052b9636e9d385dd510ae.jpg","https://salebazarbd.com/uploads/products/meta/c8769461cec01a5a9220564185ce793d.png","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJq_uR7IUr9VjQ7wp9wP3Ojec1z7huunuVz0MVk0JH1LpLUnqROABP9R5q&s=10"],
-    details: `
-    Total Speaker: One Speaker
-Satellite Speaker: Standard
-Audio Input: Wireless
-M3 Description
-Size: 50*33mm
-Bluetooth Compliant: V5.0
-Battery: 300mAh
-    `
+    price: ["250 TK", "230 TK", "210 TK"],
+    images: ["https://static-01.daraz.com.bd/p/33607a6e8f9052b9636e9d385dd510ae.jpg","https://salebazarbd.com/uploads/products/meta/c8769461cec01a5a9220564185ce793d.png"],
+    details: `Total Speaker: One Speaker...`
   }
 ];
 
@@ -522,12 +529,10 @@ window.allProducts = [...localProducts];
 let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
 window.allProducts = [...window.allProducts, ...savedUserProducts];
 
-// ডিলিট বাটন দেখানোর লজিক (শুধুমাত্র অ্যাডমিন ভেরিফাইড হলে শো করবে)
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
   box.innerHTML = "";
   
-  // চেক করা হচ্ছে ব্রাউজারে ডিলিট করার পারমিশন অ্যাক্টিভ আছে কি না
   let isAdmin = localStorage.getItem("isDeleteAdmin") === "true";
 
   productsToDisplay.forEach(p => {
@@ -536,7 +541,6 @@ function renderProducts(productsToDisplay) {
     let isLocal = ["1", "2", "3", "4","5"].includes(String(p.id));
     
     let deleteBtn = "";
-    // আপনি অ্যাডমিন হলে এবং প্রোডাক্টটি লোকাল না হলে (ইউজার বা ফায়ারবেসের হলে) X দেখাবে
     if (isAdmin && !isLocal) {
       deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
     }
@@ -552,16 +556,35 @@ function renderProducts(productsToDisplay) {
   });
 }
 
-// সিক্রেট অ্যাডমিন মোড অ্যাক্টিভ করার ফাংশন
+// ✅ সঠিক ও আপডেট করা একমাত্র সার্চ ফাংশন
+function searchProduct(){
+  let input1 = document.getElementById("search") ? document.getElementById("search").value.toLowerCase() : "";
+  let input2 = document.getElementById("ONEsearch") ? document.getElementById("ONEsearch").value.toLowerCase() : "";
+  let input = input1.trim() || input2.trim();
+  
+  if (input === "") {
+    renderProducts(window.allProducts);
+    return;
+  }
+
+  let filtered = window.allProducts.filter(p => {
+    let nameMatch = p.name ? p.name.toLowerCase().includes(input) : false;
+    let codeMatch = p.code ? String(p.code).toLowerCase().includes(input) : false;
+    return nameMatch || codeMatch;
+  });
+  
+  renderProducts(filtered);
+}
+
 function adminMode() {
   let pin = prompt("ডিলিট অপশন চালু করতে সিক্রেট পিন দিন:");
-  if(pin === "2026") { // আপনার সিক্রেট পিন
+  if(pin === "2026") { 
     localStorage.setItem("isDeleteAdmin", "true");
-    alert("ডিলিট মোড সফলভাবে চালু হয়েছে!");
+    alert("ডিলিট মোড সফলভাবে চালু হয়েছে!");
     renderProducts(window.allProducts);
   } else if(pin === "logout") { 
     localStorage.removeItem("isDeleteAdmin");
-    alert("ডিলিট মোড বন্ধ করা হয়েছে।");
+    alert("ডিলিট মোড বন্ধ করা হয়েছে।");
     renderProducts(window.allProducts);
   } else {
     alert("ভুল পিন!");
@@ -620,10 +643,9 @@ function openModal(id){
   }
 }
 
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
+function closeModal(){ document.getElementById("modal").style.display="none"; }
 
+// এই ফাংশনটি নিচে নামানো হলো যেন ব্রাউজারে সুন্দরভাবে সিরিয়াল বজায় থাকে
 function checkLogin(){
     let number = document.getElementById("number").value.trim();
     let pin = document.getElementById("pin").value.trim();
@@ -632,17 +654,6 @@ function checkLogin(){
     }else{
         alert("Wrong Number or PIN");
     }
-}
-
-function searchProduct(){
-  let input1 = document.getElementById("search").value.toLowerCase();
-  let input2 = document.getElementById("ONEsearch").value.toLowerCase();
-  let input = input1 || input2;
-  
-  let filtered = window.allProducts.filter(p => 
-    p.name.toLowerCase().includes(input)
-  );
-  renderProducts(filtered);
 }
 
 function filterProducts(category){
@@ -666,7 +677,16 @@ function listclose(){ document.getElementById("openlistbox").style.display= "non
 function padd(){ document.getElementById("productcloseo").style.display= "block"; }
 function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
 
+function vadd() { 
+  alert("Video Add feature is not implemented yet!");
+}
+
 function orderNow(){
+  if(!auth.currentUser){
+      alert("Order করতে Login করুন");
+      window.location.href="login.html";
+      return;
+  }
   let productName = document.getElementById("pname").innerText;
   let productCode = document.getElementById("pcode").innerText.replace("Code: ","");
   let message = `🛒 New Order Request\n\n📦 Product: ${productName}\n🔢 Code: ${productCode}`;
@@ -706,6 +726,7 @@ window.proclose = proclose;
 window.orderNow = orderNow;
 window.deleteProduct = deleteProduct;
 window.adminMode = adminMode;
+window.vadd = vadd;
 
 renderProducts(window.allProducts);
 loadFirebaseProducts();
