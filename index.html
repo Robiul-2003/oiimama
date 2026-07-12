@@ -52,7 +52,7 @@ header{
 .container{
   display:flex; max-width:1400px;margin: auto;
   flex-wrap:wrap;
-  gap:10px;margin-top:80px; 
+  gap:10px;margin-top:10px; 
   justify-content:center;
 }
 
@@ -248,6 +248,18 @@ h2{
   .fa-magnifying-glass{
     display:none;
   }
+  #vediocloseo{
+  display:none;
+  width:90%;
+  margin:auto;
+  padding:10px;
+}
+ #vedioline{
+    display:none;
+  }
+  #caption{
+    display:noen;
+  }
 #number, #pin{
   margin: auto;
   width:90%;height:30px;
@@ -256,6 +268,7 @@ h2{
 #btnop{
   width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
 }
+
 @media(max-width:600px){
   .header1{
     width:100%;
@@ -367,6 +380,12 @@ h2{
   .fa-house{
     font-size:25px;margin-top:20px;margin-left:4%;
   }
+  #vedioline{
+    display:none;
+  }
+  #caption{
+    display:noen;
+  }
 }
 </style>
 </head>
@@ -391,13 +410,18 @@ h2{
   <div id="listbox">
   <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p>
   <h2 onclick="padd()" id="productsadd">Products Add</h2><hr>
-   <h2 onclick="vadd()" id="vedioadd">Video Add</h2>
+  <h2 onclick="vadd()">Video Add</h2>
   <div id="productcloseo">
     <p onclick="proclose()" id="pac">X</p><br><br><br>
     <input type="text" id="number" placeholder="Enter your number"><br>
     <input type="password" id="pin" placeholder="Enter your pin"><br>
     <button onclick="checkLogin()" id="btnop">open</button>
   </div>
+ <div id="vediocloseo">
+<input type="text" id="vedioline" placeholder="Video link">
+<input type="text" id="caption" placeholder="Caption">
+<button onclick="shareVideo()">Share</button>
+</div>
   <hr>
   <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
   <h2>Notification</h2><hr>
@@ -441,10 +465,9 @@ h2{
   </div>
 </div>
 <script type="module">
-// ১. সঠিক Firebase ভার্সন ইমপোর্ট করা হলো (10.12.2)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -459,16 +482,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Login check
-onAuthStateChanged(auth,(user)=>{
-    if(user){
-        console.log("Login User:", user.email);
-    } else {
-        console.log("Guest User");
-    }
+onAuthStateChanged(auth, (user) => {
+    if(user) console.log("Login User:", user.email);
+    else console.log("Guest User");
 });
 
-// ২. প্রোডাক্ট ডাটাবেস
 window.allProducts = [];
 
 const localProducts = [
@@ -486,14 +504,13 @@ const localProducts = [
     id: 2,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
-    color:"", 
     code: "123456",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["400 TK", "380 TK", "350 TK"],
     images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
     details: `Apple AirPods Pro (2nd generation)...`
   },
-  {
+    {
     id: 3,
     category: ["man", "woman", "accessories"],
     name: "Hoco EQ24 Estrella Wireless BT Earbuds - Time Square",
@@ -531,6 +548,7 @@ window.allProducts = [...window.allProducts, ...savedUserProducts];
 
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
+  if(!box) return;
   box.innerHTML = "";
   
   let isAdmin = localStorage.getItem("isDeleteAdmin") === "true";
@@ -556,11 +574,11 @@ function renderProducts(productsToDisplay) {
   });
 }
 
-// ✅ সঠিক ও আপডেট করা একমাত্র সার্চ ফাংশন
+// সার্চ ফাংশন ফিক্সড
 function searchProduct(){
-  let input1 = document.getElementById("search") ? document.getElementById("search").value.toLowerCase() : "";
-  let input2 = document.getElementById("ONEsearch") ? document.getElementById("ONEsearch").value.toLowerCase() : "";
-  let input = input1.trim() || input2.trim();
+  let input1 = document.getElementById("search") ? document.getElementById("search").value.toLowerCase().trim() : "";
+  let input2 = document.getElementById("ONEsearch") ? document.getElementById("ONEsearch").value.toLowerCase().trim() : "";
+  let input = input1 || input2;
   
   if (input === "") {
     renderProducts(window.allProducts);
@@ -611,6 +629,56 @@ async function deleteProduct(id, event) {
   renderProducts(window.allProducts);
 }
 
+// ইউটিউব লিংক কনভার্টার ফাংশন
+function getEmbedLink(url) {
+  let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  let match = url.match(regExp);
+  if (match && match[2].length == 11) {
+    return "https://www.youtube.com/embed/" + match[2];
+  }
+  return url;
+}
+
+async function loadVideos(){
+  let box = document.getElementById("videoList");
+  if(!box) return;
+  box.innerHTML = "";
+  try {
+    let data = await getDocs(collection(db,"videos"));
+    data.forEach((doc)=>{
+      let v = doc.data();
+      let embedLink = getEmbedLink(v.link);
+      box.innerHTML += `
+        <div class="video" style="margin: 10px; padding: 10px; background: white; border-radius: 8px;">
+          <iframe src="${embedLink}" width="100%" height="250" frameborder="0" allowfullscreen></iframe>
+          <h3>${v.caption}</h3>
+        </div>
+      `;
+    });
+  } catch(e) {
+    console.log("ভিডিও লোড এরর:", e);
+  }
+}
+
+// ভিডিও শেয়ার করার নতুন ফাংশন
+async function shareVideo() {
+  let link = document.getElementById("vedioline").value.trim();
+  let caption = document.getElementById("caption").value.trim();
+  if(!link || !caption) return alert("দয়া করে লিংক এবং ক্যাপশন দুটিই দিন");
+  
+  try {
+    await addDoc(collection(db, "videos"), { link: link, caption: caption });
+    alert("ভিডিও সফলভাবে যুক্ত হয়েছে!");
+    document.getElementById("vedioline").value = "";
+    document.getElementById("caption").value = "";
+    document.getElementById("vediocloseo").style.display = "none";
+    loadVideos();
+  } catch (error) {
+    alert("ভিডিও আপলোড ব্যর্থ হয়েছে!");
+    console.error(error);
+  }
+}
+
 function openModal(id){
   let p = window.allProducts.find(x => String(x.id) === String(id));
   if(!p) return;
@@ -645,7 +713,6 @@ function openModal(id){
 
 function closeModal(){ document.getElementById("modal").style.display="none"; }
 
-// এই ফাংশনটি নিচে নামানো হলো যেন ব্রাউজারে সুন্দরভাবে সিরিয়াল বজায় থাকে
 function checkLogin(){
     let number = document.getElementById("number").value.trim();
     let pin = document.getElementById("pin").value.trim();
@@ -676,10 +743,7 @@ function demo(){ document.getElementById("openlistbox").style.display= "block"; 
 function listclose(){ document.getElementById("openlistbox").style.display= "none"; }
 function padd(){ document.getElementById("productcloseo").style.display= "block"; }
 function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
-
-function vadd() { 
-  alert("Video Add feature is not implemented yet!");
-}
+function vadd() { document.getElementById("vediocloseo").style.display = "block"; }
 
 function orderNow(){
   if(!auth.currentUser){
@@ -700,7 +764,6 @@ async function loadFirebaseProducts() {
     querySnapshot.forEach((doc) => {
       let p = doc.data();
       if(!p.id) p.id = doc.id; 
-      
       if (!window.allProducts.some(x => String(x.id) === String(p.id))) {
          window.allProducts.push(p);
       }
@@ -711,7 +774,7 @@ async function loadFirebaseProducts() {
   }
 }
 
-// Global window mapping
+// সমস্ত ফাংশন সঠিকভাবে গ্লোবাল উইন্ডোতে এসাইন করা হলো
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.checkLogin = checkLogin;
@@ -727,9 +790,12 @@ window.orderNow = orderNow;
 window.deleteProduct = deleteProduct;
 window.adminMode = adminMode;
 window.vadd = vadd;
+window.shareVideo = shareVideo;
 
+// ইনিশিয়াল কল
 renderProducts(window.allProducts);
 loadFirebaseProducts();
+loadVideos();
 </script>
 </body>
 </html>

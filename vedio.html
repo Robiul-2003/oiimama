@@ -135,10 +135,8 @@ h2{
   display: flex;
   flex-direction: column-reverse;
 }
-  
-  
   .productads{
-    width:40%;display: flex;position: relative;
+    width:28%;display: flex;position: relative;
     border:1px solid  rgb(164, 150, 150);margin: auto;border-radius:10px;
      cursor:pointer;
   }
@@ -301,7 +299,7 @@ h2{
 <div class="vedio">
   <div class="vedioadd" id="videoFeed"></div><br>
 </div>
-
+<div id="videoList"></div>
 <script>
 function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
 function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
@@ -319,7 +317,7 @@ function deleteAds(){
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion,getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -442,16 +440,78 @@ function deleteAds(){
     }
   }
 
-  window.likeVideo = async function(videoId) {
-    const videoRef = doc(db, "videos", videoId);
-    await updateDoc(videoRef, { likes: increment(1) });
-  }
+ window.likeVideo = async function(videoId){
 
-  window.countView = async function(videoId) {
-    const videoRef = doc(db, "videos", videoId);
-    await updateDoc(videoRef, { views: increment(1) });
-  }
+const user = auth.currentUser;
 
+if(!user){
+ alert("আগে Login করুন");
+ return;
+}
+
+
+const videoRef = doc(db,"videos",videoId);
+
+const snap = await getDoc(videoRef);
+
+let likedUsers = snap.data().likedUsers || {};
+
+
+if(likedUsers[user.uid]){
+
+ alert("আপনি আগেই Like করেছেন");
+ return;
+
+}
+
+
+likedUsers[user.uid]={
+ name:user.displayName || "User",
+ email:user.email
+};
+
+
+await updateDoc(videoRef,{
+ likes:increment(1),
+ likedUsers:likedUsers
+});
+
+
+}
+window.countView = async function(videoId){
+
+const user = auth.currentUser;
+
+if(!user) return;
+
+
+const videoRef = doc(db,"videos",videoId);
+
+const snap = await getDoc(videoRef);
+
+
+let viewedUsers = snap.data().viewedUsers || {};
+
+
+if(viewedUsers[user.uid]){
+ return;
+}
+
+
+viewedUsers[user.uid]={
+ name:user.displayName || "User",
+ email:user.email
+};
+
+
+await updateDoc(videoRef,{
+ views:increment(1),
+ viewedUsers:viewedUsers
+});
+
+
+}
+  
   window.addComment = async function(videoId) {
     const commentInput = document.getElementById(`commentInput-${videoId}`);
     const commentText = commentInput.value.trim();
@@ -516,7 +576,7 @@ function deleteAds(){
         else if (data.link.includes("tiktok.com")) {
           let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
           if (!tiktokEmbedLink.includes("undefined")) {
-            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="710" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
+            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="720" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
           } else {
             videoElement = `<div style="padding:20px; background:#eee; text-align:center; border-radius:4px;"><p><a href="${data.link}" target="_blank" style="color:#000; font-weight:bold;">Watch TikTok Video</a></p></div>`;
           }
