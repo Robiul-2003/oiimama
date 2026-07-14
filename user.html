@@ -114,6 +114,24 @@ h2{
    .fa-facebook-messenger{
     font-size:25px;margin-top:20px;cursor: pointer;
   }
+
+.view-bar{
+    width:150px;
+    height:20px;
+    border:1px solid #8a8888;
+    display:inline-block;
+    margin-left:10px;border-radius:5px;
+    vertical-align:middle;
+    overflow:hidden;
+}
+
+.view-fill{
+    height:100%;
+    background:#00ff00;
+    width:0%;
+}
+
+
 #btnop{
   width:150px;display: block; margin: 10px auto; height:30px;background:#031f50;color:white;border-radius:5px;border:none;
   font-size:18px;
@@ -282,7 +300,7 @@ function checkLogin() {}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, where, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {getFirestore, collection, onSnapshot, query, where, doc,  getDoc, deleteDoc  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -321,11 +339,6 @@ async function deleteVideo(videoId){
 }
 
 window.deleteVideo = deleteVideo;
-
-
-
-
-
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -391,6 +404,9 @@ onAuthStateChanged(auth, async (user) => {
                     videoElement = `<video width="100%" height="auto" controls playsinline style="border-radius:4px;"><source src="${data.link}" type="video/mp4"></video>`;
                 }
                videoCard.innerHTML = `
+               <h3>
+${data.userName || "User"}
+</h3>
     ${videoElement}
 
     <p style="padding-top:10px; margin:0; font-weight:bold;">
@@ -401,18 +417,35 @@ onAuthStateChanged(auth, async (user) => {
     ${data.likes || 0} Likes | ${data.views || 0} Views
     </p>
 
-    <button onclick="deleteVideo('${data.id}')"
-    style="
-    background:red;
-    color:white;
-    border:none;
-    padding:8px 15px;
-    border-radius:5px;
-    cursor:pointer;">
-    Delete
-    </button>
+   <div style="display:flex;align-items:center;">
+
+<button onclick="deleteVideo('${data.id}')"
+style="
+background:red;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;">
+Delete
+</button>
+
+
+<div class="view-bar">
+<div class="view-fill" id="bar-${data.id}"></div>
+</div>
+
 `;
                 
+let viewPercent = Math.min((data.views || 0) / 1000 * 100,100);
+
+setTimeout(()=>{
+    let bar = document.getElementById(`bar-${data.id}`);
+    if(bar){
+        bar.style.width = viewPercent + "%";
+    }
+},100);
+
                 videoFeed.appendChild(videoCard);
             });
         });

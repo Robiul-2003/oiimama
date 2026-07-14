@@ -353,10 +353,9 @@ function deleteAds(){
   }
 
   window.shareVideo = async function() {
-    // পরিবর্তন ১: ইউজার লগইন আছে কি না তা যাচাই করা
     if (!auth.currentUser) {
-      alert("ভিডিও শেয়ার করার জন্য আপনাকে প্রথমে লগইন করতে হবে!");
-      document.getElementById("productcloseo").style.display = "block"; // লগইন বক্স ওপেন করা
+      alert("ভিডিও শেয়ার করার জন্য আপনাকে প্রথমে লগইন করতে হবে!");
+      document.getElementById("productcloseo").style.display = "block"; 
       return;
     }
 
@@ -418,17 +417,37 @@ function deleteAds(){
     }
 
     try {
-      // পরিবর্তন ২: ভিডিও সেভ করার সময় 'userId' ফিল্ডে বর্তমান লগইন করা ইউজারের UID যুক্ত করা
-      await addDoc(collection(db, "videos"), {
-        link: videoLink,
-        platform: platform,
-        caption: videoCaption,
-        createdAt: new Date(),
-        likes: 0,
-        views: 0,
-        comments: [],
-        userId: auth.currentUser.uid // <-- এই লাইনটি যুক্ত করা হয়েছে
-      });
+     let userName = "User";
+
+const userRef = doc(db,"users",auth.currentUser.uid);
+const userSnap = await getDoc(userRef);
+
+if(userSnap.exists()){
+    userName = userSnap.data().name;
+}
+
+
+await addDoc(collection(db,"videos"),{
+
+    link: videoLink,
+
+    platform: platform,
+
+    caption: videoCaption,
+
+    userId: auth.currentUser.uid,
+
+    userName: userName,
+
+    createdAt: new Date(),
+
+    likes:0,
+
+    views:0,
+
+    comments:[]
+
+});
 
       document.getElementById("vedioline").value = "";
       document.getElementById("caption").value = "";
@@ -440,78 +459,47 @@ function deleteAds(){
     }
   }
 
- window.likeVideo = async function(videoId){
+  window.likeVideo = async function(videoId){
+    const user = auth.currentUser;
+    if(!user){
+     alert("আগে Login করুন");
+     return;
+    }
 
-const user = auth.currentUser;
+    const videoRef = doc(db,"videos",videoId);
+    const snap = await getDoc(videoRef);
+    let likedUsers = snap.data().likedUsers || {};
 
-if(!user){
- alert("আগে Login করুন");
- return;
-}
+    if(likedUsers[user.uid]){
+     alert("আপনি আগেই Like করেছেন");
+     return;
+    }
 
+    likedUsers[user.uid]={
+     name:user.displayName || "User",
+     email:user.email
+    };
 
-const videoRef = doc(db,"videos",videoId);
+    await updateDoc(videoRef,{
+     likes:increment(1),
+     likedUsers:likedUsers
+    });
+  }
 
-const snap = await getDoc(videoRef);
+  // countView ফাংশনটি মডিউলের ভেতরে উইন্ডোতে গ্লোবাল করে দেওয়া হয়েছে
+  window.countView = async function(videoId){
+    if(!videoId) return;
+    const videoRef = doc(db, "videos", videoId);
+    try {
+      await updateDoc(videoRef, {
+        views: increment(1)
+      });
+      console.log("View counted for:", videoId);
+    } catch(error) {
+      console.log("View error:", error);
+    }
+  }
 
-let likedUsers = snap.data().likedUsers || {};
-
-
-if(likedUsers[user.uid]){
-
- alert("আপনি আগেই Like করেছেন");
- return;
-
-}
-
-
-likedUsers[user.uid]={
- name:user.displayName || "User",
- email:user.email
-};
-
-
-await updateDoc(videoRef,{
- likes:increment(1),
- likedUsers:likedUsers
-});
-
-
-}
-window.countView = async function(videoId){
-
-const user = auth.currentUser;
-
-if(!user) return;
-
-
-const videoRef = doc(db,"videos",videoId);
-
-const snap = await getDoc(videoRef);
-
-
-let viewedUsers = snap.data().viewedUsers || {};
-
-
-if(viewedUsers[user.uid]){
- return;
-}
-
-
-viewedUsers[user.uid]={
- name:user.displayName || "User",
- email:user.email
-};
-
-
-await updateDoc(videoRef,{
- views:increment(1),
- viewedUsers:viewedUsers
-});
-
-
-}
-  
   window.addComment = async function(videoId) {
     const commentInput = document.getElementById(`commentInput-${videoId}`);
     const commentText = commentInput.value.trim();
@@ -527,16 +515,36 @@ await updateDoc(videoRef,{
     commentInput.value = ""; 
   }
 
-  window.shareVideoLink = function(link) {
-    if (navigator.share) {
-      navigator.share({ title: "Adarsha BD Video", text: "এই ভিডিওটি দেখুন", url: link })
-      .then(() => console.log("Shared"))
-      .catch((error) => console.log(error));
-    } else {
-      navigator.clipboard.writeText(link);
-      alert("ভিডিও লিংক কপি হয়েছে");
-    }
+window.shareVideoLink = function(link) {
+
+  let websiteLink = "https://adarshabd.com/";
+
+  let shareText = 
+  "Adarsha BD তে এই ভিডিওটি দেখুন 👇\n\n" 
+  + link 
+  + "\n\nআরও ভিডিও দেখতে ভিজিট করুন:\n"
+  + websiteLink;
+
+
+  if (navigator.share) {
+
+    navigator.share({
+      title: "Adarsha BD Video",
+      text: shareText,
+      url: link
+    })
+
+    .then(() => console.log("Shared"))
+    .catch((error) => console.log(error));
+
+  } else {
+
+    navigator.clipboard.writeText(shareText);
+    alert("Website এবং Video link copy হয়েছে");
+
   }
+
+}
 
   const videoFeed = document.getElementById("videoFeed");
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
@@ -593,6 +601,11 @@ await updateDoc(videoRef,{
         }
 
         videoCard.innerHTML = `
+          <h3 style="margin:5px;">
+${data.userName || "User"}
+</h3>
+
+
           ${videoElement}
           <p style="padding: 8px 5px; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
           <div style="display:flex; justify-content:space-between; font-size:12px; color:#777; padding:0 5px 8px; border-bottom:1px solid #eee;">
@@ -615,18 +628,26 @@ await updateDoc(videoRef,{
           </div>
         `;
 
-        videoFeed.insertBefore(videoCard, videoFeed.firstChild);
+        // ফিক্স ১: প্রথমে ভিডিও কার্ডটিকে মূল HTML DOM-এ ইনজেক্ট করতে হবে
+        videoFeed.prepend(videoCard);
 
-        const videoHtmlEl = document.getElementById(`video-${videoId}`);
+        // ফিক্স ২: কার্ডটি যোগ হওয়ার পর সামান্য টাইমিং গ্যাপ (delay) দিয়ে Observer চালু করতে হবে
         let viewed = false;
-        if(videoHtmlEl){
-          videoHtmlEl.addEventListener("timeupdate", () => {
-            if(videoHtmlEl.currentTime >= 5 && !viewed){
-              countView(videoId);
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !viewed) {
+              window.countView(videoId); // গ্লোবাল উইন্ডো ফাংশন কল করা হয়েছে
               viewed = true;
+              observer.unobserve(videoCard);
             }
           });
-        }
+        }, {
+          threshold: 0.3 // ৩০% স্ক্রিনে দেখা গেলেই ভিউ কাউন্ট হবে (আগে ৫০% ছিল, যা অনেক মোবাইলে কাজ নাও করতে পারে)
+        });
+
+        setTimeout(() => {
+          observer.observe(videoCard);
+        }, 100);
       }
 
       if (change.type === "modified") {
