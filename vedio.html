@@ -317,7 +317,7 @@ function deleteAds(){
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion, getDoc, getDocs, where} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion, getDoc, getDocs, where, limit, startAfter} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -417,37 +417,25 @@ function deleteAds(){
     }
 
     try {
-     let userName = "User";
+      let userName = "User";
+      const userRef = doc(db,"users",auth.currentUser.uid);
+      const userSnap = await getDoc(userRef);
 
-const userRef = doc(db,"users",auth.currentUser.uid);
-const userSnap = await getDoc(userRef);
+      if(userSnap.exists()){
+          userName = userSnap.data().name;
+      }
 
-if(userSnap.exists()){
-    userName = userSnap.data().name;
-}
-
-
-await addDoc(collection(db,"videos"),{
-
-    link: videoLink,
-
-    platform: platform,
-
-    caption: videoCaption,
-
-    userId: auth.currentUser.uid,
-
-    userName: userName,
-
-    createdAt: new Date(),
-
-    likes:0,
-
-    views:0,
-
-    comments:[]
-
-});
+      await addDoc(collection(db,"videos"),{
+          link: videoLink,
+          platform: platform,
+          caption: videoCaption,
+          userId: auth.currentUser.uid,
+          userName: userName,
+          createdAt: new Date(),
+          likes:0,
+          views:0,
+          comments:[]
+      });
 
       document.getElementById("vedioline").value = "";
       document.getElementById("caption").value = "";
@@ -486,7 +474,6 @@ await addDoc(collection(db,"videos"),{
     });
   }
 
-  // countView ফাংশনটি মডিউলের ভেতরে উইন্ডোতে গ্লোবাল করে দেওয়া হয়েছে
   window.countView = async function(videoId){
     if(!videoId) return;
     const videoRef = doc(db, "videos", videoId);
@@ -514,146 +501,203 @@ await addDoc(collection(db,"videos"),{
     });
     commentInput.value = ""; 
   }
-window.shareVideoLink = function(videoId) {
 
-  let videoPage = "https://adarshabd.com/vedio.html?id=" + videoId;
-  let websiteLink = "https://adarshabd.com/";
+  window.shareVideoLink = function(videoId) {
+    let videoPage = "https://adarshabd.com/vedio.html?id=" + videoId;
+    let websiteLink = "https://adarshabd.com/";
 
-  let shareText =
-  "Adarsha BD তে এই ভিডিওটি দেখুন 👇\n\n" +
-  videoPage +
-  "\n\nআরও ভিডিও দেখতে ভিজিট করুন:\n" +
-  websiteLink;
+    let shareText =
+    "Adarsha BD তে এই ভিডিওটি দেখুন 👇\n\n" +
+    videoPage +
+    "\n\nআরও ভিডিও দেখতে ভিজিট করুন:\n" +
+    websiteLink;
 
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"Adarsha BD Video",
-      text:shareText
-    })
-    .then(()=>{
-      console.log("Shared");
-    })
-    .catch((error)=>{
-      console.log(error);
-    });
-
-  }else{
-
-    navigator.clipboard.writeText(shareText);
-    alert("Video link copy হয়েছে");
-
+    if(navigator.share){
+      navigator.share({
+        title:"Adarsha BD Video",
+        text:shareText
+      })
+      .then(()=>{
+        console.log("Shared");
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
+    }else{
+      navigator.clipboard.writeText(shareText);
+      alert("Video link copy হয়েছে");
+    }
   }
 
-}
-
-
+  // --- INFINITE SCROLL SYSTEM ---
   const videoFeed = document.getElementById("videoFeed");
-  const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
+  let lastVisibleDoc = null; // শেষ কোন ভিডিওটি লোড হয়েছে তা মনে রাখার জন্য
+  let isLoading = false; // একই সময়ে বারবার রিকোয়েস্ট পাঠানো আটকানোর জন্য
+  let isNoMoreVideos = false; // আর কোনো ভিডিও না থাকলে ট্র্যাকিং করার জন্য
 
-  onSnapshot(q, (querySnapshot) => {
+  // নতুন ১০টি ভিডিও ফায়ারবেস থেকে নিয়ে আসার মূল ফাংশন
+  async function loadVideos() {
+    if (isLoading || isNoMoreVideos) return;
+    isLoading = true;
+
+    try {
+      let videoQuery;
+      
+      if (lastVisibleDoc) {
+        // যদি অলরেডি কিছু ভিডিও লোড হয়ে থাকে, তবে তার পর থেকে পরবর্তী ১০টি আনবে
+        videoQuery = query(
+          collection(db, "videos"), 
+          orderBy("createdAt", "desc"), 
+          startAfter(lastVisibleDoc), 
+          limit(10)
+        );
+      } else {
+        // প্রথমবারে একদম শুরুর ১০টি ভিডিও আনবে
+        videoQuery = query(
+          collection(db, "videos"), 
+          orderBy("createdAt", "desc"), 
+          limit(10)
+        );
+      }
+
+      const documentSnapshots = await getDocs(videoQuery);
+      
+      if (documentSnapshots.empty) {
+        isNoMoreVideos = true;
+        isLoading = false;
+        return;
+      }
+
+      // শেষ লোড হওয়া ডকুমেন্টটি সেভ করে রাখা
+      lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+      documentSnapshots.forEach((docSnap) => {
+        const data = docSnap.data();
+        const videoId = docSnap.id;
+
+        // যদি এই ভিডিওটি অলরেডি স্ক্রিনে থেকে থাকে, তবে ডুপ্লিকেট এড়াতে স্কিপ করবে
+        if (document.getElementById(`card-${videoId}`)) return;
+
+        createVideoCard(videoId, data);
+      });
+
+    } catch (error) {
+      console.error("Error loading videos: ", error);
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  // ভিডিওর এইচটিএমএল কার্ড তৈরি করার ফাংশন
+  function createVideoCard(videoId, data) {
+    const videoCard = document.createElement("div");
+    videoCard.id = `card-${videoId}`;
+    videoCard.style.border = "1px solid #ddd";
+    videoCard.style.margin = "15px auto";
+    videoCard.style.padding = "15px";
+    videoCard.style.background = "#fff";
+    videoCard.style.borderRadius = "8px";
+    videoCard.style.maxWidth = "500px";
+    videoCard.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+
+    let videoElement = "";
+    
+    if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
+      let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
+      if(embedLink.includes("shorts/")) embedLink = embedLink.replace("shorts/", "embed/");
+      videoElement = `<iframe width="100%" height="300" src="${embedLink}" frameborder="0" allowfullscreen style="border-radius:4px;" loading="lazy"></iframe>`;
+    } 
+    else if (data.link.includes("facebook.com") || data.link.includes("fb.watch")) {
+      let fbEmbedLink = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(data.link)}&show_text=false&width=500`;
+      videoElement = `<iframe src="${fbEmbedLink}" width="100%" height="500" style="border:none;overflow:hidden;border-radius:4px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy"></iframe>`;
+    }
+    else if (data.link.includes("instagram.com")) {
+      let instaLink = data.link.split('?')[0]; 
+      if (!instaLink.endsWith('/')) instaLink += '/';
+      videoElement = `<iframe src="${instaLink}embed/" width="100%" height="480" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius:4px;" loading="lazy"></iframe>`;
+    } 
+    else if (data.link.includes("tiktok.com")) {
+      let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
+      if (!tiktokEmbedLink.includes("undefined")) {
+        videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="720" frameborder="0" allowfullscreen style="border-radius:4px;" loading="lazy"></iframe>`;
+      } else {
+        videoElement = `<div style="padding:20px; background:#eee; text-align:center; border-radius:4px;"><p><a href="${data.link}" target="_blank" style="color:#000; font-weight:bold;">Watch TikTok Video</a></p></div>`;
+      }
+    } 
+    else {
+      videoElement = `<video id="video-${videoId}" width="100%" height="auto" controls muted loop playsinline style="border-radius:4px;" loading="lazy"><source src="${data.link}" type="video/mp4"></video>`;
+    }
+
+    let commentListHTML = "";
+    if (data.comments && data.comments.length > 0) {
+      data.comments.forEach(c => {
+        commentListHTML += `<p style="margin:4px 0; background:#f1f1f1; padding:6px; border-radius:4px; font-size:13px; color:#555;">${c.text}</p>`;
+      });
+    }
+
+    videoCard.innerHTML = `
+      <h3 style="margin:5px;">${data.userName || "User"}</h3>
+      ${videoElement}
+      <p style="padding: 8px 5px; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
+      <div style="display:flex; justify-content:space-between; font-size:12px; color:#777; padding:0 5px 8px; border-bottom:1px solid #eee;">
+        <span id="likes-${videoId}">${data.likes || 0} likes</span>
+        <span id="views-${videoId}"><i class="fa-solid fa-eye"></i> ${data.views || 0} views</span>
+      </div>
+      <div class="count" style="display:flex; justify-content:space-between; padding: 10px 0 5px;">
+        <button onclick="likeVideo('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
+        <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
+        <button onclick="shareVideoLink('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;">
+          <i class="fa-solid fa-share"></i> Share
+        </button>
+      </div>
+      <div id="commentBox-${videoId}" style="display:none; margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
+        <div style="display:flex; gap:5px; margin-bottom:8px;">
+          <input type="text" id="commentInput-${videoId}" placeholder="একটি কমেন্ট লিখুন..." style="flex:1; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:13px;">
+          <button onclick="addComment('${videoId}')" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">Post</button>
+        </div>
+        <div id="commentList-${videoId}" style="max-height:120px; overflow-y:auto;">
+          ${commentListHTML}
+        </div>
+      </div>
+    `;
+
+    // লিস্টে অ্যাড করা (সবচেয়ে নতুনটা প্রথমে দেখানোর জন্য prepend করা হচ্ছে না, কারণ এটি ইনফিনিট স্ক্রোলিং)
+    videoFeed.appendChild(videoCard);
+
+    // ভিউ কাউন্টার অবজারভার
+    let viewed = false;
+    const viewObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !viewed) {
+          window.countView(videoId); 
+          viewed = true;
+          viewObserver.unobserve(videoCard);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    setTimeout(() => {
+      viewObserver.observe(videoCard);
+    }, 100);
+  }
+
+  // ১. সাইট লোড হওয়ামাত্রই প্রথম ১০টি ভিডিও শো হবে
+  loadVideos();
+
+  // ২. স্ক্রোল ডিটেক্টর (ইউজার নিচে নামলে পরের ভিডিও ব্যাকগ্রাউন্ডে লোড হবে)
+  window.addEventListener("scroll", () => {
+    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 500) {
+      // স্ক্রিনের তলা থেকে ৫০০ পিক্সেল ওপরে থাকা অবস্থাতেই ফায়ারবেস থেকে ডাটা লোড শুরু হবে
+      loadVideos();
+    }
+  });
+
+  // রিয়েল-টাইম ডাটা আপডেট (লাইক ও কমেন্ট সিনক্রোনাইজেশনের জন্য)
+  const qRealtime = query(collection(db, "videos"), orderBy("createdAt", "desc"), limit(20));
+  onSnapshot(qRealtime, (querySnapshot) => {
     querySnapshot.docChanges().forEach((change) => {
       const data = change.doc.data();
       const videoId = change.doc.id;
-
-      if (change.type === "added") {
-        const videoCard = document.createElement("div");
-        videoCard.id = `card-${videoId}`;
-        videoCard.style.border = "1px solid #ddd";
-        videoCard.style.margin = "15px auto";
-        videoCard.style.padding = "15px";
-        videoCard.style.background = "#fff";
-        videoCard.style.borderRadius = "8px";
-        videoCard.style.maxWidth = "500px";
-        videoCard.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
-
-        let videoElement = "";
-        
-        if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
-          let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
-          if(embedLink.includes("shorts/")) embedLink = embedLink.replace("shorts/", "embed/");
-          videoElement = `<iframe width="100%" height="300" src="${embedLink}" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
-        } 
-        else if (data.link.includes("facebook.com") || data.link.includes("fb.watch")) {
-          let fbEmbedLink = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(data.link)}&show_text=false&width=500`;
-          videoElement = `<iframe src="${fbEmbedLink}" width="100%" height="500" style="border:none;overflow:hidden;border-radius:4px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
-        }
-        else if (data.link.includes("instagram.com")) {
-          let instaLink = data.link.split('?')[0]; 
-          if (!instaLink.endsWith('/')) instaLink += '/';
-          videoElement = `<iframe src="${instaLink}embed/" width="100%" height="480" frameborder="0" scrolling="no" allowtransparency="true" style="border-radius:4px;"></iframe>`;
-        } 
-        else if (data.link.includes("tiktok.com")) {
-          let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
-          if (!tiktokEmbedLink.includes("undefined")) {
-            videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="720" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
-          } else {
-            videoElement = `<div style="padding:20px; background:#eee; text-align:center; border-radius:4px;"><p><a href="${data.link}" target="_blank" style="color:#000; font-weight:bold;">Watch TikTok Video</a></p></div>`;
-          }
-        } 
-        else {
-          videoElement = `<video id="video-${videoId}" width="100%" height="auto" controls muted loop playsinline style="border-radius:4px;"><source src="${data.link}" type="video/mp4"></video>`;
-        }
-
-        let commentListHTML = "";
-        if (data.comments && data.comments.length > 0) {
-          data.comments.forEach(c => {
-            commentListHTML += `<p style="margin:4px 0; background:#f1f1f1; padding:6px; border-radius:4px; font-size:13px; color:#555;">${c.text}</p>`;
-          });
-        }
-
-        videoCard.innerHTML = `
-          <h3 style="margin:5px;">
-${data.userName || "User"}
-</h3>
-
-
-          ${videoElement}
-          <p style="padding: 8px 5px; margin:0; font-weight: bold; color:#333;">${data.caption}</p>
-          <div style="display:flex; justify-content:space-between; font-size:12px; color:#777; padding:0 5px 8px; border-bottom:1px solid #eee;">
-            <span id="likes-${videoId}">${data.likes || 0} likes</span>
-            <span id="views-${videoId}"><i class="fa-solid fa-eye"></i> ${data.views || 0} views</span>
-          </div>
-          <div class="count" style="display:flex; justify-content:space-between; padding: 10px 0 5px;">
-            <button onclick="likeVideo('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
-            <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
-           <button onclick="shareVideoLink('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;">
-<i class="fa-solid fa-share"></i> Share
-</button>
-          </div>
-          <div id="commentBox-${videoId}" style="display:none; margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
-            <div style="display:flex; gap:5px; margin-bottom:8px;">
-              <input type="text" id="commentInput-${videoId}" placeholder="একটি কমেন্ট লিখুন..." style="flex:1; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:13px;">
-              <button onclick="addComment('${videoId}')" style="padding:6px 12px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">Post</button>
-            </div>
-            <div id="commentList-${videoId}" style="max-height:120px; overflow-y:auto;">
-              ${commentListHTML}
-            </div>
-          </div>
-        `;
-
-        // ফিক্স ১: প্রথমে ভিডিও কার্ডটিকে মূল HTML DOM-এ ইনজেক্ট করতে হবে
-        videoFeed.prepend(videoCard);
-
-        // ফিক্স ২: কার্ডটি যোগ হওয়ার পর সামান্য টাইমিং গ্যাপ (delay) দিয়ে Observer চালু করতে হবে
-        let viewed = false;
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && !viewed) {
-              window.countView(videoId); // গ্লোবাল উইন্ডো ফাংশন কল করা হয়েছে
-              viewed = true;
-              observer.unobserve(videoCard);
-            }
-          });
-        }, {
-          threshold: 0.3 // ৩০% স্ক্রিনে দেখা গেলেই ভিউ কাউন্ট হবে (আগে ৫০% ছিল, যা অনেক মোবাইলে কাজ নাও করতে পারে)
-        });
-
-        setTimeout(() => {
-          observer.observe(videoCard);
-        }, 100);
-      }
 
       if (change.type === "modified") {
         const likeSpan = document.getElementById(`likes-${videoId}`);
@@ -674,57 +718,38 @@ ${data.userName || "User"}
     });
   });
 
+  window.searchUserMobile = async function(){
+    let name = document.getElementById("ONEsearch").value.trim();
+    let result = document.getElementById("userResult");
 
+    if(name==""){
+     result.innerHTML="";
+     return;
+    }
 
+    const q = query(
+     collection(db,"users"),
+     where("name","==",name)
+    );
 
+    const snap = await getDocs(q);
+    let html="";
 
-//search box          // এখানে add করবেন
-window.searchUserMobile = async function(){
+    snap.forEach((doc)=>{
+      html += `
+      <div style="background:white; padding:10px; border:1px solid #ddd; margin:5px; border-radius:5px;">
+      <b>${doc.data().name}</b><br>
+      User ID: ${doc.id}
+      </div>
+      `;
+    });
 
-let name = document.getElementById("ONEsearch").value.trim();
+    if(html==""){
+     html="User not found";
+    }
 
-let result = document.getElementById("userResult");
-
-if(name==""){
- result.innerHTML="";
- return;
-}
-
-const q = query(
- collection(db,"users"),
- where("name","==",name)
-);
-
-const snap = await getDocs(q);
-
-let html="";
-
-snap.forEach((doc)=>{
-
-html += `
-<div style="
-background:white;
-padding:10px;
-border:1px solid #ddd;
-margin:5px;
-border-radius:5px;
-">
-<b>${doc.data().name}</b><br>
-User ID: ${doc.id}
-</div>
-`;
-
-});
-
-if(html==""){
- html="User not found";
-}
-
-result.innerHTML=html;
-
-}
-
-
+    result.innerHTML=html;
+  }
 </script>
 </body>
 </html>

@@ -430,11 +430,22 @@ cursor:pointer;">
 Delete
 </button>
 
-
+<button id="success-${data.id}"
+onclick="window.location.href='payment.html?id=${data.id}'"
+style="
+display:none;
+background:green;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
+margin-left:10px;">
+Success
+</button>
 <div class="view-bar">
 <div class="view-fill" id="bar-${data.id}"></div>
 </div>
-
 `;
                 
 let viewPercent = Math.min((data.views || 0) / 1000 * 100,100);
@@ -445,6 +456,20 @@ setTimeout(()=>{
         bar.style.width = viewPercent + "%";
     }
 },100);
+if((data.views || 0) >= 1000){
+
+    setTimeout(()=>{
+
+        let btn = document.getElementById(`success-${data.id}`);
+
+        if(btn){
+            btn.style.display="block";
+        }
+
+    },100);
+
+}
+
 
                 videoFeed.appendChild(videoCard);
             });
