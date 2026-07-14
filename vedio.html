@@ -244,14 +244,14 @@ h2{
       <i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> 
       
     
-  <input id="search" placeholder="Search..." onkeyup="searchProduct()"><i class="fa-solid fa-camera"></i> 
+  <input id="search" placeholder="Search user..." onkeyup="searchUser()"><i class="fa-solid fa-camera" onclick="window.location.href=''"></i> 
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
   <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
   </div>
 </header>
 <div id="opensearchbox">
   <div class="search-inner">
-    <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
+    <input id="ONEsearch" placeholder="Search user..." onkeyup="searchUserMobile()">
     <p onclick="searchclose()" id="X">X</p>
   </div>
 </div>
@@ -299,7 +299,7 @@ h2{
 <div class="vedio">
   <div class="vedioadd" id="videoFeed"></div><br>
 </div>
-<div id="videoList"></div>
+<div id="videoList"></div><div id="userResult"></div>
 <script>
 function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
 function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
@@ -317,7 +317,7 @@ function deleteAds(){
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion,getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion, getDoc, getDocs, where} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -514,37 +514,40 @@ await addDoc(collection(db,"videos"),{
     });
     commentInput.value = ""; 
   }
+window.shareVideoLink = function(videoId) {
 
-window.shareVideoLink = function(link) {
-
+  let videoPage = "https://adarshabd.com/vedio.html?id=" + videoId;
   let websiteLink = "https://adarshabd.com/";
 
-  let shareText = 
-  "Adarsha BD তে এই ভিডিওটি দেখুন 👇\n\n" 
-  + link 
-  + "\n\nআরও ভিডিও দেখতে ভিজিট করুন:\n"
-  + websiteLink;
+  let shareText =
+  "Adarsha BD তে এই ভিডিওটি দেখুন 👇\n\n" +
+  videoPage +
+  "\n\nআরও ভিডিও দেখতে ভিজিট করুন:\n" +
+  websiteLink;
 
 
-  if (navigator.share) {
+  if(navigator.share){
 
     navigator.share({
-      title: "Adarsha BD Video",
-      text: shareText,
-      url: link
+      title:"Adarsha BD Video",
+      text:shareText
     })
+    .then(()=>{
+      console.log("Shared");
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
 
-    .then(() => console.log("Shared"))
-    .catch((error) => console.log(error));
-
-  } else {
+  }else{
 
     navigator.clipboard.writeText(shareText);
-    alert("Website এবং Video link copy হয়েছে");
+    alert("Video link copy হয়েছে");
 
   }
 
 }
+
 
   const videoFeed = document.getElementById("videoFeed");
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
@@ -615,7 +618,9 @@ ${data.userName || "User"}
           <div class="count" style="display:flex; justify-content:space-between; padding: 10px 0 5px;">
             <button onclick="likeVideo('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#007bff; font-weight:bold;"><i class="fa-solid fa-thumbs-up"></i> Like</button>
             <button onclick="document.getElementById('commentBox-${videoId}').style.display='block'" style="flex:1; background:none; border:none; cursor:pointer; color:#555; font-weight:bold;"><i class="fa-solid fa-comment"></i> Comment</button>
-            <button onclick="shareVideoLink('${data.link}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;"><i class="fa-solid fa-share"></i> Share</button>
+           <button onclick="shareVideoLink('${videoId}')" style="flex:1; background:none; border:none; cursor:pointer; color:#28a745; font-weight:bold;">
+<i class="fa-solid fa-share"></i> Share
+</button>
           </div>
           <div id="commentBox-${videoId}" style="display:none; margin-top:10px; border-top:1px solid #f9f9f9; padding-top:10px;">
             <div style="display:flex; gap:5px; margin-bottom:8px;">
@@ -668,6 +673,58 @@ ${data.userName || "User"}
       }
     });
   });
+
+
+
+
+
+//search box          // এখানে add করবেন
+window.searchUserMobile = async function(){
+
+let name = document.getElementById("ONEsearch").value.trim();
+
+let result = document.getElementById("userResult");
+
+if(name==""){
+ result.innerHTML="";
+ return;
+}
+
+const q = query(
+ collection(db,"users"),
+ where("name","==",name)
+);
+
+const snap = await getDocs(q);
+
+let html="";
+
+snap.forEach((doc)=>{
+
+html += `
+<div style="
+background:white;
+padding:10px;
+border:1px solid #ddd;
+margin:5px;
+border-radius:5px;
+">
+<b>${doc.data().name}</b><br>
+User ID: ${doc.id}
+</div>
+`;
+
+});
+
+if(html==""){
+ html="User not found";
+}
+
+result.innerHTML=html;
+
+}
+
+
 </script>
 </body>
 </html>
