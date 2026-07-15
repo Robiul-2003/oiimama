@@ -67,14 +67,7 @@ h2{
 .fa-angle-left{
   font-size:30px;margin-left:5%;cursor: pointer;
 }
-#productcloseo{
-  margin: auto;
-  display:none;
-  width:90%;
-  border:1px solid red;
-  padding: 10px;
-}
-#vediocloseo{
+#vediocloseo, #adccloseo, #productcloseo{
   margin: auto;
   display:none;
   width:90%;
@@ -131,13 +124,16 @@ h2{
   .vedioadd{
     max-width:500px;
   }
+  #vediocloseo, #adccloseo, #productcloseo{
+  display:none;
+}
   #videoFeed {
   display: flex;
   flex-direction: column-reverse;
 }
   .productads{
     width:28%;display: flex;position: relative;
-    border:1px solid  rgb(164, 150, 150);margin: auto;border-radius:10px;
+    border:1px solid  rgb(164, 150, 150);margin: 75px auto 15px;border-radius:10px;
      cursor:pointer;
   }
     .ads-delete{
@@ -152,6 +148,7 @@ h2{
   color:white;
   font-size:18px;
   cursor:pointer;
+  z-index: 10;
 }
   #adsproduct{
     width:50%;border-radius:10px;
@@ -275,6 +272,13 @@ h2{
     <button onclick="shareVideo()" id="btnop">Share</button> 
   </div>
   <hr>
+  <h2 onclick="ADSOPEN()">Ads</h2><hr>
+  <div id="ADScloseo">
+    <p onclick="adsclose()" id="pac">X</p><br><br><br>
+    <input type="text" id="ADSlink" placeholder="Link"><br><br>
+    <input type="file" id="ADSIMG" accept="image/*"><br>
+    <button onclick="ADSSAVE()" id="btnop">save</button>
+  </div>
   <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
   <h2>Notification</h2><hr>
   <h2 onclick="window.location.href='https://adarshaagent.com/'">Service</h2><hr>
@@ -290,9 +294,9 @@ h2{
   </div>
 </div>
 
-  <div class="productads" onclick="window.location.href='index.html'">
+  <div class="productads">
     <button class="ads-delete" onclick="event.stopPropagation(); deleteAds()">✖</button>
-    <img src="ads.png" id="adsproduct">
+    <img src="" id="adsproduct" alt="Loading Ad...">
     <p> Adarsha BD-তে নতুন নতুন পণ্য, আকর্ষণীয় দাম এবং সহজ অনলাইন শপিং সুবিধা উপভোগ করুন আপনার প্রয়োজনীয় সব পণ্য এক জায়গায়। নিরাপদ কেনাকাটা, দ্রুত ডেলিভারি এবং সহজ অর্ডার সুবিধা।</p>
   </div>
 
@@ -305,6 +309,8 @@ function searchicon(){ document.getElementById("opensearchbox").style.display= "
 function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
 function demo(){ document.getElementById("openlistbox").style.display= "block"; }
 function listclose(){ document.getElementById("openlistbox").style.display= "none"; }
+function ADSOPEN(){ document.getElementById("ADScloseo").style.display= "block"; }
+function adsclose(){ document.getElementById("ADScloseo").style.display= "none"; }
 function padd(){ document.getElementById("productcloseo").style.display= "block"; }
 function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
 function vadd(){ document.getElementById("vediocloseo").style.display= "block"; }
@@ -319,7 +325,7 @@ function deleteAds(){
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, increment, arrayUnion, getDoc, getDocs, where, limit, startAfter} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
   const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
     authDomain: "robiul-84377.firebaseapp.com",
@@ -328,33 +334,76 @@ function deleteAds(){
     messagingSenderId: "476907665212",
     appId: "1:476907665212:web:b4dc619f0290a2241b1039"
   };
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app); 
+  const storage = getStorage(app);
+
+window.checkLogin = async function() {
+   // আপনার বর্তমান কোড
+}
+
+window.shareVideo = async function() {
+   // আপনার বর্তমান কোড
+}
+
+window.ADSSAVE = async function () {
+  const link = document.getElementById("ADSlink").value.trim();
+  const file = document.getElementById("ADSIMG").files[0];
+
+  if (!link || !file) {
+    alert("Link এবং Image দিন");
+    return;
+  }
+
+  try {
+    const fileName = "ads/" + Date.now() + "_" + file.name;
+    const storageRef = ref(storage, fileName);
+    await uploadBytes(storageRef, file);
+    const imageUrl = await getDownloadURL(storageRef);
+
+    await addDoc(collection(db, "ads"), {
+      link: link,
+      image: imageUrl,
+      createdAt: new Date()
+    });
+
+    alert("Ads Save Successful");
+    document.getElementById("ADSlink").value = "";
+    document.getElementById("ADSIMG").value = "";
+    adsclose();
+    
+    // নতুন অ্যাড সেভ হওয়ার পর স্ক্রিনে রিফ্রেশ ছাড়াই দেখানোর জন্য রান করা হলো
+    loadLiveAd();
+
+  } catch (e) {
+    console.error(e);
+    alert("Ads Save Failed");
+  }
+}
 
   window.checkLogin = async function() {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
     if (email === "" || password === "") {
-      alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দুটিই লিখুন!");
+      alert("দয়া করে ইমেইল এবং পাসওয়ার্ড দুটিই লিখুন!");
       return;
     }
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      alert("লগইন সফল হয়েছে! স্বাগতম " + userCredential.user.email);
+      alert("লগইন সফল হয়েছে! স্বাগতম " + userCredential.user.email);
       proclose(); 
     } catch (error) {
       console.error("Login Error:", error.message);
-      alert("ভুল ইমেইল বা পাসওয়ার্ড! আবার চেষ্টা করুন।");
+      alert("ভুল ইমেইল বা পাসওয়ার্ড! আবার চেষ্টা করুন।");
     }
   }
 
   window.shareVideo = async function() {
     if (!auth.currentUser) {
-      alert("ভিডিও শেয়ার করার জন্য আপনাকে প্রথমে লগইন করতে হবে!");
+      alert("ভিডিও শেয়ার করার জন্য আপনাকে প্রথমে লগইন করতে হবে!");
       document.getElementById("productcloseo").style.display = "block"; 
       return;
     }
@@ -363,7 +412,7 @@ function deleteAds(){
     const videoCaption = document.getElementById("caption").value;
 
     if (videoLink === "") {
-      alert("দয়া করে একটি ভিডিও লিংক দিন!");
+      alert("দয়া করে একটি ভিডিও লিংক দিন!");
       return;
     }
 
@@ -400,7 +449,7 @@ function deleteAds(){
     }
 
     if (!isValid || platform === "other") {
-      alert("Your video link has a problem! দয়া করে একটি সঠিক ও সচল ভিডিও লিংক দিন।");
+      alert("Your video link has a problem! দয়া করে একটি সঠিক ও সচল ভিডিও লিংক দিন।");
       return;
     }
 
@@ -408,7 +457,7 @@ function deleteAds(){
       try {
         const response = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(videoLink)}&format=json`);
         if (!response.ok) {
-          alert("Your video link has a problem! এই ইউটিউব ভিডিওটি হয়তো ডিলিট বা প্রাইভেট করা।");
+          alert("Your video link has a problem! এই ইউটিউব ভিডিওটি হয়তো ডিলিট বা প্রাইভেট করা।");
           return;
         }
       } catch (err) {
@@ -440,12 +489,14 @@ function deleteAds(){
       document.getElementById("vedioline").value = "";
       document.getElementById("caption").value = "";
       veclose(); 
-      alert("ভিডিও সফলভাবে পাবলিক করা হয়েছে!");
+      alert("ভিডিও সফলভাবে পাবলিক করা হয়েছে!");
     } catch (e) {
       console.error("Error adding document: ", e);
-      alert("কিছু একটা সমস্যা হয়েছে, আবার চেষ্টা করুন।");
+      alert("কিছু একটা সমস্যা হয়েছে, আবার চেষ্টা করুন।");
     }
   }
+
+  
 
   window.likeVideo = async function(videoId){
     const user = auth.currentUser;
@@ -525,17 +576,16 @@ function deleteAds(){
       });
     }else{
       navigator.clipboard.writeText(shareText);
-      alert("Video link copy হয়েছে");
+      alert("Video link copy হয়েছে");
     }
   }
-
+  
   // --- INFINITE SCROLL SYSTEM ---
   const videoFeed = document.getElementById("videoFeed");
-  let lastVisibleDoc = null; // শেষ কোন ভিডিওটি লোড হয়েছে তা মনে রাখার জন্য
-  let isLoading = false; // একই সময়ে বারবার রিকোয়েস্ট পাঠানো আটকানোর জন্য
-  let isNoMoreVideos = false; // আর কোনো ভিডিও না থাকলে ট্র্যাকিং করার জন্য
+  let lastVisibleDoc = null; 
+  let isLoading = false; 
+  let isNoMoreVideos = false; 
 
-  // নতুন ১০টি ভিডিও ফায়ারবেস থেকে নিয়ে আসার মূল ফাংশন
   async function loadVideos() {
     if (isLoading || isNoMoreVideos) return;
     isLoading = true;
@@ -544,7 +594,6 @@ function deleteAds(){
       let videoQuery;
       
       if (lastVisibleDoc) {
-        // যদি অলরেডি কিছু ভিডিও লোড হয়ে থাকে, তবে তার পর থেকে পরবর্তী ১০টি আনবে
         videoQuery = query(
           collection(db, "videos"), 
           orderBy("createdAt", "desc"), 
@@ -552,7 +601,6 @@ function deleteAds(){
           limit(10)
         );
       } else {
-        // প্রথমবারে একদম শুরুর ১০টি ভিডিও আনবে
         videoQuery = query(
           collection(db, "videos"), 
           orderBy("createdAt", "desc"), 
@@ -568,14 +616,12 @@ function deleteAds(){
         return;
       }
 
-      // শেষ লোড হওয়া ডকুমেন্টটি সেভ করে রাখা
       lastVisibleDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
       documentSnapshots.forEach((docSnap) => {
         const data = docSnap.data();
         const videoId = docSnap.id;
 
-        // যদি এই ভিডিওটি অলরেডি স্ক্রিনে থেকে থাকে, তবে ডুপ্লিকেট এড়াতে স্কিপ করবে
         if (document.getElementById(`card-${videoId}`)) return;
 
         createVideoCard(videoId, data);
@@ -588,7 +634,6 @@ function deleteAds(){
     }
   }
 
-  // ভিডিওর এইচটিএমএল কার্ড তৈরি করার ফাংশন
   function createVideoCard(videoId, data) {
     const videoCard = document.createElement("div");
     videoCard.id = `card-${videoId}`;
@@ -661,10 +706,8 @@ function deleteAds(){
       </div>
     `;
 
-    // লিস্টে অ্যাড করা (সবচেয়ে নতুনটা প্রথমে দেখানোর জন্য prepend করা হচ্ছে না, কারণ এটি ইনফিনিট স্ক্রোলিং)
     videoFeed.appendChild(videoCard);
 
-    // ভিউ কাউন্টার অবজারভার
     let viewed = false;
     const viewObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -681,18 +724,14 @@ function deleteAds(){
     }, 100);
   }
 
-  // ১. সাইট লোড হওয়ামাত্রই প্রথম ১০টি ভিডিও শো হবে
   loadVideos();
 
-  // ২. স্ক্রোল ডিটেক্টর (ইউজার নিচে নামলে পরের ভিডিও ব্যাকগ্রাউন্ডে লোড হবে)
   window.addEventListener("scroll", () => {
     if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 500) {
-      // স্ক্রিনের তলা থেকে ৫০০ পিক্সেল ওপরে থাকা অবস্থাতেই ফায়ারবেস থেকে ডাটা লোড শুরু হবে
       loadVideos();
     }
   });
 
-  // রিয়েল-টাইম ডাটা আপডেট (লাইক ও কমেন্ট সিনক্রোনাইজেশনের জন্য)
   const qRealtime = query(collection(db, "videos"), orderBy("createdAt", "desc"), limit(20));
   onSnapshot(qRealtime, (querySnapshot) => {
     querySnapshot.docChanges().forEach((change) => {
@@ -750,6 +789,37 @@ function deleteAds(){
 
     result.innerHTML=html;
   }
+
+  // --- ফায়ারবেস থেকে লাইভ অ্যাড লোড করার সিস্টেম ---
+  async function loadLiveAd() {
+    try {
+      const qAd = query(collection(db, "ads"), orderBy("createdAt", "desc"), limit(1));
+      const querySnapshot = await getDocs(qAd);
+      
+      querySnapshot.forEach((doc) => {
+        const adData = doc.data();
+        
+        const adImgElement = document.getElementById("adsproduct");
+        const adBoxElement = document.querySelector(".productads");
+        
+        if (adImgElement && adData.image) {
+          adImgElement.src = adData.image; 
+        }
+        
+        if (adBoxElement && adData.link) {
+          adBoxElement.onclick = function() {
+            window.open(adData.link, '_blank');
+          };
+        }
+      });
+    } catch (error) {
+      console.error("Ad load error: ", error);
+    }
+  }
+
+  // পেজ লোড হওয়ার সাথে সাথে লেটেস্ট অ্যাড শো করবে
+  loadLiveAd();
+
 </script>
 </body>
 </html>
