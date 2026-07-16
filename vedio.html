@@ -23,7 +23,7 @@
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://adarshabd.com/">
 <style>
-body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
+body{font-family:Arial;margin:0;padding:0;background:white;}
 /* header */
 header{
   background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;
@@ -153,6 +153,21 @@ h2{
   height:45px;
   border-radius:50%;
 }
+.clickads{
+  border:2px solid rgb(230, 214, 214);display: flex;background:white;
+  width:500px;margin:auto;border-radius: 10px;position:relative;
+}
+.clickimg{
+  width:50%;border-radius:10px 0px 0px 10px;
+}
+.clickadsclocse{
+    position: absolute;
+  top:75px;left:61%;
+  font-size:30px;
+  color: red;
+  cursor: pointer;
+  z-index: 1000;
+}
   .vedioadd{
     max-width:500px;
   }
@@ -206,6 +221,14 @@ h2{
     margin-left:15px;
    color:red;
   }
+  .clickads{
+ margin-top:80px;
+ width:86%;
+}
+.clickadsclocse{
+  margin-top:8px;
+  left:85%;
+}
   .fa-square-whatsapp{
     color:rgb(26, 191, 26);margin-left:15px;
   }
@@ -289,7 +312,9 @@ h2{
    </div>
   </div>
 </div>
-
+<div class="clickads">
+  <img src="ads.png" class="clickimg"><h5> inventore corporis voluptate saepe nobis unde repellat. Natus libero doloribus expedita architecto consequuntur qui rem iusto, unde tempore.</h5>
+</div><div class="clickadsclocse">X</div>
 <div class="vedio">
   <div class="vedioadd" id="videoFeed"></div><br>
 </div>
@@ -307,6 +332,21 @@ function searchProduct() {}
 </script>
 
 <script type="module">
+ const ads = [
+  {
+    image: "https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/725271087_122109543549338126_708946550371171929_n.png?stp=dst-png&cstp=mx1808x870&ctp=s960x960&_nc_cat=111&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=W9qzZ6gOFIgQ7kNvwHXhMtu&_nc_oc=Adq0nJ6gKNfDQ3aQ-zydHDQDuqv-YGUeFIllFsdyO8GZVQ3gr6I69My4wl-PPKDTJQo&_nc_zt=23&_nc_ht=scontent.fdac39-1.fna&_nc_gid=Q7Exm5S7Mr9fUZG4Nbm9UQ&_nc_ss=7b2a8&oh=00_AQDioSpXYmX0C1CxEb2_nKRLFM-h8xk3c5Ap_hWw4hGohw&oe=6A5E9493",
+    link: "file:///C:/oiimama/index.html"
+  },
+  {
+    image: "https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/741236125_122112684753338126_6525279100581457990_n.jpg?stp=dst-jpg_tt6&cstp=mx480x480&ctp=s480x480&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ZN2_NOKyHWkQ7kNvwGW4IzO&_nc_oc=AdpQqBLkguXRqS7Hi9ZmBbhXXI0_6bVnjJOUbXAk9BXn3ATz_tYxR_hpeZi9HXRjtkM&_nc_zt=23&_nc_ht=scontent.fdac39-1.fna&_nc_gid=Gdf61c8teh2fT0_5ea_TCA&_nc_ss=7b2a8&oh=00_AQCFp0fl00r6r1RnTVTzMofez-pZ3UtirFKjGzGf_8qs_Q&oe=6A5E7F18",
+    link:"file:///C:/oiimama/index.html"
+  },
+  {
+    image: "https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/725319246_122109384711338126_3850232251297238238_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1019&ctp=s1024x1019&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=YpDe7GaBbfoQ7kNvwES8eSm&_nc_oc=AdozQuJAQNjizDoDZb5F4GVifaEURChcmH8dQEeuzQVBqyVR_ur3te524cfqxpMLvEo&_nc_zt=23&_nc_ht=scontent.fdac39-1.fna&_nc_gid=v2KwObr0OTxyfhkwUWzIsw&_nc_ss=7b2a8&oh=00_AQAAf_2WA6y_N0k0OLx5ajt0V-Uigt7w9Oj_DBk5ZiQK8Q&oe=6A5E6C65",
+    link: "https://www.facebook.com/profile.php?id=61590143801264"
+  }
+];
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {  getFirestore, collection,  addDoc, onSnapshot,  query, orderBy, startAt, endAt,  doc, updateDoc, increment, arrayUnion,  getDoc,  getDocs,  where,  limit, startAfter, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -482,7 +522,7 @@ function searchProduct() {}
   window.checkAdminPin = function(videoId) {
     if(window.isAdminMode) return;
 
-    const adminPin = "1234"; 
+    const adminPin = "2026"; 
     const userPin = prompt("অ্যাডমিন পিন কোডটি লিখুন:");
     
     if (userPin === adminPin) {
@@ -560,6 +600,9 @@ function searchProduct() {}
   let lastVisibleDoc = null; 
   let isLoading = false; 
   let isNoMoreVideos = false; 
+  
+  // ভিডিও কাউন্ট ট্র্যাক করার জন্য গ্লোবাল ভেরিয়েবল
+  let videoCount = 0; 
 
   // প্রথম ১০টি ভিডিও ইনস্ট্যান্টলি লোড করার জন্য রিয়েল-টাইম স্ন্যাপশট
   const initialVideosQuery = query(
@@ -568,10 +611,9 @@ function searchProduct() {}
     limit(10)
   );
 
-  // পেজ ওপেন হওয়া মাত্রই ক্যাশ অথবা লাইভ থেকে সবচেয়ে দ্রুত ১০টি ভিডিও রেন্ডার হবে
+  // পেজ ওপেন হওয়া মাত্রই ক্যাশ অথবা লাইভ থেকে সবচেয়ে দ্রুত ১০টি ভিডিও রেন্ডার হবে
   onSnapshot(initialVideosQuery, (snapshot) => {
     if (!snapshot.empty && !lastVisibleDoc) {
-      // স্ক্রল ট্রিগারের জন্য লাস্ট ডক ট্র্যাক করে রাখা হচ্ছে
       lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
     }
 
@@ -580,7 +622,6 @@ function searchProduct() {}
       const videoId = change.doc.id;
 
       if (change.type === "added") {
-        // ডুপ্লিকেট চেকিং
         if (!document.getElementById(`card-${videoId}`)) {
           createVideoCard(videoId, data);
         }
@@ -634,7 +675,6 @@ function searchProduct() {}
     }
   }
 
-  // কার্ডের ডাটা মডিফাই হলে আপডেট করার ফাংশন
   function updateCardUI(videoId, data) {
     const likeSpan = document.getElementById(`likes-${videoId}`);
     const viewSpan = document.getElementById(`views-${videoId}`);
@@ -730,6 +770,36 @@ function searchProduct() {}
     `;
 
     videoFeed.appendChild(videoCard);
+    
+    // ভিডিও সফলভাবে অ্যাড হওয়ার পর কাউন্টার ১ বাড়াবো
+    videoCount++;
+
+    // প্রতি ৩টি ভিডিও পর ১টি অ্যাড যোগ করার লজিক
+    if (videoCount % 3 === 0) {
+      // ads অ্যারে থেকে সিরিয়াল অনুযায়ী অ্যাড সিলেক্ট করা হচ্ছে
+      const adIndex = (videoCount / 3 - 1) % ads.length;
+      const currentAd = ads[adIndex];
+      
+      // অ্যাড কার্ড তৈরি
+      const adCard = document.createElement("div");
+      adCard.className = "clickads";
+      adCard.style.margin = "20px auto";
+      adCard.style.display = "flex";
+      adCard.style.flexDirection = "column";
+      adCard.style.alignItems = "center";
+      
+      adCard.innerHTML = `
+        <div style="position:relative; width:100%; max-width:500px; background:#fff; border:1px solid #ddd; border-radius:8px; padding:10px; box-sizing:border-box; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+          <span style="position:absolute; top:5px; right:10px; color:red; font-size:20px; font-weight:bold; cursor:pointer; z-index:10;" onclick="this.parentElement.parentElement.remove()">X</span>
+          <span style="background:#ffc107; color:#000; padding:2px 6px; font-size:11px; font-weight:bold; border-radius:3px; position:absolute; top:5px; left:10px;">Sponsored</span>
+          <a href="${currentAd.link}" target="_blank" style="text-decoration:none; color:inherit; display:block; margin-top:20px;">
+            <img src="${currentAd.image}" style="width:100%; border-radius:6px; display:block;" alt="Advertisement">
+            <p style="margin:10px 0 0; font-size:14px; text-align:center; font-weight:bold; color:#333;">Adarsha BD তে আকর্ষণীয় অফার দেখতে ক্লিক করুন!</p>
+          </a>
+        </div>
+      `;
+      videoFeed.appendChild(adCard);
+    }
 
     let viewed = false;
     const viewObserver = new IntersectionObserver((entries) => {
@@ -747,78 +817,59 @@ function searchProduct() {}
     }, 100);
   }
 
-  // স্ক্রল লিসেনার শুধুমাত্র পরবর্তী ব্যাকআপ ভিডিওগুলোর জন্য
   window.addEventListener("scroll", () => {
     if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 500) {
       loadMoreVideos();
     }
   });
 
-  // search box
- window.searchUserMobile = function () {
-  document.getElementById("search").value =
-    document.getElementById("ONEsearch").value;
-
-  searchUser();
-}
+  window.searchUserMobile = function () {
+    document.getElementById("search").value = document.getElementById("ONEsearch").value;
+    searchUser();
+  }
+  
   let timer;
+  window.searchUser = function(){
+    clearTimeout(timer);
+    timer = setTimeout(async()=>{
+      const text = document.getElementById("search").value.trim();
+      const result = document.getElementById("userResult");
 
-window.searchUser = function(){
+      if(text == ""){
+        result.innerHTML = "";
+        return;
+      }
 
-clearTimeout(timer);
+      const q = query(
+        collection(db,"users"),
+        orderBy("name"),
+        startAt(text),
+        endAt(text+"\uf8ff"),
+        limit(10)
+      );
 
-timer=setTimeout(async()=>{
+      const snap = await getDocs(q);
+      let html = "";
 
-const text=document.getElementById("search").value.trim();
+      snap.forEach(doc=>{
+        const u = doc.data();
+        html += `
+          <div class="user-item" onclick="location.href='user.html?id=${doc.id}'">
+            <img src="${u.photo || 'profile.png'}">
+            <div>
+              <b>${u.name}</b><br>
+              <small>${u.email}</small>
+            </div>
+          </div>
+        `;
+      });
 
-const result=document.getElementById("userResult");
-
-if(text==""){
-result.innerHTML="";
-return;
-}
-
-const q=query(
-collection(db,"users"),
-orderBy("name"),
-startAt(text),
-endAt(text+"\uf8ff"),
-limit(10)
-);
-
-const snap=await getDocs(q);
-
-let html="";
-
-snap.forEach(doc=>{
-
-const u=doc.data();
-
-html+=`
-<div class="user-item"
-onclick="location.href='user.html?id=${doc.id}'">
-
-<img src="${u.photo || 'profile.png'}">
-
-<div>
-<b>${u.name}</b><br>
-<small>${u.email}</small>
-</div>
-
-</div>
-`;
-
-});
-
-if(html==""){
-html="<div style='padding:15px'>User not found</div>";
-}
-
-result.innerHTML=html;
-
-},300);
-
-}
+      if(html == ""){
+        html = "<div style='padding:15px'>User not found</div>";
+      }
+      result.innerHTML = html;
+    },300);
+  }
 </script>
 </body>
 </html>
