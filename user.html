@@ -83,16 +83,16 @@ h2{
    color:red;
   }
   .fa-square-whatsapp{
-    color:rgb(26, 191, 26);margin-left:15px;
+     color:rgb(26, 191, 26);margin-left:15px;
   }
   .fa-facebook{
-    color:#1877F2;margin-left:15px;
+     color:#1877F2;margin-left:15px;
   }
   .fa-tiktok{
-    color:#000000;margin-left:15px;
+     color:#000000;margin-left:15px;
   }
   .fa-instagram{
-    color:#E1306C;margin-left:15px;
+     color:#E1306C;margin-left:15px;
   }
 #vediocloseo{
   margin: auto;
@@ -129,6 +129,7 @@ h2{
     height:100%;
     background:#00ff00;
     width:0%;
+    transition: width 0.5s ease-in-out; /* অ্যানিমেশন সুন্দর করার জন্য */
 }
 
 
@@ -279,7 +280,7 @@ h2{
 </div>
 <div class="userfile">
 <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" class="userid">
-<h2 id="showName"></h2>
+<h2 id="showName" style="text-align: center; margin-top: 10px;"></h2>
 
 <h2 style="text-align:center;">My Videos</h2>
 <div id="userVideoFeed"></div>
@@ -300,7 +301,7 @@ function checkLogin() {}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import {getFirestore, collection, onSnapshot, query, where, doc,  getDoc, deleteDoc  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, onSnapshot, query, where, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -315,46 +316,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-async function deleteVideo(videoId){
-
+// ১. ডিলিট ফাংশনটিকে সরাসরি উইন্ডো অবজেক্টে সেট করা যাতে HTML একে সহজে খুঁজে পায়
+window.deleteVideo = async function(videoId) {
     let confirmDelete = confirm("আপনি কি এই ভিডিওটি Delete করতে চান?");
-
     if(confirmDelete){
-
         try{
-
             await deleteDoc(doc(db, "videos", videoId));
-
             alert("Video Deleted Successfully");
-
         }catch(error){
-
-            console.log(error);
+            console.error(error);
             alert("Delete failed");
-
         }
-
     }
-
 }
-
-window.deleteVideo = deleteVideo;
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        // ১. ইউজারের নাম দেখানো
+        // ইউজারের নাম ফায়ারস্টোর থেকে আনা
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
             let data = userSnap.data();
-            document.getElementById("showName").innerHTML = data.name;
+            document.getElementById("showName").innerHTML = data.name || "No Name Set";
         }
 
-        // ২. ইউজারের নিজের ভিডিওগুলো ফিল্টার করে আনা
         const videoFeed = document.getElementById("userVideoFeed");
         
-        // শুধু এই ইউজারের ভিডিও খোঁজার কোয়েরি
+        // শুধু কারেন্ট লগইন থাকা ইউজারের ভিডিও খোঁজার কোয়েরি
         const q = query(collection(db, "videos"), where("userId", "==", user.uid));
 
         onSnapshot(q, (querySnapshot) => {
@@ -363,17 +352,21 @@ onAuthStateChanged(auth, async (user) => {
                 userVideos.push({ id: doc.id, ...doc.data() });
             });
 
-            // নতুন ভিডিওগুলো সবার উপরে দেখানোর জন্য সর্টিং
-            userVideos.sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate());
+            // নতুন ভিডিওগুলো সবার উপরে দেখানোর জন্য সর্টিং (যদি createdAt টাইমস্ট্যাম্প থাকে)
+            userVideos.sort((a, b) => {
+                const timeA = a.createdAt ? a.createdAt.toDate() : 0;
+                const timeB = b.createdAt ? b.createdAt.toDate() : 0;
+                return timeB - timeA;
+            });
 
-            videoFeed.innerHTML = ""; // পুরানো ডেটা ক্লিয়ার করা
+            videoFeed.innerHTML = ""; // আগের ডেটা ক্লিয়ার করা
 
             if (userVideos.length === 0) {
                 videoFeed.innerHTML = "<p style='text-align:center; color:gray;'>আপনি এখনো কোনো ভিডিও যোগ করেননি।</p>";
                 return;
             }
 
-            // ভিডিওগুলো রেন্ডার করা
+            // ভিডিও লুপ রেন্ডারিং
             userVideos.forEach((data) => {
                 const videoCard = document.createElement("div");
                 videoCard.style.border = "1px solid #ddd";
@@ -384,7 +377,7 @@ onAuthStateChanged(auth, async (user) => {
 
                 let videoElement = "";
                 
-                // ভিডিও এম্বেড করার লজিক
+                // ভিডিও এম্বেড করার লজিক (YouTube, FB, TikTok)
                 if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
                     let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
                     if(embedLink.includes("shorts/")) embedLink = embedLink.replace("shorts/", "embed/");
@@ -403,73 +396,54 @@ onAuthStateChanged(auth, async (user) => {
                 else {
                     videoElement = `<video width="100%" height="auto" controls playsinline style="border-radius:4px;"><source src="${data.link}" type="video/mp4"></video>`;
                 }
-               videoCard.innerHTML = `
-               <h3>
-${data.userName || "User"}
-</h3>
-    ${videoElement}
 
-    <p style="padding-top:10px; margin:0; font-weight:bold;">
-    ${data.caption}
-    </p>
+                // Google Form-এর সঠিক লিংক জেনারেট করা
+                const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeiv4UtgfMMipGHC3touEnpk1_L-9GuB9kzIJWqOdROfCNJmw/viewform?usp=pp_url&entry.1795539139=" + encodeURIComponent(data.link);
 
-    <p style="font-size:12px;color:#777;">
-    ${data.likes || 0} Likes | ${data.views || 0} Views
-    </p>
+                videoCard.innerHTML = `
+                    <h3>${data.userName || "User"}</h3>
+                    ${videoElement}
 
-   <div style="display:flex;align-items:center;">
+                    <p style="padding-top:10px; margin:0; font-weight:bold;">${data.caption || "No Caption"}</p>
 
-<button onclick="deleteVideo('${data.id}')"
-style="
-background:red;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:5px;
-cursor:pointer;">
-Delete
-</button>
+                    <p style="font-size:12px;color:#777;">
+                        ${data.likes || 0} Likes | ${data.views || 0} Views
+                    </p>
 
-<button id="success-${data.id}"
-onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeiv4UtgfMMipGHC3touEnpk1_L-9GuB9kzIJWqOdROfCNJmw/viewform?usp=pp_url&entry.1795539139=' + encodeURIComponent(data.link), '_blank')"
-style="
-display:none;
-background:green;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:5px;
-cursor:pointer;
-margin-left:10px;">
-Success
-</button>
-<div class="view-bar">
-<div class="view-fill" id="bar-${data.id}"></div>
-</div>
-`;
+                    <div style="display:flex;align-items:center; gap:10px; margin-top:10px;">
+                        <button onclick="window.deleteVideo('${data.id}')" style="background:red; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
+                            Delete
+                        </button>
+
+                        <button id="success-${data.id}" onclick="window.open('${formUrl}', '_blank')" style="display:none; background:green; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
+                            Success
+                        </button>
+                        
+                        <div class="view-bar">
+                            <div class="view-fill" id="bar-${data.id}"></div>
+                        </div>
+                    </div>
+                `;
                 
-let viewPercent = Math.min((data.views || 0) / 1000 * 100,100);
+                // ভিউ প্রোগ্রেস বার লজিক
+                let viewPercent = Math.min((data.views || 0) / 1000 * 100, 100);
 
-setTimeout(()=>{
-    let bar = document.getElementById(`bar-${data.id}`);
-    if(bar){
-        bar.style.width = viewPercent + "%";
-    }
-},100);
-if((data.views || 0) >= 1000){
+                setTimeout(() => {
+                    let bar = document.getElementById(`bar-${data.id}`);
+                    if(bar){
+                        bar.style.width = viewPercent + "%";
+                    }
+                }, 100);
 
-    setTimeout(()=>{
-
-        let btn = document.getElementById(`success-${data.id}`);
-
-        if(btn){
-            btn.style.display="block";
-        }
-
-    },100);
-
-}
-
+                // ১০০০ বা তার বেশি ভিউ হলে Success বাটন দেখানো
+                if ((data.views || 0) >= 1000) {
+                    setTimeout(() => {
+                        let btn = document.getElementById(`success-${data.id}`);
+                        if(btn){
+                            btn.style.display = "block";
+                        }
+                    }, 100);
+                }
 
                 videoFeed.appendChild(videoCard);
             });
@@ -477,7 +451,7 @@ if((data.views || 0) >= 1000){
 
     } else {
         document.getElementById("showName").innerHTML = "Guest User";
-        document.getElementById("userVideoFeed").innerHTML = "<p style='text-align:center;'>ভিডিও দেখতে দয়া করে লগইন করুন।</p>";
+        document.getElementById("userVideoFeed").innerHTML = "<p style='text-align:center;'>ভিডিও দেখতে দয়া করে লগইন করুন।</p>";
     }
 });
 </script>
