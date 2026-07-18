@@ -280,9 +280,16 @@ h2{
 </div>
 <div class="userfile">
 <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" class="userid">
-<h2 id="showName" style="text-align: center; margin-top: 10px;"></h2>
-
-<h2 style="text-align:center;">My Videos</h2>
+<h2 id="showName" style=" margin-top:5px;"></h2>
+<h3 style="text-align:center;">Products</h3>
+<div id="productList" style="
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+padding:10px;
+"></div>
+<h3 style="text-align:center;">My Videos</h3>
 <div id="userVideoFeed"></div>
 </div>
 <script>
@@ -301,8 +308,7 @@ function checkLogin() {}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { getFirestore, collection, onSnapshot, query, where, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
+import { getFirestore, collection, onSnapshot, query, where, doc, getDoc, deleteDoc,   getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
   authDomain: "robiul-84377.firebaseapp.com",
@@ -311,6 +317,8 @@ const firebaseConfig = {
   messagingSenderId: "476907665212",
   appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
 };
+
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -454,6 +462,80 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById("userVideoFeed").innerHTML = "<p style='text-align:center;'>ভিডিও দেখতে দয়া করে লগইন করুন।</p>";
     }
 });
+window.deleteProduct = async function(productId){
+
+    if(!confirm("এই Product Delete করতে চান?")) return;
+
+    try{
+        await deleteDoc(doc(db,"products",productId));
+        alert("Product Deleted Successfully");
+    }catch(error){
+        console.error(error);
+        alert("Delete Failed");
+    }
+
+}
+// 👇 এইখানে বসাবে
+let allProducts = [];
+
+async function loadProducts(){
+
+    const productList = document.getElementById("productList");
+
+    const querySnapshot = await getDocs(collection(db,"products"));
+
+    productList.innerHTML="";
+
+    querySnapshot.forEach((doc)=>{
+
+        const p = doc.data();
+
+        let img = p.images?.[0] || "logo.png";
+
+        let price = Array.isArray(p.price)
+        ? p.price[0]
+        : p.price + " TK";
+
+        productList.innerHTML += `
+        <div style="
+        width:170px;
+        flex:0 0 170px;
+        border:1px solid #ddd;
+        border-radius:6px;
+        background:#fff;
+        padding:8px;
+         box-sizing:border-box;
+        cursor:pointer;
+        ">
+            <img src="${img}" style="
+            width:100%;
+            height:150px;
+            object-fit:cover;
+            border-radius:4px;
+            ">
+
+            <p>${p.name}</p>
+
+            <b style="color:green">${price}</b><br><br>
+      <button onclick="window.deleteProduct('${doc.id}')"
+style="
+background:red;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:5px;
+cursor:pointer;
+">
+Delete
+</button>
+        </div>
+        `;
+    });
+
+}
+// Products Load
+loadProducts();
+
 </script>
 </body>
 </html>

@@ -825,53 +825,73 @@ function searchProduct() {}
     }
   });
 
-  window.searchUserMobile = function () {
-    document.getElementById("search").value = document.getElementById("ONEsearch").value;
-    searchUser();
-  }
   
-  let timer;
-  window.searchUser = function(){
-    clearTimeout(timer);
-    timer = setTimeout(async()=>{
-      const text = document.getElementById("search").value.trim();
-      const result = document.getElementById("userResult");
+ // মোবাইল সার্চ ইনপুট হ্যান্ডলার
+window.searchUserMobile = function () {
+  const mobileInput = document.getElementById("ONEsearch").value;
+  document.getElementById("search").value = mobileInput;
+  window.searchUser();
+}
 
-      if(text == ""){
-        result.innerHTML = "";
+let timer;
+window.searchUser = function(){
+  clearTimeout(timer);
+  timer = setTimeout(async()=>{
+    const inputVal = document.getElementById("search").value.trim();
+    
+    // ভিডিও ফিড যেখানে দেখায়, সেই মেইন কন্টেইনার
+    const videoFeed = document.getElementById("videoFeed"); 
+    // যদি আপনার সার্চ রেজাল্ট দেখানোর আলাদা কোনো ডিভ থাকে, তবে সেটা এখানে ব্যবহার করতে পারেন
+    const result = document.getElementById("userResult"); 
+
+    if(inputVal == ""){
+      if(result) result.innerHTML = "";
+      // সার্চ খালি করলে পেজ রিফ্রেশ বা নরমাল ফিড লোড করার লজিক রাখতে পারেন
+      return;
+    }
+
+    // প্রথম অক্ষর বড় হাতের করা (যেমন: robiul -> Robiul), কারণ userName সাধারণত বড় হাতের অক্ষর দিয়ে শুরু হয়
+    const text = inputVal.charAt(0).toUpperCase() + inputVal.slice(1);
+
+    try {
+      // 'videos' কালেকশন থেকে নির্দিষ্ট userName এর ভিডিও খোঁজা হচ্ছে
+     const q = query(
+  collection(db, "videos"),
+  orderBy("userName"),
+  startAt(text),
+  endAt(text + "\uf8ff"),
+  limit(10)
+);
+     
+      const snap = await getDocs(q);
+      
+      // পুরাতন ভিডিওগুলো স্ক্রিন থেকে মুছে সার্চ করা ভিডিওগুলো দেখানোর জন্য কন্টেইনার খালি করা
+      videoFeed.innerHTML = ""; 
+      if(result) result.innerHTML = ""; // ইউজার লিস্টের রেজাল্ট বক্স খালি করা
+
+      if(snap.empty){
+        videoFeed.innerHTML = "<div style='padding:20px; text-align:center; color:#555; font-weight:bold;'>এই ইউজারের কোনো ভিডিও পাওয়া যায়নি!</div>";
         return;
       }
 
-      const q = query(
-        collection(db,"users"),
-        orderBy("name"),
-        startAt(text),
-        endAt(text+"\uf8ff"),
-        limit(10)
-      );
+      // কাউন্টার রিসেট করা যাতে অ্যাড আবার ৩ নম্বর থেকে শুরু হয়
+      videoCount = 0; 
 
-      const snap = await getDocs(q);
-      let html = "";
-
-      snap.forEach(doc=>{
-        const u = doc.data();
-        html += `
-          <div class="user-item" onclick="location.href='user.html?id=${doc.id}'">
-            <img src="${u.photo || 'profile.png'}">
-            <div>
-              <b>${u.name}</b><br>
-              <small>${u.email}</small>
-            </div>
-          </div>
-        `;
+      // ম্যাচ হওয়া প্রতিটা ভিডিওর কার্ড তৈরি করা
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        const videoId = docSnap.id;
+        
+        // আপনার কোডে আগে থেকে থাকা createVideoCard ফাংশনটি কল করা হচ্ছে
+        createVideoCard(videoId, data);
       });
 
-      if(html == ""){
-        html = "<div style='padding:15px'>User not found</div>";
-      }
-      result.innerHTML = html;
-    },300);
-  }
+    } catch (error) {
+      console.error("Search Video Error: ", error);
+      alert("সার্চ করার সময় কিছু একটা সমস্যা হয়েছে!");
+    }
+  }, 300);
+}
 </script>
 </body>
 </html>
