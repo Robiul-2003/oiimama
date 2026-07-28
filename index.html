@@ -40,6 +40,7 @@ header{
   padding:6px;
   width:600px;
 }
+
 .fa-list{
   font-size:25px;margin-top:20px;cursor: pointer;
 }
@@ -49,7 +50,12 @@ header{
   .fa-house{
     font-size:25px;margin-top:20px;cursor: pointer;
   }
- 
+ .fa-facebook-messenger{
+  font-size:25px;margin-top:20px;cursor: pointer;
+ }
+ .fa-camera{
+  font-size:25px;margin-top:20px;cursor: pointer;
+ }
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
@@ -76,30 +82,6 @@ header{
   height:170px;
   object-fit:cover;
   border-radius:4px;
-}
-
-/* X Button Style */
-.p-delete-x {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: rgba(255, 0, 0, 0.85);
-  color: white;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 18px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-  transition: background 0.2s, transform 0.1s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-.p-delete-x:hover {
-  background: red;
-  transform: scale(1.1);
 }
 
 #openlistbox{
@@ -156,8 +138,11 @@ h2{
   font-weight:700;
   margin-top:2px;
 }
-#pcode{
-  text-align: center; font-size:20px; color:red;
+#pcolor{
+  font-size:16px; font-weight: bolder;
+}
+#psize{
+  font-size:16px; font-weight: bolder;
 }
 #ppieces,
 #pprice{
@@ -177,6 +162,9 @@ h2{
 .product p{
   margin:3px 0;
 }
+.fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
+  }
 #Obtn{
   width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
 }
@@ -220,33 +208,6 @@ h2{
 #pac{
  float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
 }
-  .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
-  .fa-youtube{
-    margin-left:15px;
-   color:red;
-  }
-  .fa-square-whatsapp{
-    color:rgb(26, 191, 26);margin-left:15px;
-  }
-  .fa-facebook{
-    color:#1877F2;margin-left:15px;
-  }
-  .fa-tiktok{
-    color:#000000;margin-left:15px;
-  }
-  .fa-instagram{
-    color:#E1306C;margin-left:15px;
-  }
-  
-  .fa-camera{
-      font-size:25px;margin-top:20px;
-  }
-   .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;
-  }
   .fa-magnifying-glass{
     display:none;
   }
@@ -260,7 +221,7 @@ h2{
     display:none;
   }
   #caption{
-    display:noen;
+    display:none;
   }
 #number, #pin{
   margin: auto;
@@ -274,6 +235,12 @@ h2{
 @media(max-width:600px){
   .header1{
     width:100%;
+  }
+   .fa-house{
+    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+  }
+   .fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
   }
   h1{
     margin-left:4%;font-size:25px;
@@ -341,101 +308,36 @@ h2{
     height:auto; 
     min-height: 260px;
   }
-  .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
-  .fa-youtube{
-    margin-left:15px;
-   color:red;
-  }
-  .fa-square-whatsapp{
-    color:rgb(26, 191, 26);margin-left:15px;
-  }
-  .fa-facebook{
-    color:#1877F2;margin-left:15px;
-  }
-  .fa-tiktok{
-    color:#000000;margin-left:15px;
-  }
-  .fa-instagram{
-    color:#E1306C;margin-left:15px;
-  }
   .adds{
     width:70%;border:1px solid rgb(221, 210, 210);margin: auto;animation: shrink 2s ease-in-out infinite alternate;
   }
   .ads{
     height:180px;
   }
-  .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;margin-left:5%;
-  }
-  .fa-bell{
-    font-size:25px;margin-top:20px;
-  }
-  .fa-camera{
-      font-size:25px;margin-top:20px;
-  }
-    .fa-circle-user{
-     font-size:25px;margin-top:20px;margin-left:4%;
-  }
-  .fa-house{
-    font-size:25px;margin-top:20px;margin-left:4%;
-  }
   #vedioline{
     display:none;
   }
-  #caption{
-    display:noen;
-  }
+ 
 }
 </style>
 </head>
 <body>
 <header>
   <div class="header1">
-      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i><i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> 
+  <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
   <input id="search" placeholder="Search product ..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
     
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
+  <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
   </div>
 </header>
-
 <div id="opensearchbox">
   <div class="search-inner">
     <input id="ONEsearch" placeholder="Search product ..." onkeyup="searchProduct()">
     <p onclick="searchclose()" id="X">X</p>
   </div>
 </div>
-<div id="openlistbox">
-  <div id="listbox">
-  <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p>
-  <h2 onclick="padd()" id="productsadd">Products Add</h2><hr>
-  <h2 onclick="vadd()">Video Add</h2>
-  <div id="productcloseo">
-    <p onclick="proclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="number" placeholder="Enter your number"><br>
-    <input type="password" id="pin" placeholder="Enter your pin"><br>
-    <button onclick="checkLogin()" id="btnop">open</button>
-  </div>
- <div id="vediocloseo">
-<input type="text" id="vedioline" placeholder="Video link">
-<input type="text" id="caption" placeholder="Caption">
-<button onclick="shareVideo()">Share</button>
-</div>
-  <hr>
-  <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
-  <h2>Notification</h2><hr>
-  <h2 onclick="window.location.href='https://adarshaagent.com/'">Service</h2><hr>
-  <h2 onclick="window.location.href='login.html'">login</h2><hr>
-  <h2 onclick="window.location.href='signin.html'">Sign in</h2><hr>
-   <div class="allicon">
-    <i class="fa-brands fa-facebook" onclick="window.location.href='https://www.facebook.com/profile.php?id=61590143801264'"></i><i class="fa-brands fa-tiktok"></i><i class="fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/adarshabd_/'"></i><i class="fa-brands fa-youtube" onclick="window.location.href='https://www.youtube.com/@AdarshaBD-AB2','_blank'"></i><i class="fa-brands fa-square-whatsapp" onclick="window.open('https://wa.me/8801614153820','_blank')"></i>
-   </div>
-  </div>
-</div>
-<img src="banner.png" class="banner" alt="Banner" onclick="adminMode()"> 
+<img src="banner.png" class="banner" alt="Banner"> 
 <div class="box">
   <div class="clickbox" onclick="filterProducts('all')"><img src="logo.png" class="click"> All <br>products</div>
   <div class="clickbox" onclick="filterProducts('Free Delivery')"><img src="free delivary.png" class="click"> Free <br>Delivery</div>
@@ -455,7 +357,7 @@ h2{
       <div class="thumbs" id="thumbs"></div>
       <h3 id="pname"></h3>
       <h3 id="pcolor"></h3>
-      <p id="pcode"></p>
+      <p id="psize"></p>
       <div id="ppieces"></div>
       <div id="pprice"></div><br>
       <button onclick="orderNow()" id="Obtn">Order Now</button> 
@@ -466,10 +368,20 @@ h2{
      <div class="adds"><img src="ads.png" class="ads"> </div>
   </div>
 </div>
+<script>
+  function searchicon() {
+    document.getElementById("opensearchbox").style.display = "block";
+}
+
+function searchclose() {
+    document.getElementById("opensearchbox").style.display = "none";
+}
+  </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -496,19 +408,23 @@ const localProducts = [
     id: 1,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
-    code: "9638852",
+    color: ["black"],
+    size:  ["M","LX"],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["450 TK", "420 TK", "400 TK"],
+   Whatsapp:"8801614153820",
     images: ["https://images.othoba.com/images/thumbs/2323240_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg"],
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
   {
     id: 2,
     category: ["man", "woman", "accessories"],
-    name: "",
-    code: "123456",
+    name: "Redmi 13C 5G",
+    color: [""],
+    size:  ["",],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["6,000 TK", " TK", " TK"],
+    price: ["8,000 TK", " TK", " TK"],
+    Whatsapp:"8801614153820",
     images: ["https://www.mobiledokan.co/wp-content/uploads/2023/12/Xiaomi-Redmi-13C-5G-Startrail-Green.webp",],
     details: ``
   },
@@ -516,9 +432,11 @@ const localProducts = [
     id: 3,
     category: ["man", "woman", "accessories"],
     name: "Hoco EQ24 Estrella Wireless BT Earbuds - Time Square",
-    code: "123457",
+    color: ["black"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["700 TK", "670 TK", "350 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://www.startech.com.bd/image/cache/catalog/earbuds/hoco/eq24-estrella/eq24-estrella-500x500.webp","https://static-01.daraz.com.bd/p/6681d308bee6def5f64b994e0acfb92b.jpg","https://static-01.daraz.com.bd/p/e0e581dce2040beacc7d4159da3d1798.jpg"],
     details: `Bluetooth 5.4; Chip: JL AC6983D2...`
   },
@@ -526,9 +444,11 @@ const localProducts = [
     id: 4,
     category: ["man", "woman", "accessories"],
     name: "Oraimo i12 Pure Bass Wireless Headphone",
-    code: "123458",
+    color: ["blck"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["450 TK", "420 TK", "400 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://foodpanda.dhmedia.io/image/darkstores/nv-global-catalog/bd/9bc6b2fa-1cc4-49c6-afd6-c6ef6693290f.jpg?height=480","https://static-01.daraz.com.bd/p/83c4b52c931bb8db831df8f02cafbc0e.jpg"],
     details: `Brand: Oraimo Model: i12...`
   },
@@ -536,9 +456,11 @@ const localProducts = [
     id: 5,
     category: ["man", "woman", "accessories"],
     name: "JBL M3 Mini Portable Speaker",
-    code: "123458",
+    color: ["blck", "Red","Gold"],
+    size:  [""],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["250 TK", "230 TK", "210 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://static-01.daraz.com.bd/p/33607a6e8f9052b9636e9d385dd510ae.jpg","https://salebazarbd.com/uploads/products/meta/c8769461cec01a5a9220564185ce793d.png"],
     details: `Total Speaker: One Speaker...`
   },
@@ -546,36 +468,40 @@ const localProducts = [
     id: 6,
     category: ["man", "woman", "accessories"],
     name: "Cat Ear RGB Wireless Headphone STN-28",
-    code: "123459",
+    color: ["black"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["470 TK", "450 TK", "420 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://artronyx.com/wp-content/uploads/2024/12/1000045720-600x600.jpg","https://artronyx.com/wp-content/uploads/2024/12/1000045721-600x600.jpg"],
     details: `
-Bluetooth Version   =	V5.0
-Range               =	Up to 10 meters
-Speaker Size        =	40mm
-Battery Capacity    =	400mAh (USB Rechargeable)
-Charging Time       =	1.2 hours
+Bluetooth Version   = V5.0
+Range               = Up to 10 meters
+Speaker Size        = 40mm
+Battery Capacity    = 400mAh (USB Rechargeable)
+Charging Time       = 1.2 hours
 Music Playback Time = Up to 6 hours
-Talk Time	          =  Up to 8 hours
-Standby Time        =	Up to 148 hours
-Frequency Response	= 20Hz – 20kHz
-Sensitivity         =	105 dB
-S/N Ratio           =	110 dB
-Distortion          =	0.10%
-Audio Protocols     =	A2DP 1.2, AVRCP 1.0, HSP, HSF 1.5
-Size                =	175 x 200 x 70 mm
+Talk Time           =  Up to 8 hours
+Standby Time        = Up to 148 hours
+Frequency Response  = 20Hz – 20kHz
+Sensitivity         = 105 dB
+S/N Ratio           = 110 dB
+Distortion          = 0.10%
+Audio Protocols     = A2DP 1.2, AVRCP 1.0, HSP, HSF 1.5
+Size                = 175 x 200 x 70 mm
 Operating Temperature = -20°C to 55°C
-Ports               =	AUX input, TF card slot
+Ports               = AUX input, TF card slot
     `
   },
   {
     id: 7,
     category: ["man", "woman", "accessories"],
     name: "Ultrapods Max True Wireless Earbuds - Transparent Design, Bluetooth 5.3, Waterproof",
-    code: "123460",
+    color: ["Black","Ask", "Green"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["220 TK", "200 TK", "180 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://static-01.daraz.com.bd/p/0e72bd0fbfcbba5132dfcb843604598d.png","https://cdn.bdstall.com/product-image/giant_302468.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr7WhI2aF7tLc3K5TBN9YJsGvtPcxGyZ90rT4o17jEV8H8zB_Fj-y2k7Q&s=10"],
     details: `
  1.Bluetooth Version:V5.3
@@ -610,9 +536,11 @@ Ports               =	AUX input, TF card slot
     id: 8,
     category: ["man", "woman", "accessories"],
     name: " realme airpods pro   ,  lenovo airpods pro , one plus airpods pro",
-    code: "123461",
+    color: ["black"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["300 TK", "280 TK", "260 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://img.drz.lazcdn.com/static/bd/p/fa2834a61a557bc24cf238fd37cffb64.jpg_960x960q80.jpg_.webp","https://genmartbd.com/public/uploads/all/3kDjKOAfSzKYLqd807pB9He9UVzLZKjzlqVCnKBt.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmOqLPPIQqhsbdxA0OvqMMdZvaN1xG2vipaEbpRtuOn5S3asuRbbTh-Nl&s=10"],
     details: `best products`
   }
@@ -621,9 +549,11 @@ Ports               =	AUX input, TF card slot
     id: 9,
     category: ["man", "woman", "accessories"],
     name: "geoo plus 120w",
-    code: "123461",
+    color: "black",
+    size: "",
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["100 TK", "90 TK", "80 TK"],
+     Whatsapp:"8801614153820",
     images: ["https://img.drz.lazcdn.com/static/bd/p/b18c8532760fb2db75212923902fcbe2.jpg_720x720q80.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7NcYpuMSqiODtRPTBUnHArsSVEI4ZdGFzYaz9FQrLaLFwvhk0Dl-1d7Q&s=10","https://geeoo.com.bd/storage/products/geeoo-dc202-type-c-to-lightning-cable-price-in-bd.jpg"],
     details: `
 Product Type: Type C Charging Data Cable 
@@ -638,9 +568,11 @@ Cable Length: 1m
     id: 10,
     category: ["man", "woman", "accessories"],
     name: "Power Bank 10000mah 100% Original VEN-DENS VD-PB041",
-    code: "123462",
+    color: ["black"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["650 TK", "630 TK", "600 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://techshosta.com.bd/image/cache/catalog/Power%20bank/d178672f-fe68-488d-9494-e6afe67d367a-400x400.webp","https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/749301003_122114171265338126_3437933405842232758_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1600&ctp=s1200x1600&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=b6eYuJ1CfdIQ7kNvwHUzolb&_nc_oc=AdqD8hPy_SZanQXYY1SOF2t2ZqzTV7vrc2XD0VMJJaCbLAkIhhxLfDaA0M9MxzalKsU&_nc_zt=23&_nc_ht=scontent.fdac39-1.fna&_nc_gid=FdDohD6QLtJCjc-HHv3g4g&_nc_ss=7b2a8&oh=00_AQCk_6EZZK2m77uwDqEgzPNeZhr-Sxh-TdefKwPCkmqpDg&oe=6A5DD626","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMmpSz9VylyRts4VjvbBx7BnnHsoXOGuoVrwlwdwC-vfpsTb5yszCemNLZ&s=10"],
     details: `
     Highlights:
@@ -659,9 +591,11 @@ Rated Capacity: 37Wh 3.7V 10000mAh
     id: 11,
     category: ["man", "woman", "accessories"],
     name: "Airpods Pro 2nd Generation ANC ",
-    code: "123463",
+    color: ["black"],
+    size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["400 TK", "380 TK", "350 TK"],
+    Whatsapp:"8801614153820",
     images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
     details: `Apple AirPods Pro (2nd generation)...`
   },
@@ -676,22 +610,13 @@ function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
   if(!box) return;
   box.innerHTML = "";
-  
-  let isAdmin = localStorage.getItem("isDeleteAdmin") === "true";
 
   productsToDisplay.forEach(p => {
     let imgSrc = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
     let displayPrice = Array.isArray(p.price) ? p.price[0] : (p.price + " TK");
-    let isLocal = ["1", "2", "3", "4","5"].includes(String(p.id));
-    
-    let deleteBtn = "";
-    if (isAdmin && !isLocal) {
-      deleteBtn = `<span class="p-delete-x" onclick="deleteProduct('${p.id}', event)">×</span>`;
-    }
 
     box.innerHTML += `
-      <div class="product" onclick="openModal('${p.id}')" style="position: relative;">
-        ${deleteBtn}
+      <div class="product" onclick="openModal('${p.id}')">
         <img src="${imgSrc}" alt="${p.name}">
         <p>${p.name}</p>
         <p class="pprice">${displayPrice}</p>
@@ -700,7 +625,6 @@ function renderProducts(productsToDisplay) {
   });
 }
 
-// সার্চ ফাংশন ফিক্সড
 function searchProduct(){
   let input1 = document.getElementById("search") ? document.getElementById("search").value.toLowerCase().trim() : "";
   let input2 = document.getElementById("ONEsearch") ? document.getElementById("ONEsearch").value.toLowerCase().trim() : "";
@@ -720,100 +644,18 @@ function searchProduct(){
   renderProducts(filtered);
 }
 
-function adminMode() {
-  let pin = prompt("ডিলিট অপশন চালু করতে সিক্রেট পিন দিন:");
-  if(pin === "2026") { 
-    localStorage.setItem("isDeleteAdmin", "true");
-    alert("ডিলিট মোড সফলভাবে চালু হয়েছে!");
-    renderProducts(window.allProducts);
-  } else if(pin === "logout") { 
-    localStorage.removeItem("isDeleteAdmin");
-    alert("ডিলিট মোড বন্ধ করা হয়েছে।");
-    renderProducts(window.allProducts);
-  } else {
-    alert("ভুল পিন!");
-  }
-}
-
-async function deleteProduct(id, event) {
-  if (event) event.stopPropagation(); 
-  if (!confirm("আপনি কি এই প্রোডাক্টটি ডিলিট করতে চান?")) return;
-
-  let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
-  let updatedUserProducts = savedUserProducts.filter(x => String(x.id) !== String(id));
-  localStorage.setItem("userProducts", JSON.stringify(updatedUserProducts));
-
-  try {
-    const docRef = doc(db, "products", id.toString());
-    await deleteDoc(docRef);
-    alert("প্রোডাক্টটি সফলভাবে ডিলিট হয়েছে!");
-  } catch (error) {
-    console.log("ডিলিট এরর:", error);
-  }
-
-  window.allProducts = window.allProducts.filter(x => String(x.id) !== String(id));
-  renderProducts(window.allProducts);
-}
-
-// ইউটিউব লিংক কনভার্টার ফাংশন
-function getEmbedLink(url) {
-  let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  let match = url.match(regExp);
-  if (match && match[2].length == 11) {
-    return "https://www.youtube.com/embed/" + match[2];
-  }
-  return url;
-}
-
-async function loadVideos(){
-  let box = document.getElementById("videoList");
-  if(!box) return;
-  box.innerHTML = "";
-  try {
-    let data = await getDocs(collection(db,"videos"));
-    data.forEach((doc)=>{
-      let v = doc.data();
-      let embedLink = getEmbedLink(v.link);
-      box.innerHTML += `
-        <div class="video" style="margin: 10px; padding: 10px; background: white; border-radius: 8px;">
-          <iframe src="${embedLink}" width="100%" height="250" frameborder="0" allowfullscreen></iframe>
-          <h3>${v.caption}</h3>
-        </div>
-      `;
-    });
-  } catch(e) {
-    console.log("ভিডিও লোড এরর:", e);
-  }
-}
-
-// ভিডিও শেয়ার করার নতুন ফাংশন
-async function shareVideo() {
-  let link = document.getElementById("vedioline").value.trim();
-  let caption = document.getElementById("caption").value.trim();
-  if(!link || !caption) return alert("দয়া করে লিংক এবং ক্যাপশন দুটিই দিন");
-  
-  try {
-    await addDoc(collection(db, "videos"), { link: link, caption: caption });
-    alert("ভিডিও সফলভাবে যুক্ত হয়েছে!");
-    document.getElementById("vedioline").value = "";
-    document.getElementById("caption").value = "";
-    document.getElementById("vediocloseo").style.display = "none";
-    loadVideos();
-  } catch (error) {
-    alert("ভিডিও আপলোড ব্যর্থ হয়েছে!");
-    console.error(error);
-  }
-}
-
 function openModal(id){
   let p = window.allProducts.find(x => String(x.id) === String(id));
   if(!p) return;
   
+  window.currentProduct = p;
+
   document.getElementById("modal").style.display="block";
   document.getElementById("mainImg").src = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
   document.getElementById("pname").innerText = p.name;
-  document.getElementById("pcode").innerText = "Code: " + (p.code || 'N/A');
-  
+  document.getElementById("pcolor").innerText ="Color: " + (Array.isArray(p.color) ? p.color.join(", ") : (p.color || "N/A"));
+  document.getElementById("psize").innerText ="Size: " + (Array.isArray(p.size) ? p.size.join(", ") : (p.size || "N/A"));
+
   if(p.ppieces && Array.isArray(p.ppieces)) {
     document.getElementById("ppieces").innerHTML = p.ppieces.map(x => `<span>${x}</span>`).join("");
   } else {
@@ -863,26 +705,33 @@ function filterProducts(category){
   }
 }
 
-function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
-function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
-function demo(){ document.getElementById("openlistbox").style.display= "block"; }
-function listclose(){ document.getElementById("openlistbox").style.display= "none"; }
-function padd(){ document.getElementById("productcloseo").style.display= "block"; }
-function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
-function vadd() { document.getElementById("vediocloseo").style.display = "block"; }
+function orderNow() {
 
-function orderNow(){
-  if(!auth.currentUser){
-      alert("Order করতে Login করুন");
-      window.location.href="login.html";
-      return;
+  const p = window.currentProduct;
+
+  if (!p) {
+    alert("Product not found");
+    return;
   }
-  let productName = document.getElementById("pname").innerText;
-  let productCode = document.getElementById("pcode").innerText.replace("Code: ","");
-  let message = `🛒 New Order Request\n\n📦 Product: ${productName}\n🔢 Code: ${productCode}`;
-  let url = "https://wa.me/8801614153820?text=" + encodeURIComponent(message);
-  window.open(url, "_blank");
+
+  const whatsapp = p.Whatsapp;
+
+  if (!whatsapp) {
+    alert("Seller WhatsApp number not found.");
+    return;
+  }
+
+  const message = `🛒 New Order
+
+📦 Product: ${p.name}
+💰 Price: ${Array.isArray(p.price) ? p.price[0] : p.price}`;
+
+  window.open(
+    `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
 }
+window.orderNow = orderNow;
 
 async function loadFirebaseProducts() {
   try {
@@ -899,8 +748,7 @@ async function loadFirebaseProducts() {
     console.error("Error loading products: ", error);
   }
 }
-
-// সমস্ত ফাংশন সঠিকভাবে গ্লোবাল উইন্ডোতে এসাইন করা হলো
+// গ্লোবাল ফাংশন
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.checkLogin = checkLogin;
@@ -908,20 +756,10 @@ window.searchProduct = searchProduct;
 window.filterProducts = filterProducts;
 window.searchicon = searchicon;
 window.searchclose = searchclose;
-window.demo = demo;
-window.listclose = listclose;
-window.padd = padd;
-window.proclose = proclose;
 window.orderNow = orderNow;
-window.deleteProduct = deleteProduct;
-window.adminMode = adminMode;
-window.vadd = vadd;
-window.shareVideo = shareVideo;
-
-// ইনিশিয়াল কল
+// প্রাথমিক লোড
 renderProducts(window.allProducts);
 loadFirebaseProducts();
-loadVideos();
 </script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Menu</title>
+    <style>
+      body{
+           width:500px;margin: auto;
+      } 
+      .fa-angle-left{
+       font-size:25px;margin:5%;cursor:pointer;
+      }  
+   h2{
+    margin-left:10%;font-weight:bolder;cursor:pointer;
+   }
+        .allicon{
+   text-align: center;cursor: pointer;
+   font-size:27px;margin-top:20px;
+  }
+  .fa-youtube{
+    margin-left:15px;
+   color:red;
+  }
+  .fa-square-whatsapp{
+    color:rgb(26, 191, 26);margin-left:15px;
+  }
+  .fa-facebook{
+    color:#1877F2;margin-left:15px;
+  }
+  .fa-tiktok{
+    color:#000000;margin-left:15px;
+  }
+  .fa-instagram{
+    color:#E1306C;margin-left:15px;
+  }
+  
+  .fa-camera{
+      font-size:25px;margin-top:20px;
+  }
+   .fa-facebook-messenger{
+    font-size:25px;margin-top:20px;
+  }
+  hr{
+     border: 1px solid rgb(248, 245, 245);
+  }
+  #vediocloseo{
+    width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
+  }
+  #pac{
+    margin-left:90%;font-size:25px;color:red;margin-top:3%;
+  }
+  #vedioline{
+   width:90%;margin:4%;
+   height:30px;
+  }
+  #caption{
+     width:90%;margin:4%;
+   height:30px;
+  }
+  #btnop{
+    width:40%; height:30px;border:1px solid black;margin-left:30%;
+  }
+  @media(max-width:600px){
+    body{
+      width:100%;
+    }
+  }
+    </style>
+</head>
+<body>
+    <i class="fa-solid fa-angle-left" onclick="window.location='index.html'"></i>
+    <h2 onclick="window.location='add.html'">Add product</h2><hr>
+    <h2 onclick="vedio()" >Video share</h2><hr>    
+      <div id="vediocloseo">
+    <p onclick="veclose()" id="pac">X</p>
+    <input type="text" id="vedioline" placeholder="Video link"><br>
+    <input type="text" id="caption" placeholder="Caption"><br>
+    <button onclick="shareVideo()" id="btnop">Share</button> 
+    </div>
+    <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
+    <h2>Notifications</h2><hr>
+    <h2 onclick="window.location ='https://adarshaagent.com/'">Service</h2><hr>
+    <h2 onclick="window.location ='login.html' ">Login</h2><hr>
+    <h2 onclick="window.location ='login.html' ">Sign in</h2><hr>
+    <div class="allicon">
+    <i class="fa-brands fa-facebook" onclick="window.location.href='https://www.facebook.com/profile.php?id=61590143801264'"></i><i class="fa-brands fa-tiktok"></i><i class="fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/adarshabd_/'"></i><i class="fa-brands fa-youtube" onclick="window.location.href='https://www.youtube.com/@AdarshaBD-AB2','_blank'"></i><i class="fa-brands fa-square-whatsapp" onclick="window.open('https://wa.me/8801614153820','_blank')"></i>
+   </div>
+</body>
+<script type="module" src="script.js"></script>
+</html>

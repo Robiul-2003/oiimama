@@ -11,7 +11,7 @@
   "url": "https://adarshabd.com/"
 }
 </script>
-<title>Adarsh BD - Online Shopping in Bangladesh | Fashion, Electronics & More</title>
+<title>AdarshBD Profile</title>
 <link rel="icon" href="logo.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <meta name="description" content="Adarsha BD is an online shopping store in Bangladesh. Buy fashion, electronics, gadgets, home products at best price with fast delivery.">
@@ -45,6 +45,9 @@ header{
   }
   .fa-house{
     font-size:25px;margin-top:20px;cursor: pointer;
+  }
+  .fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
   }
 .fa-magnifying-glass{
    display:none;cursor: pointer;
@@ -211,7 +214,7 @@ h2{
     color:#E1306C;margin-left:15px;
   }
   .fa-facebook-messenger{
-     font-size:25px;margin-top:20px;margin-left:5%;display:inline-block;
+     font-size:25px;margin-top:20px;margin-left:0px;display:inline-block;
   }
   .fa-bell{
     font-size:25px;margin-top:20px;display:inline-block;
@@ -220,10 +223,13 @@ h2{
       font-size:25px;margin-top:20px;display:inline-block;
   }
   .fa-circle-user{
-     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+     font-size:25px;margin-top:20px;display:inline-block;margin-left:0;
   }
   .fa-house{
     font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+  }
+  .fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
   }
 }
 </style>
@@ -231,11 +237,11 @@ h2{
 <body>
 <header>
   <div class="header1">
-      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-circle-user"></i> <i class="fa-brands fa-facebook-messenger" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')"></i> 
+      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href=''"></i> 
     
   <input id="search" placeholder="Search..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
   <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="demo()" id="list"></i>
+  <i class="fa-solid fa-list" onclick="window.location ='list.html'"></i>
   </div>
 </header>
 <div id="opensearchbox">
@@ -292,17 +298,7 @@ padding:10px;
 <h3 style="text-align:center;">My Videos</h3>
 <div id="userVideoFeed"></div>
 </div>
-<script>
-function searchicon(){ document.getElementById("opensearchbox").style.display= "block"; }
-function searchclose(){ document.getElementById("opensearchbox").style.display= "none"; }
-function demo(){ document.getElementById("openlistbox").style.display= "block"; }
-function listclose(){ document.getElementById("openlistbox").style.display= "none"; }
-function padd(){ document.getElementById("productcloseo").style.display= "block"; }
-function proclose(){ document.getElementById("productcloseo").style.display= "none"; }
-function vadd(){ document.getElementById("vediocloseo").style.display= "block"; }
-function veclose(){ document.getElementById("vediocloseo").style.display= "none"; }
-function searchProduct() {}
-function checkLogin() {}
+<script src="script.js">
 </script>
 
 <script type="module">
@@ -537,5 +533,6 @@ Delete
 loadProducts();
 
 </script>
+
 </body>
 </html>

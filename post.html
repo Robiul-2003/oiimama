@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>post</title>
+</head>
+<style>
+    /* header */
+header{
+  background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;left:0;
+}
+.header1{
+  width:1200px;margin: auto;display: flex;justify-content:space-between;color:white;
+}
+/* search */
+#search{
+  height:25px;margin-top:10px;
+  padding:6px;
+  width:600px;
+}
+.fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
+  }
+.fa-list{
+  font-size:25px;margin-top:20px;cursor: pointer;
+}
+ .fa-circle-user{
+     font-size:25px;margin-top:20px;cursor: pointer;
+  }
+  .fa-house{
+    font-size:25px;margin-top:20px;cursor: pointer;
+  }
+ .fa-facebook-messenger{
+  font-size:25px;margin-top:20px;cursor: pointer;
+ }
+ .fa-camera{
+  font-size:25px;margin-top:20px;cursor: pointer;
+ }
+    @media(max-width:600px){
+  .header1{
+    width:100%;
+  }
+   .fa-house{
+    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+  }
+   .fa-briefcase{
+    font-size:25px;margin-top:20px;display:inline-block;
+  }
+  h1{
+    margin-left:4%;font-size:25px;
+  }
+  #search{display:none;}
+  .fa-list{
+      font-size:23px;margin-top:20px; margin-right:2%;
+  }
+  .fa-magnifying-glass{
+   display:inline-block;font-size:23px;margin-top:20px;
+  }
+  
+  #opensearchbox{
+    position:fixed;
+    top:0;left:0;width:100%;height:60px;
+    background:#031f50;display:none;z-index:9999;
+  }
+  #opensearchbox .search-inner{
+   display: flex; justify-content: space-between; align-items: center; padding: 10px;
+  }
+  #ONEsearch{
+    height:30px;width:80%;margin-left:8%;
+  }
+
+ 
+}
+</style>
+<body>
+  <header>
+     <div class="header1">
+      <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
+  <input id="search" placeholder="Search product ..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
+    
+  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
+  <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+  </div>
+</header>
+  </header>
+</body>
+</html>
