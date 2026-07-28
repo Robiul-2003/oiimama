@@ -5,7 +5,13 @@ window.vedio = function () {
 window.veclose = function () {
     document.getElementById("vediocloseo").style.display = "none";
 }
+  window.jobs = function(){
+    document.getElementById("job").style.display = "block";
+}
 
+  window.jobspost = function (){
+    document.getElementById("job").style.display = "none";
+}
  const ads = [
   {
     image: "https://scontent-ccu2-1.xx.fbcdn.net/v/t39.30808-6/728449634_122110100901338126_7148938372660986417_n.jpg?stp=dst-jpg_tt6&cstp=mx1340x1785&ctp=s590x590&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=WodgzF3GGjYQ7kNvwHCDAei&_nc_oc=AdqCq4slNxGlUg3IABUrYxOTd4pLyxgt1BZd-0N_T_MMXDEY8WWGFCUzjr5PLcv_B-s&_nc_zt=23&_nc_ht=scontent-ccu2-1.xx&_nc_gid=xifN03ZH664BinHOxyiATQ&_nc_ss=7b2a8&oh=00_AQC9q3Dpt2-hdF6q1vNJ9TZ9uDKYzc2y5iA5gVtg1ztmyg&oe=6A5EE6F7",
@@ -36,7 +42,49 @@ window.veclose = function () {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app); 
+ window.savepost = async function () {
 
+    const post = document.getElementById("post").value.trim();
+
+    if (post === "") {
+        alert("Job Post লিখুন");
+        return;
+    }
+
+    if (!auth.currentUser) {
+        alert("আগে Login করুন");
+        return;
+    }
+
+    try {
+
+        let userName = "User";
+
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+            userName = userSnap.data().name;
+        }
+
+        await addDoc(collection(db, "jobs"), {
+            post: post,
+            userId: auth.currentUser.uid,
+            userName: userName,
+            createdAt: new Date()
+        });
+
+        alert("Job Post সফলভাবে Save হয়েছে");
+
+        document.getElementById("post").value = "";
+        jobspost();
+
+    } catch (error) {
+        console.log(error);
+        alert("Save করতে সমস্যা হয়েছে");
+    }
+
+}
   window.checkLogin = async function() {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();

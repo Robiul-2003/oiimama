@@ -48,7 +48,7 @@
   #vediocloseo{
     width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
   }
-  #pac{
+  #pac, #pac1{
     margin-left:90%;font-size:25px;color:red;margin-top:3%;
   }
   #vedioline{
@@ -59,7 +59,18 @@
      width:90%;margin:4%;
    height:30px;
   }
+ 
   #btnop{
+    width:40%; height:30px;border:1px solid black;margin-left:30%;
+  }
+   #job{
+   display:none;width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
+  }
+  #post{
+    width:90%;margin:4%;
+   height:30px;
+  }
+  #savepost{
     width:40%; height:30px;border:1px solid black;margin-left:30%;
   }
   @media(max-width:600px){
@@ -78,6 +89,14 @@
     <input type="text" id="vedioline" placeholder="Video link"><br>
     <input type="text" id="caption" placeholder="Caption"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
+    </div>
+    <h2 onclick="jobs()">Job Post</h2><hr>
+    <div id="job">
+      <div id="jobpost">
+        <p onclick="jobspost()" id="pac1">X</p>
+        <input type="text" id="post" placeholder="Jobs Post.... "><br>
+        <button onclick="savepost()" id="savepost">Save</button>
+      </div>
     </div>
     <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
     <h2>Notifications</h2><hr>
