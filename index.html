@@ -662,7 +662,7 @@ function openModal(id){
   if(!p) return;
   
   window.currentProduct = p;
-
+  history.pushState({ modal: true }, "", "#product");
   document.getElementById("modal").style.display="block";
   document.getElementById("mainImg").src = (p.images && p.images[0]) ? p.images[0] : 'logo.png';
   document.getElementById("pname").innerText = p.name;
@@ -692,7 +692,12 @@ function openModal(id){
   }
 }
 
-function closeModal(){ document.getElementById("modal").style.display="none"; }
+function closeModal(){
+   document.getElementById("modal").style.display="none"; 
+     if (history.state && history.state.modal) {
+        history.back();
+    }
+  }
 
 function checkLogin(){
     let number = document.getElementById("number").value.trim();
@@ -762,6 +767,16 @@ async function loadFirebaseProducts() {
     console.error("Error loading products: ", error);
   }
 }
+window.addEventListener("popstate", function (e) {
+    const modal = document.getElementById("modal");
+
+    if (modal.style.display === "block") {
+        modal.style.display = "none";
+    }
+});
+
+
+
 // গ্লোবাল ফাংশন
 window.openModal = openModal;
 window.closeModal = closeModal;
