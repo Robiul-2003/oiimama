@@ -53,10 +53,13 @@ window.veclose = function () {
 
     if (!auth.currentUser) {
         alert("আগে Login করুন");
+        console.log("Current User:", auth.currentUser);
         return;
     }
 
     try {
+
+        console.log("Current User:", auth.currentUser);
 
         let userName = "User";
 
@@ -64,15 +67,19 @@ window.veclose = function () {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-            userName = userSnap.data().name;
+            userName = userSnap.data().name || "User";
         }
 
-        await addDoc(collection(db, "jobs"), {
+        console.log("User Name:", userName);
+
+        const docRef = await addDoc(collection(db, "jobs"), {
             post: post,
             userId: auth.currentUser.uid,
             userName: userName,
             createdAt: new Date()
         });
+
+        console.log("Document ID:", docRef.id);
 
         alert("Job Post সফলভাবে Save হয়েছে");
 
@@ -80,8 +87,14 @@ window.veclose = function () {
         jobspost();
 
     } catch (error) {
-        console.log(error);
-        alert("Save করতে সমস্যা হয়েছে");
+
+        console.error("Save Error:", error);
+
+        alert(
+            "Code: " + error.code +
+            "\nMessage: " + error.message
+        );
+
     }
 
 }

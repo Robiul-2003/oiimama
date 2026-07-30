@@ -67,9 +67,18 @@
    display:none;width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
   }
   #post{
-    width:90%;margin:4%;
-   height:30px;
-  }
+  width:90%;
+  margin:4%;
+  min-height:120px;
+  padding:10px;
+  font-size:16px;
+  line-height:1.6;
+  border:1px solid #ccc;
+  border-radius:8px;
+  resize:none;
+  outline:none;
+  font-family:Arial, sans-serif;
+}
   #savepost{
     width:40%; height:30px;border:1px solid black;margin-left:30%;
   }
@@ -93,11 +102,12 @@
     <input type="text" id="caption" placeholder="Caption"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
     </div>
-    <h2 onclick="jobs()">Job Post</h2><hr>
+    <h2 onclick="jobs()">Post</h2><hr>
     <div id="job">
       <div id="jobpost">
         <p onclick="jobspost()" id="pac1">X</p>
-        <input type="text" id="post" placeholder="Jobs Post.... "><br>
+       <textarea id="post" placeholder="What's on your mind?" rows="2"></textarea><br>
+
         <button onclick="savepost()" id="savepost">Save</button>
       </div>
     </div>
