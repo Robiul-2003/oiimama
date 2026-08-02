@@ -297,14 +297,26 @@ padding:10px;
 "></div>
 <h3 style="text-align:center;"></h3>
 <div id="userVideoFeed"></div>
+<div id="userPostFeed"></div>
 </div>
-<script src="script.js">
-</script>
+<!--<script src="script.js">
+</script>-->
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { getFirestore, collection, onSnapshot, query, where, doc, getDoc, deleteDoc,   getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    query,
+    where,
+    doc,
+    getDoc,
+    deleteDoc,
+    getDocs,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
   authDomain: "robiul-84377.firebaseapp.com",
@@ -319,6 +331,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+
+
+
+window.deletePost = async function(postId){
+
+    if(!confirm("Delete this post?")) return;
+
+    try{
+
+        await deleteDoc(doc(db,"jobs",postId));
+
+        alert("Post Deleted Successfully");
+
+    }catch(error){
+
+        console.log(error);
+
+        alert("Delete Failed");
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 // ১. ডিলিট ফাংশনটিকে সরাসরি উইন্ডো অবজেক্টে সেট করা যাতে HTML একে সহজে খুঁজে পায়
 window.deleteVideo = async function(videoId) {
@@ -344,6 +388,84 @@ onAuthStateChanged(auth, async (user) => {
             let data = userSnap.data();
             document.getElementById("showName").innerHTML = data.name || "No Name Set";
         }
+
+
+
+
+
+
+
+
+
+
+
+const postFeed = document.getElementById("userPostFeed");
+
+const postQuery = query(
+    collection(db, "jobs"),
+    where("userId", "==", user.uid),
+    orderBy("createdAt", "desc")
+);
+
+onSnapshot(postQuery, (snapshot) => {
+
+    postFeed.innerHTML = "";
+
+    if(snapshot.empty){
+        postFeed.innerHTML = "<p>No Posts</p>";
+        return;
+    }
+
+    snapshot.forEach((docSnap)=>{
+
+        const data = docSnap.data();
+
+        postFeed.innerHTML += `
+        <div style="background:#fff;border:1px solid #ddd;padding:15px;margin:10px;border-radius:8px">
+
+            <h3>${data.userName}</h3>
+
+            <p>${data.post}</p>
+
+            <button
+            onclick="window.deletePost('${docSnap.id}')"
+            style="background:red;color:white;border:none;padding:8px 15px;border-radius:5px;cursor:pointer">
+            Delete
+            </button>
+
+        </div>
+        `;
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         const videoFeed = document.getElementById("userVideoFeed");
         
@@ -531,7 +653,6 @@ Delete
 }
 // Products Load
 loadProducts();
-
 </script>
 
 </body>

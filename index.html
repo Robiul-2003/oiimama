@@ -100,19 +100,32 @@ h2{
   cursor: pointer;
 }
 .modal-content{
-  background:white;
-  width:100%;
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
+    width:95%;
+    max-width:1300px;
+    background:#fff;
+    margin:10px auto;
+    padding:150px;
+    border-radius:8px;
+    display:flex;
+    gap:40px;
+    position:relative;
+}
+
+
+
+.left{
+    width:45%;
+}
+
+.right{
+    width:45%;
 }
 .productboxin{
   background:white;
   width:100%;height:1500px;
 }
-#back{
-  float:right;cursor:pointer; color:red; font-size:30px;
+.fa-angle-left{
+ cursor:pointer; font-size:30px;
 }
 .modal img{
   width:100%;
@@ -189,7 +202,7 @@ h2{
 }
 #mainImg{
  border:1px solid rgb(229, 223, 223);
- width:100%;height:350px;object-fit: cover;
+ width:100%;height:550px;object-fit: cover;
 }
 .box{
   max-width:1400px; display: flex;margin-left:2%;margin-top:10px;background:rgb(246, 243, 243);
@@ -240,7 +253,7 @@ h2{
   width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
   .header1{
     width:100%;
   }
@@ -250,6 +263,10 @@ h2{
    .fa-briefcase{
     font-size:25px;margin-top:20px;display:inline-block;
   }
+  #mainImg{
+ border:1px solid rgb(229, 223, 223);
+ width:100%;object-fit: cover;height:370px;
+}
   h1{
     margin-left:4%;font-size:25px;
   }
@@ -264,9 +281,17 @@ h2{
     margin-top:10px;
   }
   .modal-content{
-    width:90%;
-    margin: 20px auto;
+    width:90%; display:block;
+    padding:10px;
   }
+  .left,
+.right{
+    width:100%;
+}
+
+#mainImg{
+    height:350px;
+}
   .banner{
     display: block;
     margin-top:70px;
@@ -362,25 +387,38 @@ h2{
   <div class="clickbox" onclick="filterProducts('cycle')"><img src="https://fittripbikes.com/assets/FitTrip/32/LiquidMetalBlue%20(1).png" alt="frying pan" class="click">Cycle</div>
 </div>
 <div class="container" id="productList"></div>
+
 <div class="modal" id="modal">
   <div class="modal-content">
-    <div class="productboxin">
-      <span onclick="closeModal()" id="back">X</span>
+
+    
+
+    <!-- Left -->
+    <div class="left">
+     <i class="fa-solid fa-angle-left" onclick="closeModal()"></i><br><br>
       <img id="mainImg" src="" alt="Product Image">
       <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <!-- Right -->
+    <div class="right">
       <h3 id="pname"></h3>
       <h3 id="pcolor"></h3>
       <p id="psize"></p>
+
       <div id="ppieces"></div>
-      <div id="pprice"></div><br>
-      <button onclick="orderNow()" id="Obtn">Order Now</button> 
+      <div id="pprice"></div><br><br>
+       <button onclick="orderNow()" id="Obtn">Order Now</button>
       <button onclick="alert('Added to Cart')" id="Obtn1">Add To Cart</button>
-      <h4>Details</h4><hr>
+       <h4>Details</h4>
+      <hr>
+
       <p id="pdetails"></p>
     </div>
-     <div class="adds"><img src="ads.png" class="ads"> </div>
+
   </div>
 </div>
+
 <script>
   function searchicon() {
     document.getElementById("opensearchbox").style.display = "block";
@@ -429,154 +467,6 @@ const localProducts = [
     images: ["https://images.othoba.com/images/thumbs/2323240_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg"],
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
-  {
-    id: 2,
-    category: ["man", "woman", "accessories","baby","mobile"],
-    name: "Redmi 13C 5G",
-    color: [""],
-    size:  ["",],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["8,000 TK", " TK", " TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://www.mobiledokan.co/wp-content/uploads/2023/12/Xiaomi-Redmi-13C-5G-Startrail-Green.webp",],
-    details: ``
-  },
-    {
-    id: 3,
-    category: ["man", "woman", "accessories"],
-    name: "Hoco EQ24 Estrella Wireless BT Earbuds - Time Square",
-    color: ["black"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["700 TK", "670 TK", "350 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://www.startech.com.bd/image/cache/catalog/earbuds/hoco/eq24-estrella/eq24-estrella-500x500.webp","https://static-01.daraz.com.bd/p/6681d308bee6def5f64b994e0acfb92b.jpg","https://static-01.daraz.com.bd/p/e0e581dce2040beacc7d4159da3d1798.jpg"],
-    details: `Bluetooth 5.4; Chip: JL AC6983D2...`
-  },
-  {
-    id: 4,
-    category: ["man", "woman", "accessories"],
-    name: "Oraimo i12 Pure Bass Wireless Headphone",
-    color: ["blck"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["450 TK", "420 TK", "400 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://foodpanda.dhmedia.io/image/darkstores/nv-global-catalog/bd/9bc6b2fa-1cc4-49c6-afd6-c6ef6693290f.jpg?height=480","https://static-01.daraz.com.bd/p/83c4b52c931bb8db831df8f02cafbc0e.jpg"],
-    details: `Brand: Oraimo Model: i12...`
-  },
-  {
-    id: 5,
-    category: ["man", "woman", "accessories"],
-    name: "JBL M3 Mini Portable Speaker",
-    color: ["blck", "Red","Gold"],
-    size:  [""],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["250 TK", "230 TK", "210 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://static-01.daraz.com.bd/p/33607a6e8f9052b9636e9d385dd510ae.jpg","https://salebazarbd.com/uploads/products/meta/c8769461cec01a5a9220564185ce793d.png"],
-    details: `Total Speaker: One Speaker...`
-  },
-   {
-    id: 6,
-    category: ["man", "woman", "accessories"],
-    name: "Cat Ear RGB Wireless Headphone STN-28",
-    color: ["black"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["470 TK", "450 TK", "420 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://artronyx.com/wp-content/uploads/2024/12/1000045720-600x600.jpg","https://artronyx.com/wp-content/uploads/2024/12/1000045721-600x600.jpg"],
-    details: `
-Bluetooth Version   = V5.0
-Range               = Up to 10 meters
-Speaker Size        = 40mm
-Battery Capacity    = 400mAh (USB Rechargeable)
-Charging Time       = 1.2 hours
-Music Playback Time = Up to 6 hours
-Talk Time           =  Up to 8 hours
-Standby Time        = Up to 148 hours
-Frequency Response  = 20Hz – 20kHz
-Sensitivity         = 105 dB
-S/N Ratio           = 110 dB
-Distortion          = 0.10%
-Audio Protocols     = A2DP 1.2, AVRCP 1.0, HSP, HSF 1.5
-Size                = 175 x 200 x 70 mm
-Operating Temperature = -20°C to 55°C
-Ports               = AUX input, TF card slot
-    `
-  },
-  {
-    id: 7,
-    category: ["man", "woman", "accessories"],
-    name: "Ultrapods Max True Wireless Earbuds - Transparent Design, Bluetooth 5.3, Waterproof",
-    color: ["Black","Ask", "Green"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["220 TK", "200 TK", "180 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://static-01.daraz.com.bd/p/0e72bd0fbfcbba5132dfcb843604598d.png","https://cdn.bdstall.com/product-image/giant_302468.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr7WhI2aF7tLc3K5TBN9YJsGvtPcxGyZ90rT4o17jEV8H8zB_Fj-y2k7Q&s=10"],
-    details: `
- 1.Bluetooth Version:V5.3
-
-2.Bluetooth Profile:A2DP,AVRCP,HFP, HSP
-
-3.Working voltage:3.1V~4.2V
-
-4.Charging voltage:5V-1A
-
-5.Speaker specification：14.2mm*2
-
-6.Frequency response:20Hz~20kHz
-
-7.lmpedance:32Ω
-
-8.Battery capacity of the headset: 40mAh
-
-9.Battery capacity of the storage box:300mAh
-
-10.Transmission distance:>10M
-
-11.Call time:About 6 h
-
-12.Play time:About 5 h
-
-13.Waterprof :IPX4
-
-    `
-  },
-   {
-    id: 8,
-    category: ["man", "woman", "accessories"],
-    name: " realme airpods pro   ,  lenovo airpods pro , one plus airpods pro",
-    color: ["black"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["300 TK", "280 TK", "260 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://img.drz.lazcdn.com/static/bd/p/fa2834a61a557bc24cf238fd37cffb64.jpg_960x960q80.jpg_.webp","https://genmartbd.com/public/uploads/all/3kDjKOAfSzKYLqd807pB9He9UVzLZKjzlqVCnKBt.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzmOqLPPIQqhsbdxA0OvqMMdZvaN1xG2vipaEbpRtuOn5S3asuRbbTh-Nl&s=10"],
-    details: `best products`
-  }
-  ,
-   {
-    id: 9,
-    category: ["man", "woman", "accessories"],
-    name: "geoo plus 120w",
-    color: "black",
-    size: "",
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["100 TK", "90 TK", "80 TK"],
-     Whatsapp:"8801614153820",
-    images: ["https://img.drz.lazcdn.com/static/bd/p/b18c8532760fb2db75212923902fcbe2.jpg_720x720q80.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7NcYpuMSqiODtRPTBUnHArsSVEI4ZdGFzYaz9FQrLaLFwvhk0Dl-1d7Q&s=10","https://geeoo.com.bd/storage/products/geeoo-dc202-type-c-to-lightning-cable-price-in-bd.jpg"],
-    details: `
-Product Type: Type C Charging Data Cable 
-Brand: GEOO Plus
-Cable: Type C
-Color: White
-Country of Origin: China
-Cable Length: 1m
-    `
-  },
     {
     id: 10,
     category: ["man", "woman", "accessories"],
@@ -600,17 +490,6 @@ USB 2 Output : DC5V-2A
 
 Rated Capacity: 37Wh 3.7V 10000mAh
     `
-  },{
-    id: 11,
-    category: ["man", "woman", "accessories"],
-    name: "Airpods Pro 2nd Generation ANC ",
-    color: ["black"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["400 TK", "380 TK", "350 TK"],
-    Whatsapp:"8801614153820",
-    images: ["https://images.othoba.com/images/thumbs/2029126_airpods-pro-2nd-generation-premium-quality-anc-usa-version-a-grade-white_400.jpeg"],
-    details: `Apple AirPods Pro (2nd generation)...`
   },
 
 ];
@@ -774,8 +653,6 @@ window.addEventListener("popstate", function (e) {
         modal.style.display = "none";
     }
 });
-
-
 
 // গ্লোবাল ফাংশন
 window.openModal = openModal;
