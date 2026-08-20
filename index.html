@@ -29,7 +29,8 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
 /* header */
 header{
-  background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;
+  background: #031f50;
+  position: fixed;width:100%;top:0;z-index:999;height:60px;
 }
 .header1{
   width:1400px;margin: auto;display: flex;justify-content:space-between;color:white;
@@ -51,7 +52,7 @@ header{
     font-size:25px;margin-top:20px;cursor: pointer;
   }
  .fa-facebook-messenger{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:25px;margin-top:20px;
  }
  .fa-camera{
   font-size:25px;margin-top:20px;cursor: pointer;
@@ -176,7 +177,7 @@ h2{
   margin:3px 0;
 }
 .fa-briefcase{
-    font-size:25px;margin-top:20px;display:inline-block;
+    font-size:25px;margin-top:20px;display:inline-block; 
   }
 #Obtn{
   width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
@@ -205,7 +206,7 @@ h2{
  width:100%;height:550px;object-fit: cover;
 }
 .box{
-  max-width:1400px; display: flex;margin-left:2%;margin-top:10px;background:rgb(246, 243, 243);
+  max-width:1400px; display: flex;margin-left:2%;margin-top:0px;background:rgb(246, 243, 243);
     height:110px;gap:3%;text-align: center;margin: auto;
     overflow-x:auto;    
     white-space:nowrap;  
@@ -254,14 +255,21 @@ h2{
 }
 
 @media(max-width:700px){
+  header{
+ background: rgba(207, 201, 201, 0.3);
+  position: fixed;width:100%;top:0;z-index:999;height:45px;
+}
   .header1{
     width:100%;
   }
+  .fa-list{
+  font-size:25px;margin-top:20px;cursor: pointer;color:#031f50;
+}
    .fa-house{
-    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
+    font-size:25px;margin-top:10px;display:inline-block;margin-left:4%;color:#031f50;
   }
    .fa-briefcase{
-    font-size:25px;margin-top:20px;display:inline-block;
+    font-size:25px;margin-top:10px;display:inline-block;color:#031f50;
   }
   #mainImg{
  border:1px solid rgb(229, 223, 223);
@@ -272,10 +280,16 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:23px;margin-top:20px; margin-right:2%;
+      font-size:23px;margin-top:10px; margin-right:2%;
   }
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:20px;
+   display:inline-block;font-size:23px;margin-top:10px;color:#031f50;
+  }
+   .fa-camera{
+  font-size:25px;margin-top:10px;cursor: pointer;color:#031f50;
+ }
+ .fa-circle-user{
+     font-size:25px;margin-top:10px;cursor: pointer;color:#031f50;
   }
   .container{
     margin-top:10px;
@@ -292,14 +306,32 @@ h2{
 #mainImg{
     height:350px;
 }
-  .banner{
-    display: block;
-    margin-top:70px;
-    width:98%;margin-left:1%;
-    height:100px; animation: shrink 2s ease-in-out infinite alternate;
+ .slider {
+    width: 95%;
+    height:150px;
+    margin:15px auto 10px;
+    position: relative;
+    overflow: hidden;
   }
+
+  .banner {
+    width:100%;
+    height:150px;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+   display:block;
+    transform: translateX(100%);
+    transition: transform 0.7s ease-in-out;
+  }
+
+  .banner.active {
+    transform: translateX(0);
+  }
+
   .box{
-    width:97%; display: flex;margin-left:2%;margin-top:10px;background:white;
+    width:97%; display: flex;margin-left:2%;margin-top:10px;
     height:80px;gap:8px;text-align: center;
     overflow-x:auto;    
     white-space:nowrap;  
@@ -370,7 +402,12 @@ h2{
     <p onclick="searchclose()" id="X">X</p>
   </div>
 </div>
-<img src="banner.png" class="banner" alt="Banner"><br><br> <h1>hello RObiul</h1>
+<div class="slider">
+  <img src="banner.1.jpg" class="banner" alt="Banner">
+<img src="banner.jpg" class="banner" alt="Banner">
+<img src="banner.png" class="banner" alt="Banner">
+</div>
+
 <div class="box">
   <div class="clickbox" onclick="filterProducts('all')"><img src="logo.png" class="click"> All <br>products</div>
   <div class="clickbox" onclick="filterProducts('Free Delivery')"><img src="free delivary.png" class="click"> Free <br>Delivery</div>
@@ -653,7 +690,28 @@ window.addEventListener("popstate", function (e) {
         modal.style.display = "none";
     }
 });
+ const banners = document.querySelectorAll(".banner");
 
+let current = 0;
+
+function showBanner() {
+
+  banners.forEach(img => {
+    img.classList.remove("active");
+  });
+
+  banners[current].classList.add("active");
+
+  current++;
+
+  if (current >= banners.length) {
+    current = 0;
+  }
+}
+
+showBanner();
+
+setInterval(showBanner, 3000);
 // গ্লোবাল ফাংশন
 window.openModal = openModal;
 window.closeModal = closeModal;
