@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Adarsha BD</string>
+    <string name="title_activity_main">Adarsha BD</string>
+    <string name="package_name">com.adarshabd.app</string>
+    <string name="custom_url_scheme">com.adarshabd.app</string>
+</resources>
