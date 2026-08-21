@@ -1,4 +1,4 @@
-script.js window.vedio = function () {
+ window.vedio = function () {
     document.getElementById("vediocloseo").style.display = "block";
 }
 
