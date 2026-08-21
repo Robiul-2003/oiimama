@@ -256,20 +256,20 @@ h2{
 
 @media(max-width:700px){
   header{
- background: rgba(207, 201, 201, 0.3);
-  position: fixed;width:100%;top:0;z-index:999;height:45px;
+ background:#031f50;
+  position: fixed;width:100%;top:0;z-index:999;height:52px;
 }
   .header1{
     width:100%;
   }
   .fa-list{
-  font-size:25px;margin-top:20px;cursor: pointer;color:#031f50;
+  font-size:25px;margin-top:20px;cursor: pointer;
 }
    .fa-house{
-    font-size:25px;margin-top:10px;display:inline-block;margin-left:4%;color:#031f50;
+    font-size:25px;margin-top:13px;display:inline-block;margin-left:4%;
   }
    .fa-briefcase{
-    font-size:25px;margin-top:10px;display:inline-block;color:#031f50;
+    font-size:25px;margin-top:13px;display:inline-block;
   }
   #mainImg{
  border:1px solid rgb(229, 223, 223);
@@ -280,16 +280,16 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:23px;margin-top:10px; margin-right:2%;
+      font-size:23px;margin-top:13px; margin-right:2%;
   }
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:10px;color:#031f50;
+   display:inline-block;font-size:23px;margin-top:13px;
   }
    .fa-camera{
-  font-size:25px;margin-top:10px;cursor: pointer;color:#031f50;
+  font-size:25px;margin-top:13px;cursor: pointer;
  }
  .fa-circle-user{
-     font-size:25px;margin-top:10px;cursor: pointer;color:#031f50;
+     font-size:25px;margin-top:13px;cursor: pointer;
   }
   .container{
     margin-top:10px;
@@ -307,17 +307,16 @@ h2{
     height:350px;
 }
  .slider {
-    width: 95%;
-    height:150px;
-    margin:15px auto 10px;
-    position: relative;
-    overflow: hidden;
+    width:100%;
+    height:120px;
+    margin:51px auto;
+    position:relative;
+    overflow:hidden;
   }
 
   .banner {
     width:100%;
-    height:150px;
-    
+    height:120px;
     position: absolute;
     top: 0;
     left: 0;
@@ -331,11 +330,20 @@ h2{
   }
 
   .box{
-    width:97%; display: flex;margin-left:2%;margin-top:10px;
-    height:80px;gap:8px;text-align: center;
-    overflow-x:auto;    
-    white-space:nowrap;  
-    scroll-behavior:smooth;
+     width: 97%;
+  height: 80px;
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 150px;
+  z-index: 10;
+  background:none;
+  gap:14px;
+  text-align: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
   }
   .box::-webkit-scrollbar{
     display:none;
@@ -353,7 +361,7 @@ h2{
   }
   #opensearchbox{
     position:fixed;
-    top:0;left:0;width:100%;height:60px;
+    top:0;left:0;width:100%;height:52px;
     background:#031f50;display:none;z-index:9999;
   }
   #opensearchbox .search-inner{
