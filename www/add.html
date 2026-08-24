@@ -161,6 +161,7 @@
 </head>
 <body>
 
+
 <div class="container">
     <h3>Add New Product</h3>
     <form id="productForm">
@@ -421,6 +422,24 @@ document.getElementById("productForm").addEventListener("submit",async(e)=>{
     }
 
 });
+
+if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+
+    import('@capacitor/app').then(({ App }) => {
+
+        App.addListener('backButton', ({ canGoBack }) => {
+
+            if (canGoBack) {
+                window.history.back();
+            } else {
+                App.exitApp();
+            }
+
+        });
+
+    });
+
+}
 </script>
 </body>
 </html>
