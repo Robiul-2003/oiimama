@@ -6,12 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <h1 id="hmm"></h1>
+    <input type="file"  id="imgfile" accept="image/*">
+    <img id="hello" style="width:300px">
     <script>
-        const hello = localStorage.getItem('twopage');
-        if(hello){
-            document.getElementById("hmm").innerText = hello;
-        }
+        const one = document.getElementById('imgfile');
+        const two = document.getElementById('hello');
+      
+         one.addEventListener("change", function(){
+            const three = this.files[0];
+            if(three){
+                two.src = URL.createObjectURL(three);
+            }
+         })
+
     </script>
 </body>
 </html>
+

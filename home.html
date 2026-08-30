@@ -33,10 +33,10 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 /* header */
 header{
   background: #031f50;
-  position: fixed;width:100%;top:0;z-index:999;height:60px;
+  position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  width:1400px;margin: auto;display: flex;justify-content:space-between;color:white;
+  width:1400px;margin: auto;justify-content:space-between;color:white;
 }
 /* search */
 #search{
@@ -46,20 +46,23 @@ header{
 }
 
 .fa-list{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:25px;cursor: pointer;
 }
  .fa-circle-user{
-     font-size:25px;margin-top:20px;cursor: pointer;
+     font-size:25px;cursor: pointer;
   }
   .fa-house{
-    font-size:25px;margin-top:20px;cursor: pointer;
+    font-size:25px;cursor: pointer;
   }
  .fa-facebook-messenger{
-  font-size:25px;margin-top:20px;
+  font-size:25px; cursor: pointer;
  }
  .fa-camera{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:25px;cursor: pointer;
  }
+ .fa-briefcase{
+    font-size:25px;display:inline-block; 
+  }
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
@@ -179,9 +182,7 @@ h2{
 .product p{
   margin:3px 0;
 }
-.fa-briefcase{
-    font-size:25px;margin-top:20px;display:inline-block; 
-  }
+
 #Obtn{
   width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
 }
@@ -287,39 +288,51 @@ h2{
 @media(max-width:700px){
   header{
  background:#031f50;
-  position: fixed;width:100%;top:0;z-index:999;height:52px;
+  position: fixed;width:100%;top:0;z-index:999;height:78px;
+}
+.headone{
+  display: flex; align-items: center;
+}
+.name{
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+}
+.headtwo{
+  display: flex; align-items: center;
 }
   .header1{
     width:100%;
   }
   .fa-list{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:22px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;
 }
    .fa-house{
-    font-size:25px;margin-top:13px;display:inline-block;margin-left:4%;
+    font-size:25px;display:inline-block;margin-left:4%; margin-top:5px;
   }
    .fa-briefcase{
-    font-size:25px;margin-top:13px;display:inline-block;
+    font-size:25px;display:inline-block; margin-left:11%; margin-top:5px;
   }
-  #mainImg{
+  .fa-magnifying-glass{
+   display:inline-block;font-size:21px;margin-top:10px;margin-left:47%; 
+  }
+   .fa-camera{
+  font-size:25px;cursor: pointer; margin-left:11%; margin-top:5px;
+ }
+ .fa-circle-user{
+     font-size:25px;cursor: pointer; margin-left: auto; margin-right:4%; margin-top:10px;
+  }
+  .fa-facebook-messenger{
+  font-size:25px; cursor: pointer; margin-left:11%; margin-top:7px;
+ }
+ .fa-bell{ 
+  font-size:25px; cursor: pointer; margin-left:11%; margin-top:7px;
+ }
+   #search{display:none;}
+   #mainImg{
  border:1px solid rgb(229, 223, 223);
  width:100%;object-fit: cover;height:370px;
 }
   h1{
     margin-left:4%;font-size:25px;
-  }
-  #search{display:none;}
-  .fa-list{
-      font-size:23px;margin-top:13px; margin-right:2%;
-  }
-  .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:13px;
-  }
-   .fa-camera{
-  font-size:25px;margin-top:13px;cursor: pointer;
- }
- .fa-circle-user{
-     font-size:25px;margin-top:13px;cursor: pointer;
   }
   .container{
     margin-top:10px;
@@ -345,7 +358,7 @@ h2{
  .slider {
     width:100%;
     height:120px;
-    margin:51px auto;
+    margin:73px auto;
     position:relative;
     overflow:hidden;
   }
@@ -372,7 +385,7 @@ h2{
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 145px;
+  top: 170px;
   z-index: 10;
   background:none;
   gap:20px;
@@ -397,7 +410,7 @@ h2{
   }
   #opensearchbox{
     position:fixed;
-    top:0;left:0;width:100%;height:52px;
+    top:0;left:0;width:100%;height:50px; margin-top:43px;
     background:#031f50;display:none;z-index:9999;
   }
   #opensearchbox .search-inner{
@@ -446,11 +459,15 @@ h2{
 <body>
 <header>
   <div class="header1">
-  <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
-  <input id="search" placeholder="Search product ..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
+    <div class="headone"><span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headtwo">
+    <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-brands fa-facebook-messenger"></i>
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> <i class="fa-solid fa-bell"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
     
-  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+ 
+ 
+
+    </div>
   </div>
 </header>
 <div id="opensearchbox">

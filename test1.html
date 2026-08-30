@@ -7,17 +7,20 @@
 
 <body>
    
-    <input type="text" id="lekho" placeholder="search">
-    <button onclick="hard()">hard</button>
+    <input type="file" id="imgeInput" accept="imgae/*">
+    <img id="preview" width="300">
 
 
    <script>
-       function hard(){
-        const text = document.getElementById("lekho").value;
-        localStorage.setItem('twopage', text);
-        window.location.href ="test2.html";
-       }
-       
+    const input = document.getElementById('imgeInput');
+    const preview = document.getElementById('preview');
+    input.addEventListener("change", function(){
+      const file = this.files[0];
+
+      if(file){
+        preview.src =URL.createObjectURL(file);
+      }
+    });
     </script>
 </body>
 </html>
