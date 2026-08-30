@@ -120,6 +120,9 @@ h2:active {
   outline:none;
   font-family:Arial, sans-serif;
 }
+.soja{
+  display: flex; gap:20px;margin:0% 6%;
+}
   #savepost{
     width:40%; height:30px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
     font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650;background:#031f50;color:white;
@@ -153,8 +156,10 @@ h2:active {
         <button onclick="savepost()" id="savepost">Save</button>
       </div>
     </div>
-    <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">💬 Chat</h2>
+    <div class="soja">
+      <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">💬 Chat</h2>
     <h2>🔔 Notifications</h2>
+    </div>
     <h2 onclick="window.location ='https://adarshaagent.com/'">🎰 Service</h2>
     <h2 onclick="window.location ='https://adarshaagent.com/'">⚙️ Settings</h2>
     <h2 onclick="window.location ='login.html' ">📱 Login</h2>
