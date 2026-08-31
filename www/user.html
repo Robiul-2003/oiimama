@@ -231,6 +231,23 @@ h2{
   .fa-briefcase{
     font-size:25px;margin-top:20px;display:inline-block;
   }
+ 
+  #chatbtn{
+    margin:0% 30%;
+    width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
+  }
+  #profilebox{
+   width:200px;height:200px;border:2px solid #031f50;border-radius:50%;margin: auto; overflow: hidden;
+  }
+   #profilebox label{
+    width:100%;height:100%;display: block; cursor: pointer;
+   }
+  #preview{
+    width:100%; height:100%; object-fit: cover; display: block;
+  }
+  #profileimg{
+    display:none;
+  }
 }
 </style>
 </head>
@@ -285,8 +302,15 @@ h2{
   </div>
 </div>
 <div class="userfile">
-<img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" class="userid">
-<h2 id="showName" style=" margin-top:5px;"></h2>
+<br><br><br><br>
+<div id="profilebox">
+<label for="profileimg">
+<img id="preview" src="">
+</label>
+<input type="file" id="profileimg" accept="image/*">
+</div>
+<h2 id="showName" style=" margin-top:5px;"></h2><button id="chatbtn">Chat</button>
+
 <h3 style="text-align:center;"></h3>
 <div id="productList" style="
 display:flex;
@@ -299,8 +323,7 @@ padding:10px;
 <div id="userVideoFeed"></div>
 <div id="userPostFeed"></div>
 </div>
-<!--<script src="script.js">
-</script>-->
+
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
@@ -332,7 +355,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+const one = document.getElementById('profileimg');
+const two = document.getElementById('preview');
+  one.addEventListener('change', function(){
+   const three = this.files[0];
+   two.src = URL.createObjectURL(three);
+  });
+ 
 
 
 window.deletePost = async function(postId){
@@ -354,15 +383,6 @@ window.deletePost = async function(postId){
     }
 
 }
-
-
-
-
-
-
-
-
-
 
 // ১. ডিলিট ফাংশনটিকে সরাসরি উইন্ডো অবজেক্টে সেট করা যাতে HTML একে সহজে খুঁজে পায়
 window.deleteVideo = async function(videoId) {
@@ -388,16 +408,6 @@ onAuthStateChanged(auth, async (user) => {
             let data = userSnap.data();
             document.getElementById("showName").innerHTML = data.name || "No Name Set";
         }
-
-
-
-
-
-
-
-
-
-
 
 const postFeed = document.getElementById("userPostFeed");
 
@@ -438,35 +448,6 @@ onSnapshot(postQuery, (snapshot) => {
     });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const videoFeed = document.getElementById("userVideoFeed");
         
         // শুধু কারেন্ট লগইন থাকা ইউজারের ভিডিও খোঁজার কোয়েরি

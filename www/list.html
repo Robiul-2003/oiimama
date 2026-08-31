@@ -4,18 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Menu</title>
     <style>
       body{
-           width:500px;margin: auto;
+           width:500px;margin: auto;background:rgb(255, 255, 255);
       } 
       .fa-angle-left{
        font-size:25px;margin:5%;cursor:pointer;
       }  
-   h2{
-    margin-left:10%;font-weight:bolder;cursor:pointer;
-   }
-        .allicon{
+      span{
+        font-size:24px; font-family: "Open Sans", sans-serif; font-weight: 700;
+      }
+   
+   h2 {
+    width: 80%;
+    min-height: 25px;
+    margin: 12px auto;
+    padding: 10px 15px;
+
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+
+    display: flex;
+    align-items: center;
+
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+h2:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    background: #fafafa;
+}
+
+h2:active {
+    transform: scale(0.97);
+}
+   
+   .allicon{
    text-align: center;cursor: pointer;
    font-size:27px;margin-top:20px;
   }
@@ -43,7 +81,7 @@
     font-size:25px;margin-top:20px;
   }
   hr{
-     border: 1px solid rgb(248, 245, 245);
+     border: 1px solid rgb(248, 245, 245); 
   }
   #vediocloseo{
     width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
@@ -53,22 +91,25 @@
   }
   #vedioline{
    width:90%;margin:4%;
-   height:30px;
+   height:30px;border-radius: 8px;;
   }
   #caption{
      width:90%;margin:4%;
-   height:30px;
+   height:30px;border-radius:4px;border:1px solid #ccc;
   }
- 
+  #videoFile{
+    margin-left:4%; margin-bottom:20px;
+  }
   #btnop{
-    width:40%; height:30px;border:1px solid black;margin-left:30%;
+    width:40%; height:30px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
+    font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650; background:#031f50;color:white;
   }
    #job{
    display:none;width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
   }
   #post{
   width:90%;
-  margin:4%;
+  margin:2%;
   min-height:120px;
   padding:10px;
   font-size:16px;
@@ -79,30 +120,34 @@
   outline:none;
   font-family:Arial, sans-serif;
 }
+.soja{
+  display: flex; gap:13px;margin:0% 6%;
+}
   #savepost{
-    width:40%; height:30px;border:1px solid black;margin-left:30%;
+    width:40%; height:30px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
+    font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650;background:#031f50;color:white;
   }
   @media(max-width:600px){
     body{
       width:100%;
     }
-     h2{
-    font-size:14px;
-   }
+  
+ 
   }
     </style>
 </head>
 <body>
-    <i class="fa-solid fa-angle-left" onclick="window.location='home.html'"></i>
-    <h2 onclick="window.location='add.html'">Add product</h2><hr>
-    <h2 onclick="vedio()" >Video share</h2><hr>    
+    <i class="fa-solid fa-angle-left" onclick="window.location='home.html'"> <span> Menu </span></i>
+    <h2 onclick="window.location='add.html'">📦 Add product</h2>
+    <h2 onclick="vedio()" >🎥 Video share</h2>    
       <div id="vediocloseo">
     <p onclick="veclose()" id="pac">X</p>
-    <input type="text" id="vedioline" placeholder="Video link"><br>
+    
     <input type="text" id="caption" placeholder="Caption"><br>
+    <input type="file" id="videoFile" accept="video/*"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
     </div>
-    <h2 onclick="jobs()">Post</h2><hr>
+    <h2 onclick="jobs()">📝 Post</h2>
     <div id="job">
       <div id="jobpost">
         <p onclick="jobspost()" id="pac1">X</p>
@@ -111,14 +156,15 @@
         <button onclick="savepost()" id="savepost">Save</button>
       </div>
     </div>
-    <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
-    <h2>Notifications</h2><hr>
-    <h2 onclick="window.location ='https://adarshaagent.com/'">Service</h2><hr>
-    <h2 onclick="window.location ='login.html' ">Login</h2><hr>
-    <h2 onclick="window.location ='signin.html' ">Sign in</h2><hr>
-    <div class="allicon">
-    <i class="fa-brands fa-facebook" onclick="window.location.href='https://www.facebook.com/profile.php?id=61590143801264'"></i><i class="fa-brands fa-tiktok"></i><i class="fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/adarshabd_/'"></i><i class="fa-brands fa-youtube" onclick="window.location.href='https://www.youtube.com/@AdarshaBD-AB2','_blank'"></i><i class="fa-brands fa-square-whatsapp" onclick="window.open('https://wa.me/8801614153820','_blank')"></i>
-   </div>
+    <div class="soja">
+      <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">💬 Chat</h2>
+    <h2>🔔 Notifications</h2>
+    </div>
+    <h2 onclick="window.location ='https://adarshaagent.com/'">🎰 Service</h2>
+    <h2 onclick="window.location ='https://adarshaagent.com/'">⚙️ Settings</h2>
+    <h2 onclick="window.location ='login.html' ">📱 Login</h2>
+    <h2 onclick="window.location ='signin.html' ">📲 Sign in</h2>
+   
 </body>
 <script type="module" src="script.js"></script>
 </html>

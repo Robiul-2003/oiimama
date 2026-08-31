@@ -24,16 +24,19 @@
 <meta property="og:url" content="http://adarshabd.com/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="http://adarshabd.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 <style>
 body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
 /* header */
 header{
   background: #031f50;
-  position: fixed;width:100%;top:0;z-index:999;height:60px;
+  position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  width:1400px;margin: auto;display: flex;justify-content:space-between;color:white;
+  width:1400px;margin: auto;justify-content:space-between;color:white;
 }
 /* search */
 #search{
@@ -43,20 +46,23 @@ header{
 }
 
 .fa-list{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:25px;cursor: pointer;
 }
  .fa-circle-user{
-     font-size:25px;margin-top:20px;cursor: pointer;
+     font-size:25px;cursor: pointer;
   }
   .fa-house{
-    font-size:25px;margin-top:20px;cursor: pointer;
+    font-size:25px;cursor: pointer;
   }
  .fa-facebook-messenger{
-  font-size:25px;margin-top:20px;
+  font-size:25px; cursor: pointer;
  }
  .fa-camera{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:25px;cursor: pointer;
  }
+ .fa-briefcase{
+    font-size:25px;display:inline-block; 
+  }
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
@@ -111,9 +117,6 @@ h2{
     gap:40px;
     position:relative;
 }
-
-
-
 .left{
     width:45%;
 }
@@ -173,12 +176,13 @@ h2{
   border-radius:5px;
   font-size:13px;
 }
+.profile{
+  color:green; font-family: "Open Sans", sans-serif; font-size:16px; font-weight:700;
+}
 .product p{
   margin:3px 0;
 }
-.fa-briefcase{
-    font-size:25px;margin-top:20px;display:inline-block; 
-  }
+
 #Obtn{
   width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
 }
@@ -198,9 +202,12 @@ h2{
 .banner{
   display:none;
 }
-.fa-angle-left{
-  font-size:30px;margin-left:5%;cursor: pointer;
+.fa-arrow-left{
+  font-size:30px;cursor: pointer;
 }
+ #productsearch{
+    display:none;
+  }
 #mainImg{
  border:1px solid rgb(229, 223, 223);
  width:100%;height:550px;object-fit: cover;
@@ -219,7 +226,6 @@ h2{
 .click{
   width:60px;height:60px;border-radius:10px;display: block;margin: auto;
 }
-
 #productcloseo{
   margin: auto;
   display:none;
@@ -230,9 +236,6 @@ h2{
 #pac{
  float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
 }
-
-
-
 .related-title{
     margin:30px 0 15px 0;
     font-size:22px;
@@ -258,8 +261,6 @@ h2{
     height:170px;
     object-fit:cover;
 }
-
-
   .fa-magnifying-glass{
     display:none;
   }
@@ -287,39 +288,51 @@ h2{
 @media(max-width:700px){
   header{
  background:#031f50;
-  position: fixed;width:100%;top:0;z-index:999;height:52px;
+  position: fixed;width:100%;top:0;z-index:999;height:78px;
+}
+.headone{
+  display: flex; align-items: center;
+}
+.name{
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+}
+.headtwo{
+  display: flex; align-items: center;
 }
   .header1{
     width:100%;
   }
   .fa-list{
-  font-size:25px;margin-top:20px;cursor: pointer;
+  font-size:22px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;
 }
    .fa-house{
-    font-size:25px;margin-top:13px;display:inline-block;margin-left:4%;
+    font-size:25px;display:inline-block;margin-left:4%; margin-top:5px;
   }
    .fa-briefcase{
-    font-size:25px;margin-top:13px;display:inline-block;
+    font-size:25px;display:inline-block; margin-left:11%; margin-top:5px;
   }
-  #mainImg{
+  .fa-magnifying-glass{
+   display:inline-block;font-size:21px;margin-top:10px;margin-left:47%; 
+  }
+   .fa-camera{
+  font-size:25px;cursor: pointer; margin-left:11%; margin-top:5px;
+ }
+ .fa-circle-user{
+     font-size:25px;cursor: pointer; margin-left: auto; margin-right:4%; margin-top:10px;
+  }
+  .fa-facebook-messenger{
+  font-size:25px; cursor: pointer; margin-left:11%; margin-top:7px;
+ }
+ .fa-bell{ 
+  font-size:25px; cursor: pointer; margin-left:11%; margin-top:7px;
+ }
+   #search{display:none;}
+   #mainImg{
  border:1px solid rgb(229, 223, 223);
  width:100%;object-fit: cover;height:370px;
 }
   h1{
     margin-left:4%;font-size:25px;
-  }
-  #search{display:none;}
-  .fa-list{
-      font-size:23px;margin-top:13px; margin-right:2%;
-  }
-  .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:13px;
-  }
-   .fa-camera{
-  font-size:25px;margin-top:13px;cursor: pointer;
- }
- .fa-circle-user{
-     font-size:25px;margin-top:13px;cursor: pointer;
   }
   .container{
     margin-top:10px;
@@ -327,6 +340,12 @@ h2{
   .modal-content{
     width:95%; display:block;
     padding:10px;
+  }
+  .leftsearch{
+    display:flex; gap:10px;
+  }
+  #productsearch{
+    display:inline-block; height:30px;width:90%; border-radius: 5px;border: 1px solid #ccc;
   }
   .left,
 .right{
@@ -339,7 +358,7 @@ h2{
  .slider {
     width:100%;
     height:120px;
-    margin:51px auto;
+    margin:73px auto;
     position:relative;
     overflow:hidden;
   }
@@ -361,15 +380,15 @@ h2{
 
   .box{
      width: 97%;
-  height: 80px;
+  height:60px;
   display: flex;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 150px;
+  top: 170px;
   z-index: 10;
   background:none;
-  gap:25px;
+  gap:20px;
   text-align: center;
   overflow-x: auto;
   white-space: nowrap;
@@ -383,7 +402,7 @@ h2{
     font-size:13px;display: inline-block;vertical-align: top;
   }
   .click{
-    width:40px;height:40px;border-radius:10px;display: block;margin: auto;
+    width:35px;height:35px;border-radius:10px;display: block;margin: auto;
   }
   @keyframes shrink{
     from{transform:scale(1);}
@@ -391,7 +410,7 @@ h2{
   }
   #opensearchbox{
     position:fixed;
-    top:0;left:0;width:100%;height:52px;
+    top:0;left:0;width:100%;height:50px; margin-top:43px;
     background:#031f50;display:none;z-index:9999;
   }
   #opensearchbox .search-inner{
@@ -440,11 +459,15 @@ h2{
 <body>
 <header>
   <div class="header1">
-  <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
-  <input id="search" placeholder="Search product ..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
+    <div class="headone"><span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headtwo">
+    <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-brands fa-facebook-messenger"></i>
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> <i class="fa-solid fa-bell"></i><i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
     
-  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+ 
+ 
+
+    </div>
   </div>
 </header>
 <div id="opensearchbox">
@@ -454,12 +477,12 @@ h2{
   </div>
 </div>
 <div class="slider">
-  <img src="banner.1.jpg" class="banner" alt="Banner">
-  <img src="banner3.jpg" class="banner" alt="Banner">
-  <img src="banner6.jpg" class="banner" alt="Banner">
-  <img src="banner5.jpg" class="banner" alt="Banner">
-<img src="banner4.jpg" class="banner" alt="Banner">
-<img src="banner.png" class="banner" alt="Banner">
+  <img src="banner1.jpeg" class="banner" alt="Banner">
+  <img src="banner2.jpeg"class="banner" alt="Banner">
+  <img src="banner3.jpeg" class="banner" alt="Banner">
+  <img src="banner4.jpeg" class="banner" alt="Banner">
+<img src="banner5.jpeg" class="banner" alt="Banner">
+<img src="banner.jpeg" class="banner" alt="Banner">
 </div>
 
 <div class="box">
@@ -468,7 +491,7 @@ h2{
   <div class="clickbox" onclick="filterProducts('man')"><img src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" class="click"> man </div>
   <div class="clickbox" onclick="filterProducts('woman')"><img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="click"> woman </div>
   <div class="clickbox" onclick="filterProducts('baby')"><img src="baby.png" class="click"> baby </div>
-  <div class="clickbox" onclick="filterProducts('mobile')"><img src="https://img.magnific.com/free-vector/smart-phone-flat-style_78370-4084.jpg" alt="mobile" class="click">Mobile</div>
+  <div class="clickbox" onclick="filterProducts('mobile')"><img src="phoneicon.png" alt="mobile" class="click">Mobile</div>
   <div class="clickbox" onclick="filterProducts('accessories')"><img src="https://cdn-icons-png.flaticon.com/512/3659/3659898.png" alt="Phone Accessories" class="click">accessories </div>
   <div class="clickbox" onclick="filterProducts('latop')"> <img src="https://techmarvels.com.bd/wp-content/uploads/2026/02/HP-15-fd0154wm-1.webp" alt="light bulb" class="click"> Laptop </div>
   <div class="clickbox" onclick="filterProducts('Electrical')"> <img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="light bulb" class="click"> Electrical </div>
@@ -486,7 +509,10 @@ h2{
 
     <!-- Left -->
     <div class="left">
-     <i class="fa-solid fa-angle-left" onclick="closeModal()"></i><br><br>
+      <div class="leftsearch">
+        <i class="fa-solid fa-arrow-left" onclick="closeModal()"></i>
+         <input id="productsearch" placeholder="Search product ..." onkeyup="searchProduct()">
+      </div><br>
       <img id="mainImg" src="" alt="Product Image">
       <div class="thumbs" id="thumbs"></div>
     </div>
@@ -498,7 +524,8 @@ h2{
       <p id="psize"></p>
 
       <div id="ppieces"></div>
-      <div id="pprice"></div><br><br>
+      <div id="pprice"></div><br>
+      <div class="profile" onclick="window.location.href='user.html'"></div><br>
        <button onclick="orderNow()" id="Obtn">Order Now</button>
       <button onclick="alert('Added to Cart')" id="Obtn1">Add To Cart</button>
        <h4>Details</h4>
