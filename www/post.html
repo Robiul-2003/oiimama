@@ -22,7 +22,7 @@
         .header1 {
             width: 1400px;
             margin: auto;
-            display: flex;
+          
             justify-content: space-between;
             color: white;
             padding: 0 15px;
@@ -146,17 +146,30 @@
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
               header{
-                 background:#031f50;
-                position: fixed;width:100%;top:0;z-index:999;height:52px;
+                 background:white;
+                position: fixed;width:100%;top:0;z-index:999;height:78px
           }
             .header1 { width: 100%; padding: 0 10px; }
             #search { display: none; }
-            .fa-house, .fa-briefcase, .fa-circle-user, .fa-camera, .fa-list {
-                font-size: 25px;
-                margin-top:13px;
-            }
+             .name{
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+  color: #031f50;
+}
+.headtwo{
+  display: flex; align-items: center;
+}
+  .header1{
+    width:100%;
+  }
+  .fa-list{
+  font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
+}
+ 
+  .fa-magnifying-glass{
+   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
+  }
             
-            .fa-house { margin-left: 0; }
+           
             .fa-list { margin-right: 0; }
             #showJob { margin-top: 70px; padding: 5px; }
             .job-card { padding: 14px; margin: 10px 0; }
@@ -164,23 +177,16 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header1">
-            <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i>
-            <i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i>
-            <i class="fa-solid fa-circle-user" onclick="window.location.href='user.html'"></i>
-            <input id="search" placeholder="Search product ..." onkeyup="searchProduct()">
-            <i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
-              <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-              <div id="opensearchbox">
-  <div class="search-inner">
-    <input id="ONEsearch" placeholder="Search product ..." onkeyup="searchProduct()">
-    <p onclick="searchclose()" id="X">X</p>
+  <header>
+  <div class="header1">
+    <div class="headone"><span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headtwo">
+    <img  src="home.png" style="width:40px;height:30px;margin-left:3%; "  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
+
+    </div>
   </div>
-</div>
-            <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
-        </div>
-    </header>
+</header>
 
     <div id="showJob"></div>
 

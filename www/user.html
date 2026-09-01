@@ -29,7 +29,7 @@ header{
   background:#031f50; position: fixed;width:100%;top:0;z-index:999;height:60px;
 }
 .header1{
-  width:1400px;margin: auto;display: flex;justify-content:space-between;color:white;
+  width:1400px;margin: auto;justify-content:space-between;color:white;
 }
 /* search */
 #search{
@@ -156,6 +156,20 @@ h2{
   width:50%; margin:0px 0px 0px  auto;border-radius:20%;
   }
 @media(max-width:600px){
+    header{
+ background:white;
+ width:100%;top:0;z-index:999;height:78px;
+}
+.headone{
+  display: flex; align-items: center;
+}
+.name{
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+  color: #031f50;
+}
+.headtwo{
+  display: flex; align-items: center;
+}
   .header1{
     width:100%;
   }
@@ -164,10 +178,10 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:25px;margin-top:20px; margin-right:2%;
+      font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
   }
   .fa-magnifying-glass{
-   display:inline-block;font-size:25px;margin-top:20px;
+  display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
   }
   .click{
     width:40px;height:40px;border-radius:10px;display: block;margin: auto;
@@ -197,40 +211,10 @@ h2{
    font-size:27px;margin-top:70px;
   }
   .allicon i { cursor: pointer; }
-  .fa-youtube{
-    margin-left:15px;
-   color:red;
-  }
-  .fa-square-whatsapp{
-    color:rgb(26, 191, 26);margin-left:15px;
-  }
-  .fa-facebook{
-    color:#1877F2;margin-left:15px;
-  }
-  .fa-tiktok{
-    color:#000000;margin-left:15px;
-  }
-  .fa-instagram{
-    color:#E1306C;margin-left:15px;
-  }
-  .fa-facebook-messenger{
-     font-size:25px;margin-top:20px;margin-left:0px;display:inline-block;
-  }
-  .fa-bell{
-    font-size:25px;margin-top:20px;display:inline-block;
-  }
-  .fa-camera{
-      font-size:25px;margin-top:20px;display:inline-block;
-  }
-  .fa-circle-user{
-     font-size:25px;margin-top:20px;display:inline-block;margin-left:0;
-  }
-  .fa-house{
-    font-size:25px;margin-top:20px;display:inline-block;margin-left:4%;
-  }
-  .fa-briefcase{
-    font-size:25px;margin-top:20px;display:inline-block;
-  }
+
+ 
+ 
+ 
  
   #chatbtn{
     margin:0% 30%;
@@ -254,11 +238,13 @@ h2{
 <body>
 <header>
   <div class="header1">
-      <i class="fa-solid fa-house" onclick="window.location.href='home.html'"></i><i class="fa-solid fa-briefcase" onclick="window.location.href='post.html'"></i><i class="fa-solid fa-circle-user" onclick="window.location.href=''"></i> 
-    
-  <input id="search" placeholder="Search..." onkeyup="searchProduct()"><i class="fa-solid fa-camera" onclick="window.location.href='vedio.html'"></i> 
-  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
-  <i class="fa-solid fa-list" onclick="window.location ='list.html'"></i>
+    <div class="headone">
+      <span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+    </div>
+    <div class="headtwo">
+    <img  src="home.png" style="width:40px;height:30px;margin-left:3%;"  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
+    </div>
   </div>
 </header>
 <div id="opensearchbox">
