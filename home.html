@@ -526,6 +526,14 @@ h2{
 </div>
 
 <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+        if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
+          const { StatusBar } = window.Capacitor.Plugins;
+          await StatusBar.setBackgroundColor({ color: '#' });
+          await StatusBar.setStyle({ style: 'DARK' });
+        }
+      });
+
   function searchicon() {
     document.getElementById("opensearchbox").style.display = "block";
 }

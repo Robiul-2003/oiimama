@@ -64,6 +64,13 @@
     <h1>a</h1>
     <h2>Adarsha BD</h2>
     <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
+          const { StatusBar } = window.Capacitor.Plugins;
+          await StatusBar.setBackgroundColor({ color: '#ffffff' });
+          await StatusBar.setStyle({ style: 'LIGHT' });
+        }
+      });
       setTimeout(function(){
         window.location.href ="home.html";
       }, 3000);
