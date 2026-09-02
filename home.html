@@ -32,7 +32,7 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
 /* header */
 header{
-  background: #031f50;
+  background:#042867;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
@@ -110,7 +110,7 @@ h2{
     width:95%;
     max-width:1300px;
     background:#fff;
-    margin:10px auto;
+    margin: auto;
     padding:150px;
     border-radius:8px;
     display:flex;
@@ -136,8 +136,8 @@ h2{
 }
 .thumbs{
   display: flex;
-  gap: 5px;
-  margin-top: 10px;
+  gap:5px;
+  margin-top:10px;
 }
 .thumbs img{
   width:60px;border:1px solid rgb(161, 154, 154);
@@ -173,7 +173,6 @@ h2{
   width:33%;
   padding:4px 8px;
   background:#f2f2f2;
-  border-radius:5px;
   font-size:13px;
 }
 .profile{
@@ -311,9 +310,7 @@ h2{
    display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
   }
  
-  .fa-facebook-messenger{
-  font-size:25px; cursor: pointer; margin-left:8%; margin-top:7px;color:rgb(48, 46, 46);
- }
+
    #search{display:none;}
    #mainImg{
  border:1px solid rgb(229, 223, 223);
@@ -327,7 +324,7 @@ h2{
   }
   .modal-content{
     width:95%; display:block;
-    padding:10px;
+    padding:10px;border:px solid red;
   }
   .leftsearch{
     display:flex; gap:10px;
@@ -524,15 +521,23 @@ h2{
 
   </div>
 </div>
-
+<script src="capacitor.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-        if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
+async function fixStatusBar() {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
           const { StatusBar } = window.Capacitor.Plugins;
-          await StatusBar.setBackgroundColor({ color: '#' });
-          await StatusBar.setStyle({ style: 'DARK' });
+          
+          // ব্যাকগ্রাউন্ড সাদা করা
+          await StatusBar.setBackgroundColor({ color: '#ffffff' });
+          
+          // আইকন এবং টেক্সট কালো করার জন্য 'LIGHT' ব্যবহার করা
+          await StatusBar.setStyle({ style: 'LIGHT' });
         }
-      });
+      }
+      window.onload = fixStatusBar;
+
+
+
 
   function searchicon() {
     document.getElementById("opensearchbox").style.display = "block";

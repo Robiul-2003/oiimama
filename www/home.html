@@ -32,7 +32,7 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
 /* header */
 header{
-  background: #031f50;
+  background:#042867;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
@@ -524,8 +524,24 @@ h2{
 
   </div>
 </div>
-
+<script src="capacitor.js"></script>
 <script>
+async function fixStatusBar() {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
+          const { StatusBar } = window.Capacitor.Plugins;
+          
+          // ব্যাকগ্রাউন্ড সাদা করা
+          await StatusBar.setBackgroundColor({ color: '#ffffff' });
+          
+          // আইকন এবং টেক্সট কালো করার জন্য 'LIGHT' ব্যবহার করা
+          await StatusBar.setStyle({ style: 'LIGHT' });
+        }
+      }
+      window.onload = fixStatusBar;
+
+
+
+
   function searchicon() {
     document.getElementById("opensearchbox").style.display = "block";
 }

@@ -1,5 +1,12 @@
 {
   "appId": "com.adarshabd.app",
   "appName": "Adarsha BD",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": false,
+      "backgroundColor": "#ffffff",
+      "style": "LIGHT"
+    }
+  }
 }
