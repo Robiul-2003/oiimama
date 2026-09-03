@@ -5,12 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test 1</title>
 </head>
-
 <body>
 
-<h1 onclick="window.location.href='test2.html'">
-    Welcome to Adarsha BD
-</h1>
+    <h1 onclick="window.location.href='test2.html'">
+        Welcome to Adarsha BD
+    </h1>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+          const { App } = window.Capacitor.Plugins;
+
+          App.addListener('backButton', () => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              App.exitApp();
+            }
+          });
+        }
+      });
+    </script>
 </body>
 </html>
