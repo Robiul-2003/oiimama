@@ -172,10 +172,10 @@
         </div>
           <div class="form-group">
             <label for="Color">Product Color *</label>
-            <input type="text" id="color" placeholder=" Color" required>
+            <input type="text" id="Color" placeholder=" Color" required>
         </div>
          <div class="form-group">
-            <label for="size">Product Size *</label>
+            <label for="Size">Product Size *</label>
             <input type="text" id="Size" placeholder="Size" required>
         </div>
         <div class="form-group">
@@ -193,12 +193,12 @@
                 <option value="clothing">Clothing & Fashion</option>
                 <option value="electronics">Electronics</option>
                 <option value="gadget">Gadget</option>
-                <option value="man">Man</option>
-                <option value="woman">Woman</option>
-                <option value="woman">Mobile</option>
-                <option value="woman">Laptop</option>
-                <option value="woman">Cars</option>
-                <option value="baby">Baby</option>
+                <option value="Man">Man</option>
+                <option value="Woman">Woman</option>
+                <option value="Mobile">Mobile</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Cars">Cars</option>
+                <option value="Baby">Baby</option>
                 <option value="Kitchen">Kitchen</option>
                 <option value="accessories">Accessories</option>
                 <option value="other">Other</option>
@@ -227,6 +227,20 @@
                     <span class="upload-icon" id="icon-3">+</span>
                     <img id="img-3" alt="Preview">
                     <input type="file" id="input-3" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 3)">
+                </div>
+                 <div class="image-slot" onclick="triggerInput(4)">
+                    <div class="slot-number">4</div>
+                    <div class="delete-btn" id="delete-4" onclick="deleteImage(event, 4)">X</div>
+                    <span class="upload-icon" id="icon-4">+</span>
+                    <img id="img-4" alt="Preview">
+                    <input type="file" id="input-4" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 4)">
+                </div>
+                 <div class="image-slot" onclick="triggerInput(5)">
+                    <div class="slot-number">5</div>
+                    <div class="delete-btn" id="delete-5" onclick="deleteImage(event, 5)">X</div>
+                    <span class="upload-icon" id="icon-5">+</span>
+                    <img id="img-5" alt="Preview">
+                    <input type="file" id="input-5" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 5)">
                 </div>
             </div>
         </div>
@@ -280,8 +294,33 @@ onAuthStateChanged(auth, (user) => {
     }
 
 });
+// ================= GLOBAL BACK BUTTON HANDLER =================
+// ১. স্ট্যান্ডার্ড অ্যান্ড্রয়েড ওয়েবভিউ ইভেন্ট লিসেনার
+document.addEventListener("backbutton", function (e) {
+    e.preventDefault();
+    handleGoBack();
+}, false);
 
-// ================= IMAGE =================
+// ২. Capacitor ব্যাক বাটন হ্যান্ডলিং
+function setupCapacitorBack() {
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        window.Capacitor.Plugins.App.addListener('backButton', () => {
+            handleGoBack();
+        });
+    }
+}
+document.addEventListener("deviceready", setupCapacitorBack, false);
+
+function handleGoBack() {
+    if (window.history.length > 1) {
+        window.history.back(); // আগের পেজে ফেরা নিশ্চিত করবে
+    } else {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+            window.Capacitor.Plugins.App.exitApp();
+        }
+    }
+}
+// ================= IMAGE FUNCTIONS=================
 
 window.triggerInput = function(id){
     document.getElementById("input-"+id).click();
@@ -299,29 +338,19 @@ window.previewSlotImage = function(input,id){
 
         document.getElementById("img-"+id).src=e.target.result;
         document.getElementById("img-"+id).style.display="block";
-
         document.getElementById("icon-"+id).style.display="none";
-
         document.getElementById("delete-"+id).style.display="flex";
-
     }
-
     reader.readAsDataURL(file);
 
 }
 
 window.deleteImage=function(event,id){
-
     event.stopPropagation();
-
     document.getElementById("input-"+id).value="";
-
     document.getElementById("img-"+id).src="";
-
     document.getElementById("img-"+id).style.display="none";
-
     document.getElementById("icon-"+id).style.display="block";
-
     document.getElementById("delete-"+id).style.display="none";
 
 }
@@ -329,15 +358,10 @@ window.deleteImage=function(event,id){
 // ================= ADD PRODUCT =================
 
 document.getElementById("productForm").addEventListener("submit",async(e)=>{
-
     e.preventDefault();
-
     if(!currentUser){
-
         alert("Please Login First.");
-
         return;
-
     }
 
     const btn=document.getElementById("submitBtn");
@@ -347,7 +371,7 @@ document.getElementById("productForm").addEventListener("submit",async(e)=>{
 
     let images=[];
 
-    for(let i=1;i<=3;i++){
+    for(let i=1;i<=5;i++){
 
         const img=document.getElementById("img-"+i);
 
@@ -396,50 +420,27 @@ document.getElementById("productForm").addEventListener("submit",async(e)=>{
         ownerEmail:currentUser.email,
 
         createdAt:serverTimestamp()
-
     };
 
-    try{
+ try {
+    await setDoc(doc(db, "products", id), product);
+    alert("✅ Product Added Successfully");
+    document.getElementById("productForm").reset();
 
-        await setDoc(doc(db,"products",id),product);
-
-        alert("✅ Product Added Successfully");
-
-        document.getElementById("productForm").reset();
-
-        location.href="index.html";
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(error.message);
-
-        btn.disabled=false;
-
-        btn.innerText="Add Product";
-
+    // সরাসরি location.href না দিয়ে ব্যাক নেভিগেশন চেক করা হচ্ছে
+    if (window.history.length > 1) {
+        window.history.back(); // আগের পেজে ফিরে যাবে
+    } else {
+        location.href = "index.html"; // ব্যাক হিস্ট্রি না থাকলে index.html-এ যাবে
     }
 
-});
-
-if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-
-    import('@capacitor/app').then(({ App }) => {
-
-        App.addListener('backButton', ({ canGoBack }) => {
-
-            if (canGoBack) {
-                window.history.back();
-            } else {
-                App.exitApp();
-            }
-
-        });
-
-    });
-
+} catch (error) {
+    console.error(error);
+    alert(error.message);
+    btn.disabled = false;
+    btn.innerText = "Add Product";
 }
+});
 </script>
 </body>
 </html>

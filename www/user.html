@@ -155,10 +155,10 @@ h2{
   .userid{
   width:50%; margin:0px 0px 0px  auto;border-radius:20%;
   }
-@media(max-width:600px){
-    header{
+@media(max-width:700px){
+   header{
  background:white;
- width:100%;top:0;z-index:999;height:78px;
+  position: fixed;width:100%;top:0;z-index:999;height:78px;
 }
 .headone{
   display: flex; align-items: center;
@@ -180,8 +180,8 @@ h2{
   .fa-list{
       font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
   }
-  .fa-magnifying-glass{
-  display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
+    .fa-magnifying-glass{
+   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
   }
   .click{
     width:40px;height:40px;border-radius:10px;display: block;margin: auto;
@@ -214,12 +214,14 @@ h2{
 
  
  
- 
+   #likebtn{
+    margin-left:8%; width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
+  }
  
   #chatbtn{
-    margin:0% 30%;
     width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
   }
+
   #profilebox{
    width:200px;height:200px;border:2px solid #031f50;border-radius:50%;margin: auto; overflow: hidden;
   }
@@ -295,7 +297,7 @@ h2{
 </label>
 <input type="file" id="profileimg" accept="image/*">
 </div>
-<h2 id="showName" style=" margin-top:5px;"></h2><button id="chatbtn">Chat</button>
+<h2 id="showName" style=" margin-top:5px;"></h2><button id="likebtn">Like</button> <button id="chatbtn">Chat</button>
 
 <h3 style="text-align:center;"></h3>
 <div id="productList" style="

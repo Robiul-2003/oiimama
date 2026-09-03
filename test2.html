@@ -1,25 +1,31 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test 2</title>
 </head>
-<body>
-    <input type="file"  id="imgfile" accept="image/*">
-    <img id="hello" style="width:300px">
-    <script>
-        const one = document.getElementById('imgfile');
-        const two = document.getElementById('hello');
-      
-         one.addEventListener("change", function(){
-            const three = this.files[0];
-            if(three){
-                two.src = URL.createObjectURL(three);
-            }
-         })
 
-    </script>
+<body>
+
+<input type="file" id="imgfile" accept="image/*">
+
+<img id="hello" style="width:300px">
+
+<script>
+const one = document.getElementById("imgfile");
+const two = document.getElementById("hello");
+
+one.addEventListener("change", function () {
+    const three = this.files[0];
+
+    if (three) {
+        two.src = URL.createObjectURL(three);
+    }
+});
+</script>
+
 </body>
 </html>
-
