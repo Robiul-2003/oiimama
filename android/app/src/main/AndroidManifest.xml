@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- TikTok/YouTube/FB থেকে শেয়ার লিংক রিসিভ করার জন্য নিচে এই ফিল্টারটি যোগ করা হয়েছে -->
+            <!-- TikTok/YouTube/FB থেকে শেয়ার লিংক রিসিভ করার Intent Filter -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -38,11 +38,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 
     <!-- Permissions -->
-
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

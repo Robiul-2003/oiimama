@@ -1,3 +1,6 @@
+ // আপনার অন্যান্য import গুলোর সাথে এটি যোগ করুন
+import { App } from '@capacitor/app';
+ 
  window.vedio = function () {
     document.getElementById("vediocloseo").style.display = "block";
 }
@@ -624,4 +627,33 @@ window.searchUser = function(){
       alert("সার্চ করার সময় কিছু একটা সমস্যা হয়েছে!");
     }
   }, 300);
+}
+
+// Android App/Share Intent থেকে শেয়ার করা লিংক ক্যাচ করা
+App.addListener('appUrlOpen', (data) => {
+    if (data && data.url) {
+        handleIncomingSharedData(data.url);
+    }
+});
+
+function handleIncomingSharedData(rawText) {
+    if (!rawText) return;
+
+    // শেয়ার করা ডাটা থেকে HTTP/HTTPS ভিডিও URL বের করা
+    const urlMatches = rawText.match(/(https?:\/\/[^\s]+)/g);
+
+    if (urlMatches && urlMatches.length > 0) {
+        const extractedLink = urlMatches[0];
+
+        // ১. ভিডিও শেয়ার করার ডায়ালগ/পপআপ ওপেন হবে
+        if (typeof window.vedio === "function") {
+            window.vedio();
+        }
+
+        // ২. vedioline ইনপুট বক্সে লিংক অটোমেটিক বসে যাবে
+        const videoInput = document.getElementById("vedioline");
+        if (videoInput) {
+            videoInput.value = extractedLink;
+        }
+    }
 }

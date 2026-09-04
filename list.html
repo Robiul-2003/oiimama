@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -139,12 +139,11 @@ h2:active {
 <body>
     <i class="fa-solid fa-angle-left" onclick="window.location='home.html'"> <span> Menu </span></i>
     <h2 onclick="window.location='add.html'">📦 Add product</h2>
-    <h2 onclick="vedio()" >🎥 Video share</h2>    
+    <h2 onclick="vedio()" >Video share</h2><hr>    
       <div id="vediocloseo">
     <p onclick="veclose()" id="pac">X</p>
-    
+    !-- <input type="text" id="vedioline" placeholder="Video link"><br> --
     <input type="text" id="caption" placeholder="Caption"><br>
-    <input type="file" id="videoFile" accept="video/*"><br>
     <button onclick="shareVideo()" id="btnop">Share</button> 
     </div>
     <h2 onclick="jobs()">📝 Post</h2>
@@ -167,4 +166,185 @@ h2:active {
    
 </body>
 <script type="module" src="script.js"></script>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Menu</title>
+    <style>
+      body {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        background: rgb(255, 255, 255);
+      } 
+      
+      .top-bar {
+        display: flex;
+        align-items: center;
+        margin: 5%;
+        cursor: pointer;
+      }
+
+      .fa-angle-left {
+        font-size: 25px;
+        margin-right: 10px;
+      }  
+
+      .top-bar span {
+        font-size: 24px; 
+        font-family: "Open Sans", sans-serif; 
+        font-weight: 700;
+      }
+    
+      .menu-item {
+        width: 80%;
+        min-height: 25px;
+        margin: 12px auto;
+        padding: 10px 15px;
+        background: #ffffff;
+        border: 1px solid #eeeeee;
+        border-radius: 10px;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        background: #fafafa;
+      }
+
+      .menu-item:active {
+        transform: scale(0.97);
+      }
+
+      .close-btn {
+        text-align: right;
+        padding-right: 15px;
+        font-size: 22px;
+        color: red;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      #vediocloseo, #job {
+        width: 90%;
+        border: 1px solid rgb(228, 220, 220);
+        display: none;
+        margin: 10px auto;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      #caption {
+        width: 90%;
+        margin: 4%;
+        height: 35px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding-left: 8px;
+      }
+
+      #btnop, #savepost {
+        width: 40%;
+        height: 35px;
+        border: 1px solid #ccc;
+        margin: 10px auto;
+        display: block;
+        border-radius: 5px;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 650;
+        background: #031f50;
+        color: white;
+        cursor: pointer;
+      }
+
+      #post {
+        width: 95%;
+        margin: 2% auto;
+        display: block;
+        min-height: 100px;
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1.6;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        resize: none;
+        outline: none;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .soja {
+        display: flex;
+        gap: 13px;
+        width: 86%;
+        margin: 0 auto;
+      }
+
+      .soja .menu-item {
+        width: 100%;
+        margin: 12px 0;
+      }
+
+      hr {
+        border: 1px solid rgb(248, 245, 245); 
+      }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar" onclick="window.location='home.html'">
+      <i class="fa-solid fa-angle-left"></i>
+      <span>Menu</span>
+    </div>
+
+    <div class="menu-item" onclick="window.location='add.html'">📦 Add product</div>
+    <div class="menu-item" onclick="vedio()">🎥 Video share</div>
+    
+    <hr>    
+
+    <div id="vediocloseo">
+      <div onclick="veclose()" class="close-btn">&times;</div>
+      <input type="text" id="caption" placeholder="Caption"><br>
+      <button onclick="shareVideo()" id="btnop">Share</button> 
+    </div>
+
+    <div class="menu-item" onclick="jobs()">📝 Post</div>
+
+    <div id="job">
+      <div id="jobpost">
+        <div onclick="jobspost()" class="close-btn">&times;</div>
+        <textarea id="post" placeholder="What's on your mind?" rows="3"></textarea>
+        <button onclick="savepost()" id="savepost">Save</button>
+      </div>
+    </div>
+
+    <div class="soja">
+      <div class="menu-item" onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">💬 Chat</div>
+      <div class="menu-item">🔔 Notifications</div>
+    </div>
+
+    <div class="menu-item" onclick="window.location='https://adarshaagent.com/'">🎰 Service</div>
+    <div class="menu-item" onclick="window.location='https://adarshaagent.com/'">⚙️ Settings</div>
+    <div class="menu-item" onclick="window.location='login.html'">📱 Login</div>
+    <div class="menu-item" onclick="window.location='signin.html'">📲 Sign in</div>
+
+    <script type="module" src="script.js"></script>
+</body>
 </html>

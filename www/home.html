@@ -32,37 +32,77 @@ body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
 /* header */
 header{
-  background:#042867;
+  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  width:1400px;margin: auto;justify-content:space-between;color:white;
+  max-width:1400px;margin: auto;color:#031f50;
 }
+.headone{
+justify-content:space-between;align-items:center;display:flex;
+}
+.name{
+  font-size:23px;padding-top:10px;
+}
+.headtwo{
+display:flex;margin-top:7px;
+}
+.fa-list{
+  font-size:25px;cursor: pointer;padding-top:10px;
+}
+ 
 /* search */
 #search{
-  height:25px;margin-top:10px;
-  padding:6px;
-  width:600px;
+  height:30px;width:40%;  margin-left:5%; 
+ 
 }
 
-.fa-list{
-  font-size:25px;cursor: pointer;
+   #homeimg{
+    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
+    }
+    #pentoimg{
+      width:35px;height:32px;margin-left:7%;border-radius:5%;
+    }
+  #messageimg{
+ width:35px;height:32px;margin-left:7%;border-radius:5%;
+  }
+#videoimg{
+width:40px;height:35px;margin-left:7%;border-radius:5%;
 }
- .fa-circle-user{
-     font-size:25px;cursor: pointer;
+#bellimg{
+width:33px; height:33px;margin-left:7%;border-radius:5%;
+}
+#userimg{
+  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+}
+.sliderQR{
+  display:flex;max-width:1200px;margin:auto; margin-top:40px;
+}
+.slider {
+    width:100%;
+    height:400px;
+    margin: auto;
+    position:relative;
+    overflow:hidden;
   }
-  .fa-house{
-    font-size:25px;cursor: pointer;
+
+  .banner {
+    width:100%;
+    height:400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+   display:block;
+    transform: translateX(100%);
+    transition: transform 0.7s ease-in-out;
   }
- .fa-facebook-messenger{
-  font-size:25px; cursor: pointer;
- }
- .fa-camera{
-  font-size:25px;cursor: pointer;
- }
- .fa-briefcase{
-    font-size:25px;display:inline-block; 
+
+  .banner.active {
+    transform: translateX(0);
   }
+.appQR{
+  width:320px;height:400px;
+}
 /* products */
 .container{
   display:flex; max-width:1400px;margin: auto;
@@ -198,9 +238,6 @@ h2{
   background: rgba(0,0,0,0.7);
   overflow-y: auto;
 }
-.banner{
-  display:none;
-}
 .fa-arrow-left{
   font-size:30px;cursor: pointer;
 }
@@ -212,9 +249,9 @@ h2{
  width:100%;height:550px;object-fit: cover;
 }
 .box{
-  max-width:1400px; display: flex;margin-left:2%;margin-top:0px;
+  max-width:1200px; display: flex;margin-left:2%;margin-top:0px;
     height:110px;gap:3%;text-align: center;margin: auto;
-    overflow-x:auto;    
+    overflow-x:auto;   
     white-space:nowrap;  
     scroll-behavior:smooth;
 }
@@ -293,21 +330,22 @@ h2{
   display: flex; align-items: center;
 }
 .name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
   color: #031f50;
 }
 .headtwo{
-  display: flex; align-items: center;
+  display: flex; align-items: center;margin-top:0px;
 }
   .header1{
     width:100%;
   }
   .fa-list{
-  font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
+  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
 }
  
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
+   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
+   display:inline-block;
   }
  
 
@@ -340,10 +378,13 @@ h2{
 #mainImg{
     height:350px;
 }
+.sliderQR{
+  margin-top:40px;
+}
  .slider {
     width:100%;
     height:120px;
-    margin:73px auto;
+    margin:43px auto;
     position:relative;
     overflow:hidden;
   }
@@ -362,7 +403,9 @@ h2{
   .banner.active {
     transform: translateX(0);
   }
-
+.appQR{
+  display:none;
+}
   .box{
      width: 97%;
   height:60px;
@@ -395,7 +438,7 @@ h2{
   }
   #opensearchbox{
     position:fixed;
-    top:0;left:0;width:100%;height:50px; margin-top:43px;
+    top:0;left:0;width:100%;height:50px; margin-top:40px;
     background:white;display:none;z-index:9999;
   }
   #opensearchbox .search-inner{
@@ -438,16 +481,41 @@ h2{
     .related-products .product img{
         height:160px;
     }
+    #homeimg{
+    width:40px;height:30px;margin-left:3%;
+    }
+    #pentoimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+    #messageimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+   #videoimg{ 
+    width:40px;height:35px;margin-left:8%;
+    }
+    #bellimg{
+width:33px; height:33px;margin-left: auto;margin-right:1%;
+}
+#userimg{
+  width:30px;height:30px;margin-left: auto;margin-right:4%;
+}
 }
 </style>
 </head>
 <body>
 <header>
   <div class="header1">
-    <div class="headone"><span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headone">
+      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+    </div>
     <div class="headtwo">
-    <img  src="home.png" style="width:40px;height:30px;margin-left:3%; "  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
+  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
+  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
+  <img src="message.png" id="messageimg" >
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
+  <img  src="bell.png" id="bellimg">
+  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
 
     </div>
   </div>
@@ -458,13 +526,16 @@ h2{
     <p onclick="searchclose()" id="X">X</p>
   </div>
 </div>
-<div class="slider">
+<div class="sliderQR">
+  <div class="slider">
   <img src="banner1.jpeg" class="banner" alt="Banner">
   <img src="banner2.jpeg"class="banner" alt="Banner">
   <img src="banner3.jpeg" class="banner" alt="Banner">
   <img src="banner4.jpeg" class="banner" alt="Banner">
-<img src="banner5.jpeg" class="banner" alt="Banner">
-<img src="banner.jpeg" class="banner" alt="Banner">
+  <img src="banner5.jpeg" class="banner" alt="Banner">
+  <img src="banner.jpeg"  class="banner" alt="Banner">
+</div>
+<img src="8842240.jpg" class="appQR"  alt="">
 </div>
 
 <div class="box">

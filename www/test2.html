@@ -3,40 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test 2</title>
+    <title>Video Share Receiver</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+      }
+      #videoContainer {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        text-align: center;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      iframe {
+        border-radius: 8px;
+      }
+    </style>
 </head>
 <body>
 
-    <input type="file" id="imgfile" accept="image/*">
-    <img id="hello" style="width:300px">
+<div id="videoContainer">
+  <p id="statusMsg">ভিডিও প্লে করার জন্য টিকটক, ফেসবুক বা ইউটিউব থেকে শেয়ার করুন</p>
+  <div id="player"></div>
+</div>
 
-    <script>
-      // ইমেজ আপলোড লজিক
-      const one = document.getElementById("imgfile");
-      const two = document.getElementById("hello");
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ১. অ্যাপ যখন ব্যাকগ্রাউন্ড বা ইনস্ট্যান্ট ওপেন হবে (Capacitor App Listener)
+  if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+    window.Capacitor.Plugins.App.addListener('appUrlOpen', (data) => {
+      if (data && data.url) {
+        handleSharedLink(data.url);
+      }
+    });
+  }
 
-      one.addEventListener("change", function () {
-          const three = this.files[0];
+  // ২. ইউআরএল প্যারামিটার চেক করা (অ্যান্ড্রয়েড ইনটেন্ট থেকে আসা ডেটা)
+  const urlParams = new URLSearchParams(window.location.search);
+  const sharedText = urlParams.get('text') || urlParams.get('url') || urlParams.get('title');
 
-          if (three) {
-              two.src = URL.createObjectURL(three);
-          }
-      });
+  if (sharedText) {
+    handleSharedLink(sharedText);
+  }
+});
 
-      // Capacitor ব্যাক বাটন লজিক (test2 পেজেও থাকতে হবে)
-      document.addEventListener('DOMContentLoaded', () => {
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-          const { App } = window.Capacitor.Plugins;
+// শেয়ার করা লিংকের টাইপ শনাক্ত করে প্লেয়ার তৈরি
+function handleSharedLink(sharedText) {
+  const statusMsg = document.getElementById('statusMsg');
+  const player = document.getElementById('player');
 
-          App.addListener('backButton', () => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              App.exitApp();
-            }
-          });
-        }
-      });
-    </script>
+  // ডিকোড করা এবং টেক্সট থেকে আসল URL বের করা
+  const decodedText = decodeURIComponent(sharedText);
+  const urlMatch = decodedText.match(/(https?:\/\/[^\s]+)/g);
+  const videoUrl = urlMatch ? urlMatch[0] : decodedText;
+
+  statusMsg.innerText = "ভিডিও লোড হচ্ছে...";
+
+  // ১. YouTube (Shorts & Normal videos)
+  if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+    let videoId = '';
+    if (videoUrl.includes('shorts/')) {
+      videoId = videoUrl.split('shorts/')[1]?.split('?')[0];
+    } else if (videoUrl.includes('youtu.be/')) {
+      videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
+    } else {
+      videoId = videoUrl.split('v=')[1]?.split('&')[0];
+    }
+
+    if (videoId) {
+      player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" width="100%" height="315" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      statusMsg.innerText = "ইউটিউব ভিডিও";
+    } else {
+      statusMsg.innerText = "ইউটিউব ভিডিও আইডি পাওয়া যায়নি!";
+    }
+  } 
+
+  // ২. Facebook (Reels & Videos)
+  else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch')) {
+    const encodedUrl = encodeURIComponent(videoUrl);
+    player.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodedUrl}&show_text=false" width="100%" height="315" frameborder="0" allowfullscreen></iframe>`;
+    statusMsg.innerText = "ফেসবুক ভিডিও";
+  } 
+
+  // ৩. TikTok
+  else if (videoUrl.includes('tiktok.com')) {
+    const videoIdMatches = videoUrl.match(/\/video\/(\d+)/);
+    if (videoIdMatches && videoIdMatches[1]) {
+      player.innerHTML = `<iframe src="https://www.tiktok.com/embed/v2/${videoIdMatches[1]}" width="100%" height="500" frameborder="0"></iframe>`;
+      statusMsg.innerText = "টিকটক ভিডিও";
+    } else {
+      // যদি শর্ট লিংক থাকে (vt.tiktok.com)
+      player.innerHTML = `<iframe src="${videoUrl}" width="100%" height="500" frameborder="0"></iframe>`;
+      statusMsg.innerText = "টিকটক ভিডিও লোড হচ্ছে...";
+    }
+  } 
+
+  else {
+    statusMsg.innerText = "অসমর্থিত বা অবৈধ লিংক!";
+  }
+}
+</script>
+
 </body>
 </html>

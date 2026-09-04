@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+vedio.html   <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,14 +25,14 @@
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://adarshabd.com/">
 <style>
-body{font-family:Arial;margin:0;padding:0;background:white;}
+body{font-family:Arial;margin:0;padding:0;background:rgb(248, 246, 246);}
 /* header */
 header{
-  background:#042867;
+  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  max-width:1400px;margin: auto;color:white;
+  max-width:1400px;margin: auto;color:#031f50;
 }
 .headone{
 justify-content:space-between;align-items:center;display:flex;
@@ -71,6 +71,10 @@ width:33px; height:33px;margin-left:7%;border-radius:5%;
 #userimg{
   width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
 }
+.fa-list{
+  font-size:25px;cursor: pointer;padding-top:10px;
+}
+ 
 .fa-magnifying-glass{
    display:none;cursor: pointer;
 }
@@ -107,36 +111,7 @@ h2{
   width:90%;height:30px;
   
 }
-   .fa-camera{
-     font-size:25px;margin-top:20px;cursor: pointer;
-  }
-   .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;cursor: pointer;
-  }
-   .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
-  .fa-youtube{
-    margin-left:15px;
-   color:red;
-  }
-  .fa-square-whatsapp{
-    color:rgb(26, 191, 26);margin-left:15px;
-  }
-  .fa-facebook{
-    color:#1877F2;margin-left:15px;
-  }
-  .fa-tiktok{
-    color:#000000;margin-left:15px;
-  }
-  .fa-instagram{
-    color:#E1306C;margin-left:15px;
-  }
 
-  .fa-bell{
-   display:none;
-  }
   .vedio{
     max-width:500px;
     min-height:100px;margin: auto;border-radius:6px;margin:3px auto 0;
@@ -200,7 +175,7 @@ h2{
   flex-direction: column-reverse;
 }
 @media(max-width:600px){
-   header{
+  header{
  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:78px;
 }
@@ -208,27 +183,26 @@ h2{
   display: flex; align-items: center;
 }
 .name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
   color: #031f50;
 }
 .headtwo{
-  display: flex; align-items: center;
+  display: flex; align-items: center;margin-top:0px;
 }
   .header1{
     width:100%;
   }
   .fa-list{
-  font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
+  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
 }
  
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
+   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
+   display:inline-block;
   }
-  h1{
-    margin-left:4%;font-size:25px;
-  }
-  #search{display:none;}
+ 
 
+   #search{display:none;}
   .click{
     width:40px;height:40px;border-radius:10px;display: block;margin: auto;
   }
@@ -249,11 +223,6 @@ h2{
   #openlistbox{
     left:0; width:100%;
   }
-  .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
-  .allicon i { cursor: pointer; }
 
   .clickads{
  margin-top:80px;
@@ -263,18 +232,41 @@ h2{
   margin-top:8px;
   left:85%;
 }
-
-
+     #homeimg{
+    width:40px;height:30px;margin-left:3%;
+    }
+    #pentoimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+    #messageimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+   #videoimg{ 
+    width:40px;height:35px;margin-left:8%;
+    }
+    #bellimg{
+width:33px; height:33px;margin-left: auto;margin-right:1%;
+}
+#userimg{
+  width:30px;height:30px;margin-left: auto;margin-right:4%;
+}
 }
 </style>
 </head>
 <body>
-  <header>
+<header>
   <div class="header1">
-    <div class="headone"><span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headone">
+      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+    </div>
     <div class="headtwo">
-    <img  src="home.png" style="width:40px;height:30px;margin-left:3%; "  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
+  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
+  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
+  <img src="message.png" id="messageimg" >
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
+  <img  src="bell.png" id="bellimg">
+  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
 
     </div>
   </div>
