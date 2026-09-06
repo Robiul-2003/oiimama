@@ -26,7 +26,7 @@ user.html <!DOCTYPE html>
 body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
 /* header */
 header{
-  background:#042867;
+  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
@@ -36,13 +36,13 @@ header{
 justify-content:space-between;align-items:center;display:flex;
 }
 .name{
-  font-size:23px;padding-top:10px;
+  font-size:23px;padding-top:10px;color:#031f50;
 }
 .headtwo{
 display:flex;margin-top:7px;
 }
 .fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
+  font-size:25px;cursor: pointer;margin-top:10px;color:#031f50;
 }
  
 /* search */
@@ -160,6 +160,26 @@ h2{
   .userid{
   width:50%; margin:0px 0px 0px  auto;border-radius:20%;
   }
+  #likebtn{
+    margin-left:25%; width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
+  }
+ 
+  #chatbtn{
+    width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
+  }
+
+  #profilebox{
+   width:300px;height:300px;border:2px solid #031f50;border-radius:50%;margin: auto; overflow: hidden;
+  }
+   #profilebox label{
+    width:100%;height:100%;display: block; cursor: pointer;
+   }
+  #preview{
+    width:100%; height:100%; object-fit: cover; display: block;
+  }
+  #profileimg{
+    display:none;
+  }
 @media(max-width:700px){
    header{
  background:white;
@@ -173,7 +193,7 @@ h2{
   color: #031f50;
 }
 .headtwo{
-  display: flex; align-items: center;
+  display: flex; align-items: center;margin-top:0px;
 }
   .header1{
     width:100%;
@@ -183,7 +203,7 @@ h2{
   }
   #search{display:none;}
   .fa-list{
-      font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
+      font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;
   }
     .fa-magnifying-glass{
    display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
@@ -302,7 +322,7 @@ h2{
 </label>
 <input type="file" id="profileimg" accept="image/*">
 </div>
-<h2 id="showName" style=" margin-top:5px;"></h2><button id="likebtn">Like</button> <button id="chatbtn">Chat</button>
+<h2 id="showName" style=" margin-top:5px;"></h2><button id="likebtn">Like</button> <button id="chatbtn" onclick="window.location.href='test1.html'">Chat</button>
 
 <h3 style="text-align:center;"></h3>
 <div id="productList" style="
