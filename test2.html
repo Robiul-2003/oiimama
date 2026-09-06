@@ -1,54 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robiul Awal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-
-    <h2>Robiul Awal profile</h2>
-    <button id="msgBtn">message</button>
-
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-      // আপনার Firebase Config
-    const firebaseConfig = {
-  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-  authDomain: "robiul-84377.firebaseapp.com",
-  projectId: "robiul-84377",
-  storageBucket: "robiul-84377.firebasestorage.app",
-  messagingSenderId: "476907665212",
-  appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-};
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      const receiverName = "Robiul Awal"; // এই প্রোফাইলের মালিক
-
-      document.getElementById('msgBtn').addEventListener('click', async () => {
-        const senderName = prompt("আপনার নাম লিখুন:");
-        if (!senderName) return;
-
-        const messageText = prompt(`${receiverName}-কে কী মেসেজ পাঠাতে চান?`);
-        if (!messageText) return;
-
-        try {
-          await addDoc(collection(db, "user_messages"), {
-            sender: senderName,
-            receiver: receiverName,
-            message: messageText,
-            timestamp: serverTimestamp()
-          });
-          alert(`${receiverName}-এর কাছে মেসেজ পাঠানো হয়েছে!`);
-        } catch (error) {
-          console.error("Error sending message: ", error);
-          alert("মেসেজ পাঠাতে সমস্যা হয়েছে।");
-        }
-      });
-    </script>
+  <input type="file" id="profileimg" accept="image/*">
+  <h1>robiul ahmed</h1>
+  <span>product</span>
+  <p>vedio</p>
 </body>
 </html>

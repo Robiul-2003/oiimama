@@ -65,7 +65,7 @@
     <div class="companyname" onclick="window.location.href='user.html'">Adarsh bd</div>
   </header>
 
-  <h1 id="name">user : Loading...</h1>
+  <h1 id="name"></h1>
 
   <!-- নিচে স্থির থাকার জন্য মেসেজ বক্সের কন্টেইনার -->
   <div class="message-container">
@@ -99,7 +99,7 @@
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            document.getElementById("name").innerText = "user : " + (userData.name || "No Name Found");
+            document.getElementById("name").innerText = " " + (userData.name || "No Name Found");
           } else {
             document.getElementById("name").innerText = "user : Unknown";
           }

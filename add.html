@@ -387,41 +387,43 @@ document.getElementById("productForm").addEventListener("submit",async(e)=>{
 
     const price=document.getElementById("productprice").value;
 
-    const product={
+   const product = {
 
-        id:id,
+    id: id,
 
-        name:document.getElementById("productName").value,
+    name: document.getElementById("productName").value,
 
-        Whatsapp: String(document.getElementById("Whatsappnumber").value.trim()),
-  
-        size: document.getElementById("Size").value,
+    Whatsapp: String(
+        document.getElementById("Whatsappnumber").value.trim()
+    ),
 
-        color: document.getElementById("Color").value,
+    size: document.getElementById("Size").value,
 
-        category:[
-            document.getElementById("productCategory").value
-        ],
+    color: document.getElementById("Color").value,
 
-        details:document.getElementById("productDescription").value,
+    category: [
+        document.getElementById("productCategory").value
+    ],
 
-        ppieces:["1-5","6-10","11-20"],
+    details: document.getElementById("productDescription").value,
 
-        price:[
-            price+" TK",
-            price+" TK",
-            price+" TK"
-        ],
+    ppieces: ["1-5", "6-10", "11-20"],
 
-        images:images,
+    price: [
+        price + " TK",
+        price + " TK",
+        price + " TK"
+    ],
 
-        ownerUid:currentUser.uid,
+    images: images,
 
-        ownerEmail:currentUser.email,
+    // Product owner
+    userId: currentUser.uid,
 
-        createdAt:serverTimestamp()
-    };
+    ownerEmail: currentUser.email,
 
+    createdAt: serverTimestamp()
+};
  try {
     await setDoc(doc(db, "products", id), product);
     alert("✅ Product Added Successfully");
