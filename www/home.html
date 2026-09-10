@@ -83,7 +83,7 @@ width:33px; height:33px;margin-left:7%;border-radius:5%;
     height:400px;
     margin: auto;
     position:relative;
-    overflow:hidden;
+    overflow:hidden;  
   }
 
   .banner {
@@ -511,7 +511,7 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
     <div class="headtwo">
   <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
   <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
-  <img src="message.png" id="messageimg" >
+  <img src="message.png" id="messageimg"  onclick="window.location.href='message.html'">
   <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
   <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
   <img  src="bell.png" id="bellimg">
@@ -574,18 +574,18 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
     <div class="right">
       <h3 id="pname"></h3>
       <h3 id="pcolor"></h3>
-      <p id="psize"></p>
+      <p id="psize" onclick="window.location.href='user.html'"></p>
 
       <div id="ppieces"></div>
       <div id="pprice"></div><br>
-      <div class="profile" onclick="window.location.href='user.html'"></div><br>
+      <!--<div class="profile" onclick="window.location.href='user.html'"></div><br>-->
        <button onclick="orderNow()" id="Obtn">Order Now</button>
       <button onclick="alert('Added to Cart')" id="Obtn1">Add To Cart</button>
        <h4>Details</h4>
       <hr>
 
       <p id="pdetails"></p>
-      <img src="banner.png">
+      <img src="banner1.jpeg">
       <h3 class="related-title"></h3>
       <div class="related-products" id="relatedProducts"></div>
     </div>

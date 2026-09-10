@@ -1,17 +1,7 @@
- window.vedio = function () {
-    document.getElementById("vediocloseo").style.display = "block";
-}
-
-window.veclose = function () {
-    document.getElementById("vediocloseo").style.display = "none";
-}
-  window.jobs = function(){
-    document.getElementById("job").style.display = "block";
-}
-
-  window.jobspost = function (){
-    document.getElementById("job").style.display = "none";
-}
+ // আপনার অন্যান্য import গুলোর সাথে এটি যোগ করুন
+import { App } from '@capacitor/app';
+ 
+ 
  const ads = [
   {
     image: "https://scontent-ccu2-1.xx.fbcdn.net/v/t39.30808-6/728449634_122110100901338126_7148938372660986417_n.jpg?stp=dst-jpg_tt6&cstp=mx1340x1785&ctp=s590x590&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=WodgzF3GGjYQ7kNvwHCDAei&_nc_oc=AdqCq4slNxGlUg3IABUrYxOTd4pLyxgt1BZd-0N_T_MMXDEY8WWGFCUzjr5PLcv_B-s&_nc_zt=23&_nc_ht=scontent-ccu2-1.xx&_nc_gid=xifN03ZH664BinHOxyiATQ&_nc_ss=7b2a8&oh=00_AQC9q3Dpt2-hdF6q1vNJ9TZ9uDKYzc2y5iA5gVtg1ztmyg&oe=6A5EE6F7",
@@ -624,4 +614,49 @@ window.searchUser = function(){
       alert("সার্চ করার সময় কিছু একটা সমস্যা হয়েছে!");
     }
   }, 300);
+}
+
+// Android App/Share Intent থেকে শেয়ার করা লিংক ক্যাচ করা
+App.addListener('appUrlOpen', (data) => {
+    if (data && data.url) {
+        handleIncomingSharedData(data.url);
+    }
+});
+
+function handleIncomingSharedData(rawText) {
+    if (!rawText) return;
+
+    // শেয়ার করা ডাটা থেকে HTTP/HTTPS ভিডিও URL বের করা
+    const urlMatches = rawText.match(/(https?:\/\/[^\s]+)/g);
+
+    if (urlMatches && urlMatches.length > 0) {
+        const extractedLink = urlMatches[0];
+
+        // ১. ভিডিও শেয়ার করার ডায়ালগ/পপআপ ওপেন হবে
+        if (typeof window.vedio === "function") {
+            window.vedio();
+        }
+
+        // ২. vedioline ইনপুট বক্সে লিংক অটোমেটিক বসে যাবে
+        const videoInput = document.getElementById("vedioline");
+        if (videoInput) {
+            videoInput.value = extractedLink;
+        }
+    }
+}
+
+
+window.vedio = function () {
+    document.getElementById("vediocloseo").style.display = "block";
+}
+
+window.veclose = function () {
+    document.getElementById("vediocloseo").style.display = "none";
+}
+  window.jobs = function(){
+    document.getElementById("job").style.display = "block";
+}
+
+  window.jobspost = function (){
+    document.getElementById("job").style.display = "none";
 }

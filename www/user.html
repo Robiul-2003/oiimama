@@ -1,8 +1,10 @@
-user.html <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
@@ -11,316 +13,647 @@ user.html <!DOCTYPE html>
   "url": "https://adarshabd.com/"
 }
 </script>
-<title>AdarshBD Profile</title>
+
+<title>Adarsha BD Profile</title>
+
 <link rel="icon" href="logo.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<meta name="description" content="Adarsha BD is an online shopping store in Bangladesh. Buy fashion, electronics, gadgets, home products at best price with fast delivery.">
-<meta name="keywords" content="online shopping Bangladesh, Adarsha BD, ecommerce Bangladesh, fashion, electronics, gadgets, buy online">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<meta name="description"
+content="Adarsha BD is an online shopping store in Bangladesh.">
+
 <meta property="og:title" content="Adarsha BD - Online Shopping">
-<meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
+<meta property="og:description"
+content="Buy fashion, electronics & gadgets online in Bangladesh">
 <meta property="og:image" content="banner.png">
 <meta property="og:url" content="https://adarshabd.com/">
 <meta property="og:type" content="website">
+
 <link rel="canonical" href="https://adarshabd.com/">
+
 <style>
-body{font-family:Arial;margin:0;padding:0;background:rgb(249, 246, 246);}
-/* header */
-header{
-  background:#042867;
-  position: fixed;width:100%;top:0;z-index:999;height:90px;
-}
-.header1{
-  max-width:1400px;margin: auto;color:white;
-}
-.headone{
-justify-content:space-between;align-items:center;display:flex;
-}
-.name{
-  font-size:23px;padding-top:10px;
-}
-.headtwo{
-display:flex;margin-top:7px;
-}
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-/* search */
-#search{
-  height:35px;width:40%;  margin-left:5%; 
- 
+
+*{
+    box-sizing:border-box;
 }
 
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    background:rgb(249,246,246);
 }
-#bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
+
+/* ================= HEADER ================= */
+
+header{
+    background:white;
+    position:fixed;
+    width:100%;
+    top:0;
+    left:0;
+    z-index:999;
+    height:90px;
+    box-shadow:0 1px 5px rgba(0,0,0,.08);
 }
-#userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+
+.header1{
+    max-width:1400px;
+    margin:auto;
 }
+
+.headone{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.name{
+    font-size:23px;
+    padding-top:10px;
+    color:#031f50;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.headtwo{
+    display:flex;
+    align-items:center;
+    margin-top:7px;
+}
+
+.fa-list{
+    font-size:25px;
+    cursor:pointer;
+    margin-top:10px;
+    color:#031f50;
+}
+
 .fa-magnifying-glass{
-  display:none;
+    display:none;
+    cursor:pointer;
 }
+
+#search{
+    height:35px;
+    width:40%;
+    margin-left:5%;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:5px 10px;
+}
+
+#homeimg{
+    width:40px;
+    height:30px;
+    margin-left:3%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#pentoimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#messageimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#videoimg{
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#bellimg{
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#userimg{
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+/* ================= SEARCH MOBILE ================= */
+
+#opensearchbox{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:60px;
+    background:#031f50;
+    display:none;
+    z-index:9999;
+}
+
+.search-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+}
+
+#ONEsearch{
+    height:35px;
+    width:80%;
+    margin-left:5%;
+    border:none;
+    border-radius:5px;
+    padding:5px 10px;
+}
+
+#X{
+    color:red;
+    font-size:30px;
+    cursor:pointer;
+    margin:0;
+}
+
+/* ================= SIDE LIST ================= */
+
 #openlistbox{
-  position:fixed;
-  top:0;
-  left:80%;
-  width:20%;
-  height:100%;
-  background:white;
-  display:none;
-  z-index:9999;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    position:fixed;
+    top:0;
+    left:80%;
+    width:20%;
+    height:100%;
+    background:white;
+    display:none;
+    z-index:9999;
+    box-shadow:-2px 0 5px rgba(0,0,0,.2);
 }
-h2{
-  margin-left:10%;
-  cursor: pointer;
+
+#openlistbox h2{
+    margin-left:10%;
+    cursor:pointer;
 }
+
 .fa-angle-left{
-  font-size:30px;margin-left:5%;cursor: pointer;
+    font-size:30px;
+    margin-left:5%;
+    cursor:pointer;
 }
-#productcloseo{
-  margin: auto;
-  display:none;
-  width:90%;
-  border:1px solid red;
-  padding: 10px;
+
+/* ================= PROFILE ================= */
+
+.userfile{
+    max-width:650px;
+    border:1px solid rgb(234,230,230);
+    margin:90px auto 30px;
+    background:white;
+    padding-bottom:20px;
+    min-height:500px;
 }
-  .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
- 
-#vediocloseo{
-  margin: auto;
-  display:none;
-  width:90%;
-  border:1px solid red;
-  padding: 10px;
+
+#profilebox{
+    width:300px;
+    height:300px;
+    border:2px solid #031f50;
+    border-radius:50%;
+    margin:20px auto;
+    overflow:hidden;
+    background:#eee;
 }
-#pac{
- float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
+
+#profilebox label{
+    width:100%;
+    height:100%;
+    display:block;
+    cursor:pointer;
 }
-#number, #pin, #vedioline, #caption{
-  margin: auto;
-  width:90%;height:30px;
+
+#preview{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
-   .fa-camera{
-    font-size:25px;margin-top:20px;cursor: pointer;
-  }
-   .fa-facebook-messenger{
-    font-size:25px;margin-top:20px;cursor: pointer;
-  }
+
+#profileimg{
+    display:none;
+}
+
+#showName{
+    text-align:center;
+    color:#031f50;
+    margin:10px 0;
+}
+
+/* ================= BUTTONS ================= */
+
+.profile-buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:15px auto;
+}
+
+#likebtn,
+#chatbtn{
+     height:35px;
+    background:#072455;
+    border:none;
+    color:white;
+    border-radius:5px;
+    font-size:16px;
+    padding:0 20px;
+    cursor:pointer;
+}
+
+
+#likebtn:hover,
+#chatbtn:hover{
+ opacity:.9;
+}
+/* ================= FEEDS ================= */
+
+.feed-title{
+    text-align:center;
+    color:#031f50;
+    margin-top:25px;
+}
+
+#productList{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    padding:10px;
+}
+
+#userVideoFeed,
+#userPostFeed{
+    width:100%;
+}
+
+/* ================= POST ================= */
+
+.post-card{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:15px;
+    margin:10px;
+    border-radius:8px;
+}
+
+.post-user{
+    color:#031f50;
+}
+
+.delete-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    opacity:.85;
+}
+
+/* ================= VIDEO ================= */
+
+.video-card{
+    border:1px solid #ddd;
+    padding:15px;
+    margin:15px 10px;
+    border-radius:8px;
+    background:#fff;
+}
+
+.video-frame{
+    width:100%;
+    max-width:500px;
+    margin:auto;
+    display:block;
+}
+
+.video-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+    flex-wrap:wrap;
+}
 
 .view-bar{
     width:150px;
     height:20px;
     border:1px solid #8a8888;
     display:inline-block;
-    margin-left:10px;border-radius:5px;
+    border-radius:5px;
     vertical-align:middle;
     overflow:hidden;
 }
 
 .view-fill{
     height:100%;
-    background:#00ff00;
     width:0%;
-    transition: width 0.5s ease-in-out; /* অ্যানিমেশন সুন্দর করার জন্য */
+    transition:width .5s ease-in-out;
+    background:#031f50;
 }
 
-
-#btnop{
-  width:150px;display: block; margin: 10px auto; height:30px;background:#031f50;color:white;border-radius:5px;border:none;
-  font-size:18px;
-  cursor: pointer;
-}
-  .vedio{
-    max-width:500px;
-    min-height:100px;margin: auto;border-radius:6px;margin:65px auto 0;
-    background: #fff; padding: 10px; box-sizing: border-box;
-  }
-  .vedioadd{
-    max-width:500px;
-  }
-  .userfile{
-    max-width:600px;border:1px solid rgb(234, 230, 230);margin: auto;
-  }
-  .userid{
-  width:50%; margin:0px 0px 0px  auto;border-radius:20%;
-  }
-@media(max-width:700px){
-   header{
- background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:78px;
-}
-.headone{
-  display: flex; align-items: center;
-}
-.name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
-  color: #031f50;
-}
-.headtwo{
-  display: flex; align-items: center;
-}
-  .header1{
-    width:100%;
-  }
-  h1{
-    margin-left:4%;font-size:25px;
-  }
-  #search{display:none;}
-  .fa-list{
-      font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
-  }
-    .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
-  }
-  .click{
-    width:40px;height:40px;border-radius:10px;display: block;margin: auto;
-  }
-   .userid{
-   width:100%; margin:120px 0px 0px  auto;
-  }
-  #opensearchbox{
-    position:fixed;
-    top:0;left:0;width:100%;height:60px;
-    background:#031f50;display:none;z-index:9999;
-  }
-  #opensearchbox .search-inner{
-   display: flex; justify-content: space-between; align-items: center; padding: 10px;
-  }
-  #ONEsearch{
-    height:30px;width:80%;margin-left:8%;
-  }
-  #X{
-    color:red;font-size:30px;cursor: pointer; margin: 0;
-  }
-  #openlistbox{
-    left:0; width:100%;
-  }
-  .allicon{
-   text-align: center;
-   font-size:27px;margin-top:70px;
-  }
-  .allicon i { cursor: pointer; }
-
- 
- 
-   #likebtn{
-    margin-left:8%; width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
-  }
- 
-  #chatbtn{
-    width:150px; height:30px;background:#072455; border:none;color: white;border-radius:4px;font-size:20px;
-  }
-
-  #profilebox{
-   width:200px;height:200px;border:2px solid #031f50;border-radius:50%;margin: auto; overflow: hidden;
-  }
-   #profilebox label{
-    width:100%;height:100%;display: block; cursor: pointer;
-   }
-  #preview{
-    width:100%; height:100%; object-fit: cover; display: block;
-  }
-  #profileimg{
+.success-btn{
     display:none;
-  }
+    background:green;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
 }
+
+/* ================= PRODUCT ================= */
+
+.product-card{
+    width:170px;
+    flex:0 0 170px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    background:#fff;
+    padding:8px;
+    cursor:pointer;
+}
+
+.product-card img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:4px;
+}
+
+.product-name{
+    min-height:40px;
+    margin:8px 0;
+}
+
+.product-price{
+    color:green;
+    font-weight:bold;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+    header{
+        height:78px;
+    }
+
+    .header1{
+        width:100%;
+    }
+
+    .headone{
+        display:flex;
+        align-items:center;
+    }
+
+    .name{
+        font-size:22px;
+        margin-left:4%;
+        margin-top:7px;
+    }
+
+    .headtwo{
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+
+    #search{
+        display:none;
+    }
+
+    .fa-list{
+        font-size:23px;
+        margin-left:auto;
+        margin-right:4%;
+    }
+
+    .fa-magnifying-glass{
+        display:inline-block;
+        font-size:23px;
+        margin-top:10px;
+        margin-left:auto;
+        margin-right:20px;
+        color:black;
+    }
+
+    #openlistbox{
+        left:0;
+        width:100%;
+    }
+
+    .userfile{
+        width:100%;
+        margin-top:78px;
+        border:none;
+    }
+
+    #profilebox{
+        width:200px;
+        height:200px;
+    }
+
+    #homeimg{
+        width:35px;
+        height:28px;
+        margin-left:2%;
+    }
+
+    #pentoimg,
+    #messageimg{
+        width:32px;
+        height:30px;
+        margin-left:10%;
+    }
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
+    }
+
+    #bellimg{
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+
+    #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
+
+    .product-card{
+        width:160px;
+        flex-basis:160px;
+    }
+
+    .product-card img{
+        height:140px;
+    }
+
+}
+
 </style>
 </head>
-<body>
-<header>
-  <div class="header1">
-    <div class="headone">
-      <span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
-    </div>
-    <div class="headtwo">
-    <img  src="home.png" style="width:40px;height:30px;margin-left:3%;"  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
-    </div>
-  </div>
-</header>
-<div id="opensearchbox">
-  <div class="search-inner">
-    <input id="ONEsearch" placeholder="Search." onkeyup="searchProduct()">
-    <p onclick="searchclose()" id="X">X</p>
-  </div>
-</div>
-<div id="openlistbox">
-  <div id="listbox">
-  <p onclick="listclose()"><i class="fa-solid fa-angle-left"></i></p><br>
-  <h2 onclick="padd()" id="productsadd">Products Add</h2><hr>
-  <h2 onclick="vadd()" id="vedioadd">Video Add</h2>
-  
-  <div id="productcloseo">
-    <p onclick="proclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="number" placeholder="Enter your number"><br><br>
-    <input type="password" id="pin" placeholder="Enter your pin"><br>
-    <button onclick="checkLogin()" id="btnop">open</button>
-  </div>
-  
-  <div id="vediocloseo">
-    <p onclick="veclose()" id="pac">X</p><br><br><br>
-    <input type="text" id="vedioline" placeholder="Video link"><br><br>
-    <input type="text" id="caption" placeholder="Caption"><br>
-    <button onclick="shareVideo()" id="btnop">Share</button> 
-  </div>
-  <hr>
-  <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Chat</h2><hr>
-  <h2>Notification</h2><hr>
-  <h2 onclick="window.location.href='https://adarshaagent.com/'">Service</h2><hr>
-  <h2 onclick="window.location.href='login.html'">login</h2><hr>
-  <h2 onclick="window.location.href='signin.html'">Sign in</h2><hr>
-   <div class="allicon">
-    <i class="fa-brands fa-facebook" onclick="window.location.href='https://www.facebook.com/profile.php?id=61590143801264'"></i>
-    <i class="fa-brands fa-tiktok"></i>
-    <i class="fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/adarshabd_/'"></i>
-    <i class="fa-brands fa-youtube" onclick="window.open('https://www.youtube.com/@AdarshaBD-AB2','_blank')"></i>
-    <i class="fa-brands fa-square-whatsapp" onclick="window.open('https://wa.me/8801614153820','_blank')"></i>
-   </div>
-  </div>
-</div>
-<div class="userfile">
-<br><br><br><br>
-<div id="profilebox">
-<label for="profileimg">
-<img id="preview" src="">
-</label>
-<input type="file" id="profileimg" accept="image/*">
-</div>
-<h2 id="showName" style=" margin-top:5px;"></h2><button id="likebtn">Like</button> <button id="chatbtn">Chat</button>
 
-<h3 style="text-align:center;"></h3>
-<div id="productList" style="
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-padding:10px;
-"></div>
-<h3 style="text-align:center;"></h3>
-<div id="userVideoFeed"></div>
-<div id="userPostFeed"></div>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="header1">
+
+<div class="headone">
+
+<span
+class="name"
+onclick="window.location.href='test1.html'">
+ADARSHA
+</span>
+
+
+<i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+
+</div>
+
+
+<div class="headtwo">
+<img src="home.png" id="homeimg" onclick="window.location.href='home.html'"   alt="Home">
+<img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
+<img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
+<input id="search" placeholder="Search product..." onkeyup="searchProduct()">
+<img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
+<img src="bell.png" id="bellimg" alt="Notification">
+<img src="user.png" id="userimg" onclick="window.location.href='user.html'" alt="User">
+</div>
+</div>
+</header>
+
+
+<!-- ================= MOBILE SEARCH ================= -->
+
+<div id="opensearchbox">
+
+<div class="search-inner">
+
+<input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
+<p onclick="searchclose()" id="X"> X </p>
+</div>
+</div>
+<!-- ================= PROFILE ================= -->
+
+<div class="userfile">
+
+<br>
+
+<div id="profilebox">
+
+<label for="profileimg">
+
+<img
+id="preview"
+src=""
+alt="Profile">
+
+</label>
+
+<input
+type="file"
+id="profileimg"
+accept="image/*">
+
+</div>
+
+
+<h2 id="showName"></h2>
+<div class="profile-buttons">
+<button id="likebtn">
+Like
+</button>
+
+<button
+id="chatbtn"
+onclick="window.location.href='test1.html'">
+Chat
+</button>
+</div>
+
+
+<!-- ================= PRODUCTS ================= -->
+
+<h3 class="feed-title"></h3>
+
+<div id="productList"><p></p></div>
+<!-- ================= POSTS ================= -->
+<h3 class="feed-title"></h3>
+
+<div id="userPostFeed">
+<p style="text-align:center;"></p>
+</div>
+
+
+<!-- ================= VIDEOS ================= -->
+
+<h3 class="feed-title"></h3>
+
+<div id="userVideoFeed">
+<p style="text-align:center;">
+</p>
+</div>
+
 </div>
 
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
 import {
     getFirestore,
     collection,
@@ -330,304 +663,1396 @@ import {
     doc,
     getDoc,
     deleteDoc,
-    getDocs,
-    orderBy
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-  authDomain: "robiul-84377.firebaseapp.com",
-  projectId: "robiul-84377",
-  storageBucket: "robiul-84377.firebasestorage.app",
-  messagingSenderId: "476907665212",
-  appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+
+    authDomain: "robiul-84377.firebaseapp.com",
+
+    projectId: "robiul-84377",
+
+    storageBucket: "robiul-84377.firebasestorage.app",
+
+    messagingSenderId: "476907665212",
+
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+
 };
 
 
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
-const one = document.getElementById('profileimg');
-const two = document.getElementById('preview');
-  one.addEventListener('change', function(){
-   const three = this.files[0];
-   two.src = URL.createObjectURL(three);
-  });
- 
 
+/* =====================================================
+   HELPER
+===================================================== */
 
-window.deletePost = async function(postId){
+function escapeHTML(value){
 
-    if(!confirm("Delete this post?")) return;
-
-    try{
-
-        await deleteDoc(doc(db,"jobs",postId));
-
-        alert("Post Deleted Successfully");
-
-    }catch(error){
-
-        console.log(error);
-
-        alert("Delete Failed");
-
+    if(value === null || value === undefined){
+        return "";
     }
 
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
-// ১. ডিলিট ফাংশনটিকে সরাসরি উইন্ডো অবজেক্টে সেট করা যাতে HTML একে সহজে খুঁজে পায়
-window.deleteVideo = async function(videoId) {
-    let confirmDelete = confirm("আপনি কি এই ভিডিওটি Delete করতে চান?");
-    if(confirmDelete){
-        try{
-            await deleteDoc(doc(db, "videos", videoId));
-            alert("Video Deleted Successfully");
-        }catch(error){
-            console.error(error);
-            alert("Delete failed");
-        }
-    }
-}
 
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        // ইউজারের নাম ফায়ারস্টোর থেকে আনা
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+/* =====================================================
+   PROFILE IMAGE PREVIEW
+===================================================== */
 
-        if (userSnap.exists()) {
-            let data = userSnap.data();
-            document.getElementById("showName").innerHTML = data.name || "No Name Set";
-        }
+const profileInput =
+    document.getElementById("profileimg");
 
-const postFeed = document.getElementById("userPostFeed");
+const profilePreview =
+    document.getElementById("preview");
 
-const postQuery = query(
-    collection(db, "jobs"),
-    where("userId", "==", user.uid),
-    orderBy("createdAt", "desc")
-);
 
-onSnapshot(postQuery, (snapshot) => {
+profileInput.addEventListener("change", function(){
 
-    postFeed.innerHTML = "";
+    const file = this.files[0];
 
-    if(snapshot.empty){
-        postFeed.innerHTML = "<p>No Posts</p>";
+    if(!file){
         return;
     }
 
-    snapshot.forEach((docSnap)=>{
-
-        const data = docSnap.data();
-
-        postFeed.innerHTML += `
-        <div style="background:#fff;border:1px solid #ddd;padding:15px;margin:10px;border-radius:8px">
-
-            <h3>${data.userName}</h3>
-
-            <p>${data.post}</p>
-
-            <button
-            onclick="window.deletePost('${docSnap.id}')"
-            style="background:red;color:white;border:none;padding:8px 15px;border-radius:5px;cursor:pointer">
-            Delete
-            </button>
-
-        </div>
-        `;
-    });
+    profilePreview.src =
+        URL.createObjectURL(file);
 
 });
-        const videoFeed = document.getElementById("userVideoFeed");
-        
-        // শুধু কারেন্ট লগইন থাকা ইউজারের ভিডিও খোঁজার কোয়েরি
-        const q = query(collection(db, "videos"), where("userId", "==", user.uid));
 
-        onSnapshot(q, (querySnapshot) => {
-            let userVideos = [];
-            querySnapshot.forEach((doc) => {
-                userVideos.push({ id: doc.id, ...doc.data() });
-            });
 
-            // নতুন ভিডিওগুলো সবার উপরে দেখানোর জন্য সর্টিং (যদি createdAt টাইমস্ট্যাম্প থাকে)
-            userVideos.sort((a, b) => {
-                const timeA = a.createdAt ? a.createdAt.toDate() : 0;
-                const timeB = b.createdAt ? b.createdAt.toDate() : 0;
-                return timeB - timeA;
-            });
+/* =====================================================
+   DELETE POST
+   OWNERSHIP CHECK
+===================================================== */
 
-            videoFeed.innerHTML = ""; // আগের ডেটা ক্লিয়ার করা
+window.deletePost = async function(postId){
 
-            if (userVideos.length === 0) {
-                videoFeed.innerHTML = "<p style='text-align:center; color:gray;'>আপনি এখনো কোনো ভিডিও যোগ করেননি।</p>";
-                return;
-            }
-
-            // ভিডিও লুপ রেন্ডারিং
-            userVideos.forEach((data) => {
-                const videoCard = document.createElement("div");
-                videoCard.style.border = "1px solid #ddd";
-                videoCard.style.padding = "15px";
-                videoCard.style.marginBottom = "15px";
-                videoCard.style.borderRadius = "8px";
-                videoCard.style.background = "#fff";
-
-                let videoElement = "";
-                
-                // ভিডিও এম্বেড করার লজিক (YouTube, FB, TikTok)
-                if (data.link.includes("youtube.com") || data.link.includes("youtu.be")) {
-                    let embedLink = data.link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/");
-                    if(embedLink.includes("shorts/")) embedLink = embedLink.replace("shorts/", "embed/");
-                    videoElement = `<iframe width="100%" height="300" src="${embedLink}" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
-                } 
-                else if (data.link.includes("facebook.com") || data.link.includes("fb.watch")) {
-                    let fbEmbedLink = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(data.link)}&show_text=false&width=500`;
-                    videoElement = `<iframe src="${fbEmbedLink}" width="100%" height="300" style="border:none;overflow:hidden;border-radius:4px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
-                }
-                else if (data.link.includes("tiktok.com")) {
-                    let tiktokEmbedLink = `https://www.tiktok.com/embed/v2/${data.link.split('/video/')[1]?.split('?')[0]}`;
-                    if (!tiktokEmbedLink.includes("undefined")) {
-                        videoElement = `<iframe src="${tiktokEmbedLink}" width="100%" height="500" frameborder="0" allowfullscreen style="border-radius:4px;"></iframe>`;
-                    }
-                } 
-                else {
-                    videoElement = `<video width="100%" height="auto" controls playsinline style="border-radius:4px;"><source src="${data.link}" type="video/mp4"></video>`;
-                }
-
-                // Google Form-এর সঠিক লিংক জেনারেট করা
-                const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeiv4UtgfMMipGHC3touEnpk1_L-9GuB9kzIJWqOdROfCNJmw/viewform?usp=pp_url&entry.1795539139=" + encodeURIComponent(data.link);
-
-                videoCard.innerHTML = `
-                    <h3>${data.userName || "User"}</h3>
-                    ${videoElement}
-
-                    <p style="padding-top:10px; margin:0; font-weight:bold;">${data.caption || "No Caption"}</p>
-
-                    <p style="font-size:12px;color:#777;">
-                        ${data.likes || 0} Likes | ${data.views || 0} Views
-                    </p>
-
-                    <div style="display:flex;align-items:center; gap:10px; margin-top:10px;">
-                        <button onclick="window.deleteVideo('${data.id}')" style="background:red; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
-                            Delete
-                        </button>
-
-                        <button id="success-${data.id}" onclick="window.open('${formUrl}', '_blank')" style="display:none; background:green; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">
-                            Success
-                        </button>
-                        
-                        <div class="view-bar">
-                            <div class="view-fill" id="bar-${data.id}"></div>
-                        </div>
-                    </div>
-                `;
-                
-                // ভিউ প্রোগ্রেস বার লজিক
-                let viewPercent = Math.min((data.views || 0) / 1000 * 100, 100);
-
-                setTimeout(() => {
-                    let bar = document.getElementById(`bar-${data.id}`);
-                    if(bar){
-                        bar.style.width = viewPercent + "%";
-                    }
-                }, 100);
-
-                // ১০০০ বা তার বেশি ভিউ হলে Success বাটন দেখানো
-                if ((data.views || 0) >= 1000) {
-                    setTimeout(() => {
-                        let btn = document.getElementById(`success-${data.id}`);
-                        if(btn){
-                            btn.style.display = "block";
-                        }
-                    }, 100);
-                }
-
-                videoFeed.appendChild(videoCard);
-            });
-        });
-
-    } else {
-        document.getElementById("showName").innerHTML = "Guest User";
-        document.getElementById("userVideoFeed").innerHTML = "<p style='text-align:center;'>ভিডিও দেখতে দয়া করে লগইন করুন।</p>";
+    if(!confirm("Delete this post?")){
+        return;
     }
-});
-window.deleteProduct = async function(productId){
-
-    if(!confirm("এই Product Delete করতে চান?")) return;
 
     try{
-        await deleteDoc(doc(db,"products",productId));
-        alert("Product Deleted Successfully");
+
+        const user = auth.currentUser;
+
+        if(!user){
+
+            alert("Please login first.");
+
+            return;
+        }
+
+
+        const postRef =
+            doc(db,"jobs",postId);
+
+        const postSnap =
+            await getDoc(postRef);
+
+
+        if(!postSnap.exists()){
+
+            alert("Post not found.");
+
+            return;
+        }
+
+
+        const postData =
+            postSnap.data();
+
+
+        /* IMPORTANT:
+           Check ownership
+        */
+
+        if(postData.userId !== user.uid){
+
+            alert(
+                "You cannot delete another user's post."
+            );
+
+            return;
+        }
+
+
+        await deleteDoc(postRef);
+
+        alert(
+            "Post Deleted Successfully"
+        );
+
+
     }catch(error){
-        console.error(error);
-        alert("Delete Failed");
+
+        console.error(
+            "Delete Post Error:",
+            error
+        );
+
+        alert(
+            "Delete Failed: " +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   DELETE VIDEO
+   OWNERSHIP CHECK
+===================================================== */
+
+window.deleteVideo = async function(videoId){
+
+    if(!confirm("Do you want to delete this video?")){
+
+        return;
+    }
+
+
+    try{
+
+        const user = auth.currentUser;
+
+
+        if(!user){
+
+            alert("Please login first.");
+
+            return;
+        }
+
+
+        const videoRef =
+            doc(db,"videos",videoId);
+
+
+        const videoSnap =
+            await getDoc(videoRef);
+
+
+        if(!videoSnap.exists()){
+
+            alert("Video not found.");
+
+            return;
+        }
+
+
+        const videoData =
+            videoSnap.data();
+
+
+        /* IMPORTANT:
+           Check ownership
+        */
+
+        if(videoData.userId !== user.uid){
+
+            alert(
+                "You cannot delete another user's video."
+            );
+
+            return;
+        }
+
+
+        await deleteDoc(videoRef);
+
+
+        alert(
+            "Video Deleted Successfully"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Delete Video Error:",
+            error
+        );
+
+        alert(
+            "Delete Failed: " +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   DELETE PRODUCT
+   OWNERSHIP CHECK
+===================================================== */
+
+window.deleteProduct = async function(productId){
+
+    if(!confirm("এই Product Delete করতে চান?")){
+
+        return;
+    }
+
+
+    try{
+
+        const user = auth.currentUser;
+
+
+        if(!user){
+
+            alert("আগে Login করুন।");
+
+            return;
+        }
+
+
+        const productRef =
+            doc(db,"products",productId);
+
+
+        const productSnap =
+            await getDoc(productRef);
+
+
+        if(!productSnap.exists()){
+
+            alert("Product পাওয়া যায়নি।");
+
+            return;
+        }
+
+
+        const productData =
+            productSnap.data();
+
+
+        /* IMPORTANT:
+           Check ownership
+        */
+
+        if(productData.userId !== user.uid){
+
+            alert(
+                "এই Product আপনি Delete করতে পারবেন না।"
+            );
+
+            return;
+        }
+
+
+        await deleteDoc(productRef);
+
+
+        alert(
+            "Product Deleted Successfully"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Delete Product Error:",
+            error
+        );
+
+        alert(
+            "Delete Failed: " +
+            error.message
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   LOAD USER PRODUCTS
+   ONLY CURRENT USER
+===================================================== */
+
+async function loadProducts(userId){
+
+    const productList =
+        document.getElementById("productList");
+
+
+    try{
+
+        /* IMPORTANT:
+           এখানে আর সব products নেওয়া হচ্ছে না।
+           শুধু current user's products নেওয়া হচ্ছে।
+        */
+
+        const productQuery = query(
+            collection(db,"products"),
+            where("userId","==",userId)
+        );
+
+
+        const querySnapshot =
+            await getDocs(productQuery);
+
+
+        productList.innerHTML = "";
+
+
+        if(querySnapshot.empty){
+
+            productList.innerHTML = `
+                <p style="text-align:center;width:100%;">
+                    No Products
+                </p>
+            `;
+
+            return;
+        }
+
+
+        querySnapshot.forEach((docSnap)=>{
+
+            const p =
+                docSnap.data();
+
+
+            const productId =
+                docSnap.id;
+
+
+            let img =
+                "logo.png";
+
+
+            if(
+                Array.isArray(p.images) &&
+                p.images.length > 0
+            ){
+
+                img =
+                    p.images[0];
+
+            }
+
+
+            let price =
+                p.price;
+
+
+            if(Array.isArray(price)){
+
+                price =
+                    price[0] || "0";
+
+            }
+
+
+            if(
+                price === undefined ||
+                price === null ||
+                price === ""
+            ){
+
+                price = "0";
+
+            }
+
+
+            const safeName =
+                escapeHTML(
+                    p.name || "No Name"
+                );
+
+
+            const safePrice =
+                escapeHTML(price);
+
+
+            productList.innerHTML += `
+
+                <div class="product-card">
+
+                    <img
+                        src="${escapeHTML(img)}"
+                        alt="${safeName}"
+                        onerror="this.src='logo.png'"
+                    >
+
+                    <p class="product-name">
+                        ${safeName}
+                    </p>
+
+                    <div class="product-price">
+                        ${safePrice} TK
+                    </div>
+
+                    <br>
+
+                    <button
+                        class="delete-btn"
+                        onclick="
+                            window.deleteProduct('${productId}')
+                        "
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "Load Products Error:",
+            error
+        );
+
+
+        productList.innerHTML = `
+
+            <p style="
+                color:red;
+                text-align:center;
+                width:100%;
+            ">
+                Products load failed.
+            </p>
+
+        `;
+
     }
 
 }
-// 👇 এইখানে বসাবে
-let allProducts = [];
 
-async function loadProducts(){
 
-    const productList = document.getElementById("productList");
+/* =====================================================
+   AUTH STATE
+===================================================== */
 
-    const querySnapshot = await getDocs(collection(db,"products"));
+onAuthStateChanged(
+    auth,
+    async (user)=>{
 
-    productList.innerHTML="";
+        if(!user){
 
-    querySnapshot.forEach((doc)=>{
+            /* =====================
+               NOT LOGGED IN
+            ===================== */
 
-        const p = doc.data();
+            document.getElementById(
+                "showName"
+            ).textContent =
+                "Guest User";
 
-        let img = p.images?.[0] || "logo.png";
 
-        let price = Array.isArray(p.price)
-        ? p.price[0]
-        : p.price + " TK";
+            document.getElementById(
+                "productList"
+            ).innerHTML = `
 
-        productList.innerHTML += `
-        <div style="
-        width:170px;
-        flex:0 0 170px;
-        border:1px solid #ddd;
-        border-radius:6px;
-        background:#fff;
-        padding:8px;
-         box-sizing:border-box;
-        cursor:pointer;
-        ">
-            <img src="${img}" style="
-            width:100%;
-            height:150px;
-            object-fit:cover;
-            border-radius:4px;
-            ">
+                <p style="
+                    text-align:center;
+                    width:100%;
+                ">
+                    Please login to see your products.
+                </p>
 
-            <p>${p.name}</p>
+            `;
 
-            <b style="color:green">${price}</b><br><br>
-      <button onclick="window.deleteProduct('${doc.id}')"
-style="
-background:red;
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:5px;
-cursor:pointer;
-">
-Delete
-</button>
-        </div>
-        `;
-    });
 
-}
-// Products Load
-loadProducts();
+            document.getElementById(
+                "userPostFeed"
+            ).innerHTML = `
+
+                <p style="text-align:center;">
+                    Please login to see your posts.
+                </p>
+
+            `;
+
+
+            document.getElementById(
+                "userVideoFeed"
+            ).innerHTML = `
+
+                <p style="text-align:center;">
+                    Please login to see your videos.
+                </p>
+
+            `;
+
+
+            return;
+        }
+
+
+        /* =================================================
+           CURRENT USER UID
+        ================================================= */
+
+        const currentUid =
+            user.uid;
+
+
+        console.log(
+            "Logged in UID:",
+            currentUid
+        );
+
+
+        /* =================================================
+           LOAD USER PROFILE
+        ================================================= */
+
+        try{
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    currentUid
+                );
+
+
+            const userSnap =
+                await getDoc(userRef);
+
+
+            if(userSnap.exists()){
+
+                const data =
+                    userSnap.data();
+
+
+                document.getElementById(
+                    "showName"
+                ).textContent =
+                    data.name || "No Name Set";
+
+
+                /* Optional profile image */
+
+                if(data.photoURL){
+
+                    profilePreview.src =
+                        data.photoURL;
+
+                }
+
+            }else{
+
+                document.getElementById(
+                    "showName"
+                ).textContent =
+                    user.displayName ||
+                    "No Name Set";
+
+            }
+
+
+        }catch(error){
+
+            console.error(
+                "User Profile Error:",
+                error
+            );
+
+            document.getElementById(
+                "showName"
+            ).textContent =
+                user.displayName ||
+                "User";
+
+        }
+
+
+        /* =================================================
+           LOAD ONLY CURRENT USER PRODUCTS
+        ================================================= */
+
+        await loadProducts(
+            currentUid
+        );
+
+
+        /* =================================================
+           USER POSTS
+        ================================================= */
+
+        const postFeed =
+            document.getElementById(
+                "userPostFeed"
+            );
+
+
+        try{
+
+            /* এখানে orderBy বাদ দেওয়া হয়েছে।
+               তাই Firebase composite index
+               না থাকলেও এই query কাজ করবে।
+            */
+
+            const postQuery = query(
+                collection(db,"jobs"),
+                where(
+                    "userId",
+                    "==",
+                    currentUid
+                )
+            );
+
+
+            onSnapshot(
+                postQuery,
+                (snapshot)=>{
+
+                    postFeed.innerHTML = "";
+
+
+                    if(snapshot.empty){
+
+                        postFeed.innerHTML = `
+                            <p style="text-align:center;">
+                                No Posts
+                            </p>
+                        `;
+
+                        return;
+                    }
+
+
+                    let posts = [];
+
+
+                    snapshot.forEach(
+                        (docSnap)=>{
+
+                            posts.push({
+
+                                id:docSnap.id,
+
+                                data:docSnap.data()
+
+                            });
+
+                        }
+                    );
+
+
+                    /* Client-side sorting */
+
+                    posts.sort(
+                        (a,b)=>{
+
+                            const aTime =
+                                a.data.createdAt?.toMillis?.() || 0;
+
+                            const bTime =
+                                b.data.createdAt?.toMillis?.() || 0;
+
+                            return bTime-aTime;
+
+                        }
+                    );
+
+
+                    posts.forEach(
+                        ({id,data})=>{
+
+                            const userName =
+                                escapeHTML(
+                                    data.userName ||
+                                    "User"
+                                );
+
+
+                            const postText =
+                                escapeHTML(
+                                    data.post ||
+                                    ""
+                                );
+
+
+                            postFeed.innerHTML += `
+
+                                <div class="post-card">
+
+                                    <h3 class="post-user">
+                                        ${userName}
+                                    </h3>
+
+                                    <p>
+                                        ${postText}
+                                    </p>
+
+                                    <button
+                                        class="delete-btn"
+                                        onclick="
+                                            window.deletePost('${id}')
+                                        "
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+                },
+
+                (error)=>{
+
+                    console.error(
+                        "Post Snapshot Error:",
+                        error
+                    );
+
+
+                    postFeed.innerHTML = `
+
+                        <p style="
+                            color:red;
+                            text-align:center;
+                        ">
+                            Posts load failed.
+                        </p>
+
+                    `;
+
+                }
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Post Query Error:",
+                error
+            );
+
+        }
+
+
+        /* =================================================
+           USER VIDEOS
+        ================================================= */
+
+        const videoFeed =
+            document.getElementById(
+                "userVideoFeed"
+            );
+
+
+        try{
+
+            const videoQuery = query(
+                collection(db,"videos"),
+                where(
+                    "userId",
+                    "==",
+                    currentUid
+                )
+            );
+
+
+            onSnapshot(
+                videoQuery,
+                (querySnapshot)=>{
+
+                    let userVideos = [];
+
+
+                    querySnapshot.forEach(
+                        (docSnap)=>{
+
+                            userVideos.push({
+
+                                id:docSnap.id,
+
+                                ...docSnap.data()
+
+                            });
+
+                        }
+                    );
+
+
+                    /* =====================
+                       SORT VIDEOS
+                    ===================== */
+
+                    userVideos.sort(
+                        (a,b)=>{
+
+                            const timeA =
+                                a.createdAt?.toMillis?.() || 0;
+
+                            const timeB =
+                                b.createdAt?.toMillis?.() || 0;
+
+                            return timeB-timeA;
+
+                        }
+                    );
+
+
+                    videoFeed.innerHTML = "";
+
+
+                    if(userVideos.length === 0){
+
+                        videoFeed.innerHTML = `
+
+                            <p style="
+                                text-align:center;
+                                color:gray;
+                            ">
+                                আপনি এখনো কোনো ভিডিও যোগ করেননি।
+                            </p>
+
+                        `;
+
+                        return;
+                    }
+
+
+                    /* =====================
+                       RENDER VIDEOS
+                    ===================== */
+
+                    userVideos.forEach(
+                        (data)=>{
+
+                            const videoCard =
+                                document.createElement(
+                                    "div"
+                                );
+
+
+                            videoCard.className =
+                                "video-card";
+
+
+                            const safeUserName =
+                                escapeHTML(
+                                    data.userName ||
+                                    "User"
+                                );
+
+
+                            const safeCaption =
+                                escapeHTML(
+                                    data.caption ||
+                                    "No Caption"
+                                );
+
+
+                            const link =
+                                data.link || "";
+
+
+                            let videoElement = "";
+
+
+                            /* =====================
+                               YOUTUBE
+                            ===================== */
+
+                            if(
+                                link.includes(
+                                    "youtube.com"
+                                ) ||
+                                link.includes(
+                                    "youtu.be"
+                                )
+                            ){
+
+                                let embedLink =
+                                    link
+                                    .replace(
+                                        "watch?v=",
+                                        "embed/"
+                                    )
+                                    .replace(
+                                        "youtu.be/",
+                                        "youtube.com/embed/"
+                                    );
+
+
+                                if(
+                                    embedLink.includes(
+                                        "shorts/"
+                                    )
+                                ){
+
+                                    embedLink =
+                                        embedLink.replace(
+                                            "shorts/",
+                                            "embed/"
+                                        );
+
+                                }
+
+
+                                videoElement = `
+
+                                    <iframe
+                                        class="video-frame"
+                                        height="300"
+                                        src="${escapeHTML(embedLink)}"
+                                        frameborder="0"
+                                        allowfullscreen>
+                                    </iframe>
+
+                                `;
+
+                            }
+
+
+                            /* =====================
+                               FACEBOOK
+                            ===================== */
+
+                            else if(
+                                link.includes(
+                                    "facebook.com"
+                                ) ||
+                                link.includes(
+                                    "fb.watch"
+                                )
+                            ){
+
+                                const fbEmbedLink =
+                                    "https://www.facebook.com/plugins/video.php?href="
+                                    +
+                                    encodeURIComponent(link)
+                                    +
+                                    "&show_text=false&width=500";
+
+
+                                videoElement = `
+
+                                    <iframe
+                                        class="video-frame"
+                                        height="300"
+                                        src="${fbEmbedLink}"
+                                        frameborder="0"
+                                        scrolling="no"
+                                        allowfullscreen>
+                                    </iframe>
+
+                                `;
+
+                            }
+
+
+                            /* =====================
+                               TIKTOK
+                            ===================== */
+
+                            else if(
+                                link.includes(
+                                    "tiktok.com"
+                                )
+                            ){
+
+                                const parts =
+                                    link.split(
+                                        "/video/"
+                                    );
+
+
+                                if(
+                                    parts.length > 1
+                                ){
+
+                                    const videoId =
+                                        parts[1]
+                                        .split("?")[0]
+                                        .split("/")[0];
+
+
+                                    if(videoId){
+
+                                        const tiktokEmbed =
+                                            "https://www.tiktok.com/embed/v2/"
+                                            +
+                                            encodeURIComponent(
+                                                videoId
+                                            );
+
+
+                                        videoElement = `
+
+                                            <iframe
+                                                class="video-frame"
+                                                height="500"
+                                                src="${tiktokEmbed}"
+                                                frameborder="0"
+                                                allowfullscreen>
+                                            </iframe>
+
+                                        `;
+
+                                    }
+
+                                }
+
+                            }
+
+
+                            /* =====================
+                               DIRECT VIDEO
+                            ===================== */
+
+                            else if(link){
+
+                                videoElement = `
+
+                                    <video
+                                        class="video-frame"
+                                        controls
+                                        playsinline
+                                        style="
+                                            max-height:500px;
+                                            border-radius:4px;
+                                        "
+                                    >
+
+                                        <source
+                                            src="${escapeHTML(link)}"
+                                            type="video/mp4"
+                                        >
+
+                                        Your browser does not
+                                        support video.
+
+                                    </video>
+
+                                `;
+
+                            }
+
+
+                            /* =====================
+                               FORM URL
+                            ===================== */
+
+                            const formUrl =
+                                "https://docs.google.com/forms/d/e/1FAIpQLSeiv4UtgfMMipGHC3touEnpk1_L-9GuB9kzIJWqOdROfCNJmw/viewform?usp=pp_url&entry.1795539139="
+                                +
+                                encodeURIComponent(link);
+
+
+                            const likes =
+                                Number(
+                                    data.likes || 0
+                                );
+
+
+                            const views =
+                                Number(
+                                    data.views || 0
+                                );
+
+
+                            const viewPercent =
+                                Math.min(
+                                    (views / 1000) * 100,
+                                    100
+                                );
+
+
+                            videoCard.innerHTML = `
+
+                                <h3 class="post-user">
+                                    ${safeUserName}
+                                </h3>
+
+                                ${videoElement}
+
+                                <p style="
+                                    padding-top:10px;
+                                    margin:0;
+                                    font-weight:bold;
+                                ">
+                                    ${safeCaption}
+                                </p>
+
+                                <p style="
+                                    font-size:12px;
+                                    color:#777;
+                                ">
+                                    ${likes} Likes |
+                                    ${views} Views
+                                </p>
+
+
+                                <div class="video-actions">
+
+                                    <button
+                                        class="delete-btn"
+                                        onclick="
+                                            window.deleteVideo('${data.id}')
+                                        "
+                                    >
+                                        Delete
+                                    </button>
+
+
+                                    <button
+                                        id="success-${data.id}"
+                                        class="success-btn"
+                                        onclick="
+                                            window.open(
+                                                '${formUrl}',
+                                                '_blank'
+                                            )
+                                        "
+                                    >
+                                        Success
+                                    </button>
+
+
+                                    <div class="view-bar">
+
+                                        <div
+                                            class="view-fill"
+                                            id="bar-${data.id}"
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+                            `;
+
+
+                            videoFeed.appendChild(
+                                videoCard
+                            );
+
+
+                            /* Progress bar */
+
+                            setTimeout(
+                                ()=>{
+
+                                    const bar =
+                                        document.getElementById(
+                                            `bar-${data.id}`
+                                        );
+
+
+                                    if(bar){
+
+                                        bar.style.width =
+                                            viewPercent + "%";
+
+                                    }
+
+                                },
+                                100
+                            );
+
+
+                            /* 1000 views */
+
+                            if(views >= 1000){
+
+                                setTimeout(
+                                    ()=>{
+
+                                        const btn =
+                                            document.getElementById(
+                                                `success-${data.id}`
+                                            );
+
+
+                                        if(btn){
+
+                                            btn.style.display =
+                                                "block";
+
+                                        }
+
+                                    },
+                                    100
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+
+                (error)=>{
+
+                    console.error(
+                        "Video Snapshot Error:",
+                        error
+                    );
+
+
+                    videoFeed.innerHTML = `
+
+                        <p style="
+                            color:red;
+                            text-align:center;
+                        ">
+                            Videos load failed.
+                        </p>
+
+                    `;
+
+                }
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Video Query Error:",
+                error
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MOBILE SEARCH
+===================================================== */
+
+window.searchicon = function(){
+
+    const box =
+        document.getElementById(
+            "opensearchbox"
+        );
+
+    if(box){
+
+        box.style.display =
+            "block";
+
+    }
+
+};
+
+
+window.searchclose = function(){
+
+    const box =
+        document.getElementById(
+            "opensearchbox"
+        );
+
+    if(box){
+
+        box.style.display =
+            "none";
+
+    }
+
+};
+
+
+/* =====================================================
+   SEARCH PRODUCT
+===================================================== */
+
+window.searchProduct = function(){
+
+    const desktopSearch =
+        document.getElementById(
+            "search"
+        );
+
+
+    const mobileSearch =
+        document.getElementById(
+            "ONEsearch"
+        );
+
+
+    const searchText =
+        (
+            desktopSearch?.value ||
+            mobileSearch?.value ||
+            ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const cards =
+        document.querySelectorAll(
+            ".product-card"
+        );
+
+
+    cards.forEach(
+        card=>{
+
+            const text =
+                card.textContent
+                .toLowerCase();
+
+
+            if(
+                text.includes(searchText)
+            ){
+
+                card.style.display =
+                    "block";
+
+            }else{
+
+                card.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+};
 </script>
-
 </body>
 </html>

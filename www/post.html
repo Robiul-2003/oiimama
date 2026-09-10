@@ -6,20 +6,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>All Posts</title>
     <style>
-        /* আপনার existing CSS */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
+        body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
-   header{
-  background:#042867;
+/* header */
+header{
+  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  max-width:1400px;margin: auto;color:white;
+  max-width:1400px;margin: auto;color:#031f50;
 }
 .headone{
 justify-content:space-between;align-items:center;display:flex;
@@ -36,7 +31,7 @@ display:flex;margin-top:7px;
  
 /* search */
 #search{
-  height:35px;width:40%;  margin-left:5%; 
+  height:30px;width:40%;  margin-left:5%; 
  
 }
 
@@ -58,6 +53,9 @@ width:33px; height:33px;margin-left:7%;border-radius:5%;
 #userimg{
   width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
 }
+
+
+
 .fa-magnifying-glass{
 display:none;
 }
@@ -144,44 +142,80 @@ display:none;
 
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
-              header{
-                 background:white;
-                position: fixed;width:100%;top:0;z-index:999;height:78px
-          }
-            .header1 { width: 100%; padding: 0 10px; }
-            #search { display: none; }
-             .name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:7px;
+                header{
+ background:white;
+  position: fixed;width:100%;top:0;z-index:999;height:78px;
+}
+.headone{
+  display: flex; align-items: center;
+}
+.name{
+  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
   color: #031f50;
 }
 .headtwo{
-  display: flex; align-items: center;
+  display: flex; align-items: center;margin-top:0px;
 }
   .header1{
     width:100%;
   }
-  .fa-list{
-  font-size:23px;cursor: pointer; margin-top:10px; margin-left: auto; margin-right:4%;color:black;
+   .fa-list{
+  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
 }
- 
+  #search{display:none;}
   .fa-magnifying-glass{
-   display:inline-block;font-size:23px;margin-top:10px;margin-left:47%; color:black;
+   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
+   display:inline-block;
   }
             
+    #homeimg{
+    width:40px;height:30px;margin-left:3%;
+    }
+    #pentoimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+    #messageimg{
+      width:35px;height:32px;margin-left:8%;
+    }
+   #videoimg{ 
+    width:40px;height:35px;margin-left:8%;
+    }
+    #bellimg{
+width:33px; height:33px;margin-left: auto;margin-right:1%;
+}
+#userimg{
+  width:30px;height:30px;margin-left: auto;margin-right:4%;
+}
+
+
+
+
+
+
            
-            .fa-list { margin-right: 0; }
+          
             #showJob { margin-top: 70px; padding: 5px; }
             .job-card { padding: 14px; margin: 10px 0; }
+
+
+            
         }
     </style>
 </head>
 <body>
-  <header>
+ <header>
   <div class="header1">
-    <div class="headone"><span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i></div>
+    <div class="headone">
+      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+    </div>
     <div class="headtwo">
-    <img  src="home.png" style="width:40px;height:30px;margin-left:3%; "  onclick="window.location.href='home.html'" ><img  src="pento.png" style="width:35px;height:32px;margin-left:7%;"; onclick="window.location.href='post.html'"><img src="message.png" style="width:35px;height:32px;margin-left:7%;">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()"><img  src="VIDEO.png" style="width:40px;height:35px;margin-left:7%;";  onclick="window.location.href='vedio.html'"> <img  src="bell.png" style="width:33px; height:33px;margin-left:7%;"><img src="user.png" style="width:30px;height:30px;margin-left: auto;margin-right:4%;" onclick="window.location.href='user.html'"></i>
+  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
+  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
+  <img src="message.png" id="messageimg"  onclick="window.location.href='message.html'">
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
+  <img  src="bell.png" id="bellimg">
+  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
 
     </div>
   </div>

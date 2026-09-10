@@ -161,7 +161,6 @@
 </head>
 <body>
 
-
 <div class="container">
     <h3>Add New Product</h3>
     <form id="productForm">
@@ -170,11 +169,11 @@
             <label for="productName">Product Name *</label>
             <input type="text" id="productName" placeholder="Product Name" required>
         </div>
-          <div class="form-group">
+        <div class="form-group">
             <label for="Color">Product Color *</label>
-            <input type="text" id="Color" placeholder=" Color" required>
+            <input type="text" id="Color" placeholder="Color" required>
         </div>
-         <div class="form-group">
+        <div class="form-group">
             <label for="Size">Product Size *</label>
             <input type="text" id="Size" placeholder="Size" required>
         </div>
@@ -182,9 +181,9 @@
             <label for="productprice">Product Price *</label>
             <input type="number" id="productprice" placeholder="Price" required>
         </div>
-         <div class="form-group">
+        <div class="form-group">
             <label for="Whatsappnumber">Whatsapp Number *</label>
-            <input type="text" id="Whatsappnumber" placeholder="Whatsapp Number" required>
+            <input type="text" id="Whatsappnumber" placeholder="01XXXXXXXXX" required>
         </div>
         <div class="form-group">
             <label for="productCategory">Category *</label>
@@ -228,14 +227,14 @@
                     <img id="img-3" alt="Preview">
                     <input type="file" id="input-3" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 3)">
                 </div>
-                 <div class="image-slot" onclick="triggerInput(4)">
+                <div class="image-slot" onclick="triggerInput(4)">
                     <div class="slot-number">4</div>
                     <div class="delete-btn" id="delete-4" onclick="deleteImage(event, 4)">X</div>
                     <span class="upload-icon" id="icon-4">+</span>
                     <img id="img-4" alt="Preview">
                     <input type="file" id="input-4" accept="image/*" style="display: none;" onchange="previewSlotImage(this, 4)">
                 </div>
-                 <div class="image-slot" onclick="triggerInput(5)">
+                <div class="image-slot" onclick="triggerInput(5)">
                     <div class="slot-number">5</div>
                     <div class="delete-btn" id="delete-5" onclick="deleteImage(event, 5)">X</div>
                     <span class="upload-icon" id="icon-5">+</span>
@@ -284,7 +283,6 @@ let currentUser = null;
 
 // Login user detect
 onAuthStateChanged(auth, (user) => {
-
     if(user){
         currentUser = user;
         console.log("Login:", user.uid);
@@ -292,16 +290,14 @@ onAuthStateChanged(auth, (user) => {
         currentUser = null;
         console.log("Not Login");
     }
-
 });
+
 // ================= GLOBAL BACK BUTTON HANDLER =================
-// ১. স্ট্যান্ডার্ড অ্যান্ড্রয়েড ওয়েবভিউ ইভেন্ট লিসেনার
 document.addEventListener("backbutton", function (e) {
     e.preventDefault();
     handleGoBack();
 }, false);
 
-// ২. Capacitor ব্যাক বাটন হ্যান্ডলিং
 function setupCapacitorBack() {
     if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
         window.Capacitor.Plugins.App.addListener('backButton', () => {
@@ -313,36 +309,31 @@ document.addEventListener("deviceready", setupCapacitorBack, false);
 
 function handleGoBack() {
     if (window.history.length > 1) {
-        window.history.back(); // আগের পেজে ফেরা নিশ্চিত করবে
+        window.history.back();
     } else {
         if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
             window.Capacitor.Plugins.App.exitApp();
         }
     }
 }
-// ================= IMAGE FUNCTIONS=================
 
+// ================= IMAGE FUNCTIONS =================
 window.triggerInput = function(id){
     document.getElementById("input-"+id).click();
 }
 
 window.previewSlotImage = function(input,id){
-
     const file=input.files[0];
-
     if(!file) return;
 
     const reader=new FileReader();
-
     reader.onload=function(e){
-
         document.getElementById("img-"+id).src=e.target.result;
         document.getElementById("img-"+id).style.display="block";
         document.getElementById("icon-"+id).style.display="none";
         document.getElementById("delete-"+id).style.display="flex";
     }
     reader.readAsDataURL(file);
-
 }
 
 window.deleteImage=function(event,id){
@@ -352,96 +343,78 @@ window.deleteImage=function(event,id){
     document.getElementById("img-"+id).style.display="none";
     document.getElementById("icon-"+id).style.display="block";
     document.getElementById("delete-"+id).style.display="none";
-
 }
 
 // ================= ADD PRODUCT =================
-
-document.getElementById("productForm").addEventListener("submit",async(e)=>{
+document.getElementById("productForm").addEventListener("submit", async(e) => {
     e.preventDefault();
     if(!currentUser){
         alert("Please Login First.");
         return;
     }
 
-    const btn=document.getElementById("submitBtn");
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerText = "Uploading...";
 
-    btn.disabled=true;
-    btn.innerText="Uploading...";
-
-    let images=[];
-
-    for(let i=1;i<=5;i++){
-
-        const img=document.getElementById("img-"+i);
-
-        if(img.style.display=="block"){
-
+    let images = [];
+    for(let i = 1; i <= 5; i++){
+        const img = document.getElementById("img-"+i);
+        if(img.style.display == "block"){
             images.push(img.src);
-
         }
-
     }
 
-    const id=Date.now().toString();
-
-    const price=document.getElementById("productprice").value;
-
-   const product = {
-
-    id: id,
-
-    name: document.getElementById("productName").value,
-
-    Whatsapp: String(
-        document.getElementById("Whatsappnumber").value.trim()
-    ),
-
-    size: document.getElementById("Size").value,
-
-    color: document.getElementById("Color").value,
-
-    category: [
-        document.getElementById("productCategory").value
-    ],
-
-    details: document.getElementById("productDescription").value,
-
-    ppieces: ["1-5", "6-10", "11-20"],
-
-    price: [
-        price + " TK",
-        price + " TK",
-        price + " TK"
-    ],
-
-    images: images,
-
-    // Product owner
-    userId: currentUser.uid,
-
-    ownerEmail: currentUser.email,
-
-    createdAt: serverTimestamp()
-};
- try {
-    await setDoc(doc(db, "products", id), product);
-    alert("✅ Product Added Successfully");
-    document.getElementById("productForm").reset();
-
-    // সরাসরি location.href না দিয়ে ব্যাক নেভিগেশন চেক করা হচ্ছে
-    if (window.history.length > 1) {
-        window.history.back(); // আগের পেজে ফিরে যাবে
-    } else {
-        location.href = "index.html"; // ব্যাক হিস্ট্রি না থাকলে index.html-এ যাবে
+    // WhatsApp নম্বরের ফরম্যাটিং ঠিক করার লজিক
+    let rawWhatsapp = String(document.getElementById("Whatsappnumber").value.trim()).replace(/\D/g, "");
+    
+    if (rawWhatsapp.startsWith("01")) {
+        rawWhatsapp = "88" + rawWhatsapp; // 017... রূপান্তর হয়ে 88017... হবে
+    } else if (rawWhatsapp.startsWith("1")) {
+        rawWhatsapp = "880" + rawWhatsapp; // 17... রূপান্তর হয়ে 88017... হবে
     }
 
-} catch (error) {
-    console.error(error);
-    alert(error.message);
-    btn.disabled = false;
-    btn.innerText = "Add Product";
-}
+    const id = Date.now().toString();
+    const price = document.getElementById("productprice").value;
+
+    const product = {
+        id: id,
+        name: document.getElementById("productName").value,
+        Whatsapp: rawWhatsapp,
+        size: document.getElementById("Size").value,
+        color: document.getElementById("Color").value,
+        category: [
+            document.getElementById("productCategory").value
+        ],
+        details: document.getElementById("productDescription").value,
+        ppieces: ["1-5", "6-10", "11-20"],
+        price: [
+            price + " TK",
+            price + " TK",
+            price + " TK"
+        ],
+        images: images,
+        userId: currentUser.uid,
+        ownerEmail: currentUser.email,
+        createdAt: serverTimestamp()
+    };
+
+    try {
+        await setDoc(doc(db, "products", id), product);
+        alert("✅ Product Added Successfully");
+        document.getElementById("productForm").reset();
+
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            location.href = "index.html";
+        }
+    } catch (error) {
+        console.error(error);
+        alert(error.message);
+        btn.disabled = false;
+        btn.innerText = "Add Product";
+    }
 });
 </script>
 </body>

@@ -1,30 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test 1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rohan Ahamed</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      width: 100%;
+      height: 50px;
+      background: #031f50;
+    }
+    .companyname {
+      font-size: 30px;
+      color: white;
+      line-height: 50px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    #name {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* নিচের ইনপুট ও বাটনের কন্টেইনার */
+    .message-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+    #msg {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+    #sentbutton {
+      padding: 10px 20px;
+      margin-left: 8px;
+      background-color: #031f50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-    <h1 onclick="window.location.href='test2.html'">
-        Welcome to Adarsha BD
-    </h1>
+  <header>
+    <div class="companyname" onclick="window.location.href='user.html'">Adarsh bd</div>
+  </header>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-          const { App } = window.Capacitor.Plugins;
+  <h1 id="name"></h1>
 
-          App.addListener('backButton', () => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              App.exitApp();
-            }
-          });
+  <!-- নিচে স্থির থাকার জন্য মেসেজ বক্সের কন্টেইনার -->
+  <div class="message-container">
+    <input type="text" id="msg" placeholder="Type your message">
+    <button id="sentbutton">SENT</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+    // আপনার Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+      authDomain: "robiul-84377.firebaseapp.com",
+      projectId: "robiul-84377",
+      storageBucket: "robiul-84377.firebasestorage.app",
+      messagingSenderId: "476907665212",
+      appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ইউজার লগইন অবস্থায় থাকলে নাম লোড করবে
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            document.getElementById("name").innerText = " " + (userData.name || "No Name Found");
+          } else {
+            document.getElementById("name").innerText = "user : Unknown";
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          document.getElementById("name").innerText = "user : Error";
         }
-      });
-    </script>
+      } else {
+        document.getElementById("name").innerText = "user : Not logged in";
+      }
+    });
+  </script>
+
 </body>
 </html>
