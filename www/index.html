@@ -63,18 +63,31 @@
 <body>
     <h1>a</h1>
     <h2>Adarsha BD</h2>
-    <script>
-      document.addEventListener('DOMContentLoaded', async () => {
-        if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
-          const { StatusBar } = window.Capacitor.Plugins;
-          await StatusBar.setBackgroundColor({ color: '#ffffff' });
-          await StatusBar.setStyle({ style: 'DARK' });
-        }
-      });
-      setTimeout(function(){
-        window.location.href ="home.html";
-      }, 3000);
-    </script>
+<script>
+  // Phone কিনা check
+  const isPhone = /Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  // PC/Laptop হলে সরাসরি home.html
+  if (!isPhone) {
+    window.location.href = "home.html";
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
+      const { StatusBar } = window.Capacitor.Plugins;
+
+      await StatusBar.setBackgroundColor({ color: '#ffffff' });
+      await StatusBar.setStyle({ style: 'DARK' });
+    }
+  });
+
+  // Phone হলে 3 second পরে home.html
+  if (isPhone) {
+    setTimeout(function() {
+      window.location.href = "home.html";
+    }, 3000);
+  }
+</script>
 </body>
 </html>
 

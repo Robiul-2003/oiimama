@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <title>Messages - Adarsha BD</title>
   <style>
     body {
@@ -35,129 +38,33 @@
     }
     #idserach {
       display: block;
-      margin: 10px auto;
-      width: 90%;
+      margin:2px auto;
+      width: 95%;
       border-radius: 5px;
       height: 35px;
       border: 1px solid #ccc;
       padding: 0 10px;
       box-sizing: border-box;
     }
-    .chat-list {
-      width: 90%;
-      margin: 15px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    footer{
+      width:123456px;
     }
-    .chat-item {
-      background: white;
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-left: 4px solid #031f50;
-    }
-    .chat-item h3 {
-      margin: 0;
-      font-size: 16px;
-      color: #333;
-    }
-    .chat-item p {
-      margin: 5px 0 0 0;
-      font-size: 13px;
-      color: #666;
-    }
-
-    /* Modal for Chatting */
-    #chatModal {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      top: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 10000;
-    }
-    .chat-box {
-      width: 100%;
-      max-width: 500px;
-      height: 90vh;
-      margin: 5vh auto;
-      background: white;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-    }
-    .chat-header {
-      background: #031f50;
-      color: white;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-    #chatMessages {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: #f9f9f9;
-    }
-    .chat-input-box {
-      display: flex;
-      border-top: 1px solid #ccc;
-    }
-    .chat-input-box input {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      outline: none;
-    }
-    .chat-input-box button {
-      background: #031f50;
-      color: white;
-      border: none;
-      padding: 0 20px;
-      cursor: pointer;
+    p{
+      margin-left:15px;
+         font-family: "Open Sans", sans-serif; font-size:20px; font-weight:600;
     }
   </style>
 </head>
 <body>
-
   <header>
     <div class="companyname" onclick="window.location.href='home.html'">Adarsha BD</div>
   </header>
 
   <div class="container">
     <input type="text" id="idserach" placeholder="Search user name..." onkeyup="filterChats()">
-    
-    <!-- ইনবক্সে সক্রিয় থাকা সব চ্যাট দেখানোর কনটেইনার -->
-    <div class="chat-list" id="chatList">
-      <p style="text-align:center; color:#888;"></p>
-    </div>
-  </div>
-
-  <!-- চ্যাট পপ-আপ মোডাল -->
-  <div id="chatModal">
-    <div class="chat-box">
-      <div class="chat-header">
-        <span id="chatTitle">Chat</span>
-        <span onclick="closeChat()" style="cursor:pointer; font-weight:bold;">&times;</span>
-      </div>
-      <div id="chatMessages"></div>
-      <div class="chat-input-box">
-        <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()">Send</button>
-      </div>
-    </div>
+     <p onclick="window.location.href=''">Adarsha BD </p>
+  <p onclick="window.location.href=''">Support Team </p>
+  <p onclick="window.location.href=''">partner ship </p>
   </div>
 </body>
 </html>
