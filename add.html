@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Product - 5 Image Slots</title>
+    <title>Add New Product - Our Solution</title>
     <style>
         * {
             margin: 0;
@@ -29,10 +29,29 @@
             max-width: 650px;
         }
 
-        h3 {
-            margin-bottom:10px;
+        .header-section {
             text-align: center;
-            font-size: 22px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .brand-title {
+            color: #007bff;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .developer-tag {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .developer-name {
+            color: #28a745;
+            font-weight: bold;
         }
 
         .form-group {
@@ -52,7 +71,7 @@
         select,
         textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #333;
             background-color: #2a2a2a;
             color: #fff;
@@ -74,6 +93,7 @@
         .image-slot {
             position: relative;
             width: 100%;
+            aspect-ratio:1/1;
             padding-top: 100%; 
             background-color: #2d2d2d;
             border-radius: 10px;
@@ -146,7 +166,7 @@
             background-color: #28a745;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             width: 100%;
             font-size: 16px;
             font-weight: bold;
@@ -157,14 +177,21 @@
         .btn-submit:hover {
             background-color: #218838;
         }
+        .btn-submit:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3>Add New Product</h3>
+    <div class="header-section">
+        <h2 class="brand-title">OUR SOLUTION</h2>
+        <p class="developer-tag">Product Panel | Developer: <span class="developer-name">Robiul</span></p>
+    </div>
+
     <form id="productForm">
-        
         <div class="form-group">
             <label for="productName">Product Name *</label>
             <input type="text" id="productName" placeholder="Product Name" required>
@@ -204,7 +231,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label>Product Images (Click slots to upload)</label>
+            <label>Product Images (Up to 5)</label>
             <div class="image-grid">
                 <div class="image-slot" onclick="triggerInput(1)">
                     <div class="slot-number">1</div>
@@ -244,7 +271,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="productDescription">Description</label>
+            <label for="productDescription">Description *</label>
             <input type="text" id="productDescription" placeholder="Product Description..." required>
         </div>
         <button type="submit" class="btn-submit" id="submitBtn">Add Product</button>
@@ -253,18 +280,19 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
 import {
     getFirestore,
     doc,
     setDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 import {
     getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const CLOUDINARY_CLOUD_NAME = "sykfzqhs";
+const CLOUDINARY_UPLOAD_PRESET = "robiul_preset";
 
 const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -281,137 +309,188 @@ const auth = getAuth(app);
 
 let currentUser = null;
 
-// Login user detect
 onAuthStateChanged(auth, (user) => {
     if(user){
         currentUser = user;
-        console.log("Login:", user.uid);
-    }else{
+    } else {
         currentUser = null;
-        console.log("Not Login");
     }
 });
 
-// ================= GLOBAL BACK BUTTON HANDLER =================
-document.addEventListener("backbutton", function (e) {
-    e.preventDefault();
-    handleGoBack();
-}, false);
-
-function setupCapacitorBack() {
-    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-        window.Capacitor.Plugins.App.addListener('backButton', () => {
-            handleGoBack();
-        });
-    }
-}
-document.addEventListener("deviceready", setupCapacitorBack, false);
-
-function handleGoBack() {
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            window.Capacitor.Plugins.App.exitApp();
-        }
-    }
-}
-
-// ================= IMAGE FUNCTIONS =================
+// IMAGE PREVIEW FUNCTIONS
 window.triggerInput = function(id){
     document.getElementById("input-"+id).click();
 }
 
-window.previewSlotImage = function(input,id){
-    const file=input.files[0];
+window.previewSlotImage = function(input, id){
+    const file = input.files[0];
     if(!file) return;
 
-    const reader=new FileReader();
-    reader.onload=function(e){
-        document.getElementById("img-"+id).src=e.target.result;
-        document.getElementById("img-"+id).style.display="block";
-        document.getElementById("icon-"+id).style.display="none";
-        document.getElementById("delete-"+id).style.display="flex";
+    const reader = new FileReader();
+    reader.onload = function(e){
+        document.getElementById("img-"+id).src = e.target.result;
+        document.getElementById("img-"+id).style.display = "block";
+        document.getElementById("icon-"+id).style.display = "none";
+        document.getElementById("delete-"+id).style.display = "flex";
     }
     reader.readAsDataURL(file);
 }
 
-window.deleteImage=function(event,id){
+window.deleteImage = function(event, id){
     event.stopPropagation();
-    document.getElementById("input-"+id).value="";
-    document.getElementById("img-"+id).src="";
-    document.getElementById("img-"+id).style.display="none";
-    document.getElementById("icon-"+id).style.display="block";
-    document.getElementById("delete-"+id).style.display="none";
+    document.getElementById("input-"+id).value = "";
+    document.getElementById("img-"+id).src = "";
+    document.getElementById("img-"+id).style.display = "none";
+    document.getElementById("icon-"+id).style.display = "block";
+    document.getElementById("delete-"+id).style.display = "none";
 }
 
-// ================= ADD PRODUCT =================
-document.getElementById("productForm").addEventListener("submit", async(e) => {
+// ⚡ IMAGE COMPRESSION FUNCTION (ছবির সাইজ ছোট করার ফাংশন)
+function compressImage(file, maxWidth = 1000, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                let width = img.width;
+                let height = img.height;
+
+                // যদি ছবি ১০০০ পিক্সেলের চেয়ে বড় হয়, তবে অনুপাত ঠিক রেখে ছোট করা হবে
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // ছবির কোয়ালিটি ৭০% রেখে ফাইল ফরম্যাটে রূপান্তর
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const compressedFile = new File([blob], file.name, {
+                            type: "image/jpeg",
+                            lastModified: Date.now()
+                        });
+                        resolve(compressedFile);
+                    } else {
+                        reject(new Error("Compression failed"));
+                    }
+                }, "image/jpeg", quality);
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+}
+
+// UPLOAD TO CLOUDINARY
+async function uploadToCloudinary(file) {
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    const res = await fetch(url, {
+        method: "POST",
+        body: formData
+    });
+
+    if (!res.ok) {
+        throw new Error("Cloudinary image upload failed");
+    }
+
+    const data = await res.json();
+    return data.secure_url;
+}
+
+// FORM SUBMISSION
+document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
+
     if(!currentUser){
-        alert("Please Login First.");
+        alert("Please login first to upload a product.");
         return;
     }
 
     const btn = document.getElementById("submitBtn");
     btn.disabled = true;
-    btn.innerText = "Uploading...";
+    btn.innerText = "Compressing & Uploading images...";
 
-    let images = [];
-    for(let i = 1; i <= 5; i++){
-        const img = document.getElementById("img-"+i);
-        if(img.style.display == "block"){
-            images.push(img.src);
-        }
-    }
-
-    // WhatsApp নম্বরের ফরম্যাটিং ঠিক করার লজিক
-    let rawWhatsapp = String(document.getElementById("Whatsappnumber").value.trim()).replace(/\D/g, "");
-    
-    if (rawWhatsapp.startsWith("01")) {
-        rawWhatsapp = "88" + rawWhatsapp; // 017... রূপান্তর হয়ে 88017... হবে
-    } else if (rawWhatsapp.startsWith("1")) {
-        rawWhatsapp = "880" + rawWhatsapp; // 17... রূপান্তর হয়ে 88017... হবে
-    }
-
-    const id = Date.now().toString();
-    const price = document.getElementById("productprice").value;
-
-    const product = {
-        id: id,
-        name: document.getElementById("productName").value,
-        Whatsapp: rawWhatsapp,
-        size: document.getElementById("Size").value,
-        color: document.getElementById("Color").value,
-        category: [
-            document.getElementById("productCategory").value
-        ],
-        details: document.getElementById("productDescription").value,
-        ppieces: ["1-5", "6-10", "11-20"],
-        price: [
-            price + " TK",
-            price + " TK",
-            price + " TK"
-        ],
-        images: images,
-        userId: currentUser.uid,
-        ownerEmail: currentUser.email,
-        createdAt: serverTimestamp()
-    };
+    const productId = Date.now().toString();
+    let imageUrls = [];
 
     try {
-        await setDoc(doc(db, "products", id), product);
-        alert("✅ Product Added Successfully");
+        for(let i = 1; i <= 5; i++){
+            const input = document.getElementById("input-"+i);
+            if(input.files && input.files[0]){
+                const originalFile = input.files[0];
+                
+                // ⚡ আপলোড করার আগে ছবি কম্প্রেস করা হচ্ছে
+                const compressedFile = await compressImage(originalFile);
+
+                const uploadedUrl = await uploadToCloudinary(compressedFile);
+                imageUrls.push(uploadedUrl);
+            }
+        }
+
+        btn.innerText = "Saving product info...";
+
+        let rawWhatsapp = String(document.getElementById("Whatsappnumber").value.trim()).replace(/\D/g, "");
+        if (rawWhatsapp.startsWith("01")) {
+            rawWhatsapp = "88" + rawWhatsapp;
+        } else if (rawWhatsapp.startsWith("1")) {
+            rawWhatsapp = "880" + rawWhatsapp;
+        }
+
+        const price = document.getElementById("productprice").value;
+
+        const product = {
+            id: productId,
+            name: document.getElementById("productName").value.trim(),
+            Whatsapp: rawWhatsapp,
+            size: document.getElementById("Size").value.trim(),
+            color: document.getElementById("Color").value.trim(),
+            category: [
+                document.getElementById("productCategory").value
+            ],
+            details: document.getElementById("productDescription").value.trim(),
+            ppieces: ["1-5", "6-10", "11-20"],
+            price: [
+                price + " TK",
+                price + " TK",
+                price + " TK"
+            ],
+            images: imageUrls,
+            userId: currentUser.uid,
+            ownerEmail: currentUser.email || "",
+            createdAt: serverTimestamp()
+        };
+
+        await setDoc(doc(db, "products", productId), product);
+
+        alert("✅ Product Added Successfully!");
+
         document.getElementById("productForm").reset();
+        for(let i = 1; i <= 5; i++){
+            window.deleteImage({ stopPropagation: () => {} }, i);
+        }
 
         if (window.history.length > 1) {
             window.history.back();
         } else {
             location.href = "index.html";
         }
+
     } catch (error) {
-        console.error(error);
-        alert(error.message);
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+    } finally {
         btn.disabled = false;
         btn.innerText = "Add Product";
     }
