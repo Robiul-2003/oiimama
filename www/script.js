@@ -644,19 +644,3 @@ function handleIncomingSharedData(rawText) {
         }
     }
 }
-
-
-window.vedio = function () {
-    document.getElementById("vediocloseo").style.display = "block";
-}
-
-window.veclose = function () {
-    document.getElementById("vediocloseo").style.display = "none";
-}
-  window.jobs = function(){
-    document.getElementById("job").style.display = "block";
-}
-
-  window.jobspost = function (){
-    document.getElementById("job").style.display = "none";
-}

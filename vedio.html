@@ -1,8 +1,10 @@
-vedio.html   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
@@ -11,282 +13,289 @@ vedio.html   <!DOCTYPE html>
   "url": "https://adarshabd.com/"
 }
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3623063870984881"
-     crossorigin="anonymous"></script>
-<title>AdarshBD-Vedio </title>
+
+<title>Adarsha BD Video</title>
+
 <link rel="icon" href="logo.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<meta name="description" content="Adarsha BD is an online shopping store in Bangladesh. Buy fashion, electronics, gadgets, home products at best price with fast delivery.">
-<meta name="keywords" content="online shopping Bangladesh, Adarsha BD, ecommerce Bangladesh, fashion, electronics, gadgets, buy online">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<meta name="description"
+content="Adarsha BD is an online shopping store in Bangladesh.">
+
 <meta property="og:title" content="Adarsha BD - Online Shopping">
-<meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
+<meta property="og:description"
+content="Buy fashion, electronics & gadgets online in Bangladesh">
 <meta property="og:image" content="banner.png">
 <meta property="og:url" content="https://adarshabd.com/">
 <meta property="og:type" content="website">
+
 <link rel="canonical" href="https://adarshabd.com/">
+
 <style>
-body{font-family:Arial;margin:0;padding:0;background:rgb(248, 246, 246);}
-/* header */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    background:rgb(249,246,246);
+}
+
+/* ================= HEADER ================= */
+
 header{
-  background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:90px;
-}
-.header1{
-  max-width:1400px;margin: auto;color:#031f50;
-}
-.headone{
-justify-content:space-between;align-items:center;display:flex;
-}
-.name{
-  font-size:23px;padding-top:10px;
-}
-.headtwo{
-display:flex;margin-top:7px;
-}
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-/* search */
-#search{
-  height:30px;width:40%;  margin-left:5%; 
- 
-}
-
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
-}
-#bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
-}
-#userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
-}
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-.fa-magnifying-glass{
-   display:none;cursor: pointer;
-}
-#openlistbox{
-  position:fixed;
-  top:0;
-  left:80%;
-  width:20%;
-  height:100%;
-  background:white;
-  display:none;
-  z-index:9999;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-}
-h2{
-  margin-left:10%;
-  cursor: pointer;
-}
-.fa-angle-left{
-  font-size:30px;margin-left:5%;cursor: pointer;
-}
-#vediocloseo, #productcloseo{
-  margin: auto;
-  display:none;
-  width:90%;
-  border:1px solid red;
-  padding: 10px;
-}
-#pac{
- float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
-}
-#email, #password, #vedioline, #caption{
-  margin: auto;
-  width:90%;height:30px;
-  
-}
-
-  .vedio{
-    max-width:500px;
-    min-height:100px;margin: auto;border-radius:6px;margin:3px auto 0;
-    background: #fff; padding: 10px; box-sizing: border-box;
-  }
-  #userResult{
-  position:absolute;
-  top:60px;
-  left:50%;
-  transform:translateX(-50%);
-  width:600px;
-  max-height:350px;
-  overflow-y:auto;
-  background:#fff;
-  border-radius:8px;
-  box-shadow:0 2px 10px rgba(0,0,0,.2);
-  z-index:9999;
-}
-
-.user-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-  cursor:pointer;
-  border-bottom:1px solid #eee;
-}
-
-.user-item:hover{
-  background:#f5f5f5;
-}
-
-.user-item img{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-}
-.clickads{
-  border:2px solid rgb(230, 214, 214);display: flex;background:white;
-  width:500px;margin:auto;border-radius: 10px;position:relative;
-}
-.clickimg{
-  width:50%;border-radius:10px 0px 0px 10px;
-}
-.clickadsclocse{
-    position: absolute;
-  top:75px;left:61%;
-  font-size:30px;
-  color: red;
-  cursor: pointer;
-  z-index: 1000;
-}
-  .vedioadd{
-    max-width:500px;
-  }
-  #vediocloseo, #productcloseo{
-  display:none;
-}
-  #videoFeed {
-  display: flex;
-  flex-direction: column-reverse;
-}
-@media(max-width:600px){
-  header{
- background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:78px;
-}
-.headone{
-  display: flex; align-items: center;
-}
-.name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
-  color: #031f50;
-}
-.headtwo{
-  display: flex; align-items: center;margin-top:0px;
-}
-  .header1{
-    width:100%;
-  }
-  .fa-list{
-  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
-}
- 
-  .fa-magnifying-glass{
-   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
-   display:inline-block;
-  }
- 
-
-   #search{display:none;}
-  .click{
-    width:40px;height:40px;border-radius:10px;display: block;margin: auto;
-  }
-  #opensearchbox{
+    background:white;
     position:fixed;
-    top:0;left:0;width:100%;height:60px;
-    background:#031f50;display:none;z-index:9999;
-  }
-  #opensearchbox .search-inner{
-   display: flex; justify-content: space-between; align-items: center; padding: 10px;
-  }
-  #ONEsearch{
-    height:30px;width:80%;margin-left:8%;
-  }
-  #X{
-    color:red;font-size:30px;cursor: pointer; margin: 0;
-  }
-  #openlistbox{
-    left:0; width:100%;
-  }
+    width:100%;
+    top:0;
+    left:0;
+    z-index:999;
+    height:90px;
+    box-shadow:0 1px 5px rgba(0,0,0,.08);
+}
 
-  .clickads{
- margin-top:80px;
- width:86%;
+.header1{
+    max-width:1400px;
+    margin:auto;
 }
-.clickadsclocse{
-  margin-top:8px;
-  left:85%;
+
+.headone{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
-     #homeimg{
-    width:40px;height:30px;margin-left:3%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:8%;
-    }
-    #messageimg{
-      width:35px;height:32px;margin-left:8%;
-    }
-   #videoimg{ 
-    width:40px;height:35px;margin-left:8%;
-    }
-    #bellimg{
-width:33px; height:33px;margin-left: auto;margin-right:1%;
+
+.name{
+    font-size:23px;
+    padding-top:10px;
+    color:#031f50;
+    font-weight:bold;
+    cursor:pointer;
 }
+
+.headtwo{
+    display:flex;
+    align-items:center;
+    margin-top:7px;
+}
+
+.fa-list{
+    font-size:25px;
+    cursor:pointer;
+    margin-top:10px;
+    color:#031f50;
+}
+
+.fa-magnifying-glass{
+    display:none;
+    cursor:pointer;
+}
+
+#search{
+    height:35px;
+    width:40%;
+    margin-left:5%;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:5px 10px;
+}
+
+#homeimg{
+    width:40px;
+    height:30px;
+    margin-left:3%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#pentoimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#messageimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#videoimg{
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#bellimg{
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
 #userimg{
-  width:30px;height:30px;margin-left: auto;margin-right:4%;
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
+}
+#videobox{
+    border:1px solid red; width:200px;height:200px;
+}
+
+
+
+@media(max-width:700px){
+
+    header{
+        height:78px;
+    }
+
+    .header1{
+        width:100%;
+    }
+
+    .headone{
+        display:flex;
+        align-items:center;
+    }
+
+    .name{
+        font-size:22px;
+        margin-left:4%;
+        margin-top:2px;
+    }
+
+    .headtwo{
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+
+    #search{
+        display:none;
+    }
+
+    .fa-list{
+        font-size:23px;
+        margin-left:auto;
+        margin-right:4%;
+    }
+
+    .fa-magnifying-glass{
+        display:inline-block;
+        font-size:23px;
+        margin-top:10px;
+        margin-left:auto;
+        margin-right:20px;
+        color:black;
+    }
+    #homeimg{
+        width:35px;
+        height:28px;
+        margin-left:2%;
+    }
+
+    #pentoimg,
+    #messageimg{
+        width:32px;
+        height:30px;
+        margin-left:10%;
+    }
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
+    }
+
+    #bellimg{
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+        #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
+    #video{
+        height:300px;border:2px solid red;margin-top:200px;
+    }
+    #videobox{
+   width:100%;margin: auto;
+}
+#myPlayer{
+    width:100%;
 }
 }
+
 </style>
 </head>
+
 <body>
 <header>
-  <div class="header1">
-    <div class="headone">
-      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
-    </div>
-    <div class="headtwo">
-  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
-  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
-  <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" >
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
-  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
-  <img  src="bell.png" id="bellimg">
-  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
+<div class="header1">
+<div class="headone">
+<span
+class="name"
+onclick="window.location.href='test1.html'">
+ADARSHA
+</span>
 
-    </div>
-  </div>
+<i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+
+</div>
+
+<div class="headtwo">
+<img src="home.png" id="homeimg" onclick="window.location.href='home.html'"   alt="Home">
+<img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
+<img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
+<input id="search" placeholder="Search product..." onkeyup="searchProduct()">
+<img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
+<img src="bell.png" id="bellimg" alt="Notification">
+<img src="user.png" id="userimg" onclick="window.location.href='user.html'" alt="User">
+</div>
+</div>
 </header>
+!-- ================= MOBILE SEARCH ================= --
 <div id="opensearchbox">
-  <div class="search-inner">
-    <input id="ONEsearch" onkeyup="searchUserMobile()">
-    <p onclick="searchclose()" id="X">X</p>
-  </div>
+<div class="search-inner">
+<input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
+<p onclick="searchclose()" id="X"> X </p>
 </div>
-   </div>
-  </div>
 </div>
-<div class="clickads">
-  <img src="ads.png" class="clickimg"><h5> inventore corporis voluptate saepe nobis unde repellat. Natus libero doloribus expedita architecto consequuntur qui rem iusto, unde tempore.</h5>
-</div><div class="clickadsclocse">X</div>
-<div class="vedio">
-  <div class="vedioadd" id="videoFeed"></div><br>
+<div id="videobox">
+<video id="myPlayer" controls autoplay></video>
 </div>
-<div id="videoList"></div><div id="userResult"></div>
-<script type="module" src="script.js"></script>
+ 
+
+  <script>
+    // ১. মেমোরি থেকে Cloudinary-র ভিডিও লিংক নেওয়া
+    const videoUrl = localStorage.getItem('cloudinaryVideoUrl');
+
+    // ২. প্লেয়ারে লিংক বসিয়ে দেওয়া
+    if (videoUrl) {
+      document.getElementById('myPlayer').src = videoUrl;
+    } else {
+      alert("কোনো ভিডিও পাওয়া যায়নি!");
+    }
+  </script>
+
 </body>
 </html>

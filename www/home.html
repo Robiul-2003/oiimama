@@ -56,27 +56,56 @@ display:flex;margin-top:7px;
   height:30px;width:40%;  margin-left:5%; 
  
 }
-
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
+#homeimg{
+    width:40px;
+    height:30px;
+    margin-left:3%;
+    border-radius:5%;
+    cursor:pointer;
 }
+
+#pentoimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
+#messageimg{
+    width:35px;
+    height:32px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+
 #bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+#videoimg{
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
 }
 #userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
 }
+
+
 .sliderQR{
-  display:flex;max-width:1200px;margin:auto; margin-top:40px;
+  display:flex;max-width:1300px;margin:auto; margin-top:40px;
 }
 .slider {
     width:100%;
@@ -107,7 +136,7 @@ width:33px; height:33px;margin-left:7%;border-radius:5%;
 .container{
   display:flex; max-width:1400px;margin: auto;
   flex-wrap:wrap;
-  gap:10px;margin-top:10px;
+  gap:10px;margin-top:120px;
   justify-content:center;
 }
 
@@ -148,10 +177,10 @@ h2{
 }
 .modal-content{
     width:95%;
-    max-width:1300px;
+    max-width:1350px;
     background:#fff;
     margin: auto;
-    padding:150px;
+    padding:50px;
   
     display:flex;
     gap:40px;
@@ -185,13 +214,12 @@ h2{
   cursor:pointer;
 }
 #pname{
- font-size:14px;
-  font-weight:600;
-  height:35px;
+  margin-top:60px;
+ font-size:20px;
   overflow:hidden;
 }
 .pprice{
-  color:#042867;
+  font-size:18px;
   font-weight:700;
   margin-top:2px;
 }
@@ -245,20 +273,35 @@ h2{
     display:none;
   }
 #mainImg{
- border:1px solid rgb(229, 223, 223);
- width:100%;height:550px;object-fit: cover;
+ /*border:1px solid rgb(229, 223, 223);border:1px solid red;   aspect-ratio:1/1;
+ width:100%;height:550px;object-fit: cover;*/border: 1px solid rgb(229, 223, 223);
+  width: 100%;
+  height: 100%;           /* ফিক্সড হাইট তুলে দিয়ে auto করুন */
+  max-height: 550px;      /* সর্বোচ্চ উচ্চতা ঠিক রাখুন */
+  object-fit: contain;     /* cover-এর বদলে contain দিন যাতে ছবি না কাটে */
+  background-color: #f9f9f9; /
 }
 .box{
-  max-width:1200px; display: flex;margin-left:2%;margin-top:0px;
-    height:110px;gap:3%;text-align: center;margin: auto;
-    overflow-x:auto;   
-    white-space:nowrap;  
-    scroll-behavior:smooth;
+  width:1300px;
+  height:110px;
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 450px;
+  z-index: 10;
+  background:none;
+  gap:3%;
+  text-align: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
 }
 .clickbox{
     scroll-snap-align:start;margin-top:8px;color:#042867;
     font-size:18px;display: inline-block;vertical-align: top;font-weight:700;
   }
+ 
 .click{
   width:60px;height:60px;border-radius:10px;display: block;margin: auto;
 }
@@ -364,6 +407,10 @@ h2{
     width:95%; display:block;
     padding:10px;border:px solid red;
   }
+  #pname{
+ font-size:18px;
+  margin-top:10px;
+}
   .leftsearch{
     display:flex; gap:10px;
   }
@@ -376,7 +423,10 @@ h2{
 }
 
 #mainImg{
-    height:350px;
+   width: 100%;
+    height:300px;
+    max-height: 350px;
+    object-fit: contain;
 }
 .sliderQR{
   margin-top:40px;
@@ -481,24 +531,36 @@ h2{
     .related-products .product img{
         height:160px;
     }
-    #homeimg{
-    width:40px;height:30px;margin-left:3%;
+  #homeimg{
+        width:35px;
+        height:28px;
+        margin-left:2%;
     }
-    #pentoimg{
-      width:35px;height:32px;margin-left:8%;
-    }
+
+    #pentoimg,
     #messageimg{
-      width:35px;height:32px;margin-left:8%;
+        width:32px;
+        height:30px;
+        margin-left:10%;
     }
-   #videoimg{ 
-    width:40px;height:35px;margin-left:8%;
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
     }
+
     #bellimg{
-width:33px; height:33px;margin-left: auto;margin-right:1%;
-}
-#userimg{
-  width:30px;height:30px;margin-left: auto;margin-right:4%;
-}
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+        #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
 }
 </style>
 </head>

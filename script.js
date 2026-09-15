@@ -1,4 +1,4 @@
- // আপনার অন্যান্য import গুলোর সাথে এটি যোগ করুন
+ /*// আপনার অন্যান্য import গুলোর সাথে এটি যোগ করুন
 import { App } from '@capacitor/app';
  
  
@@ -131,7 +131,7 @@ import { App } from '@capacitor/app';
 
     if (videoLink.includes("youtube.com") || videoLink.includes("youtu.be")) {
       platform = "youtube";
-      const ytRegex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const ytRegex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*//*;
       const match = videoLink.match(ytRegex);
       if (match && match[2].length === 11) isValid = true;
     } 
@@ -643,4 +643,4 @@ function handleIncomingSharedData(rawText) {
             videoInput.value = extractedLink;
         }
     }
-}
+}*/

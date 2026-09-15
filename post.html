@@ -14,16 +14,23 @@ header{
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  max-width:1400px;margin: auto;color:#031f50;
+    max-width:1400px;
+    margin:auto;
 }
 .headone{
 justify-content:space-between;align-items:center;display:flex;
 }
 .name{
-  font-size:23px;padding-top:10px;
+    font-size:23px;
+    padding-top:10px;
+    color:#031f50;
+    font-weight:bold;
+    cursor:pointer;
 }
 .headtwo{
-display:flex;margin-top:7px;
+    display:flex;
+    align-items:center;
+    margin-top:7px;
 }
 .fa-list{
   font-size:25px;cursor: pointer;padding-top:10px;
@@ -45,13 +52,27 @@ display:flex;margin-top:7px;
  width:35px;height:32px;margin-left:7%;border-radius:5%;
   }
 #videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
 }
 #bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
 }
+
 #userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
 }
 
 
@@ -142,7 +163,80 @@ display:none;
 
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
-                header{
+             header{
+        height:78px;
+    }
+
+    .header1{
+        width:100%;
+    }
+
+    .headone{
+        display:flex;
+        align-items:center;
+    }
+
+    .name{
+        font-size:22px;
+        margin-left:4%;
+        margin-top:2px;
+    }
+
+    .headtwo{
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+
+    #search{
+        display:none;
+    }
+
+    .fa-list{
+        font-size:23px;
+        margin-left:auto;
+        margin-right:4%;
+    }
+
+    /*.fa-magnifying-glass{
+        display:inline-block;
+        font-size:23px;
+        margin-top:10px;
+        margin-left:auto;
+        margin-right:20px;
+        color:black;
+    }*/
+    #homeimg{
+        width:35px;
+        height:28px;
+        margin-left:2%;
+    }
+
+    #pentoimg,
+    #messageimg{
+        width:32px;
+        height:30px;
+        margin-left:10%;
+    }
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
+    }
+
+    #bellimg{
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+        #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
+            /*    header{
  background:white;
   position: fixed;width:100%;top:0;z-index:999;height:78px;
 }
@@ -185,15 +279,7 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
 }
 #userimg{
   width:30px;height:30px;margin-left: auto;margin-right:4%;
-}
-
-
-
-
-
-
-           
-          
+}*/
             #showJob { margin-top: 70px; padding: 5px; }
             .job-card { padding: 14px; margin: 10px 0; }
 

@@ -3,67 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rohan Ahamed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <title>Messages - Adarsha BD</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
+      background: #f4f6f9;
     }
     header {
       width: 100%;
       height: 50px;
-      background: #031f50;position:fixed;
+      background: #031f50;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
     }
     .companyname {
-      font-size: 30px;
+      font-size: 24px;
       color: white;
       line-height: 50px;
       margin-left: 20px;
       cursor: pointer;
+      font-weight: bold;
     }
-    #name {
-      text-align: center;
-      margin-top: 20px;
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding-top: 60px;
     }
-
-   #idserach{
-    margin-top:60px; margin-left:15px;
-    width:90%;border-radius:5px;
-    height:30px;border:1px solid rgb(49, 48, 48);
-   }
-   h3{
-    margin-left:20px;
-   }
+    #idserach {
+      display: block;
+      margin:2px auto;
+      width: 95%;
+      border-radius: 5px;
+      height: 35px;
+      border: 1px solid #ccc;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    footer{
+      width:123456px;
+    }
+    p{
+      margin-left:15px;
+         font-family: "Open Sans", sans-serif; font-size:20px; font-weight:600;
+    }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="companyname" onclick="window.location.href='home.html'">Adarsh bd</div>
+    <div class="companyname" onclick="window.location.href='home.html'">Adarsha BD</div>
   </header>
 
-  <input type="text" id="idserach" placeholder="search name">
-  <h3>robiul</h3>
-  <h3>farhan</h3>
-  <h3>faruk</h3>
-  <h3>rohan</h3>
-  <h3>abir</h3>
-  <h3>hossain</h3>
-  <h3>siyam</h3>
-    <h3>robiul</h3>
-  <h3>farhan</h3>
-  <h3>faruk</h3>
-  <h3>rohan</h3>
-  <h3>abir</h3>
-  <h3>hossain</h3>
-  <h3>siyam</h3>
-    <h3>robiul</h3>
-  <h3>farhan</h3>
-  <h3>faruk</h3>
-  <h3>rohan</h3>
-  <h3>abir</h3>
-  <h3>hossain</h3>
-  <h3>siyam</h3>
+  <div class="container">
+    <input type="text" id="idserach" placeholder="Search user name..." onkeyup="filterChats()">
+  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Adarsha BD </p>
+  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Support Team </p>
+  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">partner ship </p>
+  </div>
 </body>
 </html>
