@@ -3,171 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Store",
-      "name": "Adarsha BD",
-      "url": "https://adarshabd.com/"
-    }
-    </script>
-
-    <title>Adarsha BD Video Feed</title>
-
-    <link rel="icon" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <meta name="description" content="Adarsha BD is an online shopping store in Bangladesh.">
-    <meta property="og:title" content="Adarsha BD - Online Shopping">
-    <meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
-    <meta property="og:image" content="banner.png">
-    <meta property="og:url" content="https://adarshabd.com/">
-    <meta property="og:type" content="website">
-
-    <link rel="canonical" href="https://adarshabd.com/">
-
+    <title>All Posts</title>
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(249, 246, 246); }
+        body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
-        /* ================= HEADER ================= */
-        header { background: white; position: fixed; width: 100%; top: 0; left: 0; z-index: 999; height: 90px; box-shadow: 0 1px 5px rgba(0, 0, 0, .08); }
-        .header1 { max-width: 1400px; margin: auto; }
-        .headone { display: flex; justify-content: space-between; align-items: center; }
-        .name { font-size: 23px; padding-top: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
-        .headtwo { display: flex; align-items: center; margin-top: 7px; }
-        .fa-list { font-size: 25px; cursor: pointer; margin-top: 10px; color: #031f50; }
-        .fa-magnifying-glass { display: none; cursor: pointer; }
+/* header */
+header{
+  background:white;
+  position: fixed;width:100%;top:0;z-index:999;height:90px;
+}
+.header1{
+    max-width:1400px;
+    margin:auto;
+}
+.headone{
+justify-content:space-between;align-items:center;display:flex;
+}
+.name{
+    font-size:23px;
+    padding-top:10px;
+    color:#031f50;
+    font-weight:bold;
+    cursor:pointer;
+}
+.headtwo{
+    display:flex;
+    align-items:center;
+    margin-top:7px;
+}
+.fa-list{
+  font-size:25px;cursor: pointer;padding-top:10px;
+}
+ 
+/* search */
+#search{
+  height:30px;width:40%;  margin-left:5%; 
+ 
+}
 
-        #search { height: 35px; width: 40%; margin-left: 5%; border: 1px solid #ccc; border-radius: 5px; padding: 5px 10px; }
-        #homeimg { width: 40px; height: 30px; margin-left: 3%; border-radius: 5%; cursor: pointer; }
-        #pentoimg, #messageimg, #videoimg, #bellimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
-        #userimg { width: 30px; height: 30px; margin-left: auto; margin-right: 4%; border-radius: 5%; cursor: pointer; }
+   #homeimg{
+    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
+    }
+    #pentoimg{
+      width:35px;height:32px;margin-left:7%;border-radius:5%;
+    }
+  #messageimg{
+ width:35px;height:32px;margin-left:7%;border-radius:5%;
+  }
+#videoimg{
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
+#bellimg{
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
 
-        /* Feed Wrapper for Multiple Videos */
-        #feedContainer { margin-top: 100px; padding-bottom: 30px; }
+#userimg{
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
+}
 
-        .videobox { width: 40%; margin: 0 auto 20px auto; border-radius: 5px; height: auto; border: 1px solid rgb(195, 184, 184); background: #fff; }
-        .idimgname { display: flex; align-items: center; }
-        .idimg { width: 30px; height: 30px; border-radius: 50%; margin: 7px; border: 1px solid rgb(231, 223, 223); }
-        .showName { font-weight: bold; margin-left: 5px; color: #333; }
-        .myPlayer { width: 100%; max-height: 500px; background: #000; }
-        .action-box { padding: 5px; display: flex; justify-content: space-between; }
-        .like-btn, .comment-btn, .share-btn { width: 31%; height: 30px; border: 1px solid rgb(215, 207, 207); border-radius: 7px; background: #f9f9f9; cursor: pointer; }
 
-        @media(max-width:700px) {
-            header { height: 78px; }
-            #feedContainer { margin-top: 90px; }
-            .videobox { width: 92%; }
-            #search { display: none; }
-        }
+
+.fa-magnifying-glass{
+display:none;
+}
+#ONEsearch{
+    flex: 1;
+    height: 35px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+        /* মোবাইল রেসপন্সিভ */
+        @media(max-width:600px) {
+             header{
+        height:78px;
+    }
+
+    .header1{
+        width:100%;
+    }
+
+    .headone{
+        display:flex;
+        align-items:center;
+    }
+
+    .name{
+        font-size:22px;
+        margin-left:4%;
+        margin-top:2px;
+    }
+
+    .headtwo{
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+
+    #search{
+        display:none;
+    }
+
+    .fa-list{
+        font-size:23px;
+        margin-left:auto;
+        margin-right:4%;
+    }
+    #homeimg{
+        width:35px;
+        height:28px;
+        margin-left:2%;
+    }
+
+    #pentoimg,
+    #messageimg{
+        width:32px;
+        height:30px;
+        margin-left:10%;
+    }
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
+    }
+
+    #bellimg{
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+        #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
+}
     </style>
 </head>
-
 <body>
-    <header>
-        <div class="header1">
-            <div class="headone">
-                <span class="name" onclick="window.location.href='test1.html'">ADARSHA</span>
-                <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
-            </div>
-            <div class="headtwo">
-                <img src="home.png" id="homeimg" onclick="window.location.href='home.html'" alt="Home">
-                <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
-                <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
-                <input id="search" placeholder="Search product...">
-                <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
-                <img src="bell.png" id="bellimg" alt="Notification">
-                <img src="user.png" id="userimg" onclick="window.location.href='user.html'" alt="User">
-            </div>
-        </div>
-    </header>
-
-    <!-- Global Video Feed Container -->
-    <div id="feedContainer">
-        <p id="loadingMsg" style="text-align: center;">Loading Videos...</p>
+ <header>
+  <div class="header1">
+    <div class="headone">
+      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
     </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { 
-            getFirestore, 
-            collection, 
-            getDocs, 
-            query, 
-            orderBy 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-            authDomain: "robiul-84377.firebaseapp.com",
-            projectId: "robiul-84377",
-            storageBucket: "robiul-84377.firebasestorage.app",
-            messagingSenderId: "476907665212",
-            appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        const feedContainer = document.getElementById("feedContainer");
-
-        /* ================= LOAD ALL PUBLIC VIDEOS ================= */
-        async function loadPublicVideos() {
-            try {
-                // Firestore-এর "videos" কালেকশন থেকে ডাটা রিড করা হচ্ছে
-                const q = query(collection(db, "videos"));
-                const querySnapshot = await getDocs(q);
-
-                feedContainer.innerHTML = ""; // Clear loading text
-
-                if (querySnapshot.empty) {
-                    feedContainer.innerHTML = `<p style="text-align:center;">কোনো ভিডিও পাওয়া যায়নি!</p>`;
-                    return;
-                }
-
-                querySnapshot.forEach((docSnap) => {
-                    const videoData = docSnap.data();
-
-                    const uploaderName = videoData.userName || "User";
-                    const videoUrl = videoData.videoUrl || "";
-                    const uploaderPhoto = videoData.userPhoto || "user.png";
-
-                    if (videoUrl) {
-                        const videoCard = document.createElement("div");
-                        videoCard.className = "videobox";
-
-                        videoCard.innerHTML = `
-                            <div class="idimgname">
-                                <img src="${uploaderPhoto}" class="idimg" onerror="this.src='user.png'">
-                                <p class="showName">${uploaderName}</p>
-                            </div>
-                            <video class="myPlayer" controls preload="metadata">
-                                <source src="${videoUrl}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <div class="action-box">
-                                <button class="like-btn"> ❤️ <b>0</b></button>
-                                <button class="comment-btn"><span>Comment</span></button>
-                                <button class="share-btn"><span>Share</span></button>
-                            </div>
-                        `;
-
-                        feedContainer.appendChild(videoCard);
-                    }
-                });
-
-            } catch (error) {
-                console.error("Video Fetch Error:", error);
-                feedContainer.innerHTML = `<p style="text-align:center; color:red;">ভিডিও লোড করতে সমস্যা হয়েছে!</p>`;
-            }
-        }
-
-        // পেজ লোড হলেই ভিডিওগুলো ফায়ারবেস থেকে চলে আসবে
-        loadPublicVideos();
-    </script>
+    <div class="headtwo">
+  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
+  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
+  <img src="message.png" id="messageimg"  onclick="window.location.href='message.html'">
+  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
+  <img  src="bell.png" id="bellimg">
+  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
+    </div>
+  </div>
+</header>
 </body>
 </html>

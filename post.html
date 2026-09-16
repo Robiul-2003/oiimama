@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -96,69 +96,12 @@ display:none;
        
 
         /* পোস্ট দেখানোর কন্টেইনার */
-        #showJob {
+        #postList {
             margin-top: 80px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             padding: 10px;
-        }
-
-        /* পোস্ট কার্ড স্টাইল */
-        .job-card {
-            border: 1px solid #e0e0e0;
-            padding: 18px;
-            margin: 15px 0;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: box-shadow 0.3s;
-        }
-
-        .job-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .job-user {
-            font-weight: bold;
-            color: #031f50;
-            font-size: 16px;
-            margin: 0;
-        }
-
-        .job-time {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .job-post {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-        }
-
-        .no-post {
-            text-align: center;
-            padding: 50px 20px;
-            color: #888;
-        }
-
-        .no-post p {
-            font-size: 16px;
-        }
-
-        .no-post .emoji {
-            font-size: 50px;
-            display: block;
-            margin-bottom: 15px;
         }
 
         /* মোবাইল রেসপন্সিভ */
@@ -227,11 +170,7 @@ display:none;
         height:28px;
         margin-right:2%;
     }
-            #showJob { margin-top: 70px; padding: 5px; }
-            .job-card { padding: 14px; margin: 10px 0; }
-
-
-            
+            #postList { margin-top: 70px; padding: 10px; }            
         }
     </style>
 </head>
@@ -254,76 +193,21 @@ display:none;
   </div>
 </header>
 
-    <div id="showJob"></div>
+    <div id="postList"></div>
+  <script>
+        // ১. localStorage থেকে পোস্ট তুলে আনা
+        let posts = JSON.parse(localStorage.getItem("myPosts")) || [];
+        let postList = document.getElementById("postList");
 
-    <script type="module">
-    window.searchicon = function () {
-    document.getElementById("opensearchbox").style.display = "block";
-}
-
-window.searchclose = function () {
-    document.getElementById("opensearchbox").style.display = "none";
-}
-
-
-
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import {
-            getFirestore,
-            collection,
-            query,
-            orderBy,
-            onSnapshot
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-            authDomain: "robiul-84377.firebaseapp.com",
-            projectId: "robiul-84377",
-            storageBucket: "robiul-84377.firebasestorage.app",
-            messagingSenderId: "476907665212",
-            appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const jobBox = document.getElementById("showJob");
-
-        const q = query(
-            collection(db, "jobs"),
-            orderBy("createdAt", "desc")
-        );
-
-        onSnapshot(q, (snapshot) => {
-            jobBox.innerHTML = "";
-
-            if (snapshot.empty) {
-                jobBox.innerHTML = `
-                    <div class="no-post">
-                        <span class="emoji">📭</span>
-                        <p>এখনো কোনো পোস্ট নেই</p>
-                        <p style="font-size: 14px; margin-top: 5px;">পোস্ট করতে লিস্ট পেজে যান</p>
-                    </div>
-                `;
-                return;
-            }
-
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const time = data.createdAt?.toDate?.()?.toLocaleString() || "Just now";
-
-                jobBox.innerHTML += `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <h3 class="job-user">👤 ${data.userName || "User"}</h3>
-                            <span class="job-time">🕐 ${time}</span>
-                        </div>
-                        <p class="job-post">${data.post}</p>
-                    </div>
-                `;
+        // ২. প্রতিটি পোস্ট স্ক্রিনে দেখানো
+        if(posts.length === 0){
+            postList.innerHTML = "<p>No posts available.</p>";
+        } else {
+            posts.forEach(function(post){
+                postList.innerHTML += "<div class='single-post'>" + post + "</div>";
             });
-        });
+        }
     </script>
 </body>
-</html>
+</html>-->
+

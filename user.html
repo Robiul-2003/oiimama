@@ -346,9 +346,17 @@ header{
    width:90%; margin: auto;border-radius:0px 0px 5px 5px;
   border:1px solid rgb(195, 184, 184);
 }
-#myPlayer{
-    width:100%;
+#box {
+    display: none;
+    /* আপনার অন্যান্য পপআপ স্টাইল */
 }
+#uploadSection{
+    border:1px solid red;
+}
+#post{
+    border:1px solid red;
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -452,13 +460,7 @@ header{
         height:32px;
         margin-left:8%;
     }
-    #videobox{
-   width:92%; margin: auto;border-radius:0px 0px 5px 5px;
-   height:250px;border:1px solid rgb(195, 184, 184);
-}
-#myPlayer{
-    width:100%; 
-}
+
 }
 
 </style>
@@ -466,7 +468,7 @@ header{
 
 <body>
 
-<!-- ================= HEADER ================= -->
+!-- ================= HEADER ================= --
 
 <header>
 <div class="header1">
@@ -488,7 +490,7 @@ header{
 </div>
 </header>
 
-<!-- ================= MOBILE SEARCH ================= -->
+
 
 <div id="opensearchbox">
 <div class="search-inner">
@@ -497,7 +499,7 @@ header{
 </div>
 </div>
 
-<!-- ================= PROFILE ================= -->
+
 
 <div class="userfile">
 <br>
@@ -511,28 +513,42 @@ header{
 <h2 id="showName"></h2>
 
 <div class="profile-buttons">
-<button id="chatbtn" onclick="window.location.href='test1.html'">Chat</button>
+<button id="chatbtn" onclick="window.location.href='test1.html'">Chat</button><button id="alladd" onclick="openbox()">All add</button>
 </div>
+<div id="box">
+  <p onclick="closebox()">X</p>
+  <h1 onclick="window.location.href='add.html'">product add</h1>
 
-<!-- ================= PRODUCTS ================= -->
+   <div id="uploadSection">
+        <h3>Upload New Video</h3>
+        <textarea id="captionText"  placeholder="What's on your mind?"  rows="2"  style="width:100%; padding:10px;" ></textarea>
+        <input type="file" id="videoInput" accept="video/*"><br><br>
+        <button id="btnop">Upload Video</button>
+        <p id="status" style="margin: 0; font-size: 13px; color: blue;"></p>
+    </div>
+    <br><br>
+   <div id="post">
+        <h3>Create Post</h3>
+        <textarea id="postText" placeholder="What's on your mind?" rows="4"></textarea><br><br>
+        <button id="SavePost" onclick="SavePost()">Save Post</button>
+        <p id="postStatus"></p>
+    </div>
+</div>
+ <div id="postList"></div>
 <h3 class="feed-title"></h3>
 <div id="productList"><p></p></div>
-
-<!-- ================= video ================= -->
-<div id="videobox">
-<video id="myPlayer" controls autoplay></video>
-<div id="action-box">
-    <button id="action-btn like-btn">
-        ❤️ <span>Like</span> <b id="likeCount">0</b>
-    </button>
-    <button class="action-btn comment-btn"> 💬 <span>Comment</span> </button>
-    <button class="action-btn share-btn"> 🔗 <span>Share</span> </button>
-    <button class="action-btn deletebtn"> 🗑️ <span>Delete</span> </button>
-</div>
 </div>
 
+<script>
+  function openbox(){
+  document.getElementById('box').style.display ="block";
+  }
+  function closebox(){
+   document.getElementById('box').style.display ="none";
+  }
+</script>
 
-</div>
+
 <script type="module">
 
 /* =====================================================
@@ -549,7 +565,9 @@ import {
     doc, 
     getDoc, 
     deleteDoc, 
-    getDocs 
+    getDocs,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
@@ -708,45 +726,6 @@ async function loadProducts(userId){
     }
 }
 
-
-/* =====================================================
-   LOAD SPECIFIC USER VIDEOS (শুধুমাত্র নিজ আইডি-র ভিডিও)
-===================================================== */
-
-async function loadUserVideos(userId){
-    const videoBox = document.getElementById("videobox");
-    const videoPlayer = document.getElementById("myPlayer");
-
-    try{
-        // Firestore-এর "videos" কাইলেকশন থেকে বর্তমান লগইন করা ইউজারের ভিডিও ফিল্টার
-        const videoQuery = query(
-            collection(db, "videos"),
-            where("userId", "==", userId)
-        );
-
-        const querySnapshot = await getDocs(videoQuery);
-
-        if(querySnapshot.empty){
-            // যদি উক্ত ইউজারের কোনো ভিডিও না থাকে, তবে ভিডিও সেকশন হাইড থাকবে
-            videoBox.style.display = "none";
-            return;
-        }
-
-        querySnapshot.forEach((docSnap)=>{
-            const videoData = docSnap.data();
-            if(videoData.videoUrl){
-                videoPlayer.src = videoData.videoUrl;
-                videoBox.style.display = "block";
-            }
-        });
-
-    }catch(error){
-        console.error("Load Videos Error:", error);
-        videoBox.style.display = "none";
-    }
-}
-
-
 /* =====================================================
    AUTH STATE (ইউজার চেক ও ডেটা লোড)
 ===================================================== */
@@ -786,239 +765,455 @@ onAuthStateChanged(auth, async (user)=>{
     /* Ashik বা বর্তমানে লগইন থাকা ইউজারের প্রোডাক্ট লোড */
     await loadProducts(currentUid);
 
-    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের ভিডিও লোড */
-    await loadUserVideos(currentUid);
+    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের ভিডিও লোড 
+    await loadUserVideos(currentUid);*/
 
 });
 
-</script>
-<!--<script type="module">
-
 /* =====================================================
-   FIREBASE IMPORT
+   FIRESTORE POST SYSTEM
 ===================================================== */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { 
-    getFirestore, 
-    collection, 
-    query, 
-    where, 
-    doc, 
-    getDoc, 
-    deleteDoc, 
-    getDocs 
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+// ================= LOAD POSTS =================
 
+async function displayPosts() {
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+    const postList = document.getElementById("postList");
 
-const firebaseConfig = {
-    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-    authDomain: "robiul-84377.firebaseapp.com",
-    projectId: "robiul-84377",
-    storageBucket: "robiul-84377.firebasestorage.app",
-    messagingSenderId: "476907665212",
-    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
-};
+    if (!postList) return;
 
+    try {
 
-/* =====================================================
-   INITIALIZE FIREBASE
-===================================================== */
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-/* =====================================================
-   HELPER
-===================================================== */
-
-function escapeHTML(value){
-    if(value === null || value === undefined){
-        return "";
-    }
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-
-/* =====================================================
-   PROFILE IMAGE PREVIEW
-===================================================== */
-
-const profileInput = document.getElementById("profileimg");
-const profilePreview = document.getElementById("preview");
-
-profileInput.addEventListener("change", function(){
-    const file = this.files[0];
-    if(!file) return;
-    profilePreview.src = URL.createObjectURL(file);
-});
-
-
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
-
-window.deleteProduct = async function(productId){
-    if(!confirm("এই Product Delete করতে চান?")) return;
-
-    try{
         const user = auth.currentUser;
-        if(!user){
-            alert("আগে Login করুন।");
+
+        if (!user) {
+            postList.innerHTML = `
+                <p style="text-align:center;">
+                    Please login to see posts.
+                </p>
+            `;
             return;
         }
 
-        const productRef = doc(db,"products",productId);
-        const productSnap = await getDoc(productRef);
+        // বর্তমানে login করা user's UID
+        const currentUid = user.uid;
 
-        if(!productSnap.exists()){
-            alert("Product পাওয়া যায়নি।");
-            return;
+        // users collection থেকে user name নেওয়া
+        let userName = user.displayName || "User";
+
+        try {
+
+            const userRef = doc(db, "users", currentUid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+
+                const userData = userSnap.data();
+
+                userName = userData.name || user.displayName || "User";
+            }
+
+        } catch (error) {
+
+            console.error("User Name Error:", error);
+
         }
 
-        const productData = productSnap.data();
 
-        if(productData.userId !== user.uid){
-            alert("এই Product আপনি Delete করতে পারবেন না।");
-            return;
-        }
+        // ================= POST QUERY =================
 
-        await deleteDoc(productRef);
-        alert("Product Deleted Successfully");
-
-    }catch(error){
-        console.error("Delete Product Error:", error);
-        alert("Delete Failed: " + error.message);
-    }
-};
-
-
-/* =====================================================
-   LOAD USER PRODUCTS
-===================================================== */
-
-async function loadProducts(userId){
-    const productList = document.getElementById("productList");
-
-    try{
-        const productQuery = query(
-            collection(db,"products"),
-            where("userId","==",userId)
+        const postQuery = query(
+            collection(db, "posts"),
+            where("userId", "==", currentUid)
         );
 
-        const querySnapshot = await getDocs(productQuery);
-        productList.innerHTML = "";
 
-        if(querySnapshot.empty){
-            productList.innerHTML = `
-                <p style="text-align:center;width:100%;">No Products</p>
+        const querySnapshot = await getDocs(postQuery);
+
+        postList.innerHTML = "";
+
+
+        if (querySnapshot.empty) {
+
+            postList.innerHTML = `
+                <p style="text-align:center;">
+                    No Posts Found
+                </p>
             `;
+
             return;
         }
 
-        querySnapshot.forEach((docSnap)=>{
-            const p = docSnap.data();
-            const productId = docSnap.id;
 
-            let img = "logo.png";
-            if(Array.isArray(p.images) && p.images.length > 0){
-                img = p.images[0];
-            }
+        // ================= SHOW POSTS =================
 
-            let price = p.price;
-            if(Array.isArray(price)){
-                price = price[0] || "0";
-            }
-            if(price === undefined || price === null || price === ""){
-                price = "0";
-            }
+        querySnapshot.forEach((docSnap) => {
 
-            const safeName = escapeHTML(p.name || "No Name");
-            const safePrice = escapeHTML(price);
+            const postData = docSnap.data();
 
-            productList.innerHTML += `
-                <div class="product-card">
-                    <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
-                    <p class="product-name">${safeName}</p>
-                    <div class="product-price">${safePrice} TK</div>
-                    <br>
-                    <button class="delete-btn" onclick="window.deleteProduct('${productId}')">Delete</button>
+            const postId = docSnap.id;
+
+            const postText = escapeHTML(
+                postData.text || ""
+            );
+
+            const postUserId = escapeHTML(
+                postData.userId || ""
+            );
+
+            const postUserName = escapeHTML(
+                postData.userName || userName
+            );
+
+
+            postList.innerHTML += `
+
+                <div
+                    class="single-post"
+                    style="
+                        border:1px solid #ddd;
+                        background:white;
+                        padding:12px;
+                        margin-bottom:10px;
+                        border-radius:6px;
+                    "
+                >
+
+                    <div style="margin-bottom:8px;">
+
+                        <strong>
+                            ${postUserName}
+                        </strong>
+
+                        <br>
+
+                        <small style="color:gray;">
+                            User ID: ${postUserId}
+                        </small>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            padding:8px 0;
+                            word-wrap:break-word;
+                        "
+                    >
+                        ${postText}
+                    </div>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="window.deletePost('${postId}')"
+                    >
+                        Delete
+                    </button>
+
                 </div>
+
             `;
+
         });
 
-    }catch(error){
-        console.error("Load Products Error:", error);
-        productList.innerHTML = `
-            <p style="color:red;text-align:center;width:100%;">Products load failed.</p>
+
+    } catch (error) {
+
+        console.error("Load Posts Error:", error);
+
+        postList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Posts load failed.
+            </p>
         `;
+
     }
+
 }
 
 
-/* =====================================================
-   AUTH STATE
-===================================================== */
 
-onAuthStateChanged(auth, async (user)=>{
+// ================= SAVE POST =================
 
-    if(!user){
-        document.getElementById("showName").textContent = "Guest User";
-        document.getElementById("productList").innerHTML = `
-            <p style="text-align:center;width:100%;">Please login to see your products.</p>
-        `;
+window.SavePost = async function() {
+
+    const inputField =
+        document.getElementById("postText");
+
+    const text =
+        inputField.value.trim();
+
+
+    if (text === "") {
+
+        alert("Post লিখুন।");
+
         return;
     }
 
-    const currentUid = user.uid;
 
-    /* Load Profile */
-    try{
-        const userRef = doc(db, "users", currentUid);
-        const userSnap = await getDoc(userRef);
+    // Firebase current user
+    const user = auth.currentUser;
 
-        if(userSnap.exists()){
-            const data = userSnap.data();
-            document.getElementById("showName").textContent = data.name || "No Name Set";
-            if(data.photoURL){
-                profilePreview.src = data.photoURL;
-            }
-        }else{
-            document.getElementById("showName").textContent = user.displayName || "No Name Set";
+
+    // Login check
+    if (!user) {
+
+        alert("আগে Login করুন।");
+
+        return;
+    }
+
+
+    try {
+
+        // Firebase User ID
+        const userId = user.uid;
+
+
+        // Default name
+        let userName =
+            user.displayName || "User";
+
+
+        // users collection থেকে name নেওয়া
+        const userRef =
+            doc(db, "users", userId);
+
+        const userSnap =
+            await getDoc(userRef);
+
+
+        if (userSnap.exists()) {
+
+            const userData =
+                userSnap.data();
+
+            userName =
+                userData.name ||
+                user.displayName ||
+                "User";
         }
-    }catch(error){
-        console.error("User Profile Error:", error);
-        document.getElementById("showName").textContent = user.displayName || "User";
+
+
+        // ================= FIRESTORE SAVE =================
+
+        await addDoc(
+            collection(db, "posts"),
+            {
+
+                text: text,
+
+                userId: userId,
+
+                userName: userName,
+
+                createdAt: serverTimestamp()
+
+            }
+        );
+
+
+        // Input clear
+        inputField.value = "";
+
+
+        // Message
+        alert("Post Successfully Saved");
+
+
+        // Firebase থেকে আবার Post load
+        await displayPosts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save Post Error:",
+            error
+        );
+
+        alert(
+            "Post Save Failed: " +
+            error.message
+        );
+
     }
 
-    /* Load Products */
-    await loadProducts(currentUid);
+};
 
-});
 
- // ১. মেমোরি থেকে Cloudinary-র ভিডিও লিংক নেওয়া
-    const videoUrl = localStorage.getItem('cloudinaryVideoUrl');
 
-    // ২. প্লেয়ারে লিংক বসিয়ে দেওয়া
-    if (videoUrl) {
-      document.getElementById('myPlayer').src = videoUrl;
-    } else {
-      alert("কোনো ভিডিও পাওয়া যায়নি!");
+// ================= DELETE POST =================
+
+window.deletePost = async function(postId) {
+
+    if (
+        !confirm(
+            "আপনি কি এই Post Delete করতে চান?"
+        )
+    ) {
+        return;
     }
 
 
-</script>-->
+    try {
+
+        // Current Firebase user
+        const user =
+            auth.currentUser;
+
+
+        // Login check
+        if (!user) {
+
+            alert("আগে Login করুন।");
+
+            return;
+        }
+
+
+        // Firebase থেকে Post document ধরা
+        const postRef =
+            doc(db, "posts", postId);
+
+
+        const postSnap =
+            await getDoc(postRef);
+
+
+        // Post আছে কিনা
+        if (!postSnap.exists()) {
+
+            alert("Post পাওয়া যায়নি।");
+
+            return;
+        }
+
+
+        // Post data
+        const postData =
+            postSnap.data();
+
+
+        // ================= OWNER CHECK =================
+
+        if (
+            postData.userId !== user.uid
+        ) {
+
+            alert(
+                "এই Post আপনি Delete করতে পারবেন না।"
+            );
+
+            return;
+        }
+
+
+        // ================= DELETE =================
+
+        await deleteDoc(postRef);
+
+
+        alert(
+            "Post Deleted Successfully"
+        );
+
+
+        // List আবার load
+        await displayPosts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete Post Error:",
+            error
+        );
+
+        alert(
+            "Delete Failed: " +
+            error.message
+        );
+
+    }
+
+};
+
+
+
+// ================= SAVE BUTTON =================
+
+const saveBtn =
+    document.getElementById("SavePost");
+
+
+if (saveBtn) {
+
+    saveBtn.addEventListener(
+        "click",
+        window.SavePost
+    );
+
+}
+
+
+
+// ================= LOAD POSTS AFTER LOGIN =================//
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        if (user) {
+
+            await displayPosts();
+
+        }
+
+    }
+);
+</script>
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Text</title>
+</head>
+<style>
+   .deleteBtn{
+    color:red;
+    margin-left:50px;
+   }
+</style>
+<body>
+
+    <input id="postText" type="text" placeholder="Post create">
+
+    <button onclick="inputText()">Save</button>
+   <p id="showtext"></p>
+
+    <script>
+    function inputText(){
+      let text = document.getElementById("postText").value;
+      if(text === ""){
+        return;
+      }
+      document.getElementById("showtext").innerHTML += `<div class="postText">${text}<button class="deleteBtn" onclick="deletText(this)">delete</button> </div>`;
+      document.getElementById("postText").value ="";
+    }
+       function deletText(button){
+        button.parentElement.remove();
+       }
+
+
+    </script>
+
+</body>
+</html>-->
