@@ -13,7 +13,7 @@
     }
     </script>
 
-    <title>Adarsha BD Video</title>
+    <title>Adarsha BD Video Feed</title>
 
     <link rel="icon" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -45,17 +45,21 @@
         #pentoimg, #messageimg, #videoimg, #bellimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
         #userimg { width: 30px; height: 30px; margin-left: auto; margin-right: 4%; border-radius: 5%; cursor: pointer; }
 
-        #videobox { width: 40%; margin: auto; border-radius: 5px; margin-top: 100px; height: auto; border: 1px solid rgb(195, 184, 184); background: #fff; }
-        #idimg { width: 30px; height: 30px; border-radius: 50%; margin: 7px; border: 1px solid rgb(231, 223, 223); }
+        /* Feed Wrapper for Multiple Videos */
+        #feedContainer { margin-top: 100px; padding-bottom: 30px; }
+
+        .videobox { width: 40%; margin: 0 auto 20px auto; border-radius: 5px; height: auto; border: 1px solid rgb(195, 184, 184); background: #fff; }
         .idimgname { display: flex; align-items: center; }
-        #showName { font-weight: bold; margin-left: 5px; color: #333; }
-        #myPlayer { width: 100%; }
-        #action-box { padding: 5px; display: flex; justify-content: space-between; }
-        #like-btn, #comment-btn, #share-btn { width: 31%; height: 30px; border: 1px solid rgb(215, 207, 207); border-radius: 7px; background: #f9f9f9; cursor: pointer; }
+        .idimg { width: 30px; height: 30px; border-radius: 50%; margin: 7px; border: 1px solid rgb(231, 223, 223); }
+        .showName { font-weight: bold; margin-left: 5px; color: #333; }
+        .myPlayer { width: 100%; max-height: 500px; background: #000; }
+        .action-box { padding: 5px; display: flex; justify-content: space-between; }
+        .like-btn, .comment-btn, .share-btn { width: 31%; height: 30px; border: 1px solid rgb(215, 207, 207); border-radius: 7px; background: #f9f9f9; cursor: pointer; }
 
         @media(max-width:700px) {
             header { height: 78px; }
-            #videobox { width: 92%; margin-top: 90px; }
+            #feedContainer { margin-top: 90px; }
+            .videobox { width: 92%; }
             #search { display: none; }
         }
     </style>
@@ -80,74 +84,90 @@
         </div>
     </header>
 
-    <div id="videobox">
-        <div class="idimgname">
-            <img src="user.png" id="idimg">
-            <!-- p tag সঠিক করা হয়েছে -->
-            <p id="showName">Loading...</p>
-        </div>
-        <video id="myPlayer" controls autoplay></video>
-        <div id="action-box">
-            <button id="like-btn"> ❤️ <b id="likeCount">0</b></button>
-            <button id="comment-btn"><span>Comment</span></button>
-            <button id="share-btn"><span>Share</span></button>
-        </div>
+    <!-- Global Video Feed Container -->
+    <div id="feedContainer">
+        <p id="loadingMsg" style="text-align: center;">Loading Videos...</p>
     </div>
+
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            getDocs, 
+            query, 
+            orderBy 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    import {
-        getAuth,
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+            authDomain: "robiul-84377.firebaseapp.com",
+            projectId: "robiul-84377",
+            storageBucket: "robiul-84377.firebasestorage.app",
+            messagingSenderId: "476907665212",
+            appId: "1:476907665212:web:b4dc619f0290a2241b1039"
+        };
 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-        authDomain: "robiul-84377.firebaseapp.com",
-        projectId: "robiul-84377",
-        storageBucket: "robiul-84377.firebasestorage.app",
-        messagingSenderId: "476907665212",
-        appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-    };
+        const feedContainer = document.getElementById("feedContainer");
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+        /* ================= LOAD ALL PUBLIC VIDEOS ================= */
+        async function loadPublicVideos() {
+            try {
+                // Firestore-এর "videos" কালেকশন থেকে ডাটা রিড করা হচ্ছে
+                const q = query(collection(db, "videos"));
+                const querySnapshot = await getDocs(q);
 
-    const showName = document.getElementById("showName");
+                feedContainer.innerHTML = ""; // Clear loading text
 
-    // ================= USER NAME =================
+                if (querySnapshot.empty) {
+                    feedContainer.innerHTML = `<p style="text-align:center;">কোনো ভিডিও পাওয়া যায়নি!</p>`;
+                    return;
+                }
 
-    onAuthStateChanged(auth, (user) => {
+                querySnapshot.forEach((docSnap) => {
+                    const videoData = docSnap.data();
 
-        if (user) {
+                    const uploaderName = videoData.userName || "User";
+                    const videoUrl = videoData.videoUrl || "";
+                    const uploaderPhoto = videoData.userPhoto || "user.png";
 
-            // Firebase Auth থেকে user's name
-            if (user.displayName) {
-                showName.textContent = user.displayName;
-            } else {
-                showName.textContent = "User";
+                    if (videoUrl) {
+                        const videoCard = document.createElement("div");
+                        videoCard.className = "videobox";
+
+                        videoCard.innerHTML = `
+                            <div class="idimgname">
+                                <img src="${uploaderPhoto}" class="idimg" onerror="this.src='user.png'">
+                                <p class="showName">${uploaderName}</p>
+                            </div>
+                            <video class="myPlayer" controls preload="metadata">
+                                <source src="${videoUrl}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="action-box">
+                                <button class="like-btn"> ❤️ <b>0</b></button>
+                                <button class="comment-btn"><span>Comment</span></button>
+                                <button class="share-btn"><span>Share</span></button>
+                            </div>
+                        `;
+
+                        feedContainer.appendChild(videoCard);
+                    }
+                });
+
+            } catch (error) {
+                console.error("Video Fetch Error:", error);
+                feedContainer.innerHTML = `<p style="text-align:center; color:red;">ভিডিও লোড করতে সমস্যা হয়েছে!</p>`;
             }
-
-        } else {
-
-            showName.textContent = "User";
-
         }
 
-    });
-
-
-    // ================= VIDEO =================
-
-    const videoUrl = localStorage.getItem("cloudinaryVideoUrl");
-
-    if (videoUrl) {
-        document.getElementById("myPlayer").src = videoUrl;
-    } else {
-        alert("কোনো ভিডিও পাওয়া যায়নি!");
-    }
-
-</script>
+        // পেজ লোড হলেই ভিডিওগুলো ফায়ারবেস থেকে চলে আসবে
+        loadPublicVideos();
+    </script>
 </body>
 </html>
