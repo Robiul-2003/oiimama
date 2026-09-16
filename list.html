@@ -146,7 +146,8 @@ h2:active {
     <p onclick="veclose()" id="pac">X</p>
      <input type="text" id="caption" placeholder="Caption">
      <br> 
-     <input type="file" id="videoFile" accept="video/*">
+       <input type="file" id="videoInput" accept="video/*">
+  <p id="status"></p>
    <br>
   <button onclick="next()" id="btnop">Share</button>
     </div>
@@ -170,7 +171,7 @@ h2:active {
     <h2 onclick="window.location ='login.html' ">📱 Login</h2>
     <h2 onclick="window.location ='signin.html' ">📲 Sign in</h2>
    
-</body>
+
 <script type="module" src="script.js"></script>
 <script>
 
@@ -190,19 +191,8 @@ function jobspost() {
     document.getElementById("job").style.display = "none";
 }
 
-</script>
-</script>
-</html>
-<!--<!DOCTYPE html>
-<html>
-<body>
 
-  <h2>ভিডিও আপলোড করুন</h2>
-  <input type="file" id="videoInput" accept="video/*">
-  <p id="status"></p>
-
-  <script>
-    // আপনার Cloudinary তথ্য
+ // আপনার Cloudinary তথ্য
     const cloudName = "sykfzqhs"; 
     const uploadPreset = "robiul_preset"; 
 
@@ -242,7 +232,6 @@ function jobspost() {
         statusText.innerText = "কোনো সমস্যা হয়েছে: " + error.message;
       }
     });
-  </script>
-
+</script>
 </body>
-</html>-->
+</html>

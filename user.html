@@ -221,7 +221,7 @@ header{
     margin:90px auto 30px;
     background:white;
     padding-bottom:20px;
-    min-height:500px;
+   
 }
 
 #profilebox{
@@ -343,8 +343,8 @@ header{
     font-weight:bold;
 }
     #videobox{
-   width:90%; margin: auto;
-   height:250px;border:1px solid red
+   width:90%; margin: auto;border-radius:0px 0px 5px 5px;
+  border:1px solid rgb(195, 184, 184);
 }
 #myPlayer{
     width:100%;
@@ -453,11 +453,11 @@ header{
         margin-left:8%;
     }
     #videobox{
-   width:90%; margin: auto;
-   height:250px;border:1px solid red
+   width:92%; margin: auto;border-radius:0px 0px 5px 5px;
+   height:250px;border:1px solid rgb(195, 184, 184);
 }
 #myPlayer{
-    width:100%;
+    width:100%; 
 }
 }
 
@@ -521,12 +521,278 @@ header{
 <!-- ================= video ================= -->
 <div id="videobox">
 <video id="myPlayer" controls autoplay></video>
-<button>Delete</button>
+<div id="action-box">
+    <button id="action-btn like-btn">
+        ❤️ <span>Like</span> <b id="likeCount">0</b>
+    </button>
+    <button class="action-btn comment-btn"> 💬 <span>Comment</span> </button>
+    <button class="action-btn share-btn"> 🔗 <span>Share</span> </button>
+    <button class="action-btn deletebtn"> 🗑️ <span>Delete</span> </button>
+</div>
 </div>
 
 
 </div>
 <script type="module">
+
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    doc, 
+    getDoc, 
+    deleteDoc, 
+    getDocs 
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+
+function escapeHTML(value){
+    if(value === null || value === undefined){
+        return "";
+    }
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =====================================================
+   PROFILE IMAGE PREVIEW
+===================================================== */
+
+const profileInput = document.getElementById("profileimg");
+const profilePreview = document.getElementById("preview");
+
+profileInput.addEventListener("change", function(){
+    const file = this.files[0];
+    if(!file) return;
+    profilePreview.src = URL.createObjectURL(file);
+});
+
+
+/* =====================================================
+   DELETE PRODUCT
+===================================================== */
+
+window.deleteProduct = async function(productId){
+    if(!confirm("এই Product Delete করতে চান?")) return;
+
+    try{
+        const user = auth.currentUser;
+        if(!user){
+            alert("আগে Login করুন।");
+            return;
+        }
+
+        const productRef = doc(db,"products",productId);
+        const productSnap = await getDoc(productRef);
+
+        if(!productSnap.exists()){
+            alert("Product পাওয়া যায়নি।");
+            return;
+        }
+
+        const productData = productSnap.data();
+
+        if(productData.userId !== user.uid){
+            alert("এই Product আপনি Delete করতে পারবেন না।");
+            return;
+        }
+
+        await deleteDoc(productRef);
+        alert("Product Deleted Successfully");
+
+    }catch(error){
+        console.error("Delete Product Error:", error);
+        alert("Delete Failed: " + error.message);
+    }
+};
+
+
+/* =====================================================
+   LOAD SPECIFIC USER PRODUCTS (শুধুমাত্র নিজ আইডি-র প্রোডাক্ট)
+===================================================== */
+
+async function loadProducts(userId){
+    const productList = document.getElementById("productList");
+
+    try{
+        const productQuery = query(
+            collection(db,"products"),
+            where("userId","==",userId)
+        );
+
+        const querySnapshot = await getDocs(productQuery);
+        productList.innerHTML = "";
+
+        if(querySnapshot.empty){
+            productList.innerHTML = `
+                <p style="text-align:center;width:100%;">No Products Found</p>
+            `;
+            return;
+        }
+
+        querySnapshot.forEach((docSnap)=>{
+            const p = docSnap.data();
+            const productId = docSnap.id;
+
+            let img = "logo.png";
+            if(Array.isArray(p.images) && p.images.length > 0){
+                img = p.images[0];
+            }
+
+            let price = p.price;
+            if(Array.isArray(price)){
+                price = price[0] || "0";
+            }
+            if(price === undefined || price === null || price === ""){
+                price = "0";
+            }
+
+            const safeName = escapeHTML(p.name || "No Name");
+            const safePrice = escapeHTML(price);
+
+            productList.innerHTML += `
+                <div class="product-card">
+                    <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
+                    <p class="product-name">${safeName}</p>
+                    <div class="product-price">${safePrice} TK</div>
+                    <br>
+                    <button class="delete-btn" onclick="window.deleteProduct('${productId}')">Delete</button>
+                </div>
+            `;
+        });
+
+    }catch(error){
+        console.error("Load Products Error:", error);
+        productList.innerHTML = `
+            <p style="color:red;text-align:center;width:100%;">Products load failed.</p>
+        `;
+    }
+}
+
+
+/* =====================================================
+   LOAD SPECIFIC USER VIDEOS (শুধুমাত্র নিজ আইডি-র ভিডিও)
+===================================================== */
+
+async function loadUserVideos(userId){
+    const videoBox = document.getElementById("videobox");
+    const videoPlayer = document.getElementById("myPlayer");
+
+    try{
+        // Firestore-এর "videos" কাইলেকশন থেকে বর্তমান লগইন করা ইউজারের ভিডিও ফিল্টার
+        const videoQuery = query(
+            collection(db, "videos"),
+            where("userId", "==", userId)
+        );
+
+        const querySnapshot = await getDocs(videoQuery);
+
+        if(querySnapshot.empty){
+            // যদি উক্ত ইউজারের কোনো ভিডিও না থাকে, তবে ভিডিও সেকশন হাইড থাকবে
+            videoBox.style.display = "none";
+            return;
+        }
+
+        querySnapshot.forEach((docSnap)=>{
+            const videoData = docSnap.data();
+            if(videoData.videoUrl){
+                videoPlayer.src = videoData.videoUrl;
+                videoBox.style.display = "block";
+            }
+        });
+
+    }catch(error){
+        console.error("Load Videos Error:", error);
+        videoBox.style.display = "none";
+    }
+}
+
+
+/* =====================================================
+   AUTH STATE (ইউজার চেক ও ডেটা লোড)
+===================================================== */
+
+onAuthStateChanged(auth, async (user)=>{
+
+    if(!user){
+        document.getElementById("showName").textContent = "Guest User";
+        document.getElementById("productList").innerHTML = `
+            <p style="text-align:center;width:100%;">Please login to see your profile.</p>
+        `;
+        document.getElementById("videobox").style.display = "none";
+        return;
+    }
+
+    const currentUid = user.uid;
+
+    /* Load Profile */
+    try{
+        const userRef = doc(db, "users", currentUid);
+        const userSnap = await getDoc(userRef);
+
+        if(userSnap.exists()){
+            const data = userSnap.data();
+            document.getElementById("showName").textContent = data.name || "No Name Set";
+            if(data.photoURL){
+                profilePreview.src = data.photoURL;
+            }
+        }else{
+            document.getElementById("showName").textContent = user.displayName || "No Name Set";
+        }
+    }catch(error){
+        console.error("User Profile Error:", error);
+        document.getElementById("showName").textContent = user.displayName || "User";
+    }
+
+    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের প্রোডাক্ট লোড */
+    await loadProducts(currentUid);
+
+    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের ভিডিও লোড */
+    await loadUserVideos(currentUid);
+
+});
+
+</script>
+<!--<script type="module">
 
 /* =====================================================
    FIREBASE IMPORT
@@ -753,6 +1019,6 @@ onAuthStateChanged(auth, async (user)=>{
     }
 
 
-</script>
+</script>-->
 </body>
 </html>

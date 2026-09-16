@@ -1,301 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Store",
-  "name": "Adarsha BD",
-  "url": "https://adarshabd.com/"
-}
-</script>
-
-<title>Adarsha BD Video</title>
-
-<link rel="icon" href="logo.png">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<meta name="description"
-content="Adarsha BD is an online shopping store in Bangladesh.">
-
-<meta property="og:title" content="Adarsha BD - Online Shopping">
-<meta property="og:description"
-content="Buy fashion, electronics & gadgets online in Bangladesh">
-<meta property="og:image" content="banner.png">
-<meta property="og:url" content="https://adarshabd.com/">
-<meta property="og:type" content="website">
-
-<link rel="canonical" href="https://adarshabd.com/">
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial,sans-serif;
-    margin:0;
-    padding:0;
-    background:rgb(249,246,246);
-}
-
-/* ================= HEADER ================= */
-
-header{
-    background:white;
-    position:fixed;
-    width:100%;
-    top:0;
-    left:0;
-    z-index:999;
-    height:90px;
-    box-shadow:0 1px 5px rgba(0,0,0,.08);
-}
-
-.header1{
-    max-width:1400px;
-    margin:auto;
-}
-
-.headone{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.name{
-    font-size:23px;
-    padding-top:10px;
-    color:#031f50;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.headtwo{
-    display:flex;
-    align-items:center;
-    margin-top:7px;
-}
-
-.fa-list{
-    font-size:25px;
-    cursor:pointer;
-    margin-top:10px;
-    color:#031f50;
-}
-
-.fa-magnifying-glass{
-    display:none;
-    cursor:pointer;
-}
-
-#search{
-    height:35px;
-    width:40%;
-    margin-left:5%;
-    border:1px solid #ccc;
-    border-radius:5px;
-    padding:5px 10px;
-}
-
-#homeimg{
-    width:40px;
-    height:30px;
-    margin-left:3%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
-#pentoimg{
-    width:35px;
-    height:32px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
-#messageimg{
-    width:35px;
-    height:32px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
-#videoimg{
-    width:40px;
-    height:35px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
-#bellimg{
-    width:33px;
-    height:33px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
-#userimg{
-    width:30px;
-    height:30px;
-    margin-left:auto;
-    margin-right:4%;
-    border-radius:5%;
-    cursor:pointer;
-}
-#videobox{
-    border:1px solid red; width:200px;height:200px;
-}
-
-
-
-@media(max-width:700px){
-
-    header{
-        height:78px;
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Store",
+      "name": "Adarsha BD",
+      "url": "https://adarshabd.com/"
     }
+    </script>
 
-    .header1{
-        width:100%;
-    }
+    <title>Adarsha BD Video</title>
 
-    .headone{
-        display:flex;
-        align-items:center;
-    }
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    .name{
-        font-size:22px;
-        margin-left:4%;
-        margin-top:2px;
-    }
+    <meta name="description" content="Adarsha BD is an online shopping store in Bangladesh.">
+    <meta property="og:title" content="Adarsha BD - Online Shopping">
+    <meta property="og:description" content="Buy fashion, electronics & gadgets online in Bangladesh">
+    <meta property="og:image" content="banner.png">
+    <meta property="og:url" content="https://adarshabd.com/">
+    <meta property="og:type" content="website">
 
-    .headtwo{
-        display:flex;
-        align-items:center;
-        margin-top:0;
-    }
+    <link rel="canonical" href="https://adarshabd.com/">
 
-    #search{
-        display:none;
-    }
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(249, 246, 246); }
 
-    .fa-list{
-        font-size:23px;
-        margin-left:auto;
-        margin-right:4%;
-    }
+        /* ================= HEADER ================= */
+        header { background: white; position: fixed; width: 100%; top: 0; left: 0; z-index: 999; height: 90px; box-shadow: 0 1px 5px rgba(0, 0, 0, .08); }
+        .header1 { max-width: 1400px; margin: auto; }
+        .headone { display: flex; justify-content: space-between; align-items: center; }
+        .name { font-size: 23px; padding-top: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
+        .headtwo { display: flex; align-items: center; margin-top: 7px; }
+        .fa-list { font-size: 25px; cursor: pointer; margin-top: 10px; color: #031f50; }
+        .fa-magnifying-glass { display: none; cursor: pointer; }
 
-    .fa-magnifying-glass{
-        display:inline-block;
-        font-size:23px;
-        margin-top:10px;
-        margin-left:auto;
-        margin-right:20px;
-        color:black;
-    }
-    #homeimg{
-        width:35px;
-        height:28px;
-        margin-left:2%;
-    }
+        #search { height: 35px; width: 40%; margin-left: 5%; border: 1px solid #ccc; border-radius: 5px; padding: 5px 10px; }
+        #homeimg { width: 40px; height: 30px; margin-left: 3%; border-radius: 5%; cursor: pointer; }
+        #pentoimg, #messageimg, #videoimg, #bellimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
+        #userimg { width: 30px; height: 30px; margin-left: auto; margin-right: 4%; border-radius: 5%; cursor: pointer; }
 
-    #pentoimg,
-    #messageimg{
-        width:32px;
-        height:30px;
-        margin-left:10%;
-    }
+        #videobox { width: 40%; margin: auto; border-radius: 5px; margin-top: 100px; height: auto; border: 1px solid rgb(195, 184, 184); background: #fff; }
+        #idimg { width: 30px; height: 30px; border-radius: 50%; margin: 7px; border: 1px solid rgb(231, 223, 223); }
+        .idimgname { display: flex; align-items: center; }
+        #showName { font-weight: bold; margin-left: 5px; color: #333; }
+        #myPlayer { width: 100%; }
+        #action-box { padding: 5px; display: flex; justify-content: space-between; }
+        #like-btn, #comment-btn, #share-btn { width: 31%; height: 30px; border: 1px solid rgb(215, 207, 207); border-radius: 7px; background: #f9f9f9; cursor: pointer; }
 
-    #videoimg{
-        width:36px;
-        height:32px;
-        margin-left:8%;
-    }
-
-    #bellimg{
-        width:30px;
-        height:30px;
-        margin-left:auto;
-        margin-right:2%;
-    }
-        #userimg{
-        width:28px;
-        height:28px;
-        margin-right:2%;
-    }
-    #video{
-        height:300px;border:2px solid red;margin-top:200px;
-    }
-    #videobox{
-   width:100%;margin: auto;
-}
-#myPlayer{
-    width:100%;
-}
-}
-
-</style>
+        @media(max-width:700px) {
+            header { height: 78px; }
+            #videobox { width: 92%; margin-top: 90px; }
+            #search { display: none; }
+        }
+    </style>
 </head>
 
 <body>
-<header>
-<div class="header1">
-<div class="headone">
-<span
-class="name"
-onclick="window.location.href='test1.html'">
-ADARSHA
-</span>
+    <header>
+        <div class="header1">
+            <div class="headone">
+                <span class="name" onclick="window.location.href='test1.html'">ADARSHA</span>
+                <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+            </div>
+            <div class="headtwo">
+                <img src="home.png" id="homeimg" onclick="window.location.href='home.html'" alt="Home">
+                <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
+                <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
+                <input id="search" placeholder="Search product...">
+                <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
+                <img src="bell.png" id="bellimg" alt="Notification">
+                <img src="user.png" id="userimg" onclick="window.location.href='user.html'" alt="User">
+            </div>
+        </div>
+    </header>
 
-<i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+    <div id="videobox">
+        <div class="idimgname">
+            <img src="user.png" id="idimg">
+            <!-- p tag সঠিক করা হয়েছে -->
+            <p id="showName">Loading...</p>
+        </div>
+        <video id="myPlayer" controls autoplay></video>
+        <div id="action-box">
+            <button id="like-btn"> ❤️ <b id="likeCount">0</b></button>
+            <button id="comment-btn"><span>Comment</span></button>
+            <button id="share-btn"><span>Share</span></button>
+        </div>
+    </div>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
-</div>
+    import {
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-<div class="headtwo">
-<img src="home.png" id="homeimg" onclick="window.location.href='home.html'"   alt="Home">
-<img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
-<img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
-<input id="search" placeholder="Search product..." onkeyup="searchProduct()">
-<img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
-<img src="bell.png" id="bellimg" alt="Notification">
-<img src="user.png" id="userimg" onclick="window.location.href='user.html'" alt="User">
-</div>
-</div>
-</header>
-!-- ================= MOBILE SEARCH ================= --
-<div id="opensearchbox">
-<div class="search-inner">
-<input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
-<p onclick="searchclose()" id="X"> X </p>
-</div>
-</div>
-<div id="videobox">
-<video id="myPlayer" controls autoplay></video>
-</div>
- 
 
-  <script>
-    // ১. মেমোরি থেকে Cloudinary-র ভিডিও লিংক নেওয়া
-    const videoUrl = localStorage.getItem('cloudinaryVideoUrl');
+    const firebaseConfig = {
+        apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+        authDomain: "robiul-84377.firebaseapp.com",
+        projectId: "robiul-84377",
+        storageBucket: "robiul-84377.firebasestorage.app",
+        messagingSenderId: "476907665212",
+        appId: "1:476907665212:web:b4dc619f0290a2241b1039"
+    };
 
-    // ২. প্লেয়ারে লিংক বসিয়ে দেওয়া
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const showName = document.getElementById("showName");
+
+    // ================= USER NAME =================
+
+    onAuthStateChanged(auth, (user) => {
+
+        if (user) {
+
+            // Firebase Auth থেকে user's name
+            if (user.displayName) {
+                showName.textContent = user.displayName;
+            } else {
+                showName.textContent = "User";
+            }
+
+        } else {
+
+            showName.textContent = "User";
+
+        }
+
+    });
+
+
+    // ================= VIDEO =================
+
+    const videoUrl = localStorage.getItem("cloudinaryVideoUrl");
+
     if (videoUrl) {
-      document.getElementById('myPlayer').src = videoUrl;
+        document.getElementById("myPlayer").src = videoUrl;
     } else {
-      alert("কোনো ভিডিও পাওয়া যায়নি!");
+        alert("কোনো ভিডিও পাওয়া যায়নি!");
     }
-  </script>
 
+</script>
 </body>
 </html>
