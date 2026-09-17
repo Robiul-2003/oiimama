@@ -6,172 +6,200 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>All Posts</title>
     <style>
-        body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(251, 249, 249); }
 
-/* header */
-header{
-  background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:90px;
-}
-.header1{
-    max-width:1400px;
-    margin:auto;
-}
-.headone{
-justify-content:space-between;align-items:center;display:flex;
-}
-.name{
-    font-size:23px;
-    padding-top:10px;
-    color:#031f50;
-    font-weight:bold;
-    cursor:pointer;
-}
-.headtwo{
-    display:flex;
-    align-items:center;
-    margin-top:7px;
-}
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-/* search */
-#search{
-  height:30px;width:40%;  margin-left:5%; 
- 
-}
+        /* header */
+        header {
+            background: white;
+            position: fixed; width: 100%; top: 0; z-index: 999; height: 90px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .header1 { max-width: 1400px; margin: auto; }
+        .headone { justify-content: space-between; align-items: center; display: flex; }
+        .name { font-size: 23px; padding-top: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
+        .headtwo { display: flex; align-items: center; margin-top: 7px; }
+        .fa-list { font-size: 25px; cursor: pointer; padding-top: 10px; }
 
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-    width:40px;
-    height:35px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-#bellimg{
-    width:33px;
-    height:33px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
+        /* search */
+        #search { height: 30px; width: 40%; margin-left: 5%; }
+        #homeimg { width: 40px; height: 30px; margin-left: 3%; color: blue; border-radius: 5%; cursor: pointer; }
+        #pentoimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
+        #messageimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
+        #videoimg { width: 40px; height: 35px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
+        #bellimg { width: 33px; height: 33px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
+        #userimg { width: 30px; height: 30px; margin-left: auto; margin-right: 4%; border-radius: 5%; cursor: pointer; }
 
-#userimg{
-    width:30px;
-    height:30px;
-    margin-left:auto;
-    margin-right:4%;
-    border-radius:5%;
-    cursor:pointer;
-}
+        .fa-magnifying-glass { display: none; }
+        #ONEsearch { flex: 1; height: 35px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
 
+        /* Feed container */
+        .feed-container {
+            max-width: 650px;
+            margin: 110px auto 30px auto;
+            padding: 0 10px;
+        }
 
+        .single-video-card {
+            border: 1px solid #e0e0e0;
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
 
-.fa-magnifying-glass{
-display:none;
-}
-#ONEsearch{
-    flex: 1;
-    height: 35px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-info i {
+            font-size: 24px;
+            color: #031f50;
+            margin-right: 10px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .video-caption {
+            margin: 8px 0 12px 0;
+            font-size: 15px;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        .video-player {
+            width: 100%;
+            max-height: 400px;
+            border-radius: 6px;
+            background: #000;
+        }
+
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
-             header{
-        height:78px;
-    }
-
-    .header1{
-        width:100%;
-    }
-
-    .headone{
-        display:flex;
-        align-items:center;
-    }
-
-    .name{
-        font-size:22px;
-        margin-left:4%;
-        margin-top:2px;
-    }
-
-    .headtwo{
-        display:flex;
-        align-items:center;
-        margin-top:0;
-    }
-
-    #search{
-        display:none;
-    }
-
-    .fa-list{
-        font-size:23px;
-        margin-left:auto;
-        margin-right:4%;
-    }
-    #homeimg{
-        width:35px;
-        height:28px;
-        margin-left:2%;
-    }
-
-    #pentoimg,
-    #messageimg{
-        width:32px;
-        height:30px;
-        margin-left:10%;
-    }
-
-    #videoimg{
-        width:36px;
-        height:32px;
-        margin-left:8%;
-    }
-
-    #bellimg{
-        width:30px;
-        height:30px;
-        margin-left:auto;
-        margin-right:2%;
-    }
-        #userimg{
-        width:28px;
-        height:28px;
-        margin-right:2%;
-    }
-}
+            header { height: 78px; }
+            .header1 { width: 100%; }
+            .headone { display: flex; align-items: center; }
+            .name { font-size: 22px; margin-left: 4%; margin-top: 2px; }
+            .headtwo { display: flex; align-items: center; margin-top: 0; }
+            #search { display: none; }
+            .fa-list { font-size: 23px; margin-left: auto; margin-right: 4%; }
+            #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left: 10%; }
+            #videoimg { width: 36px; height: 32px; margin-left: 8%; }
+            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
+            #userimg { width: 28px; height: 28px; margin-right: 2%; }
+            .feed-container { margin-top: 90px; }
+        }
     </style>
 </head>
 <body>
- <header>
-  <div class="header1">
-    <div class="headone">
-      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+
+<header>
+    <div class="header1">
+        <div class="headone">
+            <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>
+            <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
+            <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+        </div>
+        <div class="headtwo">
+            <img src="home.png" id="homeimg" onclick="window.location.href='home.html'">
+            <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
+            <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+            <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+            <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
+            <img src="bell.png" id="bellimg">
+            <img src="user.png" id="userimg" onclick="window.location.href='user.html'">
+        </div>
     </div>
-    <div class="headtwo">
-  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
-  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
-  <img src="message.png" id="messageimg"  onclick="window.location.href='message.html'">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
-  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
-  <img  src="bell.png" id="bellimg">
-  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
-    </div>
-  </div>
 </header>
+
+<!-- ভিডিও Feed কনটেইনার -->
+<div class="feed-container">
+    <div id="allVideoList">
+        <p style="text-align:center; color:#666;"></p>
+    </div>
+</div>
+
+<!-- Firebase SDK & Script -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 🔴 আপনার Firebase Config তথ্য এখানে বসান
+    const firebaseConfig = {
+              apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function escapeHTML(str) {
+        if (!str) return '';
+        return str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
+    }
+
+    async function loadAllVideos() {
+        const videoContainer = document.getElementById("allVideoList");
+
+        try {
+            // "videos" কলেকশনের সব ডাটা orderBy দিয়ে নতুন থেকে পুরোনো ক্রমানুসারে আনা হচ্ছে
+            const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+
+            videoContainer.innerHTML = "";
+
+            if (querySnapshot.empty) {
+                videoContainer.innerHTML = `<p style="text-align:center;"></p>`;
+                return;
+            }
+
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+
+                const safeUserName = escapeHTML(data.userName || "User");
+                const safeCaption = escapeHTML(data.caption || "");
+                const safeVideoUrl = escapeHTML(data.videoUrl);
+
+                videoContainer.innerHTML += `
+                    <div class="single-video-card">
+                        <div class="user-info">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <span class="user-name">${safeUserName}</span>
+                        </div>
+                        ${safeCaption ? `<p class="video-caption">${safeCaption}</p>` : ''}
+                        <video class="video-player" src="${safeVideoUrl}" controls preload="metadata"></video>
+                    </div>
+                `;
+            });
+
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+            videoContainer.innerHTML = `<p style="color:red; text-align:center;">Failed to load videos.</p>`;
+        }
+    }
+
+    // পেজ লোড হলে ভিডিও লোড হবে
+    window.addEventListener("DOMContentLoaded", loadAllVideos);
+</script>
+
 </body>
 </html>

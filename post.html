@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -194,20 +194,131 @@ display:none;
 </header>
 
     <div id="postList"></div>
-  <script>
-        // ১. localStorage থেকে পোস্ট তুলে আনা
-        let posts = JSON.parse(localStorage.getItem("myPosts")) || [];
-        let postList = document.getElementById("postList");
+  <script type="module">
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-        // ২. প্রতিটি পোস্ট স্ক্রিনে দেখানো
-        if(posts.length === 0){
-            postList.innerHTML = "<p>No posts available.</p>";
-        } else {
-            posts.forEach(function(post){
-                postList.innerHTML += "<div class='single-post'>" + post + "</div>";
-            });
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+function escapeHTML(value){
+    if(value === null || value === undefined) return "";
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =====================================================
+   LOAD ALL POSTS (শুধু দেখাবে, ডিলিট নেই)
+===================================================== */
+async function displayPosts() {
+
+    const postList = document.getElementById("postList");
+    if (!postList) return;
+
+    try {
+        const q = query(
+            collection(db, "posts"),
+            orderBy("createdAt", "desc")
+        );
+
+        const querySnapshot = await getDocs(q);
+        postList.innerHTML = "";
+
+        if (querySnapshot.empty) {
+            postList.innerHTML = `
+                <p style="text-align:center;">No Posts Found</p>
+            `;
+            return;
         }
-    </script>
+
+        querySnapshot.forEach((docSnap) => {
+            const postData = docSnap.data();
+
+            const postText = escapeHTML(postData.text || "");
+            const postUserName = escapeHTML(postData.userName || "User");
+
+            let dateStr = "";
+            if (postData.createdAt && postData.createdAt.toDate) {
+                dateStr = postData.createdAt.toDate().toLocaleString();
+            }
+
+            postList.innerHTML += `
+                <div class="single-post" style="
+                    border:1px solid #ddd;
+                    background:white;
+                    padding:12px;
+                    margin-bottom:10px;
+                    border-radius:6px;
+                ">
+                    <div style="margin-bottom:8px;">
+                        <strong>${postUserName}</strong>
+                        <br>
+                        <small style="color:#888;">${escapeHTML(dateStr)}</small>
+                    </div>
+                    <div style="padding:8px 0; word-wrap:break-word;">
+                        ${postText}
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error("Load Posts Error:", error);
+        postList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Posts load failed: ${escapeHTML(error.message)}
+            </p>
+        `;
+    }
+}
+
+
+/* =====================================================
+   AUTH STATE → POST LOAD
+===================================================== */
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        document.getElementById("postList").innerHTML = `
+            <p style="text-align:center;">Please login to see posts.</p>
+        `;
+        return;
+    }
+    await displayPosts();
+});
+
+</script>
 </body>
-</html>-->
+</html>
 

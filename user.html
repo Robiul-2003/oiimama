@@ -462,14 +462,10 @@ header{
     }
 
 }
-
 </style>
 </head>
 
 <body>
-
-!-- ================= HEADER ================= --
-
 <header>
 <div class="header1">
 <div class="headone">
@@ -490,16 +486,12 @@ header{
 </div>
 </header>
 
-
-
 <div id="opensearchbox">
 <div class="search-inner">
 <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
 <p onclick="searchclose()" id="X"> X </p>
 </div>
 </div>
-
-
 
 <div class="userfile">
 <br>
@@ -530,11 +522,12 @@ header{
    <div id="post">
         <h3>Create Post</h3>
         <textarea id="postText" placeholder="What's on your mind?" rows="4"></textarea><br><br>
-        <button id="SavePost" onclick="SavePost()">Save Post</button>
+        <button id="SavePost">Save Post</button>
         <p id="postStatus"></p>
     </div>
 </div>
  <div id="postList"></div>
+ <div id="videoList" style="max-width:650px; margin:20px auto;"></div>
 <h3 class="feed-title"></h3>
 <div id="productList"><p></p></div>
 </div>
@@ -737,7 +730,7 @@ onAuthStateChanged(auth, async (user)=>{
         document.getElementById("productList").innerHTML = `
             <p style="text-align:center;width:100%;">Please login to see your profile.</p>
         `;
-        document.getElementById("videobox").style.display = "none";
+       /* document.getElementById("videobox").style.display = "none";*/
         return;
     }
 
@@ -765,15 +758,11 @@ onAuthStateChanged(auth, async (user)=>{
     /* Ashik বা বর্তমানে লগইন থাকা ইউজারের প্রোডাক্ট লোড */
     await loadProducts(currentUid);
 
-    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের ভিডিও লোড 
-    await loadUserVideos(currentUid);*/
-
 });
 
 /* =====================================================
    FIRESTORE POST SYSTEM
 ===================================================== */
-
 // ================= LOAD POSTS =================
 
 async function displayPosts() {
@@ -818,8 +807,6 @@ async function displayPosts() {
             console.error("User Name Error:", error);
 
         }
-
-
         // ================= POST QUERY =================
 
         const postQuery = query(
@@ -843,8 +830,6 @@ async function displayPosts() {
 
             return;
         }
-
-
         // ================= SHOW POSTS =================
 
         querySnapshot.forEach((docSnap) => {
@@ -855,10 +840,6 @@ async function displayPosts() {
 
             const postText = escapeHTML(
                 postData.text || ""
-            );
-
-            const postUserId = escapeHTML(
-                postData.userId || ""
             );
 
             const postUserName = escapeHTML(
@@ -887,10 +868,6 @@ async function displayPosts() {
 
                         <br>
 
-                        <small style="color:gray;">
-                            User ID: ${postUserId}
-                        </small>
-
                     </div>
 
 
@@ -912,7 +889,6 @@ async function displayPosts() {
                     </button>
 
                 </div>
-
             `;
 
         });
@@ -931,9 +907,6 @@ async function displayPosts() {
     }
 
 }
-
-
-
 // ================= SAVE POST =================
 
 window.SavePost = async function() {
@@ -952,7 +925,6 @@ window.SavePost = async function() {
         return;
     }
 
-
     // Firebase current user
     const user = auth.currentUser;
 
@@ -965,9 +937,7 @@ window.SavePost = async function() {
         return;
     }
 
-
     try {
-
         // Firebase User ID
         const userId = user.uid;
 
@@ -995,8 +965,6 @@ window.SavePost = async function() {
                 user.displayName ||
                 "User";
         }
-
-
         // ================= FIRESTORE SAVE =================
 
         await addDoc(
@@ -1013,8 +981,6 @@ window.SavePost = async function() {
 
             }
         );
-
-
         // Input clear
         inputField.value = "";
 
@@ -1042,9 +1008,6 @@ window.SavePost = async function() {
     }
 
 };
-
-
-
 // ================= DELETE POST =================
 
 window.deletePost = async function(postId) {
@@ -1073,7 +1036,6 @@ window.deletePost = async function(postId) {
             return;
         }
 
-
         // Firebase থেকে Post document ধরা
         const postRef =
             doc(db, "posts", postId);
@@ -1090,7 +1052,6 @@ window.deletePost = async function(postId) {
 
             return;
         }
-
 
         // Post data
         const postData =
@@ -1110,11 +1071,9 @@ window.deletePost = async function(postId) {
             return;
         }
 
-
         // ================= DELETE =================
 
         await deleteDoc(postRef);
-
 
         alert(
             "Post Deleted Successfully"
@@ -1136,13 +1095,8 @@ window.deletePost = async function(postId) {
             "Delete Failed: " +
             error.message
         );
-
     }
-
 };
-
-
-
 // ================= SAVE BUTTON =================
 
 const saveBtn =
@@ -1157,9 +1111,6 @@ if (saveBtn) {
     );
 
 }
-
-
-
 // ================= LOAD POSTS AFTER LOGIN =================//
 
 onAuthStateChanged(
@@ -1171,49 +1122,204 @@ onAuthStateChanged(
             await displayPosts();
 
         }
-
     }
 );
+
+
+
+
+
+
+/* =====================================================
+   CLOUDINARY CONFIG
+===================================================== */
+const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud Name বসান
+const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
+
+/* =====================================================
+   UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRESTORE
+===================================================== */
+const uploadBtn = document.getElementById("btnop");
+
+if (uploadBtn) {
+    uploadBtn.addEventListener("click", async () => {
+        const videoInput = document.getElementById("videoInput");
+        const captionText = document.getElementById("captionText");
+        const status = document.getElementById("status");
+
+        const file = videoInput.files[0];
+        const caption = captionText.value.trim();
+
+        if (!file) {
+            alert("অনুগ্রহ করে একটি ভিডিও ফাইল সিলেক্ট করুন।");
+            return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+            alert("আগে Login করুন।");
+            return;
+        }
+
+        try {
+            status.textContent = "Uploading video to Cloudinary...";
+
+            // 1. Get User Name from Firestore
+            let userName = user.displayName || "User";
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                userName = userSnap.data().name || userName;
+            }
+
+            // 2. Upload Video to Cloudinary
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", UPLOAD_PRESET);
+
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const cloudinaryData = await res.json();
+
+            if (!res.ok) {
+                throw new Error(cloudinaryData.error?.message || "Cloudinary Upload Failed");
+            }
+
+            const videoUrl = cloudinaryData.secure_url;
+
+            // 3. Save Data to Firestore "videos" Collection
+            status.textContent = "Saving details to Database...";
+
+            await addDoc(collection(db, "videos"), {
+                videoUrl: videoUrl,
+                caption: caption,
+                userId: user.uid,
+                userName: userName,
+                createdAt: serverTimestamp()
+            });
+
+            status.textContent = "Video uploaded successfully!";
+            captionText.value = "";
+            videoInput.value = "";
+
+            alert("Video Uploaded Successfully!");
+            displayVideos(); // Refresh Video List
+
+        } catch (error) {
+            console.error("Video Upload Error:", error);
+            status.textContent = "Upload Failed!";
+            alert("Upload Failed: " + error.message);
+        }
+    });
+}
+
+/* =====================================================
+   LOAD & DISPLAY VIDEOS
+===================================================== */
+async function displayVideos() {
+    const videoList = document.getElementById("videoList");
+    if (!videoList) return;
+
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            videoList.innerHTML = `<p style="text-align:center;">Please login to see videos.</p>`;
+            return;
+        }
+
+        const videoQuery = query(
+            collection(db, "videos"),
+            where("userId", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(videoQuery);
+        videoList.innerHTML = "";
+
+        if (querySnapshot.empty) {
+            videoList.innerHTML = `<p style="text-align:center;">No Videos Found</p>`;
+            return;
+        }
+
+        querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const videoId = docSnap.id;
+
+            const safeCaption = escapeHTML(data.caption || "");
+            const safeUserName = escapeHTML(data.userName || "User");
+
+            videoList.innerHTML += `
+                <div class="single-video" style="border:1px solid #ddd; background:white; padding:12px; margin-bottom:15px; border-radius:6px;">
+                    <div style="margin-bottom:8px;">
+                        <strong>${safeUserName}</strong>
+                    </div>
+                    ${safeCaption ? `<p style="margin:5px 0;">${safeCaption}</p>` : ''}
+                    <video src="${escapeHTML(data.videoUrl)}" controls style="width:100%; max-height:350px; border-radius:6px; background:#000;"></video>
+                    <br><br>
+                    <button class="delete-btn" onclick="window.deleteVideo('${videoId}')">Delete Video</button>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error("Load Videos Error:", error);
+        videoList.innerHTML = `<p style="color:red;text-align:center;">Failed to load videos.</p>`;
+    }
+}
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+window.deleteVideo = async function(videoId) {
+    if (!confirm("আপনি কি এই Video ডিলিট করতে চান?")) return;
+
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            alert("আগে Login করুন।");
+            return;
+        }
+
+        const videoRef = doc(db, "videos", videoId);
+        const videoSnap = await getDoc(videoRef);
+
+        if (!videoSnap.exists()) {
+            alert("Video পাওয়া যায়নি।");
+            return;
+        }
+
+        if (videoSnap.data().userId !== user.uid) {
+            alert("এই Video আপনি Delete করতে পারবেন না।");
+            return;
+        }
+
+        await deleteDoc(videoRef);
+        alert("Video Deleted Successfully");
+        await displayVideos();
+
+    } catch (error) {
+        console.error("Delete Video Error:", error);
+        alert("Delete Failed: " + error.message);
+    }
+};
+
+/* =====================================================
+   AUTH STATE UPDATES
+===================================================== */
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        await displayPosts();
+        await displayVideos();
+    }
+});
+
+
+
+
 </script>
 </body>
 </html>
 
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Text</title>
-</head>
-<style>
-   .deleteBtn{
-    color:red;
-    margin-left:50px;
-   }
-</style>
-<body>
-
-    <input id="postText" type="text" placeholder="Post create">
-
-    <button onclick="inputText()">Save</button>
-   <p id="showtext"></p>
-
-    <script>
-    function inputText(){
-      let text = document.getElementById("postText").value;
-      if(text === ""){
-        return;
-      }
-      document.getElementById("showtext").innerHTML += `<div class="postText">${text}<button class="deleteBtn" onclick="deletText(this)">delete</button> </div>`;
-      document.getElementById("postText").value ="";
-    }
-       function deletText(button){
-        button.parentElement.remove();
-       }
-
-
-    </script>
-
-</body>
-</html>-->
