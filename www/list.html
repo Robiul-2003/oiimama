@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Menu</title>
@@ -84,28 +84,24 @@ h2:active {
      border: 1px solid rgb(248, 245, 245); 
   }
   #vediocloseo{
-    width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
+    width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%; padding: 10px;
   }
   #pac, #pac1{
-    margin-left:90%;font-size:25px;color:red;margin-top:3%;
-  }
-  #vedioline{
-   width:90%;margin:4%;
-   height:30px;border-radius: 8px;;
+    margin-left:90%;font-size:25px;color:red;margin-top:3%; cursor: pointer;
   }
   #caption{
-     width:90%;margin:4%;
-   height:30px;border-radius:4px;border:1px solid #ccc;
+    width:90%;margin:4%;
+    height:35px;border-radius:4px;border:1px solid #ccc; padding: 5px;
   }
-  #videoFile{
+  #videoInput{
     margin-left:4%; margin-bottom:20px;
   }
   #btnop{
-    width:40%; height:30px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
-    font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650; background:#031f50;color:white;
+    width:40%; height:35px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
+    font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650; background:#031f50;color:white; cursor: pointer;
   }
    #job{
-   display:none;width:90%;border:1px solid rgb(228, 220, 220);display:none; margin-left:5%;
+   display:none;width:90%;border:1px solid rgb(228, 220, 220); margin-left:5%;
   }
   #post{
   width:90%;
@@ -131,55 +127,22 @@ h2:active {
     body{
       width:100%;
     }
-  
- 
   }
     </style>
 </head>
 <body>
     <i class="fa-solid fa-angle-left" onclick="window.location='home.html'"> <span> Menu </span></i>
     <h2 onclick="window.location='add.html'">📦 Add product</h2>
-    <h2 onclick="vedio()" >Video share</h2><hr>    
-      <div id="vediocloseo">
-    <p onclick="veclose()" id="pac">X</p>
-     <input type="text" id="vedioline" placeholder="Video link"><br> 
-    <input type="text" id="caption" placeholder="Caption"><br>
-    <button onclick="shareVideo()" id="btnop">Share</button> 
-    </div>
-    <h2 onclick="jobs()">📝 Post</h2>
-    <div id="job">
-      <div id="jobpost">
-        <p onclick="jobspost()" id="pac1">X</p>
-       <textarea id="post" placeholder="What's on your mind?" rows="2"></textarea><br>
-
-        <button onclick="savepost()" id="savepost">Save</button>
-      </div>
-    </div>
+     <h2 onclick="window.location='vedio.html'">Video</h2>  
+    <h2 onclick="window.location.href='post.html'">📝 Post</h2>
     <div class="soja">
       <h2 onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">💬 Chat</h2>
-    <h2>🔔 Notifications</h2>
+      <h2>🔔 Notifications</h2>
     </div>
     <h2 onclick="window.location ='https://adarshaagent.com/'">🎰 Service</h2>
     <h2 onclick="window.location ='https://adarshaagent.com/'">⚙️ Settings</h2>
-    <h2 onclick="window.location ='login.html' ">📱 Login</h2>
-    <h2 onclick="window.location ='signin.html' ">📲 Sign in</h2>
-   
+    <h2 onclick="window.location ='login.html'">📱 Login</h2>
+    <h2 onclick="window.location ='signin.html'">📲 Sign in</h2>
+
 </body>
-<script type="module" src="script.js"></script>
-<script>
-  window.vedio = function () {
-    document.getElementById("vediocloseo").style.display = "block";
-}
-
-window.veclose = function () {
-    document.getElementById("vediocloseo").style.display = "none";
-}
-  window.jobs = function(){
-    document.getElementById("job").style.display = "block";
-}
-
-  window.jobspost = function (){
-    document.getElementById("job").style.display = "none";
-}
-</script>
 </html>

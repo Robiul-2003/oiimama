@@ -129,14 +129,6 @@ header{
     cursor:pointer;
 }
 
-#videoimg{
-    width:40px;
-    height:35px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-
 #bellimg{
     width:33px;
     height:33px;
@@ -144,7 +136,13 @@ header{
     border-radius:5%;
     cursor:pointer;
 }
-
+#videoimg{
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
+}
 #userimg{
     width:30px;
     height:30px;
@@ -223,7 +221,7 @@ header{
     margin:90px auto 30px;
     background:white;
     padding-bottom:20px;
-    min-height:500px;
+   
 }
 
 #profilebox{
@@ -271,23 +269,22 @@ header{
     margin:15px auto;
 }
 
-#likebtn,
 #chatbtn{
-     height:35px;
+    width:150px;
+    height:35px;
     background:#072455;
     border:none;
     color:white;
     border-radius:5px;
-    font-size:16px;
-    padding:0 20px;
+    font-size:18px;
+    padding:0 10px;
     cursor:pointer;
 }
 
-
-#likebtn:hover,
 #chatbtn:hover{
- opacity:.9;
+    opacity:.9;
 }
+
 /* ================= FEEDS ================= */
 
 .feed-title{
@@ -304,25 +301,6 @@ header{
     padding:10px;
 }
 
-#userVideoFeed,
-#userPostFeed{
-    width:100%;
-}
-
-/* ================= POST ================= */
-
-.post-card{
-    background:#fff;
-    border:1px solid #ddd;
-    padding:15px;
-    margin:10px;
-    border-radius:8px;
-}
-
-.post-user{
-    color:#031f50;
-}
-
 .delete-btn{
     background:red;
     color:white;
@@ -334,58 +312,6 @@ header{
 
 .delete-btn:hover{
     opacity:.85;
-}
-
-/* ================= VIDEO ================= */
-
-.video-card{
-    border:1px solid #ddd;
-    padding:15px;
-    margin:15px 10px;
-    border-radius:8px;
-    background:#fff;
-}
-
-.video-frame{
-    width:100%;
-    max-width:500px;
-    margin:auto;
-    display:block;
-}
-
-.video-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap:wrap;
-}
-
-.view-bar{
-    width:150px;
-    height:20px;
-    border:1px solid #8a8888;
-    display:inline-block;
-    border-radius:5px;
-    vertical-align:middle;
-    overflow:hidden;
-}
-
-.view-fill{
-    height:100%;
-    width:0%;
-    transition:width .5s ease-in-out;
-    background:#031f50;
-}
-
-.success-btn{
-    display:none;
-    background:green;
-    color:white;
-    border:none;
-    padding:8px 15px;
-    border-radius:5px;
-    cursor:pointer;
 }
 
 /* ================= PRODUCT ================= */
@@ -416,6 +342,20 @@ header{
     color:green;
     font-weight:bold;
 }
+    #videobox{
+   width:90%; margin: auto;border-radius:0px 0px 5px 5px;
+  border:1px solid rgb(195, 184, 184);
+}
+#box {
+    display: none;
+    /* আপনার অন্যান্য পপআপ স্টাইল */
+}
+#uploadSection{
+    border:1px solid red;
+}
+#post{
+    border:1px solid red;
+}
 
 /* ================= MOBILE ================= */
 
@@ -437,7 +377,7 @@ header{
     .name{
         font-size:22px;
         margin-left:4%;
-        margin-top:7px;
+        margin-top:2px;
     }
 
     .headtwo{
@@ -477,8 +417,8 @@ header{
     }
 
     #profilebox{
-        width:200px;
-        height:200px;
+        width:220px;
+        height:220px;
     }
 
     #homeimg{
@@ -492,12 +432,6 @@ header{
         width:32px;
         height:30px;
         margin-left:10%;
-    }
-
-    #videoimg{
-        width:36px;
-        height:32px;
-        margin-left:8%;
     }
 
     #bellimg{
@@ -521,36 +455,29 @@ header{
     .product-card img{
         height:140px;
     }
+        #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
+    }
 
 }
-
 </style>
 </head>
 
 <body>
-
-<!-- ================= HEADER ================= -->
-
 <header>
-
 <div class="header1">
-
 <div class="headone">
-
-<span
-class="name"
-onclick="window.location.href='test1.html'">
-ADARSHA
-</span>
-
+<span class="name" onclick="window.location.href='test1.html'">ADARSHA</span>
 <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
-
 </div>
 
 <div class="headtwo">
-<img src="home.png" id="homeimg" onclick="window.location.href='home.html'"   alt="Home">
+<img src="home.png" id="homeimg" onclick="window.location.href='home.html'" alt="Home">
 <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
 <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
+
 <input id="search" placeholder="Search product..." onkeyup="searchProduct()">
 <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
 <img src="bell.png" id="bellimg" alt="Notification">
@@ -559,55 +486,61 @@ ADARSHA
 </div>
 </header>
 
-<!-- ================= MOBILE SEARCH ================= -->
-
 <div id="opensearchbox">
-
 <div class="search-inner">
-
 <input id="ONEsearch" placeholder="Search..." onkeyup="searchProduct()">
 <p onclick="searchclose()" id="X"> X </p>
 </div>
 </div>
-<!-- ================= PROFILE ================= -->
 
 <div class="userfile">
 <br>
 <div id="profilebox">
-
 <label for="profileimg">
 <img id="preview" src="" alt="Profile">
 </label>
-
-<input type="file"id="profileimg" accept="image/*">
+<input type="file" id="profileimg" accept="image/*">
 </div>
+
 <h2 id="showName"></h2>
-<div class="profile-buttons">
-<button id="likebtn">
-Like
-</button>
 
-<button
-id="chatbtn"
-onclick="window.location.href='test1.html'">
-Chat
-</button>
+<div class="profile-buttons">
+<button id="chatbtn" onclick="window.location.href='test1.html'">Chat</button><button id="alladd" onclick="openbox()">All add</button>
 </div>
-<!-- ================= PRODUCTS ================= -->
+<div id="box">
+  <p onclick="closebox()">X</p>
+  <h1 onclick="window.location.href='add.html'">product add</h1>
+
+   <div id="uploadSection">
+        <h3>Upload New Video</h3>
+        <textarea id="captionText"  placeholder="What's on your mind?"  rows="2"  style="width:100%; padding:10px;" ></textarea>
+        <input type="file" id="videoInput" accept="video/*"><br><br>
+        <button id="btnop">Upload Video</button>
+        <p id="status" style="margin: 0; font-size: 13px; color: blue;"></p>
+    </div>
+    <br><br>
+   <div id="post">
+        <h3>Create Post</h3>
+        <textarea id="postText" placeholder="What's on your mind?" rows="4"></textarea><br><br>
+        <button id="SavePost">Save Post</button>
+        <p id="postStatus"></p>
+    </div>
+</div>
+ <div id="postList"></div>
+ <div id="videoList" style="max-width:650px; margin:20px auto;"></div>
 <h3 class="feed-title"></h3>
 <div id="productList"><p></p></div>
-<!-- ================= POSTS ================= -->
-<h3 class="feed-title"></h3>
-<div id="userPostFeed">
-<p style="text-align:center;"></p>
 </div>
-<!-- ================= VIDEOS ================= -->
-<h3 class="feed-title"></h3>
-<div id="userVideoFeed">
-<p style="text-align:center;">
-</p>
-</div>
-</div>
+
+<script>
+  function openbox(){
+  document.getElementById('box').style.display ="block";
+  }
+  function closebox(){
+   document.getElementById('box').style.display ="none";
+  }
+</script>
+
 
 <script type="module">
 
@@ -615,27 +548,19 @@ Chat
    FIREBASE IMPORT
 ===================================================== */
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
-
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-
-import {
-    getFirestore,
-    collection,
-    onSnapshot,
-    query,
-    where,
-    doc,
-    getDoc,
-    deleteDoc,
-    getDocs
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    doc, 
+    getDoc, 
+    deleteDoc, 
+    getDocs,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
@@ -644,19 +569,12 @@ import {
 ===================================================== */
 
 const firebaseConfig = {
-
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-
     authDomain: "robiul-84377.firebaseapp.com",
-
     projectId: "robiul-84377",
-
     storageBucket: "robiul-84377.firebasestorage.app",
-
     messagingSenderId: "476907665212",
-
     appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
-
 };
 
 
@@ -665,9 +583,7 @@ const firebaseConfig = {
 ===================================================== */
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 
@@ -676,11 +592,9 @@ const db = getFirestore(app);
 ===================================================== */
 
 function escapeHTML(value){
-
     if(value === null || value === undefined){
         return "";
     }
-
     return String(value)
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
@@ -694,82 +608,470 @@ function escapeHTML(value){
    PROFILE IMAGE PREVIEW
 ===================================================== */
 
-const profileInput =
-    document.getElementById("profileimg");
-
-const profilePreview =
-    document.getElementById("preview");
-
+const profileInput = document.getElementById("profileimg");
+const profilePreview = document.getElementById("preview");
 
 profileInput.addEventListener("change", function(){
-
     const file = this.files[0];
-
-    if(!file){
-        return;
-    }
-
-    profilePreview.src =
-        URL.createObjectURL(file);
-
+    if(!file) return;
+    profilePreview.src = URL.createObjectURL(file);
 });
 
 
 /* =====================================================
-   DELETE POST
-   OWNERSHIP CHECK
+   DELETE PRODUCT
 ===================================================== */
 
-window.deletePost = async function(postId){
+window.deleteProduct = async function(productId){
+    if(!confirm("এই Product Delete করতে চান?")) return;
 
-    if(!confirm("Delete this post?")){
+    try{
+        const user = auth.currentUser;
+        if(!user){
+            alert("আগে Login করুন।");
+            return;
+        }
+
+        const productRef = doc(db,"products",productId);
+        const productSnap = await getDoc(productRef);
+
+        if(!productSnap.exists()){
+            alert("Product পাওয়া যায়নি।");
+            return;
+        }
+
+        const productData = productSnap.data();
+
+        if(productData.userId !== user.uid){
+            alert("এই Product আপনি Delete করতে পারবেন না।");
+            return;
+        }
+
+        await deleteDoc(productRef);
+        alert("Product Deleted Successfully");
+
+    }catch(error){
+        console.error("Delete Product Error:", error);
+        alert("Delete Failed: " + error.message);
+    }
+};
+
+
+/* =====================================================
+   LOAD SPECIFIC USER PRODUCTS (শুধুমাত্র নিজ আইডি-র প্রোডাক্ট)
+===================================================== */
+
+async function loadProducts(userId){
+    const productList = document.getElementById("productList");
+
+    try{
+        const productQuery = query(
+            collection(db,"products"),
+            where("userId","==",userId)
+        );
+
+        const querySnapshot = await getDocs(productQuery);
+        productList.innerHTML = "";
+
+        if(querySnapshot.empty){
+            productList.innerHTML = `
+                <p style="text-align:center;width:100%;">No Products Found</p>
+            `;
+            return;
+        }
+
+        querySnapshot.forEach((docSnap)=>{
+            const p = docSnap.data();
+            const productId = docSnap.id;
+
+            let img = "logo.png";
+            if(Array.isArray(p.images) && p.images.length > 0){
+                img = p.images[0];
+            }
+
+            let price = p.price;
+            if(Array.isArray(price)){
+                price = price[0] || "0";
+            }
+            if(price === undefined || price === null || price === ""){
+                price = "0";
+            }
+
+            const safeName = escapeHTML(p.name || "No Name");
+            const safePrice = escapeHTML(price);
+
+            productList.innerHTML += `
+                <div class="product-card">
+                    <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
+                    <p class="product-name">${safeName}</p>
+                    <div class="product-price">${safePrice} TK</div>
+                    <br>
+                    <button class="delete-btn" onclick="window.deleteProduct('${productId}')">Delete</button>
+                </div>
+            `;
+        });
+
+    }catch(error){
+        console.error("Load Products Error:", error);
+        productList.innerHTML = `
+            <p style="color:red;text-align:center;width:100%;">Products load failed.</p>
+        `;
+    }
+}
+
+/* =====================================================
+   AUTH STATE (ইউজার চেক ও ডেটা লোড)
+===================================================== */
+
+onAuthStateChanged(auth, async (user)=>{
+
+    if(!user){
+        document.getElementById("showName").textContent = "Guest User";
+        document.getElementById("productList").innerHTML = `
+            <p style="text-align:center;width:100%;">Please login to see your profile.</p>
+        `;
+       /* document.getElementById("videobox").style.display = "none";*/
         return;
     }
 
+    const currentUid = user.uid;
+
+    /* Load Profile */
     try{
+        const userRef = doc(db, "users", currentUid);
+        const userSnap = await getDoc(userRef);
+
+        if(userSnap.exists()){
+            const data = userSnap.data();
+            document.getElementById("showName").textContent = data.name || "No Name Set";
+            if(data.photoURL){
+                profilePreview.src = data.photoURL;
+            }
+        }else{
+            document.getElementById("showName").textContent = user.displayName || "No Name Set";
+        }
+    }catch(error){
+        console.error("User Profile Error:", error);
+        document.getElementById("showName").textContent = user.displayName || "User";
+    }
+
+    /* Ashik বা বর্তমানে লগইন থাকা ইউজারের প্রোডাক্ট লোড */
+    await loadProducts(currentUid);
+
+});
+
+/* =====================================================
+   FIRESTORE POST SYSTEM
+===================================================== */
+// ================= LOAD POSTS =================
+
+async function displayPosts() {
+
+    const postList = document.getElementById("postList");
+
+    if (!postList) return;
+
+    try {
 
         const user = auth.currentUser;
 
-        if(!user){
+        if (!user) {
+            postList.innerHTML = `
+                <p style="text-align:center;">
+                    Please login to see posts.
+                </p>
+            `;
+            return;
+        }
 
-            alert("Please login first.");
+        // বর্তমানে login করা user's UID
+        const currentUid = user.uid;
+
+        // users collection থেকে user name নেওয়া
+        let userName = user.displayName || "User";
+
+        try {
+
+            const userRef = doc(db, "users", currentUid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+
+                const userData = userSnap.data();
+
+                userName = userData.name || user.displayName || "User";
+            }
+
+        } catch (error) {
+
+            console.error("User Name Error:", error);
+
+        }
+        // ================= POST QUERY =================
+
+        const postQuery = query(
+            collection(db, "posts"),
+            where("userId", "==", currentUid)
+        );
+
+
+        const querySnapshot = await getDocs(postQuery);
+
+        postList.innerHTML = "";
+
+
+        if (querySnapshot.empty) {
+
+            postList.innerHTML = `
+                <p style="text-align:center;">
+                    No Posts Found
+                </p>
+            `;
+
+            return;
+        }
+        // ================= SHOW POSTS =================
+
+        querySnapshot.forEach((docSnap) => {
+
+            const postData = docSnap.data();
+
+            const postId = docSnap.id;
+
+            const postText = escapeHTML(
+                postData.text || ""
+            );
+
+            const postUserName = escapeHTML(
+                postData.userName || userName
+            );
+
+
+            postList.innerHTML += `
+
+                <div
+                    class="single-post"
+                    style="
+                        border:1px solid #ddd;
+                        background:white;
+                        padding:12px;
+                        margin-bottom:10px;
+                        border-radius:6px;
+                    "
+                >
+
+                    <div style="margin-bottom:8px;">
+
+                        <strong>
+                            ${postUserName}
+                        </strong>
+
+                        <br>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            padding:8px 0;
+                            word-wrap:break-word;
+                        "
+                    >
+                        ${postText}
+                    </div>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="window.deletePost('${postId}')"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+            `;
+
+        });
+
+
+    } catch (error) {
+
+        console.error("Load Posts Error:", error);
+
+        postList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Posts load failed.
+            </p>
+        `;
+
+    }
+
+}
+// ================= SAVE POST =================
+
+window.SavePost = async function() {
+
+    const inputField =
+        document.getElementById("postText");
+
+    const text =
+        inputField.value.trim();
+
+
+    if (text === "") {
+
+        alert("Post লিখুন।");
+
+        return;
+    }
+
+    // Firebase current user
+    const user = auth.currentUser;
+
+
+    // Login check
+    if (!user) {
+
+        alert("আগে Login করুন।");
+
+        return;
+    }
+
+    try {
+        // Firebase User ID
+        const userId = user.uid;
+
+
+        // Default name
+        let userName =
+            user.displayName || "User";
+
+
+        // users collection থেকে name নেওয়া
+        const userRef =
+            doc(db, "users", userId);
+
+        const userSnap =
+            await getDoc(userRef);
+
+
+        if (userSnap.exists()) {
+
+            const userData =
+                userSnap.data();
+
+            userName =
+                userData.name ||
+                user.displayName ||
+                "User";
+        }
+        // ================= FIRESTORE SAVE =================
+
+        await addDoc(
+            collection(db, "posts"),
+            {
+
+                text: text,
+
+                userId: userId,
+
+                userName: userName,
+
+                createdAt: serverTimestamp()
+
+            }
+        );
+        // Input clear
+        inputField.value = "";
+
+
+        // Message
+        alert("Post Successfully Saved");
+
+
+        // Firebase থেকে আবার Post load
+        await displayPosts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Save Post Error:",
+            error
+        );
+
+        alert(
+            "Post Save Failed: " +
+            error.message
+        );
+
+    }
+
+};
+// ================= DELETE POST =================
+
+window.deletePost = async function(postId) {
+
+    if (
+        !confirm(
+            "আপনি কি এই Post Delete করতে চান?"
+        )
+    ) {
+        return;
+    }
+
+
+    try {
+
+        // Current Firebase user
+        const user =
+            auth.currentUser;
+
+
+        // Login check
+        if (!user) {
+
+            alert("আগে Login করুন।");
 
             return;
         }
 
-
+        // Firebase থেকে Post document ধরা
         const postRef =
-            doc(db,"jobs",postId);
+            doc(db, "posts", postId);
+
 
         const postSnap =
             await getDoc(postRef);
 
 
-        if(!postSnap.exists()){
+        // Post আছে কিনা
+        if (!postSnap.exists()) {
 
-            alert("Post not found.");
+            alert("Post পাওয়া যায়নি।");
 
             return;
         }
 
-
+        // Post data
         const postData =
             postSnap.data();
 
 
-        /* IMPORTANT:
-           Check ownership
-        */
+        // ================= OWNER CHECK =================
 
-        if(postData.userId !== user.uid){
+        if (
+            postData.userId !== user.uid
+        ) {
 
             alert(
-                "You cannot delete another user's post."
+                "এই Post আপনি Delete করতে পারবেন না।"
             );
 
             return;
         }
 
+        // ================= DELETE =================
 
         await deleteDoc(postRef);
 
@@ -778,7 +1080,11 @@ window.deletePost = async function(postId){
         );
 
 
-    }catch(error){
+        // List আবার load
+        await displayPosts();
+
+
+    } catch (error) {
 
         console.error(
             "Delete Post Error:",
@@ -789,1242 +1095,231 @@ window.deletePost = async function(postId){
             "Delete Failed: " +
             error.message
         );
-
     }
-
 };
+// ================= SAVE BUTTON =================
 
+const saveBtn =
+    document.getElementById("SavePost");
 
-/* =====================================================
-   DELETE VIDEO
-   OWNERSHIP CHECK
-===================================================== */
 
-window.deleteVideo = async function(videoId){
+if (saveBtn) {
 
-    if(!confirm("Do you want to delete this video?")){
-
-        return;
-    }
-
-
-    try{
-
-        const user = auth.currentUser;
-
-
-        if(!user){
-
-            alert("Please login first.");
-
-            return;
-        }
-
-
-        const videoRef =
-            doc(db,"videos",videoId);
-
-
-        const videoSnap =
-            await getDoc(videoRef);
-
-
-        if(!videoSnap.exists()){
-
-            alert("Video not found.");
-
-            return;
-        }
-
-
-        const videoData =
-            videoSnap.data();
-
-
-        /* IMPORTANT:
-           Check ownership
-        */
-
-        if(videoData.userId !== user.uid){
-
-            alert(
-                "You cannot delete another user's video."
-            );
-
-            return;
-        }
-
-
-        await deleteDoc(videoRef);
-
-
-        alert(
-            "Video Deleted Successfully"
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Delete Video Error:",
-            error
-        );
-
-        alert(
-            "Delete Failed: " +
-            error.message
-        );
-
-    }
-
-};
-
-
-/* =====================================================
-   DELETE PRODUCT
-   OWNERSHIP CHECK
-===================================================== */
-
-window.deleteProduct = async function(productId){
-
-    if(!confirm("এই Product Delete করতে চান?")){
-
-        return;
-    }
-
-
-    try{
-
-        const user = auth.currentUser;
-
-
-        if(!user){
-
-            alert("আগে Login করুন।");
-
-            return;
-        }
-
-
-        const productRef =
-            doc(db,"products",productId);
-
-
-        const productSnap =
-            await getDoc(productRef);
-
-
-        if(!productSnap.exists()){
-
-            alert("Product পাওয়া যায়নি।");
-
-            return;
-        }
-
-
-        const productData =
-            productSnap.data();
-
-
-        /* IMPORTANT:
-           Check ownership
-        */
-
-        if(productData.userId !== user.uid){
-
-            alert(
-                "এই Product আপনি Delete করতে পারবেন না।"
-            );
-
-            return;
-        }
-
-
-        await deleteDoc(productRef);
-
-
-        alert(
-            "Product Deleted Successfully"
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Delete Product Error:",
-            error
-        );
-
-        alert(
-            "Delete Failed: " +
-            error.message
-        );
-
-    }
-
-};
-
-
-/* =====================================================
-   LOAD USER PRODUCTS
-   ONLY CURRENT USER
-===================================================== */
-
-async function loadProducts(userId){
-
-    const productList =
-        document.getElementById("productList");
-
-
-    try{
-
-        /* IMPORTANT:
-           এখানে আর সব products নেওয়া হচ্ছে না।
-           শুধু current user's products নেওয়া হচ্ছে।
-        */
-
-        const productQuery = query(
-            collection(db,"products"),
-            where("userId","==",userId)
-        );
-
-
-        const querySnapshot =
-            await getDocs(productQuery);
-
-
-        productList.innerHTML = "";
-
-
-        if(querySnapshot.empty){
-
-            productList.innerHTML = `
-                <p style="text-align:center;width:100%;">
-                    No Products
-                </p>
-            `;
-
-            return;
-        }
-
-
-        querySnapshot.forEach((docSnap)=>{
-
-            const p =
-                docSnap.data();
-
-
-            const productId =
-                docSnap.id;
-
-
-            let img =
-                "logo.png";
-
-
-            if(
-                Array.isArray(p.images) &&
-                p.images.length > 0
-            ){
-
-                img =
-                    p.images[0];
-
-            }
-
-
-            let price =
-                p.price;
-
-
-            if(Array.isArray(price)){
-
-                price =
-                    price[0] || "0";
-
-            }
-
-
-            if(
-                price === undefined ||
-                price === null ||
-                price === ""
-            ){
-
-                price = "0";
-
-            }
-
-
-            const safeName =
-                escapeHTML(
-                    p.name || "No Name"
-                );
-
-
-            const safePrice =
-                escapeHTML(price);
-
-
-            productList.innerHTML += `
-
-                <div class="product-card">
-
-                    <img
-                        src="${escapeHTML(img)}"
-                        alt="${safeName}"
-                        onerror="this.src='logo.png'"
-                    >
-
-                    <p class="product-name">
-                        ${safeName}
-                    </p>
-
-                    <div class="product-price">
-                        ${safePrice} TK
-                    </div>
-
-                    <br>
-
-                    <button
-                        class="delete-btn"
-                        onclick="
-                            window.deleteProduct('${productId}')
-                        "
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            `;
-
-        });
-
-
-    }catch(error){
-
-        console.error(
-            "Load Products Error:",
-            error
-        );
-
-
-        productList.innerHTML = `
-
-            <p style="
-                color:red;
-                text-align:center;
-                width:100%;
-            ">
-                Products load failed.
-            </p>
-
-        `;
-
-    }
+    saveBtn.addEventListener(
+        "click",
+        window.SavePost
+    );
 
 }
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
+// ================= LOAD POSTS AFTER LOGIN =================//
 
 onAuthStateChanged(
     auth,
-    async (user)=>{
+    async (user) => {
 
-        if(!user){
+        if (user) {
 
-            /* =====================
-               NOT LOGGED IN
-            ===================== */
-
-            document.getElementById(
-                "showName"
-            ).textContent =
-                "Guest User";
-
-
-            document.getElementById(
-                "productList"
-            ).innerHTML = `
-
-                <p style="
-                    text-align:center;
-                    width:100%;
-                ">
-                    Please login to see your products.
-                </p>
-
-            `;
-
-
-            document.getElementById(
-                "userPostFeed"
-            ).innerHTML = `
-
-                <p style="text-align:center;">
-                    Please login to see your posts.
-                </p>
-
-            `;
-
-
-            document.getElementById(
-                "userVideoFeed"
-            ).innerHTML = `
-
-                <p style="text-align:center;">
-                    Please login to see your videos.
-                </p>
-
-            `;
-
-
-            return;
-        }
-
-
-        /* =================================================
-           CURRENT USER UID
-        ================================================= */
-
-        const currentUid =
-            user.uid;
-
-
-        console.log(
-            "Logged in UID:",
-            currentUid
-        );
-
-
-        /* =================================================
-           LOAD USER PROFILE
-        ================================================= */
-
-        try{
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    currentUid
-                );
-
-
-            const userSnap =
-                await getDoc(userRef);
-
-
-            if(userSnap.exists()){
-
-                const data =
-                    userSnap.data();
-
-
-                document.getElementById(
-                    "showName"
-                ).textContent =
-                    data.name || "No Name Set";
-
-
-                /* Optional profile image */
-
-                if(data.photoURL){
-
-                    profilePreview.src =
-                        data.photoURL;
-
-                }
-
-            }else{
-
-                document.getElementById(
-                    "showName"
-                ).textContent =
-                    user.displayName ||
-                    "No Name Set";
-
-            }
-
-
-        }catch(error){
-
-            console.error(
-                "User Profile Error:",
-                error
-            );
-
-            document.getElementById(
-                "showName"
-            ).textContent =
-                user.displayName ||
-                "User";
+            await displayPosts();
 
         }
-
-
-        /* =================================================
-           LOAD ONLY CURRENT USER PRODUCTS
-        ================================================= */
-
-        await loadProducts(
-            currentUid
-        );
-
-
-        /* =================================================
-           USER POSTS
-        ================================================= */
-
-        const postFeed =
-            document.getElementById(
-                "userPostFeed"
-            );
-
-
-        try{
-
-            /* এখানে orderBy বাদ দেওয়া হয়েছে।
-               তাই Firebase composite index
-               না থাকলেও এই query কাজ করবে।
-            */
-
-            const postQuery = query(
-                collection(db,"jobs"),
-                where(
-                    "userId",
-                    "==",
-                    currentUid
-                )
-            );
-
-
-            onSnapshot(
-                postQuery,
-                (snapshot)=>{
-
-                    postFeed.innerHTML = "";
-
-
-                    if(snapshot.empty){
-
-                        postFeed.innerHTML = `
-                            <p style="text-align:center;">
-                                No Posts
-                            </p>
-                        `;
-
-                        return;
-                    }
-
-
-                    let posts = [];
-
-
-                    snapshot.forEach(
-                        (docSnap)=>{
-
-                            posts.push({
-
-                                id:docSnap.id,
-
-                                data:docSnap.data()
-
-                            });
-
-                        }
-                    );
-
-
-                    /* Client-side sorting */
-
-                    posts.sort(
-                        (a,b)=>{
-
-                            const aTime =
-                                a.data.createdAt?.toMillis?.() || 0;
-
-                            const bTime =
-                                b.data.createdAt?.toMillis?.() || 0;
-
-                            return bTime-aTime;
-
-                        }
-                    );
-
-
-                    posts.forEach(
-                        ({id,data})=>{
-
-                            const userName =
-                                escapeHTML(
-                                    data.userName ||
-                                    "User"
-                                );
-
-
-                            const postText =
-                                escapeHTML(
-                                    data.post ||
-                                    ""
-                                );
-
-
-                            postFeed.innerHTML += `
-
-                                <div class="post-card">
-
-                                    <h3 class="post-user">
-                                        ${userName}
-                                    </h3>
-
-                                    <p>
-                                        ${postText}
-                                    </p>
-
-                                    <button
-                                        class="delete-btn"
-                                        onclick="
-                                            window.deletePost('${id}')
-                                        "
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-
-                            `;
-
-                        }
-                    );
-
-                },
-
-                (error)=>{
-
-                    console.error(
-                        "Post Snapshot Error:",
-                        error
-                    );
-
-
-                    postFeed.innerHTML = `
-
-                        <p style="
-                            color:red;
-                            text-align:center;
-                        ">
-                            Posts load failed.
-                        </p>
-
-                    `;
-
-                }
-            );
-
-
-        }catch(error){
-
-            console.error(
-                "Post Query Error:",
-                error
-            );
-
-        }
-
-
-        /* =================================================
-           USER VIDEOS
-        ================================================= */
-
-        const videoFeed =
-            document.getElementById(
-                "userVideoFeed"
-            );
-
-
-        try{
-
-            const videoQuery = query(
-                collection(db,"videos"),
-                where(
-                    "userId",
-                    "==",
-                    currentUid
-                )
-            );
-
-
-            onSnapshot(
-                videoQuery,
-                (querySnapshot)=>{
-
-                    let userVideos = [];
-
-
-                    querySnapshot.forEach(
-                        (docSnap)=>{
-
-                            userVideos.push({
-
-                                id:docSnap.id,
-
-                                ...docSnap.data()
-
-                            });
-
-                        }
-                    );
-
-
-                    /* =====================
-                       SORT VIDEOS
-                    ===================== */
-
-                    userVideos.sort(
-                        (a,b)=>{
-
-                            const timeA =
-                                a.createdAt?.toMillis?.() || 0;
-
-                            const timeB =
-                                b.createdAt?.toMillis?.() || 0;
-
-                            return timeB-timeA;
-
-                        }
-                    );
-
-
-                    videoFeed.innerHTML = "";
-
-
-                    if(userVideos.length === 0){
-
-                        videoFeed.innerHTML = `
-
-                            <p style="
-                                text-align:center;
-                                color:gray;
-                            ">
-                                আপনি এখনো কোনো ভিডিও যোগ করেননি।
-                            </p>
-
-                        `;
-
-                        return;
-                    }
-
-
-                    /* =====================
-                       RENDER VIDEOS
-                    ===================== */
-
-                    userVideos.forEach(
-                        (data)=>{
-
-                            const videoCard =
-                                document.createElement(
-                                    "div"
-                                );
-
-
-                            videoCard.className =
-                                "video-card";
-
-
-                            const safeUserName =
-                                escapeHTML(
-                                    data.userName ||
-                                    "User"
-                                );
-
-
-                            const safeCaption =
-                                escapeHTML(
-                                    data.caption ||
-                                    "No Caption"
-                                );
-
-
-                            const link =
-                                data.link || "";
-
-
-                            let videoElement = "";
-
-
-                            /* =====================
-                               YOUTUBE
-                            ===================== */
-
-                            if(
-                                link.includes(
-                                    "youtube.com"
-                                ) ||
-                                link.includes(
-                                    "youtu.be"
-                                )
-                            ){
-
-                                let embedLink =
-                                    link
-                                    .replace(
-                                        "watch?v=",
-                                        "embed/"
-                                    )
-                                    .replace(
-                                        "youtu.be/",
-                                        "youtube.com/embed/"
-                                    );
-
-
-                                if(
-                                    embedLink.includes(
-                                        "shorts/"
-                                    )
-                                ){
-
-                                    embedLink =
-                                        embedLink.replace(
-                                            "shorts/",
-                                            "embed/"
-                                        );
-
-                                }
-
-
-                                videoElement = `
-
-                                    <iframe
-                                        class="video-frame"
-                                        height="300"
-                                        src="${escapeHTML(embedLink)}"
-                                        frameborder="0"
-                                        allowfullscreen>
-                                    </iframe>
-
-                                `;
-
-                            }
-
-
-                            /* =====================
-                               FACEBOOK
-                            ===================== */
-
-                            else if(
-                                link.includes(
-                                    "facebook.com"
-                                ) ||
-                                link.includes(
-                                    "fb.watch"
-                                )
-                            ){
-
-                                const fbEmbedLink =
-                                    "https://www.facebook.com/plugins/video.php?href="
-                                    +
-                                    encodeURIComponent(link)
-                                    +
-                                    "&show_text=false&width=500";
-
-
-                                videoElement = `
-
-                                    <iframe
-                                        class="video-frame"
-                                        height="300"
-                                        src="${fbEmbedLink}"
-                                        frameborder="0"
-                                        scrolling="no"
-                                        allowfullscreen>
-                                    </iframe>
-
-                                `;
-
-                            }
-
-
-                            /* =====================
-                               TIKTOK
-                            ===================== */
-
-                            else if(
-                                link.includes(
-                                    "tiktok.com"
-                                )
-                            ){
-
-                                const parts =
-                                    link.split(
-                                        "/video/"
-                                    );
-
-
-                                if(
-                                    parts.length > 1
-                                ){
-
-                                    const videoId =
-                                        parts[1]
-                                        .split("?")[0]
-                                        .split("/")[0];
-
-
-                                    if(videoId){
-
-                                        const tiktokEmbed =
-                                            "https://www.tiktok.com/embed/v2/"
-                                            +
-                                            encodeURIComponent(
-                                                videoId
-                                            );
-
-
-                                        videoElement = `
-
-                                            <iframe
-                                                class="video-frame"
-                                                height="500"
-                                                src="${tiktokEmbed}"
-                                                frameborder="0"
-                                                allowfullscreen>
-                                            </iframe>
-
-                                        `;
-
-                                    }
-
-                                }
-
-                            }
-
-
-                            /* =====================
-                               DIRECT VIDEO
-                            ===================== */
-
-                            else if(link){
-
-                                videoElement = `
-
-                                    <video
-                                        class="video-frame"
-                                        controls
-                                        playsinline
-                                        style="
-                                            max-height:500px;
-                                            border-radius:4px;
-                                        "
-                                    >
-
-                                        <source
-                                            src="${escapeHTML(link)}"
-                                            type="video/mp4"
-                                        >
-
-                                        Your browser does not
-                                        support video.
-
-                                    </video>
-
-                                `;
-
-                            }
-
-
-                            /* =====================
-                               FORM URL
-                            ===================== */
-
-                            const formUrl =
-                                "https://docs.google.com/forms/d/e/1FAIpQLSeiv4UtgfMMipGHC3touEnpk1_L-9GuB9kzIJWqOdROfCNJmw/viewform?usp=pp_url&entry.1795539139="
-                                +
-                                encodeURIComponent(link);
-
-
-                            const likes =
-                                Number(
-                                    data.likes || 0
-                                );
-
-
-                            const views =
-                                Number(
-                                    data.views || 0
-                                );
-
-
-                            const viewPercent =
-                                Math.min(
-                                    (views / 1000) * 100,
-                                    100
-                                );
-
-
-                            videoCard.innerHTML = `
-
-                                <h3 class="post-user">
-                                    ${safeUserName}
-                                </h3>
-
-                                ${videoElement}
-
-                                <p style="
-                                    padding-top:10px;
-                                    margin:0;
-                                    font-weight:bold;
-                                ">
-                                    ${safeCaption}
-                                </p>
-
-                                <p style="
-                                    font-size:12px;
-                                    color:#777;
-                                ">
-                                    ${likes} Likes |
-                                    ${views} Views
-                                </p>
-
-
-                                <div class="video-actions">
-
-                                    <button
-                                        class="delete-btn"
-                                        onclick="
-                                            window.deleteVideo('${data.id}')
-                                        "
-                                    >
-                                        Delete
-                                    </button>
-
-
-                                    <button
-                                        id="success-${data.id}"
-                                        class="success-btn"
-                                        onclick="
-                                            window.open(
-                                                '${formUrl}',
-                                                '_blank'
-                                            )
-                                        "
-                                    >
-                                        Success
-                                    </button>
-
-
-                                    <div class="view-bar">
-
-                                        <div
-                                            class="view-fill"
-                                            id="bar-${data.id}"
-                                        ></div>
-
-                                    </div>
-
-                                </div>
-
-                            `;
-
-
-                            videoFeed.appendChild(
-                                videoCard
-                            );
-
-
-                            /* Progress bar */
-
-                            setTimeout(
-                                ()=>{
-
-                                    const bar =
-                                        document.getElementById(
-                                            `bar-${data.id}`
-                                        );
-
-
-                                    if(bar){
-
-                                        bar.style.width =
-                                            viewPercent + "%";
-
-                                    }
-
-                                },
-                                100
-                            );
-
-
-                            /* 1000 views */
-
-                            if(views >= 1000){
-
-                                setTimeout(
-                                    ()=>{
-
-                                        const btn =
-                                            document.getElementById(
-                                                `success-${data.id}`
-                                            );
-
-
-                                        if(btn){
-
-                                            btn.style.display =
-                                                "block";
-
-                                        }
-
-                                    },
-                                    100
-                                );
-
-                            }
-
-                        }
-                    );
-
-                },
-
-                (error)=>{
-
-                    console.error(
-                        "Video Snapshot Error:",
-                        error
-                    );
-
-
-                    videoFeed.innerHTML = `
-
-                        <p style="
-                            color:red;
-                            text-align:center;
-                        ">
-                            Videos load failed.
-                        </p>
-
-                    `;
-
-                }
-            );
-
-
-        }catch(error){
-
-            console.error(
-                "Video Query Error:",
-                error
-            );
-
-        }
-
     }
 );
 
 
-/* =====================================================
-   MOBILE SEARCH
-===================================================== */
-
-window.searchicon = function(){
-
-    const box =
-        document.getElementById(
-            "opensearchbox"
-        );
-
-    if(box){
-
-        box.style.display =
-            "block";
-
-    }
-
-};
 
 
-window.searchclose = function(){
-
-    const box =
-        document.getElementById(
-            "opensearchbox"
-        );
-
-    if(box){
-
-        box.style.display =
-            "none";
-
-    }
-
-};
 
 
 /* =====================================================
-   SEARCH PRODUCT
+   CLOUDINARY CONFIG
 ===================================================== */
+const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud Name বসান
+const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
 
-window.searchProduct = function(){
+/* =====================================================
+   UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRESTORE
+===================================================== */
+const uploadBtn = document.getElementById("btnop");
 
-    const desktopSearch =
-        document.getElementById(
-            "search"
-        );
+if (uploadBtn) {
+    uploadBtn.addEventListener("click", async () => {
+        const videoInput = document.getElementById("videoInput");
+        const captionText = document.getElementById("captionText");
+        const status = document.getElementById("status");
 
+        const file = videoInput.files[0];
+        const caption = captionText.value.trim();
 
-    const mobileSearch =
-        document.getElementById(
-            "ONEsearch"
-        );
+        if (!file) {
+            alert("অনুগ্রহ করে একটি ভিডিও ফাইল সিলেক্ট করুন।");
+            return;
+        }
 
+        const user = auth.currentUser;
+        if (!user) {
+            alert("আগে Login করুন।");
+            return;
+        }
 
-    const searchText =
-        (
-            desktopSearch?.value ||
-            mobileSearch?.value ||
-            ""
-        )
-        .toLowerCase()
-        .trim();
+        try {
+            status.textContent = "Uploading video to Cloudinary...";
 
+            // 1. Get User Name from Firestore
+            let userName = user.displayName || "User";
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
 
-    const cards =
-        document.querySelectorAll(
-            ".product-card"
-        );
-
-
-    cards.forEach(
-        card=>{
-
-            const text =
-                card.textContent
-                .toLowerCase();
-
-
-            if(
-                text.includes(searchText)
-            ){
-
-                card.style.display =
-                    "block";
-
-            }else{
-
-                card.style.display =
-                    "none";
-
+            if (userSnap.exists()) {
+                userName = userSnap.data().name || userName;
             }
 
-        }
-    );
+            // 2. Upload Video to Cloudinary
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", UPLOAD_PRESET);
 
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const cloudinaryData = await res.json();
+
+            if (!res.ok) {
+                throw new Error(cloudinaryData.error?.message || "Cloudinary Upload Failed");
+            }
+
+            const videoUrl = cloudinaryData.secure_url;
+
+            // 3. Save Data to Firestore "videos" Collection
+            status.textContent = "Saving details to Database...";
+
+            await addDoc(collection(db, "videos"), {
+                videoUrl: videoUrl,
+                caption: caption,
+                userId: user.uid,
+                userName: userName,
+                createdAt: serverTimestamp()
+            });
+
+            status.textContent = "Video uploaded successfully!";
+            captionText.value = "";
+            videoInput.value = "";
+
+            alert("Video Uploaded Successfully!");
+            displayVideos(); // Refresh Video List
+
+        } catch (error) {
+            console.error("Video Upload Error:", error);
+            status.textContent = "Upload Failed!";
+            alert("Upload Failed: " + error.message);
+        }
+    });
+}
+
+/* =====================================================
+   LOAD & DISPLAY VIDEOS
+===================================================== */
+async function displayVideos() {
+    const videoList = document.getElementById("videoList");
+    if (!videoList) return;
+
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            videoList.innerHTML = `<p style="text-align:center;">Please login to see videos.</p>`;
+            return;
+        }
+
+        const videoQuery = query(
+            collection(db, "videos"),
+            where("userId", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(videoQuery);
+        videoList.innerHTML = "";
+
+        if (querySnapshot.empty) {
+            videoList.innerHTML = `<p style="text-align:center;">No Videos Found</p>`;
+            return;
+        }
+
+        querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const videoId = docSnap.id;
+
+            const safeCaption = escapeHTML(data.caption || "");
+            const safeUserName = escapeHTML(data.userName || "User");
+
+            videoList.innerHTML += `
+                <div class="single-video" style="border:1px solid #ddd; background:white; padding:12px; margin-bottom:15px; border-radius:6px;">
+                    <div style="margin-bottom:8px;">
+                        <strong>${safeUserName}</strong>
+                    </div>
+                    ${safeCaption ? `<p style="margin:5px 0;">${safeCaption}</p>` : ''}
+                    <video src="${escapeHTML(data.videoUrl)}" controls style="width:100%; max-height:350px; border-radius:6px; background:#000;"></video>
+                    <br><br>
+                    <button class="delete-btn" onclick="window.deleteVideo('${videoId}')">Delete Video</button>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error("Load Videos Error:", error);
+        videoList.innerHTML = `<p style="color:red;text-align:center;">Failed to load videos.</p>`;
+    }
+}
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+window.deleteVideo = async function(videoId) {
+    if (!confirm("আপনি কি এই Video ডিলিট করতে চান?")) return;
+
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            alert("আগে Login করুন।");
+            return;
+        }
+
+        const videoRef = doc(db, "videos", videoId);
+        const videoSnap = await getDoc(videoRef);
+
+        if (!videoSnap.exists()) {
+            alert("Video পাওয়া যায়নি।");
+            return;
+        }
+
+        if (videoSnap.data().userId !== user.uid) {
+            alert("এই Video আপনি Delete করতে পারবেন না।");
+            return;
+        }
+
+        await deleteDoc(videoRef);
+        alert("Video Deleted Successfully");
+        await displayVideos();
+
+    } catch (error) {
+        console.error("Delete Video Error:", error);
+        alert("Delete Failed: " + error.message);
+    }
 };
+
+/* =====================================================
+   AUTH STATE UPDATES
+===================================================== */
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        await displayPosts();
+        await displayVideos();
+    }
+});
+
+
+
+
 </script>
 </body>
 </html>
+

@@ -14,16 +14,23 @@ header{
   position: fixed;width:100%;top:0;z-index:999;height:90px;
 }
 .header1{
-  max-width:1400px;margin: auto;color:#031f50;
+    max-width:1400px;
+    margin:auto;
 }
 .headone{
 justify-content:space-between;align-items:center;display:flex;
 }
 .name{
-  font-size:23px;padding-top:10px;
+    font-size:23px;
+    padding-top:10px;
+    color:#031f50;
+    font-weight:bold;
+    cursor:pointer;
 }
 .headtwo{
-display:flex;margin-top:7px;
+    display:flex;
+    align-items:center;
+    margin-top:7px;
 }
 .fa-list{
   font-size:25px;cursor: pointer;padding-top:10px;
@@ -45,13 +52,27 @@ display:flex;margin-top:7px;
  width:35px;height:32px;margin-left:7%;border-radius:5%;
   }
 #videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
+    width:40px;
+    height:35px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
 }
 #bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
+    width:33px;
+    height:33px;
+    margin-left:7%;
+    border-radius:5%;
+    cursor:pointer;
 }
+
 #userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+    width:30px;
+    height:30px;
+    margin-left:auto;
+    margin-right:4%;
+    border-radius:5%;
+    cursor:pointer;
 }
 
 
@@ -75,7 +96,7 @@ display:none;
        
 
         /* পোস্ট দেখানোর কন্টেইনার */
-        #showJob {
+        #postList {
             margin-top: 80px;
             max-width: 600px;
             margin-left: auto;
@@ -83,122 +104,73 @@ display:none;
             padding: 10px;
         }
 
-        /* পোস্ট কার্ড স্টাইল */
-        .job-card {
-            border: 1px solid #e0e0e0;
-            padding: 18px;
-            margin: 15px 0;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: box-shadow 0.3s;
-        }
-
-        .job-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .job-user {
-            font-weight: bold;
-            color: #031f50;
-            font-size: 16px;
-            margin: 0;
-        }
-
-        .job-time {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .job-post {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-        }
-
-        .no-post {
-            text-align: center;
-            padding: 50px 20px;
-            color: #888;
-        }
-
-        .no-post p {
-            font-size: 16px;
-        }
-
-        .no-post .emoji {
-            font-size: 50px;
-            display: block;
-            margin-bottom: 15px;
-        }
-
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
-                header{
- background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:78px;
-}
-.headone{
-  display: flex; align-items: center;
-}
-.name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
-  color: #031f50;
-}
-.headtwo{
-  display: flex; align-items: center;margin-top:0px;
-}
-  .header1{
-    width:100%;
-  }
-   .fa-list{
-  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
-}
-  #search{display:none;}
-  .fa-magnifying-glass{
-   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
-   display:inline-block;
-  }
-            
+             header{
+        height:78px;
+    }
+
+    .header1{
+        width:100%;
+    }
+
+    .headone{
+        display:flex;
+        align-items:center;
+    }
+
+    .name{
+        font-size:22px;
+        margin-left:4%;
+        margin-top:2px;
+    }
+
+    .headtwo{
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+
+    #search{
+        display:none;
+    }
+
+    .fa-list{
+        font-size:23px;
+        margin-left:auto;
+        margin-right:4%;
+    }
     #homeimg{
-    width:40px;height:30px;margin-left:3%;
+        width:35px;
+        height:28px;
+        margin-left:2%;
     }
-    #pentoimg{
-      width:35px;height:32px;margin-left:8%;
-    }
+
+    #pentoimg,
     #messageimg{
-      width:35px;height:32px;margin-left:8%;
+        width:32px;
+        height:30px;
+        margin-left:10%;
     }
-   #videoimg{ 
-    width:40px;height:35px;margin-left:8%;
+
+    #videoimg{
+        width:36px;
+        height:32px;
+        margin-left:8%;
     }
+
     #bellimg{
-width:33px; height:33px;margin-left: auto;margin-right:1%;
-}
-#userimg{
-  width:30px;height:30px;margin-left: auto;margin-right:4%;
-}
-
-
-
-
-
-
-           
-          
-            #showJob { margin-top: 70px; padding: 5px; }
-            .job-card { padding: 14px; margin: 10px 0; }
-
-
-            
+        width:30px;
+        height:30px;
+        margin-left:auto;
+        margin-right:2%;
+    }
+        #userimg{
+        width:28px;
+        height:28px;
+        margin-right:2%;
+    }
+            #postList { margin-top: 70px; padding: 10px; }            
         }
     </style>
 </head>
@@ -221,76 +193,132 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
   </div>
 </header>
 
-    <div id="showJob"></div>
+    <div id="postList"></div>
+  <script type="module">
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-    <script type="module">
-    window.searchicon = function () {
-    document.getElementById("opensearchbox").style.display = "block";
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+function escapeHTML(value){
+    if(value === null || value === undefined) return "";
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
-window.searchclose = function () {
-    document.getElementById("opensearchbox").style.display = "none";
-}
 
+/* =====================================================
+   LOAD ALL POSTS (শুধু দেখাবে, ডিলিট নেই)
+===================================================== */
+async function displayPosts() {
 
+    const postList = document.getElementById("postList");
+    if (!postList) return;
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import {
-            getFirestore,
-            collection,
-            query,
-            orderBy,
-            onSnapshot
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-            authDomain: "robiul-84377.firebaseapp.com",
-            projectId: "robiul-84377",
-            storageBucket: "robiul-84377.firebasestorage.app",
-            messagingSenderId: "476907665212",
-            appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const jobBox = document.getElementById("showJob");
-
+    try {
         const q = query(
-            collection(db, "jobs"),
+            collection(db, "posts"),
             orderBy("createdAt", "desc")
         );
 
-        onSnapshot(q, (snapshot) => {
-            jobBox.innerHTML = "";
+        const querySnapshot = await getDocs(q);
+        postList.innerHTML = "";
 
-            if (snapshot.empty) {
-                jobBox.innerHTML = `
-                    <div class="no-post">
-                        <span class="emoji">📭</span>
-                        <p>এখনো কোনো পোস্ট নেই</p>
-                        <p style="font-size: 14px; margin-top: 5px;">পোস্ট করতে লিস্ট পেজে যান</p>
-                    </div>
-                `;
-                return;
+        if (querySnapshot.empty) {
+            postList.innerHTML = `
+                <p style="text-align:center;">No Posts Found</p>
+            `;
+            return;
+        }
+
+        querySnapshot.forEach((docSnap) => {
+            const postData = docSnap.data();
+
+            const postText = escapeHTML(postData.text || "");
+            const postUserName = escapeHTML(postData.userName || "User");
+
+            let dateStr = "";
+            if (postData.createdAt && postData.createdAt.toDate) {
+                dateStr = postData.createdAt.toDate().toLocaleString();
             }
 
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const time = data.createdAt?.toDate?.()?.toLocaleString() || "Just now";
-
-                jobBox.innerHTML += `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <h3 class="job-user">👤 ${data.userName || "User"}</h3>
-                            <span class="job-time">🕐 ${time}</span>
-                        </div>
-                        <p class="job-post">${data.post}</p>
+            postList.innerHTML += `
+                <div class="single-post" style="
+                    border:1px solid #ddd;
+                    background:white;
+                    padding:12px;
+                    margin-bottom:10px;
+                    border-radius:6px;
+                ">
+                    <div style="margin-bottom:8px;">
+                        <strong>${postUserName}</strong>
+                        <br>
+                        <small style="color:#888;">${escapeHTML(dateStr)}</small>
                     </div>
-                `;
-            });
+                    <div style="padding:8px 0; word-wrap:break-word;">
+                        ${postText}
+                    </div>
+                </div>
+            `;
         });
-    </script>
+
+    } catch (error) {
+        console.error("Load Posts Error:", error);
+        postList.innerHTML = `
+            <p style="color:red;text-align:center;">
+                Posts load failed: ${escapeHTML(error.message)}
+            </p>
+        `;
+    }
+}
+
+
+/* =====================================================
+   AUTH STATE → POST LOAD
+===================================================== */
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        document.getElementById("postList").innerHTML = `
+            <p style="text-align:center;">Please login to see posts.</p>
+        `;
+        return;
+    }
+    await displayPosts();
+});
+
+</script>
 </body>
 </html>
+
