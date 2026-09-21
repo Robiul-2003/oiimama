@@ -75,7 +75,7 @@
 
         .video-player {
             width: 100%;
-            max-height: 400px;
+            max-height:auto;
             border-radius: 6px;
             background: #000;
         }
@@ -204,8 +204,6 @@
         }
     }
 
-
-
       /* ================ share button  ====================== */
 window.shareContent = async function(title, text, url) {
     if (navigator.share) {
@@ -228,10 +226,6 @@ window.shareContent = async function(title, text, url) {
         }
     }
 };
-
-
-
-
     // পেজ লোড হলে ভিডিও লোড হবে
     window.addEventListener("DOMContentLoaded", loadAllVideos);
 </script>

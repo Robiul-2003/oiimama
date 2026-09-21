@@ -86,7 +86,7 @@
    
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        if (window.Capacitor && window.Capacitor.Plugins.StatusBar) {
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
           const { StatusBar } = window.Capacitor.Plugins;
           await StatusBar.setBackgroundColor({ color: '#ffffff' });
           await StatusBar.setStyle({ style: 'DARK' });
