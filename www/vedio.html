@@ -75,7 +75,7 @@
 
         .video-player {
             width: 100%;
-            max-height: 400px;
+            max-height:auto;
             border-radius: 6px;
             background: #000;
         }
@@ -95,6 +95,10 @@
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
             .feed-container { margin-top: 90px; }
+            #like{ width:32%; border:none; background:white;}
+            .fa-thumbs-up{font-size:18px;}
+            #comment{ width:32%; border:none; background:white;}
+            .btn-share{ width:32%; border:none; background:white;}
         }
     </style>
 </head>
@@ -187,6 +191,9 @@
                         </div>
                         ${safeCaption ? `<p class="video-caption">${safeCaption}</p>` : ''}
                         <video class="video-player" src="${safeVideoUrl}" controls preload="metadata"></video>
+                        <button id="like"><i class="fa-regular fa-thumbs-up"></i> 0</button>
+                        <button id="comment">Comment</button>
+                         <button class="btn-share" onclick="shareContent('${safeUserName} Video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share </button>
                     </div>
                 `;
             });
@@ -197,6 +204,28 @@
         }
     }
 
+      /* ================ share button  ====================== */
+window.shareContent = async function(title, text, url) {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: title,
+                text: text,
+                url: url
+            });
+        } catch (err) {
+            console.log("Share cancelled or failed:", err);
+        }
+    } else {
+        // মোবাইল ব্রাউজার না হলে বা সাপোর্টেড না থাকলে ক্লিপবোর্ডে লিংক কপি হবে
+        try {
+            await navigator.clipboard.writeText(url);
+            alert("Video link copied to clipboard!");
+        } catch (err) {
+            alert("Unable to copy link");
+        }
+    }
+};
     // পেজ লোড হলে ভিডিও লোড হবে
     window.addEventListener("DOMContentLoaded", loadAllVideos);
 </script>

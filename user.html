@@ -422,6 +422,9 @@ header{
     border-radius: 4px;
     font-size: 13px;
 }
+  .hashtag-link {
+    text-decoration: none; font-size:18px;
+  }
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -834,6 +837,32 @@ onAuthStateChanged(auth, async (user)=>{
    FIRESTORE POST SYSTEM
 ===================================================== */
 // ================= LOAD POSTS =================
+function makePostLinks(text) {
+
+    // HTML Safe করা (XSS Prevention)
+    text = escapeHTML(text);
+
+    // ১. http:// বা https:// সহ URL
+    text = text.replace(
+        /(https?:\/\/[^\s<]+?)([.,!?)]?)(?=\s|$)/gi,
+        '<a href="$1" target="_blank" rel="noopener noreferrer" class="hashtag-link">$1</a>$2'
+    );
+
+    // ২. www. দিয়ে শুরু হওয়া URL (যদি http/https না থাকে)
+    text = text.replace(
+        /(^|[^\/])(www\.[^\s<]+?)([.,!?)]?)(?=\s|$)/gi,
+        '$1<a href="http://$2" target="_blank" rel="noopener noreferrer" class="hashtag-link">$2</a>$3'
+    );
+
+    // ৩. Hashtag (#)
+    text = text.replace(
+        /#(?!www\.)(?![a-zA-Z0-9_-]+\.[a-zA-Z]{2,})([a-zA-Z0-9_\u0980-\u09FF]+)/gi,
+        '<a class="hashtag-link" href="hashtag.html?tag=$1" class="hashtag-link">#$1</a>'
+    );
+
+    return text;
+}
+
 
 async function displayPosts() {
 
@@ -908,13 +937,15 @@ async function displayPosts() {
 
             const postId = docSnap.id;
 
-            const postText = escapeHTML(
-                postData.text || ""
-            );
-
+            // Text → Hashtag + Website links
+    const postTextWithHashtag = makePostLinks(
+        postData.text || ""
+    );
             const postUserName = escapeHTML(
                 postData.userName || userName
             );
+
+            
             postList.innerHTML += `
     <div class="post-video">
         <div class="post-header">
@@ -930,9 +961,9 @@ async function displayPosts() {
                     </span>
                 </div>
 
-                <!-- পোস্টের লেখা -->
+                 <!-- পোস্টের লেখা -->
                 <div style="padding:8px 0; word-wrap:break-word;">
-                    ${postText}
+                    ${postTextWithHashtag}
                 </div>
                 
                 <!-- ড্রপডাউন/পপআপ মেনু -->
