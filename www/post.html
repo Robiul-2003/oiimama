@@ -8,92 +8,88 @@
     <style>
         body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
 
-/* header */
-header{
-  background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:90px;
-}
-.header1{
-    max-width:1400px;
-    margin:auto;
-}
-.headone{
-justify-content:space-between;align-items:center;display:flex;
-}
-.name{
-    font-size:23px;
-    padding-top:10px;
-    color:#031f50;
-    font-weight:bold;
-    cursor:pointer;
-}
-.headtwo{
-    display:flex;
-    align-items:center;
-    margin-top:7px;
-}
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-/* search */
-#search{
-  height:30px;width:40%;  margin-left:5%; 
- 
-}
+        /* header */
+        header{
+          background:white;
+          position: fixed;width:100%;top:0;z-index:999;height:90px;
+        }
+        .header1{
+            max-width:1400px;
+            margin:auto;
+        }
+        .headone{
+            justify-content:space-between;align-items:center;display:flex;
+        }
+        .name{
+            font-size:23px;
+            padding-top:10px;
+            color:#031f50;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .headtwo{
+            display:flex;
+            align-items:center;
+            margin-top:7px;
+        }
+        .fa-list{
+          font-size:25px;cursor: pointer;padding-top:10px;
+        }
+         
+        /* search */
+        #search{
+          height:30px;width:40%;  margin-left:5%; 
+        }
 
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-    width:40px;
-    height:35px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
-#bellimg{
-    width:33px;
-    height:33px;
-    margin-left:7%;
-    border-radius:5%;
-    cursor:pointer;
-}
+        #homeimg{
+            width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
+        }
+        #pentoimg{
+            width:35px;height:32px;margin-left:7%;border-radius:5%;
+        }
+        #messageimg{
+            width:35px;height:32px;margin-left:7%;border-radius:5%;
+        }
+        #videoimg{
+            width:40px;
+            height:35px;
+            margin-left:7%;
+            border-radius:5%;
+            cursor:pointer;
+        }
+        #bellimg{
+            width:33px;
+            height:33px;
+            margin-left:7%;
+            border-radius:5%;
+            cursor:pointer;
+        }
 
-#userimg{
-    width:30px;
-    height:30px;
-    margin-left:auto;
-    margin-right:4%;
-    border-radius:5%;
-    cursor:pointer;
-}
+        #userimg{
+            width:30px;
+            height:30px;
+            margin-left:auto;
+            margin-right:4%;
+            border-radius:5%;
+            cursor:pointer;
+        }
 
+        .fa-magnifying-glass{
+            display:none;
+        }
+        #ONEsearch{
+            flex: 1;
+            height: 35px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-
-.fa-magnifying-glass{
-display:none;
-}
-#ONEsearch{
-    flex: 1;
-    height: 35px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#X{
-    cursor: pointer;
-    font-size: 30px;
-    font-weight: bold;
-}
-       
+        #X{
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+        }
 
         /* পোস্ট দেখানোর কন্টেইনার */
         #postList {
@@ -103,73 +99,75 @@ display:none;
             margin-right: auto;
             padding: 10px;
         }
-
+         .hashtag-link {
+    text-decoration: none; font-size:18px;
+  }
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
-             header{
-        height:78px;
-    }
+            header{
+                height:78px;
+            }
 
-    .header1{
-        width:100%;
-    }
+            .header1{
+                width:100%;
+            }
 
-    .headone{
-        display:flex;
-        align-items:center;
-    }
+            .headone{
+                display:flex;
+                align-items:center;
+            }
 
-    .name{
-        font-size:22px;
-        margin-left:4%;
-        margin-top:2px;
-    }
+            .name{
+                font-size:22px;
+                margin-left:4%;
+                margin-top:2px;
+            }
 
-    .headtwo{
-        display:flex;
-        align-items:center;
-        margin-top:0;
-    }
+            .headtwo{
+                display:flex;
+                align-items:center;
+                margin-top:0;
+            }
 
-    #search{
-        display:none;
-    }
+            #search{
+                display:none;
+            }
 
-    .fa-list{
-        font-size:23px;
-        margin-left:auto;
-        margin-right:4%;
-    }
-    #homeimg{
-        width:35px;
-        height:28px;
-        margin-left:2%;
-    }
+            .fa-list{
+                font-size:23px;
+                margin-left:auto;
+                margin-right:4%;
+            }
+            #homeimg{
+                width:35px;
+                height:28px;
+                margin-left:2%;
+            }
 
-    #pentoimg,
-    #messageimg{
-        width:32px;
-        height:30px;
-        margin-left:10%;
-    }
+            #pentoimg,
+            #messageimg{
+                width:32px;
+                height:30px;
+                margin-left:10%;
+            }
 
-    #videoimg{
-        width:36px;
-        height:32px;
-        margin-left:8%;
-    }
+            #videoimg{
+                width:36px;
+                height:32px;
+                margin-left:8%;
+            }
 
-    #bellimg{
-        width:30px;
-        height:30px;
-        margin-left:auto;
-        margin-right:2%;
-    }
-        #userimg{
-        width:28px;
-        height:28px;
-        margin-right:2%;
-    }
+            #bellimg{
+                width:30px;
+                height:30px;
+                margin-left:auto;
+                margin-right:2%;
+            }
+            #userimg{
+                width:28px;
+                height:28px;
+                margin-right:2%;
+            }
             #postList { margin-top: 70px; padding: 10px; }            
         }
     </style>
@@ -181,20 +179,21 @@ display:none;
       <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
     </div>
     <div class="headtwo">
-  <img  src="home.png" id="homeimg"  onclick="window.location.href='home.html'" >
-  <img  src="pento.png" id="pentoimg"  onclick="window.location.href='post.html'">
-  <img src="message.png" id="messageimg"  onclick="window.location.href='message.html'">
-  <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
-  <img  src="VIDEO.png" id="videoimg"   onclick="window.location.href='vedio.html'">
-  <img  src="bell.png" id="bellimg">
-  <img src="user.png" id="userimg" onclick="window.location.href='user.html'"></i>
+      <img src="home.png" id="homeimg" onclick="window.location.href='home.html'" >
+      <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
+      <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+      <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
+      <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
+      <img src="bell.png" id="bellimg">
+      <img src="user.png" id="userimg" onclick="window.location.href='user.html'">
 
     </div>
   </div>
 </header>
 
-    <div id="postList"></div>
-  <script type="module">
+<div id="postList"></div>
+
+<script type="module">
 /* =====================================================
    FIREBASE IMPORT
 ===================================================== */
@@ -224,9 +223,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
 /* =====================================================
-   HELPER
+   HELPER FUNCTIONS
 ===================================================== */
 function escapeHTML(value){
     if(value === null || value === undefined) return "";
@@ -238,9 +236,33 @@ function escapeHTML(value){
         .replaceAll("'","&#039;");
 }
 
+// টেক্সটের ভেতরের লিংক ও হ্যাশট্যাগ অটোমেটিক সক্রিয় করার জন্য
+function makePostLinks(text) {
+    text = escapeHTML(text);
+
+    // ১. http:// বা https:// সহ লিংক
+    text = text.replace(
+        /(https?:\/\/[^\s<]+?)([.,!?)]?)(?=\s|$)/gi,
+        '<a href="$1" target="_blank" rel="noopener noreferrer" class="hashtag-link">$1</a>$2'
+    );
+
+    // ২. www. দিয়ে শুরু হওয়া লিংক (যদি http না থাকে)
+    text = text.replace(
+        /(^|[^\/])(www\.[^\s<]+?)([.,!?)]?)(?=\s|$)/gi,
+        '$1<a href="http://$2" target="_blank" rel="noopener noreferrer" class="hashtag-link">$2</a>$3'
+    );
+
+    // ৩. হ্যাশট্যাগ (#)
+    text = text.replace(
+        /#(?!www\.)(?![a-zA-Z0-9_-]+\.[a-zA-Z]{2,})([a-zA-Z0-9_\u0980-\u09FF]+)/gi,
+        '<a class="hashtag-link" href="hashtag.html?tag=$1" class="hashtag-link">#$1</a>'
+    );
+
+    return text;
+}
 
 /* =====================================================
-   LOAD ALL POSTS (শুধু দেখাবে, ডিলিট নেই)
+   LOAD ALL POSTS
 ===================================================== */
 async function displayPosts() {
 
@@ -266,7 +288,8 @@ async function displayPosts() {
         querySnapshot.forEach((docSnap) => {
             const postData = docSnap.data();
 
-            const postText = escapeHTML(postData.text || "");
+            // escapeHTML এর বদলে makePostLinks ব্যবহার করা হলো
+            const postText = makePostLinks(postData.text || "");
             const postUserName = escapeHTML(postData.userName || "User");
 
             let dateStr = "";
@@ -304,7 +327,6 @@ async function displayPosts() {
     }
 }
 
-
 /* =====================================================
    AUTH STATE → POST LOAD
 ===================================================== */
@@ -321,4 +343,3 @@ onAuthStateChanged(auth, async (user) => {
 </script>
 </body>
 </html>
-
