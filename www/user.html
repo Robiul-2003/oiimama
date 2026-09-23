@@ -636,7 +636,6 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-
 /* =====================================================
    FIREBASE CONFIG
 ===================================================== */
@@ -1244,7 +1243,7 @@ if (uploadBtn) {
         }
 
         try {
-            status.textContent = "Uploading video to Cloudinary...";
+            status.textContent = "Uploading video...";
 
             // 1. Get User Name from Firestore
             let userName = user.displayName || "User";
@@ -1274,7 +1273,7 @@ if (uploadBtn) {
             const videoUrl = cloudinaryData.secure_url;
 
             // 3. Save Data to Firestore "videos" Collection
-            status.textContent = "Saving details to Database...";
+            status.textContent = "Saving details";
 
             await addDoc(collection(db, "videos"), {
                 videoUrl: videoUrl,
@@ -1348,7 +1347,9 @@ async function displayVideos() {
              <div class="video-actions" style="margin-top: 10px; display: flex; gap: 8px;">
             <button class="btn-like"><i class="fa-regular fa-thumbs-up"></i> 0</button> 
             <button class="btn-comment"> Comment</button> 
-            <button class="btn-share" onclick="shareContent('${safeUserName} Video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share </button>
+        <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')">
+  Share
+</button>
         </div>
         </div>
     `;
@@ -1397,28 +1398,46 @@ window.deleteVideo = async function(videoId) {
 };
 
 /* ================ share button  ====================== */
+/* ================ share button ====================== */
 window.shareContent = async function(title, text, url) {
+  try {
+    // Web Share API support check (Mobile Browsers & WebView)
     if (navigator.share) {
-        try {
-            await navigator.share({
-                title: title,
-                text: text,
-                url: url
-            });
-        } catch (err) {
-            console.log("Share cancelled or failed:", err);
-        }
-    } else {
-        // মোবাইল ব্রাউজার না হলে বা সাপোর্টেড না থাকলে ক্লিপবোর্ডে লিংক কপি হবে
-        try {
-            await navigator.clipboard.writeText(url);
-            alert("Video link copied to clipboard!");
-        } catch (err) {
-            alert("Unable to copy link");
-        }
+      await navigator.share({
+        title: title || 'Check this out!',
+        text: text || '',
+        url: url
+      });
+      return;
     }
-};
 
+    // Capacitor Native Share (Android/iOS App fallback)
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
+      await window.Capacitor.Plugins.Share.share({
+        title: title,
+        text: text,
+        url: url,
+        dialogTitle: "Share Content"
+      });
+      return;
+    }
+
+    // Fallback for Desktop Browsers (Clipboard Copy)
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+      alert("Link copied to clipboard!");
+      return;
+    }
+
+    alert("Sharing is not supported on this browser.");
+
+  } catch (error) {
+    // User share cancel করলে AbortError আসে, যা ইগনোর করা ভালো
+    if (error.name !== 'AbortError') {
+      console.error("Share Error:", error);
+    }
+  }
+};
 
 /* =====================================================
    AUTH STATE UPDATES
@@ -1429,9 +1448,6 @@ onAuthStateChanged(auth, async (user) => {
         await displayVideos();
     }
 });
-
-
-
 
 </script>
 </body>
