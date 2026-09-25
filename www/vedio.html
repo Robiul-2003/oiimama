@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <title>Video</title>
+    <title>Video Feed</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(251, 249, 249); }
 
@@ -75,10 +75,15 @@
 
         .video-player {
             width: 100%;
-            max-height:auto;
+            height:auto;
             border-radius: 6px;
             background: #000;
         }
+        #like { width:32%; border:none; background:white; cursor:pointer; }
+        .fa-thumbs-up { font-size:18px; }
+        #comment { width:32%; border:none; background:white; cursor:pointer; }
+        .btn-share { width:32%; border:none; background:white; cursor:pointer; }
+        .fa-share{font-size:17px; }
 
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
@@ -95,10 +100,10 @@
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
             .feed-container { margin-top: 90px; }
-            #like{ width:32%; border:none; background:white;}
-            .fa-thumbs-up{font-size:18px;}
-            #comment{ width:32%; border:none; background:white;}
-            .btn-share{ width:32%; border:none; background:white;}
+            #like { width:20%; border:none; background:white; }
+            .fa-thumbs-up { font-size:18px; }
+            #comment { width:60%; border:none; background:white; }
+            .btn-share { width:20%; border:none; background:white; }
         }
     </style>
 </head>
@@ -126,7 +131,7 @@
 <!-- ভিডিও Feed কনটেইনার -->
 <div class="feed-container">
     <div id="allVideoList">
-        <p style="text-align:center; color:#666;"></p>
+        <p style="text-align:center; color:#666;">Loading videos...</p>
     </div>
 </div>
 
@@ -135,14 +140,13 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 🔴 আপনার Firebase Config তথ্য এখানে বসান
     const firebaseConfig = {
-              apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-    authDomain: "robiul-84377.firebaseapp.com",
-    projectId: "robiul-84377",
-    storageBucket: "robiul-84377.firebasestorage.app",
-    messagingSenderId: "476907665212",
-    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+        apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+        authDomain: "robiul-84377.firebaseapp.com",
+        projectId: "robiul-84377",
+        storageBucket: "robiul-84377.firebasestorage.app",
+        messagingSenderId: "476907665212",
+        appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -165,14 +169,13 @@
         const videoContainer = document.getElementById("allVideoList");
 
         try {
-            // "videos" কলেকশনের সব ডাটা orderBy দিয়ে নতুন থেকে পুরোনো ক্রমানুসারে আনা হচ্ছে
             const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
             const querySnapshot = await getDocs(q);
 
             videoContainer.innerHTML = "";
 
             if (querySnapshot.empty) {
-                videoContainer.innerHTML = `<p style="text-align:center;"></p>`;
+                videoContainer.innerHTML = `<p style="text-align:center;">No videos available.</p>`;
                 return;
             }
 
@@ -190,13 +193,19 @@
                             <span class="user-name">${safeUserName}</span>
                         </div>
                         ${safeCaption ? `<p class="video-caption">${safeCaption}</p>` : ''}
-                        <video class="video-player" src="${safeVideoUrl}" controls preload="metadata"></video>
-                        <button id="like"><i class="fa-regular fa-thumbs-up"></i> 0</button>
-                        <button id="comment">Comment</button>
-                         <button class="btn-share" onclick="shareContent('${safeUserName} Video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share </button>
+                        <video class="video-player" src="${safeVideoUrl}" controls muted playsinline preload="metadata"></video>
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+                            <button id="like"><i class="fa-regular fa-thumbs-up"></i> 0</button>
+                            <button id="comment"><i class="fa-regular fa-comment"></i> Comment</button>
+                            <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')">
+                                <i class="fa-solid fa-share"></i> </button>
+                        </div>
                     </div>
-                `;
+                `; // 🟢 সংশোধন: </div> ট্যাগ সঠিকভাবে বন্ধ করা হয়েছে
             });
+
+            // ভিডিও DOM-এ রেন্ডার শেষ হলে অটো-প্লে অবজার্ভার চালুকরণ
+            setupAutoPlayObserver();
 
         } catch (error) {
             console.error("Error fetching videos:", error);
@@ -204,31 +213,73 @@
         }
     }
 
-      /* ================ share button  ====================== */
-window.shareContent = async function(title, text, url) {
-    if (navigator.share) {
+    /* ================ share button ====================== */
+    window.shareContent = async function(title, text, url) {
         try {
-            await navigator.share({
-                title: title,
-                text: text,
-                url: url
+            if (navigator.share) {
+                await navigator.share({
+                    title: title || 'Check this out!',
+                    text: text || '',
+                    url: url
+                });
+                return;
+            }
+
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
+                await window.Capacitor.Plugins.Share.share({
+                    title: title,
+                    text: text,
+                    url: url,
+                    dialogTitle: "Share Content"
+                });
+                return;
+            }
+
+            if (navigator.clipboard) {
+                await navigator.clipboard.writeText(url);
+                alert("Link copied to clipboard!");
+                return;
+            }
+
+            alert("Sharing is not supported on this browser.");
+
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error("Share Error:", error);
+            }
+        }
+    };
+
+    /* =====================================================
+       INTERSECTION OBSERVER FOR SCROLL AUTOPLAY
+    ===================================================== */
+    function setupAutoPlayObserver() {
+        const options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.5 // ৫০% ভিডিও ভিউপোর্টে আসলে চালু হবে
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const video = entry.target;
+
+                if (entry.isIntersecting) {
+                    video.muted = true; // 🟢 নিশ্চিত করা হচ্ছে ভিডিও মিউট থাকবে যেন ব্রাউজার প্লে করা অনুমতি দেয়
+                    video.play().catch(error => console.log("Autoplay blocked:", error));
+                } else {
+                    video.pause();
+                }
             });
-        } catch (err) {
-            console.log("Share cancelled or failed:", err);
-        }
-    } else {
-        // মোবাইল ব্রাউজার না হলে বা সাপোর্টেড না থাকলে ক্লিপবোর্ডে লিংক কপি হবে
-        try {
-            await navigator.clipboard.writeText(url);
-            alert("Video link copied to clipboard!");
-        } catch (err) {
-            alert("Unable to copy link");
-        }
+        }, options);
+
+        document.querySelectorAll(".video-player").forEach((video) => {
+            observer.observe(video);
+        });
     }
-};
-    // পেজ লোড হলে ভিডিও লোড হবে
+
+    // পেজ লোড হলে ভিডিও ডাটা ফেচ হবে
     window.addEventListener("DOMContentLoaded", loadAllVideos);
 </script>
-
 </body>
 </html>

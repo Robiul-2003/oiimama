@@ -425,6 +425,10 @@ header{
   .hashtag-link {
     text-decoration: none; font-size:18px;
   }
+    #like{ width:32%; border:none; background:white;}
+            .fa-thumbs-up{font-size:18px;}
+            #comment{ width:32%; border:none; background:white;}
+            .btn-share{ width:32%; border:none; background:white;}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -1339,7 +1343,7 @@ async function displayVideos() {
                 <div class="showon">
                     <p class="showclose" onclick="this.parentElement.style.display='none'">&times;</p>
                     <button class="delete-btn" onclick="window.deleteVideo('${videoId}')">Delete Video</button><br><br>
-                    <button class="learn" onclick="window.location.href='index.html'">learn</button>
+                  
                 </div>
             </div>
             ${safeCaption ? `<p style="margin:5px 0;">${safeCaption}</p>` : ''}
@@ -1397,7 +1401,7 @@ window.deleteVideo = async function(videoId) {
     }
 };
 
-/* ================ share button  ====================== */
+
 /* ================ share button ====================== */
 window.shareContent = async function(title, text, url) {
   try {
