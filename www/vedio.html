@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <title>Video Feed</title>
+    <title>Video</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(251, 249, 249); }
 
@@ -31,60 +31,86 @@
 
         .fa-magnifying-glass { display: none; }
         #ONEsearch { flex: 1; height: 35px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-
-        /* Feed container */
         .feed-container {
-            max-width: 650px;
-            margin: 110px auto 30px auto;
-            padding: 0 10px;
-        }
+    margin-top:85px;
+     height: calc(100vh - 90px);
+    height: calc(100dvh - 90px);
 
-        .single-video-card {
-            border: 1px solid #e0e0e0;
-            background: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
+    overflow-y: auto;
+    overflow-x: hidden;
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+    scroll-snap-type: y mandatory;
 
-        .user-info i {
-            font-size: 24px;
-            color: #031f50;
-            margin-right: 10px;
-        }
+    scrollbar-width: none;
+}
+.feed-container::-webkit-scrollbar {
+    display: none;
+}
+ .single-video-card { 
+    position: relative;
+     width: 100%;
+      max-width: 500px;
+    height: calc(100vh - 90px);
+    height: calc(100dvh - 90px);
+     margin: 0 auto;
+     background: #000;
+     overflow: hidden;
+    
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    }
+ /* VIDEO */
+  .video-player {
+     width: 100%;
+      height:100%;
+   
+     object-fit:contain;
+     background: #000; }
+   /* RIGHT SIDE LIKE COMMENT SHARE */ 
+ .reels-actions {
+     position: absolute;
+     right: 12px;
+     bottom:35%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 18px;
+    z-index: 10; } 
+    /* ACTION BUTTON */
+  .reels-btn {
+     border: none; 
+     cursor: pointer;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     gap: 5px;
+     font-size: 12px;
+     text-shadow: 0 2px 5px black; }
+        /* ICON */
+        .reels-actions i {
+    font-size: 30px;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.9));
+    -webkit-text-stroke: 1px rgba(0,0,0,0.7);
+}
 
-        .user-name {
-            font-weight: bold;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .video-caption {
-            margin: 8px 0 12px 0;
-            font-size: 15px;
-            color: #222;
-            line-height: 1.4;
-        }
-
-        .video-player {
-            width: 100%;
-            height:auto;
-            border-radius: 6px;
-            background: #000;
-        }
-        #like { width:32%; border:none; background:white; cursor:pointer; }
-        .fa-thumbs-up { font-size:18px; }
-        #comment { width:32%; border:none; background:white; cursor:pointer; }
-        .btn-share { width:32%; border:none; background:white; cursor:pointer; }
-        .fa-share{font-size:17px; }
-
+.reels-actions button {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0;
+    cursor: pointer;
+}
+         .reels-btn i {   font-size: 30px;  filter: drop-shadow(0 2px 4px black); } 
+         /* BUTTON HOVER */
+         .reels-btn:hover { transform: scale(1.08);color:red; } 
+         /* BOTTOM USER + CAPTION */
+         .reels-info { position: absolute; left: 15px; right: 80px; bottom: 20px;  color: white; z-index: 10; text-shadow: 0 2px 5px black; }
+          /* USER */
+         .user-info { display: flex;  align-items: center; gap: 8px;  }
+         .user-info i { font-size: 32px; }
+         .user-name { font-size: 16px; font-weight: bold; } 
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
             header { height: 78px; }
@@ -99,12 +125,12 @@
             #videoimg { width: 36px; height: 32px; margin-left: 8%; }
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
-            .feed-container { margin-top: 90px; }
-            #like { width:20%; border:none; background:white; }
-            .fa-thumbs-up { font-size:18px; }
-            #comment { width:60%; border:none; background:white; }
-            .btn-share { width:20%; border:none; background:white; }
-        }
+          
+          .single-video-card { width:100%;     border-radius:5px; }
+          .video-player {  width: 100%;   height:100%; display: block;  object-fit:contain; background: #000; }
+          .reels-actions { right:12px; bottom:35%; gap: 20px; }
+           .user-info { display: flex;  align-items: center; gap: 8px;  }
+          .reels-btn i { font-size: 29px; } .reels-info { bottom: 58px; left: 12px; right: 70px; } }
     </style>
 </head>
 <body>
@@ -187,20 +213,30 @@
                 const safeVideoUrl = escapeHTML(data.videoUrl);
 
                 videoContainer.innerHTML += `
-                    <div class="single-video-card">
+                      <div class="single-video-card">
+                        <video class="video-player" src="${safeVideoUrl}" controls  playsinline preload="metadata">  </video>
+                           
+                         <div class="reels-actions">
+                            <button class="like-btn" data-video-id="${docSnap.id}">
+    <i class="fa-regular fa-thumbs-up"></i>
+    <br>
+    <div class="count">0</div>
+</button>
+                            <button id="comment"><i class="fa-regular fa-comment"></i></button>
+                            <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')">
+                               <i class="fa-solid fa-share"></i> </button>
+                               </div>
+                       <!-- USER + CAPTION -->
+                        <div class="reels-info">
                         <div class="user-info">
                             <i class="fa-solid fa-circle-user"></i>
                             <span class="user-name">${safeUserName}</span>
                         </div>
                         ${safeCaption ? `<p class="video-caption">${safeCaption}</p>` : ''}
-                        <video class="video-player" src="${safeVideoUrl}" controls muted playsinline preload="metadata"></video>
-                        <div style="margin-top: 10px; display: flex; justify-content: space-between;">
-                            <button id="like"><i class="fa-regular fa-thumbs-up"></i> 0</button>
-                            <button id="comment"><i class="fa-regular fa-comment"></i> Comment</button>
-                            <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')">
-                                <i class="fa-solid fa-share"></i> </button>
-                        </div>
+                </div>
                     </div>
+                          
+                       
                 `; // 🟢 সংশোধন: </div> ট্যাগ সঠিকভাবে বন্ধ করা হয়েছে
             });
 
@@ -250,9 +286,7 @@
         }
     };
 
-    /* =====================================================
-       INTERSECTION OBSERVER FOR SCROLL AUTOPLAY
-    ===================================================== */
+    /* ============INTERSECTION OBSERVER FOR SCROLL AUTOPLAY====== */
     function setupAutoPlayObserver() {
         const options = {
             root: null,
@@ -263,13 +297,19 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 const video = entry.target;
+            if (entry.isIntersecting) {
+    // 🔊 Speaker ON
+    video.muted = false;
+    video.volume = 1;
 
-                if (entry.isIntersecting) {
-                    video.muted = true; // 🟢 নিশ্চিত করা হচ্ছে ভিডিও মিউট থাকবে যেন ব্রাউজার প্লে করা অনুমতি দেয়
-                    video.play().catch(error => console.log("Autoplay blocked:", error));
-                } else {
-                    video.pause();
-                }
+    video.play().catch(error => {
+        console.log("Autoplay with sound blocked:", error);
+    });
+
+} else {
+    video.pause();
+}
+               
             });
         }, options);
 
@@ -277,7 +317,6 @@
             observer.observe(video);
         });
     }
-
     // পেজ লোড হলে ভিডিও ডাটা ফেচ হবে
     window.addEventListener("DOMContentLoaded", loadAllVideos);
 </script>

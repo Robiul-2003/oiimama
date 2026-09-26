@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <title>Video Feed</title>
+    <title>Video</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: rgb(251, 249, 249); }
 
@@ -111,6 +111,37 @@
          .user-info { display: flex;  align-items: center; gap: 8px;  }
          .user-info i { font-size: 32px; }
          .user-name { font-size: 16px; font-weight: bold; } 
+/* Comment Box */
+.commentbox {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: white;
+    color: black;
+    z-index: 100;
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-header button {
+    border: none;
+    background: transparent;
+    font-size:22px;
+    cursor: pointer;
+}
+#inputtext{ width:80%;bottom:5%;height:25px;border-radius:5px 0px 0px 5px;border:2px solid rgb(81, 79, 79);position: absolute;}
+#sent{height:32px;background: #031f50;border:none;color:white;width:12%; border-radius:0px 5px 5px 0px;bottom:5%;position: absolute;left:80%;}
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
             header { height: 78px; }
@@ -126,7 +157,7 @@
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
           
-          .single-video-card { width:100%;     border-radius:5px;border:2px solid rgb(221, 214, 214); }
+          .single-video-card { width:100%;     border-radius:5px; }
           .video-player {  width: 100%;   height:100%; display: block;  object-fit:contain; background: #000; }
           .reels-actions { right:12px; bottom:35%; gap: 20px; }
            .user-info { display: flex;  align-items: center; gap: 8px;  }
@@ -138,7 +169,7 @@
 <header>
     <div class="header1">
         <div class="headone">
-            <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>
+            <span class="name" >ADARSHA </span>
             <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i>
             <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
         </div>
@@ -217,15 +248,26 @@
                         <video class="video-player" src="${safeVideoUrl}" controls  playsinline preload="metadata">  </video>
                            
                          <div class="reels-actions">
-                            <button class="like-btn" data-video-id="${docSnap.id}">
-    <i class="fa-regular fa-thumbs-up"></i>
-    <br>
-    <div class="count">0</div>
-</button>
-                            <button id="comment"><i class="fa-regular fa-comment"></i></button>
-                            <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')">
-                               <i class="fa-solid fa-share"></i> </button>
-                               </div>
+  <button class="like-btn" data-video-id="${docSnap.id}"><i class="fa-regular fa-thumbs-up"></i> <br> <div class="count">0</div></button>
+
+   <button  onclick="commentopen(this)"><i class="fa-regular fa-comment"></i></button>
+   <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')">    <i class="fa-solid fa-share"></i> </button>
+        </div>
+                          <!-- Comment Box: reels-actions-এর বাইরে -->
+    <div class="commentbox" style="display:none;">
+
+        <div class="comment-header">
+            <h4>Comments</h4>
+            <button onclick="commentclose(this)">❌</button>
+        </div>
+
+        <input type="text" id="inputtext" placeholder="Comment"><button id="sent">Sent</button>
+
+    </div>
+
+                         
+                           
+                          
                        <!-- USER + CAPTION -->
                         <div class="reels-info">
                         <div class="user-info">
@@ -317,6 +359,19 @@
             observer.observe(video);
         });
     }
+
+window.commentopen = function(btn) {
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+    box.style.display = "block";
+};
+
+window.commentclose = function(btn) {
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+    box.style.display = "none";
+};
+
     // পেজ লোড হলে ভিডিও ডাটা ফেচ হবে
     window.addEventListener("DOMContentLoaded", loadAllVideos);
 </script>
