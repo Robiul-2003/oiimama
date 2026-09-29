@@ -28,395 +28,516 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 <style>
-body{font-family:Arial;margin:0;padding:0;background:rgb(251, 249, 249);}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: rgb(251, 249, 249);
+}
 
 /* header */
-header{
-  background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:90px;
+header {
+  background: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  height: 90px;
 }
-.header1{
-  max-width:1400px;margin: auto;color:#031f50;
+.header1 {
+  max-width: 1400px;
+  margin: auto;
+  color: #031f50;
 }
-.headone{
-justify-content:space-between;align-items:center;display:flex;
+.headone {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
-.name{
-  font-size:23px;padding-top:10px;
+.name {
+  font-size: 23px;
+  padding-top: 10px;
 }
-.headtwo{
-display:flex;margin-top:7px;
+.headtwo {
+  display: flex;
+  margin-top: 7px;
 }
-.fa-list{
-  font-size:25px;cursor: pointer;padding-top:10px;
-}
- 
-/* search */
-#search{
-  height:30px;width:40%;  margin-left:5%; 
- 
+.fa-list {
+  font-size: 25px;
+  cursor: pointer;
+  padding-top: 10px;
 }
 
-   #homeimg{
-    width:40px;height:30px;margin-left:3%;color:blue;border-radius:5%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:7%;border-radius:5%;
-    }
-  #messageimg{
- width:35px;height:32px;margin-left:7%;border-radius:5%;
-  }
-#videoimg{
-width:40px;height:35px;margin-left:7%;border-radius:5%;
+/* search */
+#search {
+  height: 30px;
+  width: 40%;
+  margin-left: 5%;
 }
-#bellimg{
-width:33px; height:33px;margin-left:7%;border-radius:5%;
+
+#homeimg {
+  width: 40px;
+  height: 30px;
+  margin-left: 3%;
+  color: blue;
+  border-radius: 5%;
 }
-#userimg{
-  width:30px;height:30px;margin-left:auto; margin-right:4%; border-radius:5%;
+#pentoimg {
+  width: 35px;
+  height: 32px;
+  margin-left: 7%;
+  border-radius: 5%;
 }
-.sliderQR{
-  display:flex;max-width:1300px;margin:auto; margin-top:40px;
+#messageimg {
+  width: 35px;
+  height: 32px;
+  margin-left: 7%;
+  border-radius: 5%;
+}
+#videoimg {
+  width: 40px;
+  height: 35px;
+  margin-left: 7%;
+  border-radius: 5%;
+}
+#bellimg {
+  width: 33px;
+  height: 33px;
+  margin-left: 7%;
+  border-radius: 5%;
+}
+#userimg {
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: 4%;
+  border-radius: 5%;
+}
+
+.sliderQR {
+  display: flex;
+  max-width: 1300px;
+  margin: auto;
+  margin-top: 40px;
 }
 .slider {
-    width:100%;
-    height:400px;
-    margin: auto;
-    position:relative;
-    overflow:hidden;  
-  }
-
-  .banner {
-    width:100%;
-    height:400px;
-    position: absolute;
-    top: 0;
-    left: 0;
-   display:block;
-    transform: translateX(100%);
-    transition: transform 0.7s ease-in-out;
-  }
-
-  .banner.active {
-    transform: translateX(0);
-  }
-.appQR{
-  width:320px;height:400px;
+  width: 100%;
+  height: 400px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
 }
+
+.banner {
+  width: 100%;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  transform: translateX(100%);
+  transition: transform 0.7s ease-in-out;
+}
+
+.banner.active {
+  transform: translateX(0);
+}
+.appQR {
+  width: 320px;
+  height: 400px;
+}
+
 /* products */
-.container{
-  display:flex; max-width:1400px;margin: auto;
-  flex-wrap:wrap;
-  gap:10px;margin-top:120px;
-  justify-content:center;
+.container {
+  display: flex;
+  max-width: 1400px;
+  margin: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 120px;
+  justify-content: center;
 }
 
-.product{
-  width:200px;
-  border-radius:4px;
-  height:280px;
-  border:1px solid #ccc;
-  cursor:pointer;
+.product {
+  width: 200px;
+  border-radius: 4px;
+  height: 280px;
+  border: 1px solid #ccc;
+  cursor: pointer;
   background: white;
-  padding:5px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
-  overflow:hidden;
+  overflow: hidden;
 }
 
-.product img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:4px;
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain; /* cover এর বদলে contain দেওয়া হলো যাতে ছবি না কাটে */
+  border-radius: 4px;
 }
 
-#openlistbox{
-  position:fixed;
-  top:0;
-  left:80%;
-  width:20%;
-  height:100%;
-  background:white;
-  display:none;
-  z-index:9999;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+#openlistbox {
+  position: fixed;
+  top: 0;
+  left: 80%;
+  width: 20%;
+  height: 100%;
+  background: white;
+  display: none;
+  z-index: 9999;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
 }
-h2{
-  margin-left:10%;
+h2 {
+  margin-left: 10%;
   cursor: pointer;
 }
-.modal-content{
-    width:95%;
-    max-width:1350px;
-    background:#fff;
-    margin: auto;
-    padding:50px;
-  
-    display:flex;
-    gap:40px;
-    position:relative;
+.modal-content {
+  width: 95%;
+  max-width: 1350px;
+  background: #fff;
+  margin: auto;
+  padding: 50px;
+  display: flex;
+  gap: 40px;
+  position: relative;
 }
-.left{
-    width:45%;
+.left {
+  width: 45%;
 }
 
-.right{
-    width:45%;
+.right {
+  width: 45%;
 }
-.productboxin{
-  background:white;
-  width:100%;height:1500px;
+.productboxin {
+  background: white;
+  width: 100%;
+  height: 1500px;
 }
-.fa-angle-left{
- cursor:pointer; font-size:30px;
+.fa-angle-left {
+  cursor: pointer;
+  font-size: 30px;
 }
-.modal img{
-  width:100%;
+.modal img {
+  width: 100%;
 }
-.thumbs{
+.thumbs {
   display: flex;
-  gap:5px;
-  margin-top:10px;
+  gap: 5px;
+  margin-top: 10px;
 }
-.thumbs img{
-  width:60px;border:1px solid rgb(161, 154, 154);
-  height:60px;
-  cursor:pointer;
+.thumbs img {
+  width: 60px;
+  border: 1px solid rgb(161, 154, 154);
+  height: 60px;
+  cursor: pointer;
+  object-fit: contain;
 }
-#pname{
-  margin-top:60px;
- font-size:20px;
-  overflow:hidden;
+#pname {
+  margin-top: 60px;
+  font-size: 20px;
+  overflow: hidden;
 }
-.pprice{
-  font-size:18px;
-  font-weight:700;
-  margin-top:2px;
+.pprice {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 2px;
 }
-#pcolor{
-  font-size:16px; font-weight: bolder;
+#pcolor {
+  font-size: 16px;
+  font-weight: bolder;
 }
-#psize{
-  font-size:16px; font-weight: bolder;
+#psize {
+  font-size: 16px;
+  font-weight: bolder;
 }
 #ppieces,
-#pprice{
-  display:flex;
-  gap:10px;   
-  justify-content:flex-start;
-  text-align:center;
+#pprice {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  text-align: center;
 }
 #ppieces span,
-#pprice span{
-  width:33%;
-  padding:4px 8px;
-  background:#f2f2f2;
-  font-size:13px;
+#pprice span {
+  width: 33%;
+  padding: 4px 8px;
+  background: #f2f2f2;
+  font-size: 13px;
 }
-.profile{
-  color:green; font-family: "Open Sans", sans-serif; font-size:16px; font-weight:700;
+.profile {
+  color: green;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
 }
-.product p{
-  margin:3px 0;
+.product p {
+  margin: 3px 0;
 }
 
-#Obtn{
-  width:45%;background: #031f50;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
+#Obtn {
+  width: 45%;
+  background: #031f50;
+  height: 35px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
-#Obtn1{
-   width:45%;background: tomato;height:35px;color:white;font-size:16px;font-weight:600;border:none;border-radius:3px;cursor:pointer;
+#Obtn1 {
+  width: 45%;
+  background: tomato;
+  height: 35px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 /* modal */
 .modal {
   display: none;
   position: fixed;
-  top: 0; left: 0;z-index:9999;
+  top: 0;
+  left: 0;
+  z-index: 9999;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   overflow-y: auto;
 }
-.fa-arrow-left{
-  font-size:30px;cursor: pointer;
+.fa-arrow-left {
+  font-size: 30px;
+  cursor: pointer;
 }
- #productsearch{
-    display:none;
-  }
-#mainImg{
- /*border:1px solid rgb(229, 223, 223);border:1px solid red;   aspect-ratio:1/1;
- width:100%;height:550px;object-fit: cover;*/border: 1px solid rgb(229, 223, 223);
+#productsearch {
+  display: none;
+}
+#mainImg {
+  border: 1px solid rgb(229, 223, 223);
   width: 100%;
-  height: 100%;           /* ফিক্সড হাইট তুলে দিয়ে auto করুন */
-  max-height: 550px;      /* সর্বোচ্চ উচ্চতা ঠিক রাখুন */
-  object-fit: contain;     /* cover-এর বদলে contain দিন যাতে ছবি না কাটে */
-  background-color: #f9f9f9; /
+  max-height: 550px;
+  object-fit: contain;
+  background-color: #f9f9f9; /* ভুল স্লেশ মুছে ফেলা হয়েছে */
 }
-.box{
-  width:1300px;
-  height:110px;
+.box {
+  width: 1300px;
+  height: 110px;
   display: flex;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   top: 450px;
   z-index: 10;
-  background:none;
-  gap:3%;
+  background: none;
+  gap: 3%;
   text-align: center;
   overflow-x: auto;
   white-space: nowrap;
   scroll-behavior: smooth;
 }
-.clickbox{
-    scroll-snap-align:start;margin-top:8px;color:#042867;
-    font-size:18px;display: inline-block;vertical-align: top;font-weight:700;
-  }
- 
-.click{
-  width:60px;height:60px;border-radius:10px;display: block;margin: auto;
+.clickbox {
+  scroll-snap-align: start;
+  margin-top: 8px;
+  color: #042867;
+  font-size: 18px;
+  display: inline-block;
+  vertical-align: top;
+  font-weight: 700;
 }
-#productcloseo{
+
+.click {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  display: block;
   margin: auto;
-  display:none;
-  width:90%;
-  border:1px solid red;
+}
+#productcloseo {
+  margin: auto;
+  display: none;
+  width: 90%;
+  border: 1px solid red;
   padding: 10px;
 }
-#pac{
- float: right; font-size:25px; cursor: pointer; color: red; margin: 0;
+#pac {
+  float: right;
+  font-size: 25px;
+  cursor: pointer;
+  color: red;
+  margin: 0;
 }
-.related-title{
-    margin:30px 0 15px 0;
-    font-size:22px;
-}
-
-.related-products{
-    width:100%;
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
+.related-title {
+  margin: 30px 0 15px 0;
+  font-size: 22px;
 }
 
-.related-products .product{
-    width:180px;
-    height:260px;
-    padding:5px;
-    box-sizing:border-box;
-    flex-shrink:0;
+.related-products {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.related-products .product img{
-    width:100%;
-    height:170px;
-    object-fit:cover;
+.related-products .product {
+  width: 180px;
+  height: 260px;
+  padding: 5px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
-  .fa-magnifying-glass{
-    display:none;
-  }
-  #vediocloseo{
-  display:none;
-  width:90%;
-  margin:auto;
-  padding:10px;
+
+.related-products .product img {
+  width: 100%;
+  height: 170px;
+  object-fit: contain; /* cover এর বদলে contain দেওয়া হলো */
 }
- #vedioline{
-    display:none;
-  }
-  #caption{
-    display:none;
-  }
-#number, #pin{
+.fa-magnifying-glass {
+  display: none;
+}
+#vediocloseo {
+  display: none;
+  width: 90%;
   margin: auto;
-  width:90%;height:30px;
+  padding: 10px;
+}
+#vedioline {
+  display: none;
+}
+#caption {
+  display: none;
+}
+
+#btnop {
+  width: 80px;
   display: block;
+  margin: 10px auto;
+  height: 25px;
+  background: #031f50;
+  color: white;
 }
-#btnop{
-  width:80px;display: block; margin: 10px auto; height:25px;background:#031f50;color:white;
+#userName {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 10px;
 }
 
-@media(max-width:700px){
-  header{
- background:white;
-  position: fixed;width:100%;top:0;z-index:999;height:78px;
-}
-.headone{
-  display: flex; align-items: center;
-}
-.name{
-  font-family: "Open Sans", sans-serif;  font-size:22px; font-weight:700; margin-left:4%;margin-top:0px;
-  color: #031f50;
-}
-.headtwo{
-  display: flex; align-items: center;margin-top:0px;
-}
-  .header1{
-    width:100%;
+/* mobile responsive style */
+@media (max-width: 700px) {
+  header {
+    background: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    height: 78px;
   }
-  .fa-list{
-  font-size:23px;cursor: pointer;  margin-left: auto; margin-right:4%;color:black;
-}
- 
-  .fa-magnifying-glass{
-   font-size:23px;cursor:pointer; margin-top:10px; margin-left:45%;   color:black;
-   display:inline-block;
+  .headone {
+    display: flex;
+    align-items: center;
   }
- 
+  .name {
+    font-family: "Open Sans", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-left: 4%;
+    margin-top: 0px;
+    color: #031f50;
+  }
+  .headtwo {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+  }
+  .header1 {
+    width: 100%;
+  }
+  .fa-list {
+    font-size: 23px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 4%;
+    color: black;
+  }
 
-   #search{display:none;}
-   #mainImg{
- border:1px solid rgb(229, 223, 223);
- width:100%;object-fit: cover;height:370px;
+  .fa-magnifying-glass {
+    font-size: 23px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 45%;
+    color: black;
+    display: inline-block;
+  }
+
+  #search {
+    display: none;
+  }
+
+  h1 {
+    margin-left: 4%;
+    font-size: 25px;
+  }
+  .container {
+    margin-top: 10px;
+  }
+  .modal-content {
+    width: 95%;
+    display: block;
+    padding: 10px;
+  }
+  #pname {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  .pprice {
+  font-size: 14px;
+  font-weight:700;color:#164595;
+  font-family: "Open Sans", sans-serif;
 }
-  h1{
-    margin-left:4%;font-size:25px;
+  .leftsearch {
+    display: flex;
+    gap: 10px;
   }
-  .container{
-    margin-top:10px;
-  }
-  .modal-content{
-    width:95%; display:block;
-    padding:10px;border:px solid red;
-  }
-  #pname{
- font-size:18px;
-  margin-top:10px;
-}
-  .leftsearch{
-    display:flex; gap:10px;
-  }
-  #productsearch{
-    display:inline-block; height:30px;width:90%; border-radius: 5px;border: 1px solid #ccc;
+  #productsearch {
+    display: inline-block;
+    height: 30px;
+    width: 90%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
   .left,
-.right{
-    width:100%;
-}
+  .right {
+    width: 100%;
+  }
 
-#mainImg{
-   width: 100%;
-    height:300px;
+  #mainImg {
+    width: 100%;
+    height: 300px;
     max-height: 350px;
-    object-fit: contain;
-}
-.sliderQR{
-  margin-top:40px;
-}
- .slider {
-    width:100%;
-    height:150px;
-    margin:43px auto;
-    position:relative;
-    overflow:hidden;
+    object-fit: contain; /* মোবাইল ভিউতেও contain রাখা হয়েছে */
+  }
+  .sliderQR {
+    margin-top: 40px;
+  }
+  .slider {
+    width: 100%;
+    height: 150px;
+    margin: 43px auto;
+    position: relative;
+    overflow: hidden;
   }
 
   .banner {
-    width:100%;
-    height:150px;
+    width: 100%;
+    height: 150px;
     position: absolute;
     top: 0;
     left: 0;
-   display:block;
+    display: block;
     transform: translateX(100%);
     transition: transform 0.7s ease-in-out;
   }
@@ -424,102 +545,151 @@ h2{
   .banner.active {
     transform: translateX(0);
   }
-.appQR{
-  display:none;
-}
-  .box{
-  width: 97%;
-  height:60px;
-  display: flex;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 210px;
-  z-index: 10;
-  background:none;
-  gap:20px;
-  text-align: center;
-  overflow-x: auto;
-  white-space: nowrap;
-  scroll-behavior: smooth;
+  .appQR {
+    display: none;
   }
-  .box::-webkit-scrollbar{
-    display:none;
+  .box {
+    width: 97%;
+    height: 60px;
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 210px;
+    z-index: 10;
+    background: none;
+    gap: 20px;
+    text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
   }
-  .clickbox{
-    scroll-snap-align:start;margin-top:8px;color:#042867; font-weight:800;
-    font-size:13px;display: inline-block;vertical-align: top;
+  .box::-webkit-scrollbar {
+    display: none;
   }
-  .click{
-    width:35px;height:35px;border-radius:10px;display: block;margin: auto;
+  .clickbox {
+    scroll-snap-align: start;
+    margin-top: 8px;
+    color: #042867;
+    font-weight: 800;
+    font-size: 13px;
+    display: inline-block;
+    vertical-align: top;
   }
-  @keyframes shrink{
-    from{transform:scale(1);}
-    to{transform:scale(0.9);}
+  .click {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: block;
+    margin: auto;
   }
-  #opensearchbox{
-    position:fixed;
-    top:0;left:0;width:100%;height:50px; margin-top:40px;
-    background:white;display:none;z-index:9999;
+  #opensearchbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    margin-top: 40px;
+    background: white;
+    display: none;
+    z-index: 9999;
   }
-  #opensearchbox .search-inner{
-   display: flex; justify-content: space-between; align-items: center; padding: 10px;
+  #opensearchbox .search-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
   }
-  #ONEsearch{
-    height:30px;width:90%; border-radius: 5px;border: 1px solid black;
+  #ONEsearch {
+    height: 30px;
+    width: 90%;
+    border-radius: 5px;
+    border: 1px solid black;
   }
-  #X{
-    color:#031f50;font-size:30px;cursor: pointer; margin: 0;font-weight: bold;
+  #X {
+    color: #031f50;
+    font-size: 30px;
+    cursor: pointer;
+    margin: 0;
+    font-weight: bold;
   }
-  #openlistbox{
-    left:0; width:100%;
+  #openlistbox {
+    left: 0;
+    width: 100%;
   }
-  .product{
-    width:45%;
-    height:auto; 
+  .product {
+    width: 45%;
+    height: auto;
     min-height: 260px;
   }
-  .adds{
-    width:70%;border:1px solid rgb(221, 210, 210);margin: auto;animation: shrink 2s ease-in-out infinite alternate;
+  .adds {
+    width: 70%;
+    border: 1px solid rgb(221, 210, 210);
+    margin: auto;
+    animation: shrink 2s ease-in-out infinite alternate;
   }
-  .ads{
-    height:180px;
+  .ads {
+    height: 180px;
   }
-  #vedioline{
-    display:none;
+  #vedioline {
+    display: none;
   }
 
-.related-products{
-        display:grid;
-        grid-template-columns:repeat(2, 1fr);
-        gap:8px;
-    }
+  .related-products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
 
-    .related-products .product{
-        width:100%;
-        height:250px;
-    }
-    .related-products .product img{
-        height:160px;
-    }
-    #homeimg{
-    width:40px;height:30px;margin-left:3%;
-    }
-    #pentoimg{
-      width:35px;height:32px;margin-left:8%;
-    }
-    #messageimg{
-      width:35px;height:32px;margin-left:8%;
-    }
-   #videoimg{ 
-    width:40px;height:35px;margin-left:8%;
-    }
-    #bellimg{
-width:33px; height:33px;margin-left: auto;margin-right:1%;
+  .related-products .product {
+    width: 100%;
+    height: 250px;
+  }
+  .related-products .product img {
+    height: 160px;
+    object-fit: contain;
+  }
+  #homeimg {
+    width: 40px;
+    height: 30px;
+    margin-left: 3%;
+  }
+  #pentoimg {
+    width: 35px;
+    height: 32px;
+    margin-left: 8%;
+  }
+  #messageimg {
+    width: 35px;
+    height: 32px;
+    margin-left: 8%;
+  }
+  #videoimg {
+    width: 40px;
+    height: 35px;
+    margin-left: 8%;
+  }
+  #bellimg {
+    width: 33px;
+    height: 33px;
+    margin-left: auto;
+    margin-right: 1%;
+  }
+  #userimg {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: 4%;
+  }
 }
-#userimg{
-  width:30px;height:30px;margin-left: auto;margin-right:4%;
-}
+
+@keyframes shrink {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
 }
 </style>
 </head>
@@ -595,14 +765,14 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
     <div class="right">
       <h3 id="pname"></h3>
       <h3 id="pcolor"></h3>
-      <p id="psize" onclick="window.location.href='user.html'"></p>
+      <p id="psize"></p>
 
       <div id="ppieces"></div>
       <div id="pprice"></div><br>
-      <!--<div class="profile" onclick="window.location.href='user.html'"></div><br>-->
-       <button onclick="orderNow()" id="Obtn">Order Now</button>
-      <button onclick="alert('Added to Cart')" id="Obtn1">Add To Cart</button>
-       <h4>Details</h4>
+       <button id="Obtn">Order Now</button>
+      <button  id="Obtn1">Chat</button>
+      <div id="userName"></div>
+       <h5>Details</h5>
       <hr>
 
       <p id="pdetails"></p>
@@ -615,35 +785,28 @@ width:33px; height:33px;margin-left: auto;margin-right:1%;
 </div>
 <script src="capacitor.js"></script>
 <script>
-async function fixStatusBar() {
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
-          const { StatusBar } = window.Capacitor.Plugins;
-          
-          // ব্যাকগ্রাউন্ড সাদা করা
-          await StatusBar.setBackgroundColor({ color: '#ffffff' });
-          
-          // আইকন এবং টেক্সট কালো করার জন্য 'LIGHT' ব্যবহার করা
-          await StatusBar.setStyle({ style: 'LIGHT' });
-        }
-      }
-      window.onload = fixStatusBar;
-
-
-
+  async function fixStatusBar() {
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
+      const { StatusBar } = window.Capacitor.Plugins;
+      await StatusBar.setBackgroundColor({ color: '#ffffff' });
+      await StatusBar.setStyle({ style: 'LIGHT' });
+    }
+  }
+  window.onload = fixStatusBar;
 
   function searchicon() {
     document.getElementById("opensearchbox").style.display = "block";
-}
+  }
 
-function searchclose() {
+  function searchclose() {
     document.getElementById("opensearchbox").style.display = "none";
-}
-  </script>
+  }
+</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -669,16 +832,15 @@ const localProducts = [
   {
     id: 1,
     category: ["man", "woman", "accessories"],
-    name: "Airpods Pro 2nd Generation ANC ",
-    color: ["black"],
-    size:  ["M","LX"],
+    name: "knight ride",
+    color: ["red"],
+    size:  ["",],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["450 TK", "420 TK", "400 TK"],
-   Whatsapp:"8801614153820",
-    images: ["https://images.othoba.com/images/thumbs/2323240_airpods-pro-2nd-generation-wireless-charging-wireless-earbuds-black.jpeg"],
+    images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR91pYkoZN1WVfWJNA7rcoltAfMWXsVu68HRnIaEfT2Qpediagscf5Mo2c&s=10"],
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
-    {
+  {
     id: 10,
     category: ["man", "woman", "accessories"],
     name: "Power Bank 10000mah 100% Original VEN-DENS VD-PB041",
@@ -686,28 +848,30 @@ const localProducts = [
     size:  [],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
     price: ["650 TK", "630 TK", "600 TK"],
-    Whatsapp:"8801614153820",
     images: ["https://techshosta.com.bd/image/cache/catalog/Power%20bank/d178672f-fe68-488d-9494-e6afe67d367a-400x400.webp","https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/749301003_122114171265338126_3437933405842232758_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1600&ctp=s1200x1600&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=b6eYuJ1CfdIQ7kNvwHUzolb&_nc_oc=AdqD8hPy_SZanQXYY1SOF2t2ZqzTV7vrc2XD0VMJJaCbLAkIhhxLfDaA0M9MxzalKsU&_nc_zt=23&_nc_ht=scontent.fdac39-1.fna&_nc_gid=FdDohD6QLtJCjc-HHv3g4g&_nc_ss=7b2a8&oh=00_AQCk_6EZZK2m77uwDqEgzPNeZhr-Sxh-TdefKwPCkmqpDg&oe=6A5DD626","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMmpSz9VylyRts4VjvbBx7BnnHsoXOGuoVrwlwdwC-vfpsTb5yszCemNLZ&s=10"],
     details: `
     Highlights:
-
-Model: VD-PB041
-
-Input: 5V-2A
-
-USB 1 Output: DC5V-2A
-
-USB 2 Output : DC5V-2A
-
-Rated Capacity: 37Wh 3.7V 10000mAh
+    Model: VD-PB041
+    Input: 5V-2A
+    USB 1 Output: DC5V-2A
+    USB 2 Output : DC5V-2A
+    Rated Capacity: 37Wh 3.7V 10000mAh
     `
-  },
-
+  }
 ];
 
 window.allProducts = [...localProducts];
 let savedUserProducts = JSON.parse(localStorage.getItem("userProducts")) || [];
 window.allProducts = [...window.allProducts, ...savedUserProducts];
+
+// Array Shuffle Function
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 function renderProducts(productsToDisplay) {
   let box = document.getElementById("productList");
@@ -773,65 +937,36 @@ function openModal(id){
   
   document.getElementById("pdetails").innerText = p.details || '';
 
+  const userNameElement = document.getElementById("userName");
+  userNameElement.textContent = p.userName || "Seller";
 
-  // ================================
-// RELATED PRODUCTS
-// ================================
-
-const relatedBox = document.getElementById("relatedProducts");
-
-if (relatedBox) {
-
+  const relatedBox = document.getElementById("relatedProducts");
+  if (relatedBox) {
     relatedBox.innerHTML = "";
-
     window.allProducts.forEach(item => {
+        if (String(item.id) === String(p.id)) return;
 
-        // বর্তমান product বাদ
-        if (String(item.id) === String(p.id)) {
-            return;
-        }
-
-        const imgSrc =
-            (item.images && item.images.length > 0)
-            ? item.images[0]
-            : "logo.png";
-
-        const displayPrice =
-            Array.isArray(item.price)
-            ? item.price[0]
-            : (item.price || "Price not available");
-
+        const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : "logo.png";
+        const displayPrice = Array.isArray(item.price) ? item.price[0] : (item.price || "Price not available");
         const productCard = document.createElement("div");
 
         productCard.className = "product";
-
         productCard.innerHTML = `
             <img src="${imgSrc}" alt="${item.name}">
             <p>${item.name}</p>
             <p class="pprice">${displayPrice}</p>
         `;
 
-        // Related product click
         productCard.addEventListener("click", function(e) {
-
             e.stopPropagation();
-
             openModal(item.id);
-
-            // Product details-এর শুরুতে নিয়ে যাবে
             document.getElementById("modal").scrollTop = 0;
-
         });
 
         relatedBox.appendChild(productCard);
     });
-}
+  }
 
-
-// ================================
-// PRODUCT THUMBNAILS
-// ================================
-  
   let thumbs = document.getElementById("thumbs");
   thumbs.innerHTML = "";
   if(p.images && Array.isArray(p.images)){
@@ -842,20 +977,10 @@ if (relatedBox) {
 }
 
 function closeModal(){
-   document.getElementById("modal").style.display="none"; 
-     if (history.state && history.state.modal) {
-        history.back();
-    }
+  document.getElementById("modal").style.display="none"; 
+  if (history.state && history.state.modal) {
+    history.back();
   }
-
-function checkLogin(){
-    let number = document.getElementById("number").value.trim();
-    let pin = document.getElementById("pin").value.trim();
-    if(number === "123456789" && pin === "2025"){
-        window.location.href = "add.html";
-    }else{
-        alert("Wrong Number or PIN");
-    }
 }
 
 function filterProducts(category){
@@ -872,35 +997,6 @@ function filterProducts(category){
   }
 }
 
-function orderNow() {
-
-    const p = window.currentProduct;
-
-    if (!p) {
-        alert("Product not found");
-        return;
-    }
-
-    const whatsapp = String(p.Whatsapp || "").trim();
-
-    if (!whatsapp) {
-        alert("Seller WhatsApp Number Not Found");
-        return;
-    }
-
-  const message = 
-`🛒 New Order
-
-📦 Product: ${p.name}
-💰 Price: ${Array.isArray(p.price) ? p.price[0] : p.price}`;
-
-  window.open(
-    `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`,
-    "_blank"
-  );
-}
-window.orderNow = orderNow;
-
 async function loadFirebaseProducts() {
   try {
     const querySnapshot = await getDocs(collection(db, "products"));
@@ -911,50 +1007,43 @@ async function loadFirebaseProducts() {
          window.allProducts.push(p);
       }
     });
+
+    // Firebase-এর ডেটা লোড শেষে Shuffle করা
+    window.allProducts = shuffleArray(window.allProducts);
     renderProducts(window.allProducts);
   } catch (error) {
     console.error("Error loading products: ", error);
   }
 }
+
 window.addEventListener("popstate", function (e) {
     const modal = document.getElementById("modal");
-
     if (modal.style.display === "block") {
         modal.style.display = "none";
     }
 });
- const banners = document.querySelectorAll(".banner");
 
+const banners = document.querySelectorAll(".banner");
 let current = 0;
 
 function showBanner() {
-
-  banners.forEach(img => {
-    img.classList.remove("active");
-  });
-
+  banners.forEach(img => img.classList.remove("active"));
   banners[current].classList.add("active");
-
   current++;
-
-  if (current >= banners.length) {
-    current = 0;
-  }
+  if (current >= banners.length) current = 0;
 }
 
 showBanner();
-
 setInterval(showBanner, 3000);
-// গ্লোবাল ফাংশন
+
+// Global window functions setup
 window.openModal = openModal;
 window.closeModal = closeModal;
-window.checkLogin = checkLogin;
 window.searchProduct = searchProduct;
 window.filterProducts = filterProducts;
-window.searchicon = searchicon;
-window.searchclose = searchclose;
-window.orderNow = orderNow;
-// প্রাথমিক লোড
+
+// Initial loading with shuffle
+window.allProducts = shuffleArray(window.allProducts);
 renderProducts(window.allProducts);
 loadFirebaseProducts();
 </script>

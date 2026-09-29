@@ -142,6 +142,42 @@
 }
 #inputtext{ width:80%;bottom:5%;height:25px;border-radius:5px 0px 0px 5px;border:2px solid rgb(81, 79, 79);position: absolute;}
 #sent{height:32px;background: #031f50;border:none;color:white;width:12%; border-radius:0px 5px 5px 0px;bottom:5%;position: absolute;left:80%;}
+.caption-container {
+  width:100%;box-sizing: border-box;
+}
+
+.video-caption {
+    margin: 4px 0 0 0;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* ২ লাইনের বেশি হলে কাট-অফ হবে */
+.video-caption.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.video-caption.expanded {
+    display: block;
+    overflow: visible;
+}
+
+/* More Button styling */
+.more-btn {
+    display: inline-block; /* display: none মুছে দিন */
+    background: none;
+    border: none;
+    color: #3897f0; /* আপনার পছন্দমতো কালার দিতে পারেন */
+    font-weight: bold;
+    cursor: pointer;
+    padding: 2px 0;
+    font-size: 13px;
+}
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
             header { height: 78px; }
@@ -274,7 +310,12 @@
                             <i class="fa-solid fa-circle-user"></i>
                             <span class="user-name">${safeUserName}</span>
                         </div>
-                        ${safeCaption ? `<p class="video-caption">${safeCaption}</p>` : ''}
+${safeCaption ? `
+    <div class="caption-container">
+        <p class="video-caption clamped">${safeCaption}</p>
+        <button class="more-btn" onclick="toggleCaption(this)">More</button>
+    </div>
+` : ''}
                 </div>
                     </div>
                           
@@ -290,7 +331,37 @@
             videoContainer.innerHTML = `<p style="color:red; text-align:center;">Failed to load videos.</p>`;
         }
     }
+window.toggleCaption = function(button) {
+    const container = button.closest(".caption-container");
+    const caption = container.querySelector(".video-caption");
 
+    if (caption.classList.contains("expanded")) {
+        caption.classList.remove("expanded");
+        caption.classList.add("clamped");
+        button.textContent = "More";
+    } else {
+        caption.classList.remove("clamped");
+        caption.classList.add("expanded");
+        button.textContent = "Less";
+    }
+};
+
+// অপশনাল: ক্যাপশন ২ লাইনের কম হলে More বাটন লুকিয়ে রাখার জন্য এই ফাংশনটি কল করতে পারেন
+function checkCaptionOverflow() {
+    document.querySelectorAll('.caption-container').forEach(container => {
+        const caption = container.querySelector('.video-caption');
+        const btn = container.querySelector('.more-btn');
+        
+        if (caption && btn) {
+            //scrollHeight এবং clientHeight চেক করে বাটন দৃশ্যমান করা
+            if (caption.scrollHeight <= caption.clientHeight) {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = 'inline-block';
+            }
+        }
+    });
+}
     /* ================ share button ====================== */
     window.shareContent = async function(title, text, url) {
         try {
