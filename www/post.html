@@ -176,7 +176,7 @@
  <header>
   <div class="header1">
     <div class="headone">
-      <span class="name" onclick="window.location.href='test1.html'">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+      <span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
     </div>
     <div class="headtwo">
       <img src="home.png" id="homeimg" onclick="window.location.href='home.html'" >
@@ -199,17 +199,10 @@
 ===================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import {
-    getFirestore,
-    collection,
-    getDocs,
-    query,
-    orderBy
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {  getFirestore,   collection,  getDocs,   query,  orderBy} 
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+/* =======================FIREBASE CONFIG================= */
 const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
     authDomain: "robiul-84377.firebaseapp.com",
@@ -223,9 +216,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* =====================================================
-   HELPER FUNCTIONS
-===================================================== */
+/* ====================================HELPER FUNCTIONS========================= */
 function escapeHTML(value){
     if(value === null || value === undefined) return "";
     return String(value)
@@ -260,10 +251,7 @@ function makePostLinks(text) {
 
     return text;
 }
-
-/* =====================================================
-   LOAD ALL POSTS
-===================================================== */
+/* =========================== LOAD ALL POSTS============================= */
 async function displayPosts() {
 
     const postList = document.getElementById("postList");
@@ -327,9 +315,7 @@ async function displayPosts() {
     }
 }
 
-/* =====================================================
-   AUTH STATE → POST LOAD
-===================================================== */
+/* =====================AUTH STATE → POST LOAD========= */
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
         document.getElementById("postList").innerHTML = `

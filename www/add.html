@@ -44,16 +44,7 @@
             margin-bottom: 5px;
         }
 
-        .developer-tag {
-            color: #aaa;
-            font-size: 13px;
-        }
-
-        .developer-name {
-            color: #28a745;
-            font-weight: bold;
-        }
-
+      
         .form-group {
             margin-bottom: 20px;
         }
@@ -187,8 +178,7 @@
 
 <div class="container">
     <div class="header-section">
-        <h2 class="brand-title">OUR SOLUTION</h2>
-        <p class="developer-tag">Product Panel | Developer: <span class="developer-name">Robiul</span></p>
+        <h2 class="brand-title">Product Details</h2>
     </div>
 
     <form id="productForm">
@@ -207,10 +197,6 @@
         <div class="form-group">
             <label for="productprice">Product Price *</label>
             <input type="number" id="productprice" placeholder="Price" required>
-        </div>
-        <div class="form-group">
-            <label for="Whatsappnumber">Whatsapp Number *</label>
-            <input type="text" id="Whatsappnumber" placeholder="01XXXXXXXXX" required>
         </div>
         <div class="form-group">
             <label for="productCategory">Category *</label>
@@ -280,16 +266,10 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import {
-    getFirestore,
-    doc,
-    setDoc,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {getFirestore, doc,  setDoc,  getDoc,  serverTimestamp}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const CLOUDINARY_CLOUD_NAME = "sykfzqhs";
 const CLOUDINARY_UPLOAD_PRESET = "robiul_preset";
@@ -413,84 +393,168 @@ async function uploadToCloudinary(file) {
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if(!currentUser){
+    if (!currentUser) {
         alert("Please login first to upload a product.");
         return;
     }
 
     const btn = document.getElementById("submitBtn");
     btn.disabled = true;
-    btn.innerText = "Compressing & Uploading images...";
+    btn.innerText = "Getting seller information...";
 
     const productId = Date.now().toString();
     let imageUrls = [];
 
     try {
-        for(let i = 1; i <= 5; i++){
-            const input = document.getElementById("input-"+i);
-            if(input.files && input.files[0]){
-                const originalFile = input.files[0];
-                
-                // ⚡ আপলোড করার আগে ছবি কম্প্রেস করা হচ্ছে
-                const compressedFile = await compressImage(originalFile);
 
-                const uploadedUrl = await uploadToCloudinary(compressedFile);
+        // =====================================
+        // GET SELLER NAME — শুধু একবার
+        // =====================================
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+
+        const userData = userSnap.exists()
+            ? userSnap.data()
+            : {};
+
+        const sellerName =
+            userData.name ||
+            currentUser.displayName ||
+            "Seller";
+
+        console.log("Seller Name:", sellerName);
+
+
+        // =====================================
+        // UPLOAD IMAGES
+        // =====================================
+        btn.innerText = "Compressing & Uploading images...";
+
+        for (let i = 1; i <= 5; i++) {
+
+            const input = document.getElementById("input-" + i);
+
+            if (input.files && input.files[0]) {
+
+                const originalFile = input.files[0];
+
+                // Compress image
+                const compressedFile =
+                    await compressImage(originalFile);
+
+                // Upload to Cloudinary
+                const uploadedUrl =
+                    await uploadToCloudinary(compressedFile);
+
                 imageUrls.push(uploadedUrl);
             }
         }
 
+
+        // =====================================
+        // SAVE PRODUCT
+        // =====================================
         btn.innerText = "Saving product info...";
 
-        let rawWhatsapp = String(document.getElementById("Whatsappnumber").value.trim()).replace(/\D/g, "");
-        if (rawWhatsapp.startsWith("01")) {
-            rawWhatsapp = "88" + rawWhatsapp;
-        } else if (rawWhatsapp.startsWith("1")) {
-            rawWhatsapp = "880" + rawWhatsapp;
-        }
-
-        const price = document.getElementById("productprice").value;
+        const price =
+            document.getElementById("productprice").value;
 
         const product = {
+
             id: productId,
-            name: document.getElementById("productName").value.trim(),
-            Whatsapp: rawWhatsapp,
-            size: document.getElementById("Size").value.trim(),
-            color: document.getElementById("Color").value.trim(),
+
+            name:
+                document.getElementById("productName")
+                .value
+                .trim(),
+
+            size:
+                document.getElementById("Size")
+                .value
+                .trim(),
+
+            color:
+                document.getElementById("Color")
+                .value
+                .trim(),
+
             category: [
-                document.getElementById("productCategory").value
+                document.getElementById("productCategory")
+                .value
             ],
-            details: document.getElementById("productDescription").value.trim(),
-            ppieces: ["1-5", "6-10", "11-20"],
+
+            details:
+                document.getElementById("productDescription")
+                .value
+                .trim(),
+
+            ppieces: [
+                "1-5",
+                "6-10",
+                "11-20"
+            ],
+
             price: [
                 price + " TK",
                 price + " TK",
                 price + " TK"
             ],
+
             images: imageUrls,
+
+            // =====================================
+            // USER INFORMATION
+            // =====================================
             userId: currentUser.uid,
+
+            userName: sellerName,
+
             ownerEmail: currentUser.email || "",
+
             createdAt: serverTimestamp()
         };
 
-        await setDoc(doc(db, "products", productId), product);
+
+        // Save to Firestore
+        await setDoc(
+            doc(db, "products", productId),
+            product
+        );
+
+
+        console.log("Product saved:", product);
 
         alert("✅ Product Added Successfully!");
 
+
+        // Reset form
         document.getElementById("productForm").reset();
-        for(let i = 1; i <= 5; i++){
-            window.deleteImage({ stopPropagation: () => {} }, i);
+
+        for (let i = 1; i <= 5; i++) {
+            window.deleteImage(
+                {
+                    stopPropagation: () => {}
+                },
+                i
+            );
         }
 
+
+        // Go back
         if (window.history.length > 1) {
             window.history.back();
         } else {
-            location.href = "index.html";
+            location.href = "home.html";
         }
 
     } catch (error) {
-        console.error("Error:", error);
+
+        console.error("Product Error:", error);
+
         alert("Error: " + error.message);
+
     } finally {
+
         btn.disabled = false;
         btn.innerText = "Add Product";
     }

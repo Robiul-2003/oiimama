@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <title>Messages - Adarsha BD</title>
   <style>
     body {
@@ -35,23 +35,87 @@
       max-width: 700px;
       margin: auto;
       padding-top: 60px;
+      padding-bottom: 20px;
     }
     #idserach {
       display: block;
-      margin:2px auto;
+      margin: 10px auto;
       width: 95%;
       border-radius: 5px;
-      height: 35px;
+      height: 40px;
       border: 1px solid #ccc;
       padding: 0 10px;
       box-sizing: border-box;
+      font-size: 15px;
     }
-    footer{
-      width:123456px;
+
+    /* ====== চ্যাট কার্ড ====== */
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      margin: 8px 10px;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: background 0.2s;
     }
-    p{
-      margin-left:15px;
-         font-family: "Open Sans", sans-serif; font-size:20px; font-weight:600;
+    .chat-item:hover {
+      background: #eef4ff;
+    }
+    .chat-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #007bff;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .chat-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .chat-name {
+      font-weight: bold;
+      font-size: 15px;
+      margin: 0 0 4px 0;
+      color: #031f50;
+    }
+    .chat-product {
+      font-size: 13px;
+      color: #555;
+      margin: 0 0 4px 0;
+    }
+    .chat-last {
+      font-size: 13px;
+      color: #888;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chat-time {
+      font-size: 11px;
+      color: #aaa;
+      flex-shrink: 0;
+    }
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+      font-size: 16px;
+    }
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #007bff;
     }
   </style>
 </head>
@@ -62,9 +126,177 @@
 
   <div class="container">
     <input type="text" id="idserach" placeholder="Search user name..." onkeyup="filterChats()">
-  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Adarsha BD </p>
-  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">Support Team </p>
-  <p onclick="window.open('https://wa.me/8801614153820?text=Hello%20I%20want%20service', '_blank')">partner ship </p>
+    <div id="chatList">
+      <div class="loading">Loading chats...</div>
+    </div>
   </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { 
+      getFirestore, collection, query, where, getDocs, orderBy 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // ===== আপনার Firebase Config =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+      authDomain: "robiul-84377.firebaseapp.com",
+      projectId: "robiul-84377",
+      storageBucket: "robiul-84377.firebasestorage.app",
+      messagingSenderId: "476907665212",
+      appId: "1:476907665212:web:b4dc619f0290a2241b1039"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allChats = [];
+
+    // ===== ইউজার লগইন চেক =====
+    onAuthStateChanged(auth, async (user) => {
+      const listBox = document.getElementById("chatList");
+
+      if (!user) {
+        listBox.innerHTML = `<div class="empty">
+          Please login first<br><br>
+          <button onclick="location.href='home.html'" 
+                  style="padding:10px 20px; background:#007bff; color:#fff; border:none; border-radius:5px;">
+            Go Home
+          </button>
+        </div>`;
+        return;
+      }
+
+      // ===== চ্যাট লোড =====
+      await loadChats(user.uid);
+    });
+
+    // ===== Firestore থেকে চ্যাট আনা =====
+    async function loadChats(uid) {
+      const listBox = document.getElementById("chatList");
+      allChats = [];
+
+      try {
+        // আমি যেসব চ্যাটে buyer বা seller
+        const q1 = query(
+          collection(db, "chats"),
+          where("buyerId", "==", uid)
+        );
+        const q2 = query(
+          collection(db, "chats"),
+          where("sellerId", "==", uid)
+        );
+
+        const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
+
+        const seen = new Set();
+
+        snap1.forEach(d => {
+          if (!seen.has(d.id)) {
+            seen.add(d.id);
+            allChats.push({ id: d.id, ...d.data() });
+          }
+        });
+        snap2.forEach(d => {
+          if (!seen.has(d.id)) {
+            seen.add(d.id);
+            allChats.push({ id: d.id, ...d.data() });
+          }
+        });
+
+        // সর্বশেষ মেসেজ অনুযায়ী সাজানো
+        allChats.sort((a, b) => {
+          const ta = a.lastMessageTime?.seconds || 0;
+          const tb = b.lastMessageTime?.seconds || 0;
+          return tb - ta;
+        });
+
+        renderChats(allChats);
+
+      } catch (err) {
+        console.error("Chat load error:", err);
+        listBox.innerHTML = `<div class="empty">Error loading chats: ${err.message}</div>`;
+      }
+    }
+
+    // ===== চ্যাট লিস্ট রেন্ডার =====
+    function renderChats(chats) {
+      const listBox = document.getElementById("chatList");
+
+      if (chats.length === 0) {
+        listBox.innerHTML = `<div class="empty">No chats yet 📭<br>Start chatting from a product page!</div>`;
+        return;
+      }
+
+      let html = "";
+      const myUid = auth.currentUser.uid;
+
+      chats.forEach(c => {
+        // আমি buyer হলে অন্যজন seller, আর আমি seller হলে অন্যজন buyer
+        const isBuyer = c.buyerId === myUid;
+        const otherName = isBuyer ? (c.sellerEmail || "Seller") : (c.buyerEmail || "Buyer");
+        const avatarLetter = otherName.charAt(0).toUpperCase();
+
+        const timeStr = c.lastMessageTime?.seconds
+          ? new Date(c.lastMessageTime.seconds * 1000).toLocaleString([], {
+              hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short'
+            })
+          : '';
+
+        html += `
+          <div class="chat-item" onclick="openChatRoom('${c.id}')">
+            <div class="chat-avatar">${avatarLetter}</div>
+            <div class="chat-info">
+              <p class="chat-name">${escapeHTML(otherName)}</p>
+              <p class="chat-product">📦 ${escapeHTML(c.productName || '')}</p>
+              <p class="chat-last">${escapeHTML(c.lastMessage || 'No message yet')}</p>
+            </div>
+            <div class="chat-time">${timeStr}</div>
+          </div>
+        `;
+      });
+
+      listBox.innerHTML = html;
+    }
+
+    // ===== সার্চ =====
+    window.filterChats = function () {
+      const input = document.getElementById("idserach").value.toLowerCase().trim();
+
+      if (!input) {
+        renderChats(allChats);
+        return;
+      }
+
+      const filtered = allChats.filter(c => {
+        const myUid = auth.currentUser?.uid;
+        const isBuyer = c.buyerId === myUid;
+        const otherName = isBuyer ? (c.sellerEmail || "") : (c.buyerEmail || "");
+        return otherName.toLowerCase().includes(input) ||
+               (c.productName || "").toLowerCase().includes(input);
+      });
+
+      renderChats(filtered);
+    };
+
+    // ===== চ্যাট রুমে যাওয়া =====
+    window.openChatRoom = function (chatId) {
+      window.location.href = `chat.html?id=${chatId}`;
+    };
+
+    // ===== HTML Escape =====
+    function escapeHTML(v) {
+      if (v === null || v === undefined) return "";
+      return String(v)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
 </body>
 </html>

@@ -280,10 +280,7 @@ header{
     cursor:pointer;
 }
 
-#chatbtn:hover{
-    opacity:.9;
-}
-
+#chatbtn:hover{opacity:.9;}
 /* ================= FEEDS ================= */
 
 .feed-title{
@@ -299,7 +296,6 @@ header{
     justify-content:center;
     padding:10px;
 }
-
 .delete-btn{
     background:red;
     color:white;
@@ -309,12 +305,8 @@ header{
     cursor:pointer;
 }
 
-.delete-btn:hover{
-    opacity:.85;
-}
-
+.delete-btn:hover{ opacity:.85;}
 /* ================= PRODUCT ================= */
-
 .product-card{
     width:170px;
     flex:0 0 170px;
@@ -425,10 +417,76 @@ header{
   .hashtag-link {
     text-decoration: none; font-size:18px;
   }
-    #like{ width:32%; border:none; background:white;}
-            .fa-thumbs-up{font-size:18px;}
-            #comment{ width:32%; border:none; background:white;}
-            .btn-share{ width:32%; border:none; background:white;}
+
+
+ .btn-like{ width:32%; border:none; background:white;}
+     .fa-thumbs-up{font-size:18px;}
+      .btn-comment{ width:32%;border:none; background:white;}
+      .btn-share{ width:32%;border:none; background:white;}
+#alladd{width:120px;height:35px;font-size:16px;font-weight:600;background:tomato;color:white;border:none;border-radius:3px;gap:5px;}
+#viewcount{margin-left:90%; font-size:15px;}
+.caption-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 5px 0;
+}
+
+.caption-text {
+    margin: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.caption-text.expanded {
+    display: block;
+    overflow: visible;
+}
+
+.more-btn {
+    background: none;
+    border: none;
+    color: #65676b;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 3px 0;
+    font-size: 14px;
+}
+/* Comment Box */
+.commentbox {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: white;
+    color: black;
+    z-index: 100;
+    border-radius: 15px 15px 0 0;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-header button {
+    border: none;
+    background: transparent;
+    font-size:22px;
+    cursor: pointer;
+}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -533,10 +591,8 @@ header{
         margin-left:8%;
        
     }
-      .btn-like{ width:32%; border:none; background:white;}
-     .fa-thumbs-up{font-size:18px;}
-      .btn-comment{ width:32%;border:none; background:white;}
-      .btn-share{ width:32%;border:none; background:white;}
+    
+      #viewcount{margin-left:85%; font-size:13px;}
 }
 </style>
 </head>
@@ -545,7 +601,7 @@ header{
 <header>
 <div class="header1">
 <div class="headone">
-<span class="name" onclick="window.location.href='test1.html'">ADARSHA</span>
+<span class="name">ADARSHA</span>
 <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
 </div>
 
@@ -581,7 +637,7 @@ header{
 <h2 id="showName"></h2>
 
 <div class="profile-buttons">
-<button id="chatbtn" onclick="window.location.href='test1.html'">Chat</button><button id="alladd" onclick="openbox()">All add</button>
+<button id="chatbtn" onclick="window.location.href=''">Chat</button><button id="alladd" onclick="openbox()">All add <i class="fa-solid fa-angles-down"></i></button>
 </div>
 <div id="box"><div class="allupload">
   <p onclick="closebox()" style="font-size:22px;color:red;margin-left:90%;font-weight:700;">X</p>
@@ -621,9 +677,7 @@ header{
 
 <script type="module">
 
-/* =====================================================
-   FIREBASE IMPORT
-===================================================== */
+/* ===================== FIREBASE IMPORT========================== */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
@@ -640,9 +694,7 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+/* ========== FIREBASE CONFIG==== */
 
 const firebaseConfig = {
     apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -654,18 +706,14 @@ const firebaseConfig = {
 };
 
 
-/* =====================================================
-   INITIALIZE FIREBASE
-===================================================== */
+/* ======INITIALIZE FIREBAS================= */
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 
-/* =====================================================
-   HELPER
-===================================================== */
+/* =============== HELPER===================== */
 
 function escapeHTML(value){
     if(value === null || value === undefined){
@@ -680,9 +728,7 @@ function escapeHTML(value){
 }
 
 
-/* =====================================================
-   PROFILE IMAGE PREVIEW
-===================================================== */
+/* ===============PROFILE IMAGE PREVIEW==================== */
 
 const profileInput = document.getElementById("profileimg");
 const profilePreview = document.getElementById("preview");
@@ -694,9 +740,7 @@ profileInput.addEventListener("change", function(){
 });
 
 
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
+/* ============ DELETE PRODUCT======================== */
 
 window.deleteProduct = async function(productId){
     if(!confirm("এই Product Delete করতে চান?")) return;
@@ -733,9 +777,7 @@ window.deleteProduct = async function(productId){
 };
 
 
-/* =====================================================
-   LOAD SPECIFIC USER PRODUCTS (শুধুমাত্র নিজ আইডি-র প্রোডাক্ট)
-===================================================== */
+/* ===================LOAD SPECIFIC USER PRODUCTS (শুধুমাত্র নিজ আইডি-র প্রোডাক্ট)============================ */
 
 async function loadProducts(userId){
     const productList = document.getElementById("productList");
@@ -795,9 +837,7 @@ async function loadProducts(userId){
     }
 }
 
-/* =====================================================
-   AUTH STATE (ইউজার চেক ও ডেটা লোড)
-===================================================== */
+/* ============= AUTH STATE (ইউজার চেক ও ডেটা লোড)====================== */
 
 onAuthStateChanged(auth, async (user)=>{
 
@@ -836,9 +876,7 @@ onAuthStateChanged(auth, async (user)=>{
 
 });
 
-/* =====================================================
-   FIRESTORE POST SYSTEM
-===================================================== */
+/* ================ FIRESTORE POST SYSTEM============================= */
 // ================= LOAD POSTS =================
 function makePostLinks(text) {
 
@@ -926,7 +964,7 @@ async function displayPosts() {
 
             postList.innerHTML = `
                 <p style="text-align:center;">
-                    No Posts Found
+                  
                 </p>
             `;
 
@@ -1215,15 +1253,11 @@ onAuthStateChanged(
 );
 
 
-/* =====================================================
-   CLOUDINARY CONFIG
-===================================================== */
+/* =========== CLOUDINARY CONFIG============================= */
 const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud Name বসান
 const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
 
-/* =====================================================
-   UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRESTORE
-===================================================== */
+/* =============== UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRES================================== */
 const uploadBtn = document.getElementById("btnop");
 
 if (uploadBtn) {
@@ -1302,9 +1336,7 @@ if (uploadBtn) {
     });
 }
 
-/* =====================================================
-   LOAD & DISPLAY VIDEOS
-===================================================== */
+/* =============== LOAD & DISPLAY VIDEOS====================== */
 async function displayVideos() {
     const videoList = document.getElementById("videoList");
     if (!videoList) return;
@@ -1325,7 +1357,7 @@ async function displayVideos() {
         videoList.innerHTML = "";
 
         if (querySnapshot.empty) {
-            videoList.innerHTML = `<p style="text-align:center;">No Videos Found</p>`;
+            videoList.innerHTML = `<p style="text-align:center;"></p>`;
             return;
         }
         querySnapshot.forEach((docSnap) => {
@@ -1343,18 +1375,39 @@ async function displayVideos() {
                 <div class="showon">
                     <p class="showclose" onclick="this.parentElement.style.display='none'">&times;</p>
                     <button class="delete-btn" onclick="window.deleteVideo('${videoId}')">Delete Video</button><br><br>
-                  
+                    <button class="boost-btn" style="color:black;background:white;border:1px solid black;">Boost Video</button><br><br>
+                     <button class="boost-btn" style="color:black;background:white;border:1px solid black;">Earning Video</button>
                 </div>
-            </div>
-            ${safeCaption ? `<p style="margin:5px 0;">${safeCaption}</p>` : ''}
+            </div> 
+           ${safeCaption ? `
+    <div class="caption-container">
+        <p class="caption-text">${safeCaption}</p>
+        <button class="more-btn" onclick="toggleCaption(this)">
+            More
+        </button>
+    </div>
+` : ''}
+
             <video src="${escapeHTML(data.videoUrl)}" controls style="width:100%; max-height:350px; border-radius:6px; background:#000;"></video>
+            <div id="viewcount">view 0</div>
              <div class="video-actions" style="margin-top: 10px; display: flex; gap: 8px;">
             <button class="btn-like"><i class="fa-regular fa-thumbs-up"></i> 0</button> 
             <button class="btn-comment"> Comment</button> 
-        <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')">
-  Share
-</button>
+        <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share</button>
+
         </div>
+        <!-- Comment Box: reels-actions-এর বাইরে -->
+    <div class="commentbox" style="display:none;">
+
+        <div class="comment-header">
+            <h4>Comments</h4>
+            <button onclick="commentclose(this)">❌</button>
+        </div>
+
+        <input type="text" id="inputtext" placeholder="Comment"><button id="sent">Sent</button>
+
+    </div>
+
         </div>
     `;
 });
@@ -1364,10 +1417,32 @@ async function displayVideos() {
         videoList.innerHTML = `<p style="color:red;text-align:center;">Failed to load videos.</p>`;
     }
 }
+window.toggleCaption = function(button) {
+    const container = button.closest(".caption-container");
+    const caption = container.querySelector(".caption-text");
 
-/* =====================================================
-   DELETE VIDEO
-===================================================== */
+    caption.classList.toggle("expanded");
+
+    if (caption.classList.contains("expanded")) {
+        button.textContent = "Less";
+    } else {
+        button.textContent = "More";
+    }
+};
+
+
+window.commentopen = function(btn) {
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+    box.style.display = "block";
+};
+
+window.commentclose = function(btn) {
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+    box.style.display = "none";
+};
+/* =====DELETE VIDEO============= */
 window.deleteVideo = async function(videoId) {
     if (!confirm("আপনি কি এই Video ডিলিট করতে চান?")) return;
 
