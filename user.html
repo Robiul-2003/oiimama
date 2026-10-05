@@ -487,6 +487,133 @@ header{
     font-size:22px;
     cursor: pointer;
 }
+/* Product Details Box */
+#productsearch {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Close Button */
+#productsearch .close-product {
+    position: absolute;
+    top: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius:50%;
+    color:black;
+    font-size: 22px;
+    font-weight: bold;
+}
+.p-d{
+     position: absolute;
+    top: 15px;background:white;
+    right:15px;border:none;
+    color:black;
+    font-size: 22px;
+    font-weight: bold;
+}
+/* Main Product Image */
+#mainImg {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    object-fit: contain;
+    margin: 45px auto 20px;
+}
+
+/* Product Name */
+#pname {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+/* Product Information */
+#productsearch p {
+    font-size: 17px;
+    margin: 12px 0;
+}
+
+/* Price */
+#pprice {
+    font-size: 24px;
+    color: green;
+    font-weight: bold;
+    margin: 15px 0;
+}
+#productImages {
+    width: 100%;
+    text-align: center;
+}
+
+#mainImg {
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    object-fit: contain;
+    display: block;
+    margin: 45px auto 15px;
+}
+
+#thumbnailBox {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px auto 20px;
+}
+
+.thumbnail {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 3px;
+    background: white;
+}
+
+.thumbnail:hover {
+    border-color: green;
+}
+#phobe{
+     display: none;
+    position: absolute;  /* এটি মিসিং ছিল */
+    top: 25px;
+    width:90%;        /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
+    padding: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    z-index: 100;
+}
+.pchclose{
+    width:35px;
+    height:35px;
+    border:1px solid white;
+    background:rgb(224, 218, 218);
+    border-radius:50%;
+    font-weight:700;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    left:0; top:10px;
+    padding:0;
+}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -606,7 +733,7 @@ header{
 </div>
 
 <div class="headtwo">
-<img src="home.png" id="homeimg" onclick="window.location.href='home.html'" alt="Home">
+<img src="home.png" id="homeimg" onclick="window.location.href='index.html'" alt="Home">
 <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
 <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
 
@@ -662,7 +789,35 @@ header{
  <div id="postList"></div>
  <div id="videoList" style="max-width:650px; margin:20px auto;"></div>
 <h3 class="feed-title"></h3>
-<div id="productList"><p></p></div>
+
+<div id="productsearch">
+ <button class="close-product" onclick="document.getElementById('productsearch').style.display='none'"><i class="fa-solid fa-arrow-left"></i>
+    </button>
+<button class="p-d" onclick="pd()" >...</button>
+
+<div id="phobe">
+    <p onclick="pch()" class="pchclose">X</p>
+    <button class="d-btn" id="detailsDeleteBtn"> Delete </button><br><br>
+     <button class="d-btn"> Ads </button>
+    </div>
+    <div id="productImages">
+
+        <img id="mainImg" alt="Product">
+
+        <div id="thumbnailBox"></div>
+
+    </div>
+
+    <h2 id="pname"></h2>
+    <p>Color: <span id="pcolor"></span></p>
+
+    <p> Size: <span id="psize"></span></p>
+
+    <h3 id="pprice"></h3>
+</div>
+
+<div id="productList">
+    <p></p>
 </div>
 
 <script>
@@ -671,6 +826,13 @@ header{
   }
   function closebox(){
    document.getElementById('box').style.display ="none";
+  }
+
+    function pd(){
+  document.getElementById('phobe').style.display ="block";
+  }
+  function pch(){
+   document.getElementById('phobe').style.display ="none";
   }
 </script>
 
@@ -817,16 +979,17 @@ async function loadProducts(userId){
 
             const safeName = escapeHTML(p.name || "No Name");
             const safePrice = escapeHTML(price);
+         productList.innerHTML += `
+    <div class="product-card" onclick="productshow('${productId}')">
 
-            productList.innerHTML += `
-                <div class="product-card">
-                    <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
-                    <p class="product-name">${safeName}</p>
-                    <div class="product-price">${safePrice} TK</div>
-                    <br>
-                    <button class="delete-btn" onclick="window.deleteProduct('${productId}')">Delete</button>
-                </div>
-            `;
+        <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
+
+        <p class="product-name">${safeName}</p>
+
+        <div class="product-price">${safePrice} TK</div>
+    </div>
+`;  
+           
         });
 
     }catch(error){
@@ -837,6 +1000,85 @@ async function loadProducts(userId){
     }
 }
 
+window.productshow = async function(productId){
+
+    try{
+
+        const productRef = doc(db, "products", productId);
+        const productSnap = await getDoc(productRef);
+
+        if(!productSnap.exists()){
+            alert("Product পাওয়া যায়নি।");
+            return;
+        }
+
+        const p = productSnap.data();
+
+        console.log("Product:", p);
+
+        // এখানে তোমার product details box/modal show করবে
+
+        document.getElementById("productsearch").style.display = "block";
+
+        document.getElementById("pname").textContent =
+            p.name || "No Name";
+
+        document.getElementById("pcolor").textContent =
+            p.color || "";
+
+        document.getElementById("psize").textContent =
+            p.size || "";
+
+        let price = p.price;
+
+        if(Array.isArray(price)){
+            price = price[0] || "0";
+        }
+
+        document.getElementById("pprice").textContent =
+            price + " TK";
+
+         const mainImg = document.getElementById("mainImg");
+const thumbnailBox = document.getElementById("thumbnailBox");
+
+thumbnailBox.innerHTML = "";
+
+if(Array.isArray(p.images) && p.images.length > 0){
+
+    // প্রথম image main image
+    mainImg.src = p.images[0];
+
+    // ছোট ছোট image
+    p.images.forEach((imageUrl) => {
+
+        const thumbnail = document.createElement("img");
+
+        thumbnail.src = imageUrl;
+        thumbnail.className = "thumbnail";
+
+        thumbnail.onclick = function(){
+            mainImg.src = imageUrl;
+        };
+
+        thumbnail.onerror = function(){
+            this.src = "logo.png";
+        };
+
+        thumbnailBox.appendChild(thumbnail);
+    });
+
+}else{
+
+    mainImg.src = "logo.png";
+
+}
+
+    }catch(error){
+
+        console.error("Product Show Error:", error);
+
+    }
+};
 /* ============= AUTH STATE (ইউজার চেক ও ডেটা লোড)====================== */
 
 onAuthStateChanged(auth, async (user)=>{
@@ -846,7 +1088,6 @@ onAuthStateChanged(auth, async (user)=>{
         document.getElementById("productList").innerHTML = `
             <p style="text-align:center;width:100%;">Please login to see your profile.</p>
         `;
-       /* document.getElementById("videobox").style.display = "none";*/
         return;
     }
 
