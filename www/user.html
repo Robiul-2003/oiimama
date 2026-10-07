@@ -310,7 +310,7 @@ header{
 .product-card{
     width:170px;
     flex:0 0 170px;
-    border:1px solid #ddd;
+    border:1px solid #efe9e9;
     border-radius:6px;
     background:#fff;
     padding:8px;
@@ -318,19 +318,13 @@ header{
 }
 
 .product-card img{
-    width:100%;
-    height:150px;
-    object-fit:cover;
-    border-radius:4px;
-}
-
-.product-name{
-    min-height:40px;
-    margin:8px 0;
+   width: 100%;
+   height:180px;
+    object-fit: contain;
 }
 
 .product-price{
-    color:green;
+  color:#164595;
     font-weight:bold;
 }
     #videobox{
@@ -487,6 +481,143 @@ header{
     font-size:22px;
     cursor: pointer;
 }
+/* Product Details Box */
+#productsearch {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Close Button */
+#productsearch .close-product {
+    position: absolute;
+    top: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius:50%;
+    color:black;
+    font-size: 22px;
+    font-weight: bold;
+}
+.p-d{
+     position: absolute;
+    top: 15px;background:white;
+    border:none;left:70%;
+    color:black;
+    font-size: 22px;
+    font-weight: bold;
+}
+/* Main Product Image */
+#mainImg {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    object-fit: contain;
+    margin: 45px auto 20px;
+}
+
+/* Product Name */
+#pname {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+/* Product Information */
+#productsearch p {
+    font-size: 17px;
+    margin: 12px 0;
+}
+.producttoproduct{
+    max-width:800px;height:auto;margin:auto;
+}
+/* Price */
+#pprice {
+    font-size: 24px;
+   color:#164595;
+    font-weight: bold;
+    margin: 15px 0;
+}
+#productImages {
+    width: 100%;
+    text-align: center;
+}
+
+#mainImg {
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    object-fit: contain;
+    display: block;
+    margin: 45px auto 15px;
+}
+
+#thumbnailBox {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px auto 20px;
+}
+
+.thumbnail {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 3px;
+    background: white;
+}
+
+.thumbnail:hover {
+    border-color: green;
+}
+#phobe{
+     display: none;
+    position: absolute;  /* এটি মিসিং ছিল */
+    top: 25px;
+    width:43%;        /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
+    padding: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    z-index: 100;
+}
+.pchclose {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    background: rgb(186, 20, 20);
+    border-radius: 50%;
+    font-weight: 700;
+    color: white; /* লেখা বা 아이কন স্পষ্ট দেখার জন্য */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; /* top/right/left সঠিকভাবে কাজ করার জন্য */
+    top:0px;
+    right: 10px; /* সাধারণত ক্লোজ বাটন ডান কোণায় থাকে */
+    cursor: pointer; /* মাউস হভার করলে পয়েন্টার দেখাবে */
+}
+#detailsDeleteBtn{
+    margin-top:30px;width:100px;height:30px;background:red;color:white;border:none;border-radius:5px;font-size:16px;font-weight:600;
+}
+#productADS{
+width:100px;height:30px;background:green;color:white;border:none;border-radius:5px;font-size:16px;font-weight:600;
+}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -515,7 +646,28 @@ header{
         align-items:center;
         margin-top:0;
     }
-
+     #productsearch {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    background: white;
+    z-index: 9999;
+    box-sizing: border-box;
+}
+#mainImg {
+    display: block;
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+}
+.p-d{
+   
+   left:90%;
+   
+}
+#phobe{width:92%;}
     #search{
         display:none;
     }
@@ -606,7 +758,7 @@ header{
 </div>
 
 <div class="headtwo">
-<img src="home.png" id="homeimg" onclick="window.location.href='home.html'" alt="Home">
+<img src="home.png" id="homeimg" onclick="window.location.href='index.html'" alt="Home">
 <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
 <img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
 
@@ -662,7 +814,34 @@ header{
  <div id="postList"></div>
  <div id="videoList" style="max-width:650px; margin:20px auto;"></div>
 <h3 class="feed-title"></h3>
-<div id="productList"><p></p></div>
+
+<div id="productsearch">
+    <div class="producttoproduct">
+ <button class="close-product" onclick="document.getElementById('productsearch').style.display='none'"><i class="fa-solid fa-arrow-left"></i>
+    </button>
+<button class="p-d" onclick="pd()" >...</button>
+
+<div id="phobe">
+    <p onclick="pch()" class="pchclose">X</p>
+    <button id="detailsDeleteBtn" onclick="deleteCurrentProduct()"> Delete </button><br><br>
+     <button id="productADS"> Ads </button>
+    </div>
+    <div id="productImages">
+        <img id="mainImg" alt="Product">
+        <div id="thumbnailBox"></div>
+    </div>
+
+    <span id="pname"></span>
+    <p>Color: <span id="pcolor"></span></p>
+
+    <p> Size: <span id="psize"></span></p>
+
+    <span id="pprice"></span>
+    </div>
+</div>
+
+<div id="productList">
+    <p></p>
 </div>
 
 <script>
@@ -671,6 +850,13 @@ header{
   }
   function closebox(){
    document.getElementById('box').style.display ="none";
+  }
+
+    function pd(){
+  document.getElementById('phobe').style.display ="block";
+  }
+  function pch(){
+   document.getElementById('phobe').style.display ="none";
   }
 </script>
 
@@ -712,7 +898,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+/* 👉 ১. সিলেক্ট করা প্রোডাক্ট আইডি সেভ রাখার গ্লোবাল ভ্যারিয়েবল 👈 */
+let selectedProductId = null;
 /* =============== HELPER===================== */
 
 function escapeHTML(value){
@@ -742,36 +929,47 @@ profileInput.addEventListener("change", function(){
 
 /* ============ DELETE PRODUCT======================== */
 
-window.deleteProduct = async function(productId){
-    if(!confirm("এই Product Delete করতে চান?")) return;
+window.deleteCurrentProduct = async function() {
+    if (!selectedProductId) {
+        alert("কোনো Product সিলেক্ট করা নেই!");
+        return;
+    }
 
-    try{
+    if (!confirm("এই Product Delete করতে চান?")) return;
+
+    try {
         const user = auth.currentUser;
-        if(!user){
+        if (!user) {
             alert("আগে Login করুন।");
             return;
         }
 
-        const productRef = doc(db,"products",productId);
+        const productRef = doc(db, "products", selectedProductId);
         const productSnap = await getDoc(productRef);
 
-        if(!productSnap.exists()){
+        if (!productSnap.exists()) {
             alert("Product পাওয়া যায়নি।");
             return;
         }
 
         const productData = productSnap.data();
 
-        if(productData.userId !== user.uid){
+        if (productData.userId !== user.uid) {
             alert("এই Product আপনি Delete করতে পারবেন না।");
             return;
         }
 
         await deleteDoc(productRef);
-        alert("Product Deleted Successfully");
+        alert("Product Successfully Deleted!");
 
-    }catch(error){
-        console.error("Delete Product Error:", error);
+        // পপআপ বন্ধ করা এবং লিস্ট আপডেট করা
+        document.getElementById('phobe').style.display = 'none';
+        document.getElementById('productsearch').style.display = 'none';
+        
+        loadProducts(user.uid); // লিস্ট রিফ্রেশ
+
+    } catch (error) {
+        console.error("Delete Error:", error);
         alert("Delete Failed: " + error.message);
     }
 };
@@ -817,16 +1015,17 @@ async function loadProducts(userId){
 
             const safeName = escapeHTML(p.name || "No Name");
             const safePrice = escapeHTML(price);
+         productList.innerHTML += `
+    <div class="product-card" onclick="productshow('${productId}')">
 
-            productList.innerHTML += `
-                <div class="product-card">
-                    <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
-                    <p class="product-name">${safeName}</p>
-                    <div class="product-price">${safePrice} TK</div>
-                    <br>
-                    <button class="delete-btn" onclick="window.deleteProduct('${productId}')">Delete</button>
-                </div>
-            `;
+        <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
+
+        <p class="product-name">${safeName}</p>
+
+        <div class="product-price">${safePrice} TK</div>
+    </div>
+`;  
+           
         });
 
     }catch(error){
@@ -837,6 +1036,80 @@ async function loadProducts(userId){
     }
 }
 
+window.productshow = async function(productId){
+
+    try{
+        /* 👉 ২. এখানে সিলেক্ট করা প্রোডাক্ট এর ID স্টোর করা হচ্ছে 👈 */
+        selectedProductId = productId;
+        const productRef = doc(db, "products", productId);
+        const productSnap = await getDoc(productRef);
+
+        if(!productSnap.exists()){
+            alert("Product পাওয়া যায়নি।");
+            return;
+        }
+
+        const p = productSnap.data();
+
+        console.log("Product:", p);
+
+        // এখানে তোমার product details box/modal show করবে
+
+        document.getElementById("productsearch").style.display = "block";
+
+        document.getElementById("pname").textContent =   p.name || "No Name";
+
+        document.getElementById("pcolor").textContent = p.color || "";
+
+        document.getElementById("psize").textContent =  p.size || "";
+
+        let price = p.price;
+
+        if(Array.isArray(price)){   price = price[0] || "0";     }
+
+        document.getElementById("pprice").textContent =   price + " TK";
+
+         const mainImg = document.getElementById("mainImg");
+const thumbnailBox = document.getElementById("thumbnailBox");
+
+thumbnailBox.innerHTML = "";
+
+if(Array.isArray(p.images) && p.images.length > 0){
+
+    // প্রথম image main image
+    mainImg.src = p.images[0];
+
+    // ছোট ছোট image
+    p.images.forEach((imageUrl) => {
+
+        const thumbnail = document.createElement("img");
+
+        thumbnail.src = imageUrl;
+        thumbnail.className = "thumbnail";
+
+        thumbnail.onclick = function(){
+            mainImg.src = imageUrl;
+        };
+
+        thumbnail.onerror = function(){
+            this.src = "logo.png";
+        };
+
+        thumbnailBox.appendChild(thumbnail);
+    });
+
+}else{
+
+    mainImg.src = "logo.png";
+
+}
+
+    }catch(error){
+
+        console.error("Product Show Error:", error);
+
+    }
+};
 /* ============= AUTH STATE (ইউজার চেক ও ডেটা লোড)====================== */
 
 onAuthStateChanged(auth, async (user)=>{
@@ -846,7 +1119,6 @@ onAuthStateChanged(auth, async (user)=>{
         document.getElementById("productList").innerHTML = `
             <p style="text-align:center;width:100%;">Please login to see your profile.</p>
         `;
-       /* document.getElementById("videobox").style.display = "none";*/
         return;
     }
 

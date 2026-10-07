@@ -455,6 +455,30 @@ h2 {
         transform: translateX(-50%) rotate(360deg);
     }
 }
+#loadingPage {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    z-index: 999999;
+}
+
+#loadingPage img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+#loadingPage h2 {
+    margin-top: 20px;
+    color: #031f50;
+}
+
 /* mobile responsive style */
 @media (max-width: 700px) {
   header {
@@ -724,6 +748,13 @@ h2 {
 </head>
 <body>
 <header>
+<div id="loadingPage">
+        <img src="logo.png" alt="Logo">
+        <h2>Adarsha BD</h2>
+    </div>
+
+
+   <div id="helloPage">
   <div class="header1">
     <div class="headone">
       <span class="name">ADARSHA </span>  <i class="fa-solid fa-magnifying-glass" onclick="searchicon()"></i> <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
@@ -815,7 +846,7 @@ h2 {
     </div>
 
   </div>
-</div>
+</div></div>
 <script src="capacitor.js"></script>
 <script>
   async function fixStatusBar() {
@@ -835,7 +866,23 @@ h2 {
     document.getElementById("opensearchbox").style.display = "none";
   }
 
+const alreadyLoaded = sessionStorage.getItem("appLoaded");
 
+if (alreadyLoaded === "yes") {
+
+    document.getElementById("loadingPage").style.display = "none";
+    document.getElementById("helloPage").style.display = "block";
+
+} else {
+
+    sessionStorage.setItem("appLoaded", "yes");
+
+    setTimeout(function () {
+        document.getElementById("loadingPage").style.display = "none";
+        document.getElementById("helloPage").style.display = "block";
+    }, 3000);
+
+}
 // reload 
 let startY = 0;
 
@@ -1217,3 +1264,4 @@ loadFirebaseProducts();
 </script>
 </body>
 </html>
+

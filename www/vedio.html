@@ -63,7 +63,7 @@
   .video-player {
      width: 100%;
       height:100%;
-   
+     cursor: pointer;
      object-fit:contain;
      background: #000; }
    /* RIGHT SIDE LIKE COMMENT SHARE */ 
@@ -176,6 +176,26 @@
     padding: 2px 0;
     font-size: 13px;
 }
+.fa-rotate-right{
+    font-size:40px;
+}
+.fa-rotate-right {
+            width: 40px;
+            height: 40px;
+            background: rgb(241, 235, 235);
+            border-radius: 50%;
+            display: none; /* শুরুতে hidden */
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+
+            position: fixed;
+            top:90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
         /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
             header { height: 78px; }
@@ -208,7 +228,7 @@
             <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
         </div>
         <div class="headtwo">
-            <img src="home.png" id="homeimg" onclick="window.location.href='home.html'">
+            <img src="home.png" id="homeimg" onclick="window.location.href='index.html'">
             <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
             <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
             <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
@@ -218,7 +238,7 @@
         </div>
     </div>
 </header>
-
+<i id="refreshIcon" class="fa-solid fa-rotate-right" onclick="location.reload()"></i>
 <!-- ভিডিও Feed কনটেইনার -->
 <div class="feed-container">
     <div id="allVideoList">
@@ -254,8 +274,7 @@
                 '"': '&quot;'
             }[tag] || tag)
         );
-    }
-
+    } 
     async function loadAllVideos() {
         const videoContainer = document.getElementById("allVideoList");
 
@@ -300,8 +319,6 @@
     </div>
 
                          
-                           
-                          
                        <!-- USER + CAPTION -->
                         <div class="reels-info">
                         <div class="user-info">

@@ -310,7 +310,7 @@ header{
 .product-card{
     width:170px;
     flex:0 0 170px;
-    border:1px solid #ddd;
+    border:1px solid #efe9e9;
     border-radius:6px;
     background:#fff;
     padding:8px;
@@ -318,19 +318,13 @@ header{
 }
 
 .product-card img{
-    width:100%;
-    height:150px;
-    object-fit:cover;
-    border-radius:4px;
-}
-
-.product-name{
-    min-height:40px;
-    margin:8px 0;
+   width: 100%;
+   height:180px;
+    object-fit: contain;
 }
 
 .product-price{
-    color:green;
+  color:#164595;
     font-weight:bold;
 }
     #videobox{
@@ -493,7 +487,7 @@ header{
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width:100%;
     height: 100vh;
     background: white;
     z-index: 9999;
@@ -517,7 +511,7 @@ header{
 .p-d{
      position: absolute;
     top: 15px;background:white;
-    right:15px;border:none;
+    border:none;left:70%;
     color:black;
     font-size: 22px;
     font-weight: bold;
@@ -544,11 +538,13 @@ header{
     font-size: 17px;
     margin: 12px 0;
 }
-
+.producttoproduct{
+    max-width:800px;height:auto;margin:auto;
+}
 /* Price */
 #pprice {
     font-size: 24px;
-    color: green;
+   color:#164595;
     font-weight: bold;
     margin: 15px 0;
 }
@@ -592,7 +588,7 @@ header{
      display: none;
     position: absolute;  /* এটি মিসিং ছিল */
     top: 25px;
-    width:90%;        /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
+    width:43%;        /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
     padding: 8px;
     background: white;
     border: 1px solid #ddd;
@@ -600,19 +596,27 @@ header{
     border-radius: 6px;
     z-index: 100;
 }
-.pchclose{
-    width:35px;
-    height:35px;
-    border:1px solid white;
-    background:rgb(224, 218, 218);
-    border-radius:50%;
-    font-weight:700;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    left:0; top:10px;
-    padding:0;
+.pchclose {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    background: rgb(186, 20, 20);
+    border-radius: 50%;
+    font-weight: 700;
+    color: white; /* লেখা বা 아이কন স্পষ্ট দেখার জন্য */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; /* top/right/left সঠিকভাবে কাজ করার জন্য */
+    top:0px;
+    right: 10px; /* সাধারণত ক্লোজ বাটন ডান কোণায় থাকে */
+    cursor: pointer; /* মাউস হভার করলে পয়েন্টার দেখাবে */
+}
+#detailsDeleteBtn{
+    margin-top:30px;width:100px;height:30px;background:red;color:white;border:none;border-radius:5px;font-size:16px;font-weight:600;
+}
+#productADS{
+width:100px;height:30px;background:green;color:white;border:none;border-radius:5px;font-size:16px;font-weight:600;
 }
 /* ================= MOBILE ================= */
 
@@ -642,7 +646,28 @@ header{
         align-items:center;
         margin-top:0;
     }
-
+     #productsearch {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    background: white;
+    z-index: 9999;
+    box-sizing: border-box;
+}
+#mainImg {
+    display: block;
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+}
+.p-d{
+   
+   left:90%;
+   
+}
+#phobe{width:92%;}
     #search{
         display:none;
     }
@@ -791,29 +816,28 @@ header{
 <h3 class="feed-title"></h3>
 
 <div id="productsearch">
+    <div class="producttoproduct">
  <button class="close-product" onclick="document.getElementById('productsearch').style.display='none'"><i class="fa-solid fa-arrow-left"></i>
     </button>
 <button class="p-d" onclick="pd()" >...</button>
 
 <div id="phobe">
     <p onclick="pch()" class="pchclose">X</p>
-    <button class="d-btn" id="detailsDeleteBtn"> Delete </button><br><br>
-     <button class="d-btn"> Ads </button>
+    <button id="detailsDeleteBtn" onclick="deleteCurrentProduct()"> Delete </button><br><br>
+     <button id="productADS"> Ads </button>
     </div>
     <div id="productImages">
-
         <img id="mainImg" alt="Product">
-
         <div id="thumbnailBox"></div>
-
     </div>
 
-    <h2 id="pname"></h2>
+    <span id="pname"></span>
     <p>Color: <span id="pcolor"></span></p>
 
     <p> Size: <span id="psize"></span></p>
 
-    <h3 id="pprice"></h3>
+    <span id="pprice"></span>
+    </div>
 </div>
 
 <div id="productList">
@@ -874,7 +898,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+/* 👉 ১. সিলেক্ট করা প্রোডাক্ট আইডি সেভ রাখার গ্লোবাল ভ্যারিয়েবল 👈 */
+let selectedProductId = null;
 /* =============== HELPER===================== */
 
 function escapeHTML(value){
@@ -904,36 +929,47 @@ profileInput.addEventListener("change", function(){
 
 /* ============ DELETE PRODUCT======================== */
 
-window.deleteProduct = async function(productId){
-    if(!confirm("এই Product Delete করতে চান?")) return;
+window.deleteCurrentProduct = async function() {
+    if (!selectedProductId) {
+        alert("কোনো Product সিলেক্ট করা নেই!");
+        return;
+    }
 
-    try{
+    if (!confirm("এই Product Delete করতে চান?")) return;
+
+    try {
         const user = auth.currentUser;
-        if(!user){
+        if (!user) {
             alert("আগে Login করুন।");
             return;
         }
 
-        const productRef = doc(db,"products",productId);
+        const productRef = doc(db, "products", selectedProductId);
         const productSnap = await getDoc(productRef);
 
-        if(!productSnap.exists()){
+        if (!productSnap.exists()) {
             alert("Product পাওয়া যায়নি।");
             return;
         }
 
         const productData = productSnap.data();
 
-        if(productData.userId !== user.uid){
+        if (productData.userId !== user.uid) {
             alert("এই Product আপনি Delete করতে পারবেন না।");
             return;
         }
 
         await deleteDoc(productRef);
-        alert("Product Deleted Successfully");
+        alert("Product Successfully Deleted!");
 
-    }catch(error){
-        console.error("Delete Product Error:", error);
+        // পপআপ বন্ধ করা এবং লিস্ট আপডেট করা
+        document.getElementById('phobe').style.display = 'none';
+        document.getElementById('productsearch').style.display = 'none';
+        
+        loadProducts(user.uid); // লিস্ট রিফ্রেশ
+
+    } catch (error) {
+        console.error("Delete Error:", error);
         alert("Delete Failed: " + error.message);
     }
 };
@@ -1003,7 +1039,8 @@ async function loadProducts(userId){
 window.productshow = async function(productId){
 
     try{
-
+        /* 👉 ২. এখানে সিলেক্ট করা প্রোডাক্ট এর ID স্টোর করা হচ্ছে 👈 */
+        selectedProductId = productId;
         const productRef = doc(db, "products", productId);
         const productSnap = await getDoc(productRef);
 
@@ -1020,23 +1057,17 @@ window.productshow = async function(productId){
 
         document.getElementById("productsearch").style.display = "block";
 
-        document.getElementById("pname").textContent =
-            p.name || "No Name";
+        document.getElementById("pname").textContent =   p.name || "No Name";
 
-        document.getElementById("pcolor").textContent =
-            p.color || "";
+        document.getElementById("pcolor").textContent = p.color || "";
 
-        document.getElementById("psize").textContent =
-            p.size || "";
+        document.getElementById("psize").textContent =  p.size || "";
 
         let price = p.price;
 
-        if(Array.isArray(price)){
-            price = price[0] || "0";
-        }
+        if(Array.isArray(price)){   price = price[0] || "0";     }
 
-        document.getElementById("pprice").textContent =
-            price + " TK";
+        document.getElementById("pprice").textContent =   price + " TK";
 
          const mainImg = document.getElementById("mainImg");
 const thumbnailBox = document.getElementById("thumbnailBox");
