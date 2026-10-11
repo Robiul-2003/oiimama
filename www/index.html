@@ -458,27 +458,38 @@ h2 {
 #loadingPage {
     position: fixed;
     inset: 0;
-    width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: white;
+    background: #031f50;
     z-index: 999999;
+    font-family: Arial, sans-serif;
 }
 
-#loadingPage img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
+#loadingPage h1 {
+    font-size: 60px;
+    color: white;
+    margin: 0;}
+
+#loadingPage h6 {
+    position: absolute;
+    bottom: 65px;
+    font-size: 13px;
+    color: #cbd5e1;
+    margin: 0;
+    font-weight: normal;
 }
 
-#loadingPage h2 {
-    margin-top: 20px;
-    color: #031f50;
+#loadingPage h5 {
+    position: absolute;
+    bottom: 35px;
+    font-size: 16px;
+    color: white;
+    margin: 0;
+    font-weight: 550;
 }
-
 /* mobile responsive style */
 @media (max-width: 700px) {
   header {
@@ -749,8 +760,9 @@ h2 {
 <body>
 <header>
 <div id="loadingPage">
-        <img src="logo.png" alt="Logo">
-        <h2>Adarsha BD</h2>
+        <h1>a</h1>
+          <h6>From</h6>
+        <h5>Chinta</h5>
     </div>
 
 
@@ -878,7 +890,7 @@ if (alreadyLoaded === "yes") {
     sessionStorage.setItem("appLoaded", "yes");
 
     setTimeout(function () {
-        document.getElementById("loadingPage").style.display = "none";
+        document.getElementById("loadingPage").style.display = "none";// loadingpage hobe 
         document.getElementById("helloPage").style.display = "block";
     }, 3000);
 

@@ -1,4 +1,4 @@
-l <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -110,7 +110,7 @@ button {
 <div class="box">
 
     <!-- BACK BUTTON -->
-    <div class="back" onclick="window.location.href='home.html'">
+    <div class="back" onclick="window.location.href='index.html'">
         <i class="fa-solid fa-arrow-left"></i>
     </div>
 
@@ -181,15 +181,14 @@ window.signup = async function(){
     let password = document.getElementById("password").value;
 
     if(!name || !identifier || !password){
-        alert("সব ঘর পূরণ করুন!");
+        alert("Please fill in all fields!");
         return;
     }
 
     if(password.length < 6){
-        alert("Password কমপক্ষে 6 character হতে হবে!");
+        alert("Password must be at least 6 character");
         return;
     }
-
     let emailToAuth = "";
     let finalPhone = "";
     let finalEmail = "";
@@ -224,11 +223,11 @@ window.signup = async function(){
         });
 
         alert("Account Created Successfully!");
-        window.location.href = "home.html";
+        window.location.href = "index.html";
 
     }catch(error){
         if(error.code === "auth/email-already-in-use"){
-            alert("এই ইমেইল বা ফোন নাম্বার দিয়ে ইতিমধ্যে অ্যাকাউন্ট তৈরি করা হয়েছে!");
+            alert("An account already exists with this email or phone number");
         } else {
             alert(error.message);
         }

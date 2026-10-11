@@ -585,10 +585,11 @@ header{
     border-color: green;
 }
 #phobe{
-     display: none;
+    display: none;
     position: absolute;  /* এটি মিসিং ছিল */
     top: 25px;
-    width:43%;        /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
+    width:43%;    
+    height:80%;    /* 100% তুলে দিয়ে ছোট সাইজ দেওয়া হয়েছে */
     padding: 8px;
     background: white;
     border: 1px solid #ddd;
@@ -618,6 +619,31 @@ header{
 #productADS{
 width:100px;height:30px;background:green;color:white;border:none;border-radius:5px;font-size:16px;font-weight:600;
 }
+#adsid{
+    display:none;
+    position: absolute;
+    width:95%;height:auto;border:px solid black;
+}
+
+.c{
+}
+.logoimg{
+    width:50%;margin:auto;display:block;border:none;
+}
+#adsviwe{
+   margin-top:20px; text-align:center;font-size:16px;font-weight:650;font-family: Arial, sans-serif;
+}
+#adsammount{
+    text-align:center; margin-top:15px;
+}
+#rage{
+    margin:auto;display:block;
+}
+#publish{
+   margin:auto;display:block;width:180px;height:30px;background:#092e6e;color:white;
+   border-radius:5px;font-size:16px;border:none;font-family: Arial, sans-serif;
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
@@ -824,8 +850,18 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 <div id="phobe">
     <p onclick="pch()" class="pchclose">X</p>
     <button id="detailsDeleteBtn" onclick="deleteCurrentProduct()"> Delete </button><br><br>
-     <button id="productADS"> Ads </button>
+     <button id="productADS" onclick="adsopenbtn()"> Ads </button>
+     <div id="adsid">
+    <p onclick="adsbtnclose()" class="pchclose">X</p>
+    <button class="c">c</button><br><br>
+    <img src="adsimg.png" class="logoimg">
+    <div id="adsviwe">Estimated Views: 0</div>
+    <div id="adsammount">0  ৳</div>
+    <input type="range" min="0" max="100" value="50" id="rage"><br><br>
+    <button id="publish">publish</button>
     </div>
+    </div>
+    
     <div id="productImages">
         <img id="mainImg" alt="Product">
         <div id="thumbnailBox"></div>
@@ -858,6 +894,13 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
   function pch(){
    document.getElementById('phobe').style.display ="none";
   }
+      function adsopenbtn(){
+  document.getElementById('adsid').style.display ="block";
+  }
+  function adsbtnclose(){
+   document.getElementById('adsid').style.display ="none";
+  }
+
 </script>
 
 
@@ -1524,7 +1567,6 @@ onAuthStateChanged(
     }
 );
 
-
 /* =========== CLOUDINARY CONFIG============================= */
 const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud Name বসান
 const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
@@ -1790,9 +1832,7 @@ window.shareContent = async function(title, text, url) {
   }
 };
 
-/* =====================================================
-   AUTH STATE UPDATES
-===================================================== */
+/* ================AUTH STATE UPDATES================== */
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         await displayPosts();
@@ -1800,7 +1840,78 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+/* =================== 'c' Button Click to Make Product an Ad =================== */
+document.addEventListener("click", async function(event) {
+    const cButton = event.target.closest(".c");
+    if (!cButton) return;
+
+    console.log("🎯 c button clicked!");
+
+    if (!selectedProductId) {
+        alert("অনুগ্রহ করে প্রথমে যেকোনো একটি প্রডাক্ট সিলেক্ট করুন!");
+        return;
+    }
+
+    const user = auth.currentUser;
+    if (!user) {
+        alert("আগে Login করুন।");
+        return;
+    }
+
+    try {
+        console.log("📦 Product ID:", selectedProductId);
+
+        // ⭐ ডুপ্লিকেট চেক — এই প্রোডাক্ট আগে থেকেই অ্যাড কিনা
+        const existingAdQuery = query(
+            collection(db, "user-ads"),
+            where("productId", "==", selectedProductId),
+            where("userId", "==", user.uid)
+        );
+        const existingAds = await getDocs(existingAdQuery);
+
+        if (!existingAds.empty) {
+            alert("এই প্রোডাক্টটি ইতিমধ্যেই অ্যাড হিসেবে যোগ করা হয়েছে!");
+            document.getElementById('adsid').style.display = 'none';
+            document.getElementById('phobe').style.display = 'none';
+            document.getElementById('productsearch').style.display = 'none';
+            return;
+        }
+
+        // প্রডাক্ট ডেটা ফেচ করা
+        const productRef = doc(db, "products", selectedProductId);
+        const productSnap = await getDoc(productRef);
+
+        if (!productSnap.exists()) {
+            alert("প্রডাক্টটি পাওয়া যায়নি।");
+            return;
+        }
+
+        const productData = productSnap.data();
+        console.log("📦 Product Data:", productData);
+
+        // 'user-ads' কালেকশনে সেভ
+        const adDocRef = await addDoc(collection(db, "user-ads"), {
+            productId: selectedProductId,
+            userId: user.uid,
+            productName: productData.name || "Product",
+            price: Array.isArray(productData.price) ? productData.price[0] : (productData.price || "0"),
+            imageUrl: (Array.isArray(productData.images) && productData.images.length > 0) ? productData.images[0] : "logo.png",
+            productLink: `product.html?id=${selectedProductId}`,
+            createdAt: serverTimestamp()
+        });
+
+        console.log("✅ Ad saved with ID:", adDocRef.id);
+        alert("সফল! এই প্রডাক্টটি এখন ভিডিও পেজে অ্যাড (Ad) হিসেবে দেখানো হবে।");
+
+        document.getElementById('adsid').style.display = 'none';
+        document.getElementById('phobe').style.display = 'none';
+        document.getElementById('productsearch').style.display = 'none';
+
+    } catch (error) {
+        console.error("❌ Ads Error:", error);
+        alert("অ্যাড তৈরি করতে সমস্যা হয়েছে: " + error.message);
+    }
+});
 </script>
 </body>
 </html>
-
