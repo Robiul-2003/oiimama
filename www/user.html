@@ -626,6 +626,7 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 }
 
 .c{
+  color:white;border:none;background:white;
 }
 .logoimg{
     width:50%;margin:auto;display:block;border:none;
@@ -854,7 +855,7 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
      <div id="adsid">
     <p onclick="adsbtnclose()" class="pchclose">X</p>
     <button class="c">c</button><br><br>
-    <img src="adsimg.png" class="logoimg">
+    <img src="pi.png" class="logoimg">
     <div id="adsviwe">Estimated Views: 0</div>
     <div id="adsammount">0  ৳</div>
     <input type="range" min="0" max="100" value="50" id="rage"><br><br>
@@ -903,13 +904,12 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 
 </script>
 
-
 <script type="module">
 
 /* ===================== FIREBASE IMPORT========================== */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged,updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { 
     getFirestore, 
     collection, 
@@ -917,6 +917,7 @@ import {
     where, 
     doc, 
     getDoc, 
+    setDoc,
     deleteDoc, 
     getDocs,
     addDoc,
@@ -957,19 +958,62 @@ function escapeHTML(value){
         .replaceAll("'","&#039;");
 }
 
-
-/* ===============PROFILE IMAGE PREVIEW==================== */
+/* ================= PROFILE IMAGE UPLOAD & FIREBASE SAVE ==================== */
 
 const profileInput = document.getElementById("profileimg");
 const profilePreview = document.getElementById("preview");
 
-profileInput.addEventListener("change", function(){
-    const file = this.files[0];
-    if(!file) return;
-    profilePreview.src = URL.createObjectURL(file);
-});
+if (profileInput) {
+    profileInput.addEventListener("change", async function () {
+        const file = this.files[0];
+        if (!file) return;
 
+        const user = auth.currentUser;
+        if (!user) {
+            alert("প্রোফাইল পিকচার পরিবর্তন করতে প্রথমে Login করুন।");
+            return;
+        }
 
+        // ১. ব্রাউজারে সাথে সাথে প্রিভিউ দেখানো
+        profilePreview.src = URL.createObjectURL(file);
+
+        try {
+            // ২. Cloudinary-তে ছবি পাঠানো
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", UPLOAD_PRESET);
+
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+                method: "POST",
+                body: formData
+            });
+
+            const cloudinaryData = await res.json();
+
+            if (!res.ok) {
+                throw new Error(cloudinaryData.error?.message || "Cloudinary Upload Failed");
+            }
+
+            // Cloudinary থেকে পাওয়া মেইন ইমেজের লিংক
+            const photoURL = cloudinaryData.secure_url;
+
+            // ৩. Firebase Auth Profile-এ photoURL আপডেট করা
+            await updateProfile(user, { photoURL: photoURL });
+
+            // ৪. Firebase Firestore-এর "users" কালেকশনে photoURL সেভ করা
+            const userRef = doc(db, "users", user.uid);
+            await setDoc(userRef, { photoURL: photoURL }, { merge: true });
+
+            // UI-তে স্থায়ী লিংক আপডেট
+            profilePreview.src = photoURL;
+            alert("প্রোফাইল পিকচার সফলভাবে সেভ হয়েছে!");
+
+        } catch (error) {
+            console.error("Profile Upload Error:", error);
+            alert("ছবি আপলোড করতে সমস্যা হয়েছে: " + error.message);
+        }
+    });
+}
 /* ============ DELETE PRODUCT======================== */
 
 window.deleteCurrentProduct = async function() {
@@ -1146,9 +1190,7 @@ if(Array.isArray(p.images) && p.images.length > 0){
     mainImg.src = "logo.png";
 
 }
-
     }catch(error){
-
         console.error("Product Show Error:", error);
 
     }
@@ -1383,11 +1425,9 @@ window.SavePost = async function() {
         // Firebase User ID
         const userId = user.uid;
 
-
         // Default name
         let userName =
             user.displayName || "User";
-
 
         // users collection থেকে name নেওয়া
         const userRef =
@@ -1412,15 +1452,10 @@ window.SavePost = async function() {
         await addDoc(
             collection(db, "posts"),
             {
-
                 text: text,
-
                 userId: userId,
-
                 userName: userName,
-
                 createdAt: serverTimestamp()
-
             }
         );
         // Input clear
@@ -1446,7 +1481,6 @@ window.SavePost = async function() {
             "Post Save Failed: " +
             error.message
         );
-
     }
 
 };
@@ -1461,7 +1495,6 @@ window.deletePost = async function(postId) {
     ) {
         return;
     }
-
 
     try {
 
@@ -1498,8 +1531,6 @@ window.deletePost = async function(postId) {
         // Post data
         const postData =
             postSnap.data();
-
-
         // ================= OWNER CHECK =================
 
         if (
