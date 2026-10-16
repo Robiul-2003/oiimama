@@ -3,32 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <title>Messages</title>
 <style>
-  body { font-family:sans-serif; background:#f0f2f5; margin:0; }
-  .top { background:#075e54; color:#fff; padding:16px; font-size:18px; }
+  body { font-family:sans-serif; background:#e5e7ea; margin:0; }
+   .header1{
+    max-width:1000px;margin:auto;background:white;border:1px solid rgb(233, 220, 220);
+   }
+   .headone {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+    .name { font-size: 20px; padding: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
+    .fa-list{ font-size:20px;margin-right:5%; }
+     .headtwo{
+     height:50px;
+        display:flex;
+        align-items:center;
+        margin-top:0;
+    }
+            #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left:12%; }
+            #videoimg { width: 36px; height: 32px; margin-left:20%; }
+            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:12%; }
+            #userimg { width: 28px; height: 28px; margin-right: 2%; }
+
+  
   .chat-item {
+    max-width:975px;margin:auto;
     background:#fff; padding:12px; display:flex; gap:12px;
-    border-bottom:1px solid #eee; cursor:pointer;
+    border-bottom:1px solid #e0d2d2; cursor:pointer;
   }
-  .chat-item img { width:50px; height:50px; border-radius:50%; object-fit:cover; }
+  .chat-item img { width:35px; height:35px; border-radius:50%; object-fit:cover;}
   .chat-item .info { flex:1; }
   .chat-item .info h4 { margin:0; font-size:15px; }
   .chat-item .info p { margin:4px 0 0; font-size:13px; color:#666;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;}
   .chat-item .time { font-size:11px; color:#999; }
+   @media(max-width:600px){
+     #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left: 10%; }
+            #videoimg { width: 36px; height: 32px; margin-left: 8%; }
+            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:7%; }
+            #userimg { width: 28px; height: 28px; margin-right: 2%; }
+   }
 </style>
 </head>
 <body>
-
-<div class="top">Messages</div>
+  <div class="header1">
+        <div class="headone">
+            <span class="name">ADARSHA</span>
+            <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+        </div>
+        <div class="headtwo">
+            <img src="home.png" id="homeimg" onclick="window.location.href='index.html'">
+            <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
+            <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+            <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
+            <img src="bell.png" id="bellimg">
+            <img src="user.png" id="userimg" onclick="window.location.href='user.html'">
+        </div>
+    </div>
 <div id="chatList"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { 
-  getFirestore, collection, query, where, orderBy, onSnapshot 
+  getFirestore, collection, query, where, onSnapshot 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -46,17 +89,20 @@ const db   = getFirestore(app);
 
 onAuthStateChanged(auth, user => {
   if (!user) { window.location.href = "login.html"; return; }
+  console.log("🔑 My UID:", user.uid);
+  console.log("📧 My Email:", user.email);
   loadChats(user.uid);
 });
 
 function loadChats(uid) {
   const q = query(
     collection(db, "chats"),
-    where("members", "array-contains", uid),
-    orderBy("lastTime", "desc")
+    where("members", "array-contains", uid)
   );
 
   onSnapshot(q, snap => {
+    console.log("📬 Total chats found:", snap.size);
+
     const box = document.getElementById("chatList");
     box.innerHTML = "";
 
@@ -65,8 +111,19 @@ function loadChats(uid) {
       return;
     }
 
+    const chats = [];
     snap.forEach(d => {
-      const c = d.data();
+      console.log("💬 Chat doc:", d.id, d.data());
+      chats.push({ id: d.id, ...d.data() });
+    });
+
+    chats.sort((a, b) => {
+      const t1 = a.lastTime?.toDate ? a.lastTime.toDate().getTime() : 0;
+      const t2 = b.lastTime?.toDate ? b.lastTime.toDate().getTime() : 0;
+      return t2 - t1;
+    });
+
+    chats.forEach(c => {
       const otherUid = c.members.find(x => x !== uid);
       const other = c.membersInfo?.[otherUid] || { name: "User" };
       const time = c.lastTime?.toDate 
@@ -74,7 +131,7 @@ function loadChats(uid) {
         : "";
 
       box.innerHTML += `
-        <div class="chat-item" onclick="location.href='chat.html?chatId=${d.id}'">
+        <div class="chat-item" onclick="location.href='chat.html?chatId=${c.id}'">
           <img src="user.png">
           <div class="info">
             <h4>${other.name}</h4>
@@ -84,6 +141,15 @@ function loadChats(uid) {
         </div>
       `;
     });
+  }, (error) => {
+    console.error("❌ onSnapshot error:", error);
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    
+    const box = document.getElementById("chatList");
+    box.innerHTML = `<p style='padding:20px;text-align:center;color:#e74c3c'>
+      Error: ${error.message}
+    </p>`;
   });
 }
 </script>

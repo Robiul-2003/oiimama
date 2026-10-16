@@ -1,302 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-  <title>Messages - Adarsha BD</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>Messages</title>
+<style>
+  body { font-family:sans-serif; background:#e5e7ea; margin:0; }
+   .header1{
+    max-width:1000px;margin:auto;background:white;border:1px solid rgb(233, 220, 220);
+   }
+   .headone {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+    .name { font-size: 20px; padding: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
+    .fa-list{ font-size:20px;margin-right:5%; }
+     .headtwo{
+     height:50px;
+        display:flex;
+        align-items:center;
+        margin-top:0;
     }
-    header {
-      width: 100%;
-      height: 50px;
-      background: #031f50;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 999;
-    }
-    .companyname {
-      font-size: 24px;
-      color: white;
-      line-height: 50px;
-      margin-left: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding-top: 60px;
-      padding-bottom: 20px;
-    }
-    #idserach {
-      display: block;
-      margin: 10px auto;
-      width: 95%;
-      border-radius: 5px;
-      height: 40px;
-      border: 1px solid #ccc;
-      padding: 0 10px;
-      box-sizing: border-box;
-      font-size: 15px;
-    }
+            #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left:12%; }
+            #videoimg { width: 36px; height: 32px; margin-left:20%; }
+            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:12%; }
+            #userimg { width: 28px; height: 28px; margin-right: 2%; }
 
-    /* ====== চ্যাট কার্ড ====== */
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fff;
-      margin: 8px 10px;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      transition: background 0.2s;
-    }
-    .chat-item:hover {
-      background: #eef4ff;
-    }
-    .chat-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #007bff;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    .chat-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .chat-name {
-      font-weight: bold;
-      font-size: 15px;
-      margin: 0 0 4px 0;
-      color: #031f50;
-    }
-    .chat-product {
-      font-size: 13px;
-      color: #555;
-      margin: 0 0 4px 0;
-    }
-    .chat-last {
-      font-size: 13px;
-      color: #888;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .chat-time {
-      font-size: 11px;
-      color: #aaa;
-      flex-shrink: 0;
-    }
-    .empty {
-      text-align: center;
-      padding: 60px 20px;
-      color: #888;
-      font-size: 16px;
-    }
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #007bff;
-    }
-  </style>
+  
+  .chat-item {
+    max-width:975px;margin:auto;
+    background:#fff; padding:12px; display:flex; gap:12px;
+    border-bottom:1px solid #e0d2d2; cursor:pointer;
+  }
+  .chat-item img { width:35px; height:35px; border-radius:50%; object-fit:cover;}
+  .chat-item .info { flex:1; }
+  .chat-item .info h4 { margin:0; font-size:15px; }
+  .chat-item .info p { margin:4px 0 0; font-size:13px; color:#666;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;}
+  .chat-item .time { font-size:11px; color:#999; }
+   @media(max-width:600px){
+     #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left: 10%; }
+            #videoimg { width: 36px; height: 32px; margin-left: 8%; }
+            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:7%; }
+            #userimg { width: 28px; height: 28px; margin-right: 2%; }
+   }
+</style>
 </head>
 <body>
-  <header>
-    <div class="companyname" onclick="window.location.href='home.html'">Adarsha BD</div>
-  </header>
-
-  <div class="container">
-    <input type="text" id="idserach" placeholder="Search user name..." onkeyup="filterChats()">
-    <div id="chatList">
-      <div class="loading">Loading chats...</div>
+  <div class="header1">
+        <div class="headone">
+            <span class="name">ADARSHA</span>
+            <i class="fa-solid fa-list" onclick="window.location.href='list.html'" id="list"></i>
+        </div>
+        <div class="headtwo">
+            <img src="home.png" id="homeimg" onclick="window.location.href='index.html'">
+            <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
+            <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+            <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
+            <img src="bell.png" id="bellimg">
+            <img src="user.png" id="userimg" onclick="window.location.href='user.html'">
+        </div>
     </div>
-  </div>
+<div id="chatList"></div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { 
-      getFirestore, collection, query, where, getDocs, orderBy 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { 
+  getFirestore, collection, query, where, onSnapshot 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // ===== আপনার Firebase Config =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-      authDomain: "robiul-84377.firebaseapp.com",
-      projectId: "robiul-84377",
-      storageBucket: "robiul-84377.firebasestorage.app",
-      messagingSenderId: "476907665212",
-      appId: "1:476907665212:web:b4dc619f0290a2241b1039"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "476907665212",
+  appId: "1:476907665212:web:b4dc619f0290a2241b1039"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-    let allChats = [];
+onAuthStateChanged(auth, user => {
+  if (!user) { window.location.href = "login.html"; return; }
+  console.log("🔑 My UID:", user.uid);
+  console.log("📧 My Email:", user.email);
+  loadChats(user.uid);
+});
 
-    // ===== ইউজার লগইন চেক =====
-    onAuthStateChanged(auth, async (user) => {
-      const listBox = document.getElementById("chatList");
+function loadChats(uid) {
+  const q = query(
+    collection(db, "chats"),
+    where("members", "array-contains", uid)
+  );
 
-      if (!user) {
-        listBox.innerHTML = `<div class="empty">
-          Please login first<br><br>
-          <button onclick="location.href='home.html'" 
-                  style="padding:10px 20px; background:#007bff; color:#fff; border:none; border-radius:5px;">
-            Go Home
-          </button>
-        </div>`;
-        return;
-      }
+  onSnapshot(q, snap => {
+    console.log("📬 Total chats found:", snap.size);
 
-      // ===== চ্যাট লোড =====
-      await loadChats(user.uid);
+    const box = document.getElementById("chatList");
+    box.innerHTML = "";
+
+    if (snap.empty) {
+      box.innerHTML = "<p style='padding:20px;text-align:center;color:#888'>No chats yet</p>";
+      return;
+    }
+
+    const chats = [];
+    snap.forEach(d => {
+      console.log("💬 Chat doc:", d.id, d.data());
+      chats.push({ id: d.id, ...d.data() });
     });
 
-    // ===== Firestore থেকে চ্যাট আনা =====
-    async function loadChats(uid) {
-      const listBox = document.getElementById("chatList");
-      allChats = [];
+    chats.sort((a, b) => {
+      const t1 = a.lastTime?.toDate ? a.lastTime.toDate().getTime() : 0;
+      const t2 = b.lastTime?.toDate ? b.lastTime.toDate().getTime() : 0;
+      return t2 - t1;
+    });
 
-      try {
-        // আমি যেসব চ্যাটে buyer বা seller
-        const q1 = query(
-          collection(db, "chats"),
-          where("buyerId", "==", uid)
-        );
-        const q2 = query(
-          collection(db, "chats"),
-          where("sellerId", "==", uid)
-        );
+    chats.forEach(c => {
+      const otherUid = c.members.find(x => x !== uid);
+      const other = c.membersInfo?.[otherUid] || { name: "User" };
+      const time = c.lastTime?.toDate 
+        ? c.lastTime.toDate().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
+        : "";
 
-        const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
-
-        const seen = new Set();
-
-        snap1.forEach(d => {
-          if (!seen.has(d.id)) {
-            seen.add(d.id);
-            allChats.push({ id: d.id, ...d.data() });
-          }
-        });
-        snap2.forEach(d => {
-          if (!seen.has(d.id)) {
-            seen.add(d.id);
-            allChats.push({ id: d.id, ...d.data() });
-          }
-        });
-
-        // সর্বশেষ মেসেজ অনুযায়ী সাজানো
-        allChats.sort((a, b) => {
-          const ta = a.lastMessageTime?.seconds || 0;
-          const tb = b.lastMessageTime?.seconds || 0;
-          return tb - ta;
-        });
-
-        renderChats(allChats);
-
-      } catch (err) {
-        console.error("Chat load error:", err);
-        listBox.innerHTML = `<div class="empty">Error loading chats: ${err.message}</div>`;
-      }
-    }
-
-    // ===== চ্যাট লিস্ট রেন্ডার =====
-    function renderChats(chats) {
-      const listBox = document.getElementById("chatList");
-
-      if (chats.length === 0) {
-        listBox.innerHTML = `<div class="empty">No chats yet 📭<br>Start chatting from a product page!</div>`;
-        return;
-      }
-
-      let html = "";
-      const myUid = auth.currentUser.uid;
-
-      chats.forEach(c => {
-        // আমি buyer হলে অন্যজন seller, আর আমি seller হলে অন্যজন buyer
-        const isBuyer = c.buyerId === myUid;
-        const otherName = isBuyer ? (c.sellerEmail || "Seller") : (c.buyerEmail || "Buyer");
-        const avatarLetter = otherName.charAt(0).toUpperCase();
-
-        const timeStr = c.lastMessageTime?.seconds
-          ? new Date(c.lastMessageTime.seconds * 1000).toLocaleString([], {
-              hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short'
-            })
-          : '';
-
-        html += `
-          <div class="chat-item" onclick="openChatRoom('${c.id}')">
-            <div class="chat-avatar">${avatarLetter}</div>
-            <div class="chat-info">
-              <p class="chat-name">${escapeHTML(otherName)}</p>
-              <p class="chat-product">📦 ${escapeHTML(c.productName || '')}</p>
-              <p class="chat-last">${escapeHTML(c.lastMessage || 'No message yet')}</p>
-            </div>
-            <div class="chat-time">${timeStr}</div>
+      box.innerHTML += `
+        <div class="chat-item" onclick="location.href='chat.html?chatId=${c.id}'">
+          <img src="user.png">
+          <div class="info">
+            <h4>${other.name}</h4>
+            <p>${c.lastMessage || c.productName || ''}</p>
           </div>
-        `;
-      });
-
-      listBox.innerHTML = html;
-    }
-
-    // ===== সার্চ =====
-    window.filterChats = function () {
-      const input = document.getElementById("idserach").value.toLowerCase().trim();
-
-      if (!input) {
-        renderChats(allChats);
-        return;
-      }
-
-      const filtered = allChats.filter(c => {
-        const myUid = auth.currentUser?.uid;
-        const isBuyer = c.buyerId === myUid;
-        const otherName = isBuyer ? (c.sellerEmail || "") : (c.buyerEmail || "");
-        return otherName.toLowerCase().includes(input) ||
-               (c.productName || "").toLowerCase().includes(input);
-      });
-
-      renderChats(filtered);
-    };
-
-    // ===== চ্যাট রুমে যাওয়া =====
-    window.openChatRoom = function (chatId) {
-      window.location.href = `chat.html?id=${chatId}`;
-    };
-
-    // ===== HTML Escape =====
-    function escapeHTML(v) {
-      if (v === null || v === undefined) return "";
-      return String(v)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-  </script>
+          <div class="time">${time}</div>
+        </div>
+      `;
+    });
+  }, (error) => {
+    console.error("❌ onSnapshot error:", error);
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    
+    const box = document.getElementById("chatList");
+    box.innerHTML = `<p style='padding:20px;text-align:center;color:#e74c3c'>
+      Error: ${error.message}
+    </p>`;
+  });
+}
+</script>
 </body>
 </html>

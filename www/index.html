@@ -851,10 +851,10 @@ h2 {
   <div class="clickbox" onclick="filterProducts('baby')"><img src="baby.png" class="click"> baby </div>
   <div class="clickbox" onclick="filterProducts('mobile')"><img src="phoneicon.png" alt="mobile" class="click">Mobile</div>
   <div class="clickbox" onclick="filterProducts('accessories')"><img src="https://cdn-icons-png.flaticon.com/512/3659/3659898.png" alt="Phone Accessories" class="click">accessories </div>
-  <div class="clickbox" onclick="filterProducts('latop')"> <img src="https://techmarvels.com.bd/wp-content/uploads/2026/02/HP-15-fd0154wm-1.webp" alt="laptop" class="click"> Laptop </div>
-  <div class="clickbox" onclick="filterProducts('Electrical')"> <img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="electrical" class="click"> Electrical </div>
-  <div class="clickbox" onclick="filterProducts('Medicine')"><img src="https://png.pngtree.com/png-vector/20240518/ourmid/pngtree-pharmacy-concept-with-medicines-png-image_12484673.png" alt="medicine" class="click">Medicine</div>
-  <div class="clickbox" onclick="filterProducts('Kitchen')"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="kitchen" class="click"> Kitchen </div>
+  <div class="clickbox" onclick="filterProducts('laptop')"> <img src="https://techmarvels.com.bd/wp-content/uploads/2026/02/HP-15-fd0154wm-1.webp" alt="laptop" class="click"> Laptop </div>
+  <div class="clickbox" onclick="filterProducts('electrical')"> <img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="electrical" class="click"> Electrical </div>
+  <div class="clickbox" onclick="filterProducts('medicine')"><img src="https://png.pngtree.com/png-vector/20240518/ourmid/pngtree-pharmacy-concept-with-medicines-png-image_12484673.png" alt="medicine" class="click">Medicine</div>
+  <div class="clickbox" onclick="filterProducts('kitchen')"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png" alt="kitchen" class="click"> Kitchen </div>
   <div class="clickbox" onclick="filterProducts('car')"><img src="car.png" alt="car" class="click">Car</div>
   <div class="clickbox" onclick="filterProducts('cycle')"><img src="cycle-removebg-preview.png" alt="cycle" class="click">Cycle</div>
 </div>
@@ -989,7 +989,10 @@ document.addEventListener("touchend", function(e) {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { 
+  getFirestore, collection, doc, getDoc, getDocs,
+  addDoc, setDoc, updateDoc, serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ==================== FIXED BACK BUTTON SETUP (Capacitor) ====================
 let backListenerAttached = false;
@@ -1091,7 +1094,111 @@ onAuthStateChanged(auth, (user) => {
     if(user) console.log("Login User:", user.email);
     else console.log("Guest User");
 });
+// ==================== ORDER & CHAT BUTTON ====================
+document.getElementById("Obtn1").addEventListener("click", async function () {
+  const p = window.currentProduct;
+  if (!p) return;
 
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Chat করতে আগে Login করুন");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const sellerId = p.sellerId;
+  if (!sellerId) {
+    alert("এই প্রোডাক্টে Seller তথ্য নেই।");
+    return;
+  }
+
+  if (sellerId === user.uid) {
+    alert("এটি আপনার নিজের প্রোডাক্ট।");
+    return;
+  }
+
+  const chatId = [user.uid, sellerId].sort().join("_");
+  const chatRef = doc(db, "chats", chatId);
+  const chatSnap = await getDoc(chatRef);
+
+  if (!chatSnap.exists()) {
+    await setDoc(chatRef, {
+      members: [user.uid, sellerId],
+      membersInfo: {
+        [user.uid]: { name: user.displayName || user.email || "Buyer" },
+        [sellerId]: { name: p.userName || "Seller" }
+      },
+      productId: p.id,
+      productName: p.name,
+      productImage: (p.images && p.images[0]) ? p.images[0] : "",
+      lastMessage: "",
+      lastTime: serverTimestamp(),
+      createdAt: serverTimestamp()
+    });
+  }
+
+  window.location.href = `chat.html?chatId=${chatId}`;
+});
+
+// ---------- ORDER BUTTON ----------
+document.getElementById("Obtn").addEventListener("click", async function () {
+  const p = window.currentProduct;
+  const user = auth.currentUser;
+
+  if (!user) { 
+    alert("Order করতে আগে Login করুন"); 
+    window.location.href = "login.html";
+    return; 
+  }
+  if (!p) return;
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      productId: p.id,
+      productName: p.name,
+      productImage: (p.images && p.images[0]) ? p.images[0] : "",
+      price: Array.isArray(p.price) ? p.price[0] : p.price,
+      sellerId: p.sellerId || null,
+      sellerName: p.userName || "Seller",
+      buyerId: user.uid,
+      buyerEmail: user.email,
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
+
+    // Seller কে অটো message
+    if (p.sellerId && p.sellerId !== user.uid) {
+      const cid = [user.uid, p.sellerId].sort().join("_");
+
+      await setDoc(doc(db, "chats", cid), {
+        members: [user.uid, p.sellerId],
+        membersInfo: {
+          [user.uid]: { name: user.displayName || user.email || "Buyer" },
+          [p.sellerId]: { name: p.userName || "Seller" }
+        },
+        productId: p.id,
+        productName: p.name,
+        productImage: (p.images && p.images[0]) ? p.images[0] : "",
+        lastMessage: "🛒 নতুন অর্ডার এসেছে!",
+        lastTime: serverTimestamp(),
+        createdAt: serverTimestamp()
+      }, { merge: true });
+
+      await addDoc(collection(db, "chats", cid, "messages"), {
+        sender: user.uid,
+        text: `🛒 আমি "${p.name}" অর্ডার করেছি।`,
+        time: serverTimestamp(),
+        seen: false
+      });
+    }
+
+    alert("✅ Order সফলভাবে পাঠানো হয়েছে!");
+    closeModal();
+  } catch (err) {
+    console.error(err);
+    alert("❌ Order failed: " + err.message);
+  }
+});
 // ==================== PRODUCTS DATA ====================
 window.allProducts = [];
 
@@ -1107,28 +1214,6 @@ const localProducts = [
     images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR91pYkoZN1WVfWJNA7rcoltAfMWXsVu68HRnIaEfT2Qpediagscf5Mo2c&s=10"],
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
-  {
-    id: 10,
-    category: ["man", "woman", "accessories"],
-    name: "Power Bank 10000mah 100% Original VEN-DENS VD-PB041",
-    color: ["black"],
-    size:  [],
-    ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["650 TK", "630 TK", "600 TK"],
-    images: [
-      "https://techshosta.com.bd/image/cache/catalog/Power%20bank/d178672f-fe68-488d-9494-e6afe67d367a-400x400.webp",
-      "https://scontent.fdac39-1.fna.fbcdn.net/v/t39.30808-6/749301003_122114171265338126_3437933405842232758_n.jpg",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMmpSz9VylyRts4VjvbBx7BnnHsoXOGuoVrwlwdwC-vfpsTb5yszCemNLZ&s=10"
-    ],
-    details: `
-    Highlights:
-    Model: VD-PB041
-    Input: 5V-2A
-    USB 1 Output: DC5V-2A
-    USB 2 Output : DC5V-2A
-    Rated Capacity: 37Wh 3.7V 10000mAh
-    `
-  }
 ];
 
 window.allProducts = [...localProducts];
