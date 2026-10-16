@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #121212; 
+            background-color: #121212;
             color: #fff;
             padding: 20px;
             display: flex;
@@ -44,7 +44,6 @@
             margin-bottom: 5px;
         }
 
-      
         .form-group {
             margin-bottom: 20px;
         }
@@ -84,8 +83,8 @@
         .image-slot {
             position: relative;
             width: 100%;
-            aspect-ratio:1/1;
-            padding-top: 100%; 
+            aspect-ratio: 1/1;
+            padding-top: 100%;
             background-color: #2d2d2d;
             border-radius: 10px;
             border: 1px solid #3a3a3a;
@@ -119,7 +118,7 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            display: none; 
+            display: none;
             align-items: center;
             justify-content: center;
             font-size: 12px;
@@ -202,17 +201,17 @@
             <label for="productCategory">Category *</label>
             <select id="productCategory" required>
                 <option value="" disabled selected>Select a category</option>
-                <option value="clothing">Clothing & Fashion</option>
-                <option value="electronics">Electronics</option>
-                <option value="gadget">Gadget</option>
-                <option value="Man">Man</option>
-                <option value="Woman">Woman</option>
-                <option value="Mobile">Mobile</option>
-                <option value="Laptop">Laptop</option>
-                <option value="Cars">Cars</option>
-                <option value="Baby">Baby</option>
-                <option value="Kitchen">Kitchen</option>
+                <option value="man">Man</option>
+                <option value="woman">Woman</option>
+                <option value="baby">Baby</option>
+                <option value="mobile">Mobile</option>
                 <option value="accessories">Accessories</option>
+                <option value="laptop">Laptop</option>
+                <option value="electrical">Electrical</option>
+                <option value="medicine">Medicine</option>
+                <option value="kitchen">Kitchen</option>
+                <option value="car">Car</option>
+                <option value="cycle">Cycle</option>
                 <option value="other">Other</option>
             </select>
         </div>
@@ -265,11 +264,11 @@
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import {getFirestore, doc,  setDoc,  getDoc,  serverTimestamp}
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged}
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const CLOUDINARY_CLOUD_NAME = "sykfzqhs";
 const CLOUDINARY_UPLOAD_PRESET = "robiul_preset";
@@ -290,42 +289,44 @@ const auth = getAuth(app);
 let currentUser = null;
 
 onAuthStateChanged(auth, (user) => {
-    if(user){
+    if (user) {
         currentUser = user;
+        console.log("✅ Logged in:", user.email);
     } else {
         currentUser = null;
+        console.log("⚠️ Guest user");
     }
 });
 
-// IMAGE PREVIEW FUNCTIONS
-window.triggerInput = function(id){
-    document.getElementById("input-"+id).click();
+// ==================== IMAGE PREVIEW ====================
+window.triggerInput = function(id) {
+    document.getElementById("input-" + id).click();
 }
 
-window.previewSlotImage = function(input, id){
+window.previewSlotImage = function(input, id) {
     const file = input.files[0];
-    if(!file) return;
+    if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = function(e){
-        document.getElementById("img-"+id).src = e.target.result;
-        document.getElementById("img-"+id).style.display = "block";
-        document.getElementById("icon-"+id).style.display = "none";
-        document.getElementById("delete-"+id).style.display = "flex";
+    reader.onload = function(e) {
+        document.getElementById("img-" + id).src = e.target.result;
+        document.getElementById("img-" + id).style.display = "block";
+        document.getElementById("icon-" + id).style.display = "none";
+        document.getElementById("delete-" + id).style.display = "flex";
     }
     reader.readAsDataURL(file);
 }
 
-window.deleteImage = function(event, id){
+window.deleteImage = function(event, id) {
     event.stopPropagation();
-    document.getElementById("input-"+id).value = "";
-    document.getElementById("img-"+id).src = "";
-    document.getElementById("img-"+id).style.display = "none";
-    document.getElementById("icon-"+id).style.display = "block";
-    document.getElementById("delete-"+id).style.display = "none";
+    document.getElementById("input-" + id).value = "";
+    document.getElementById("img-" + id).src = "";
+    document.getElementById("img-" + id).style.display = "none";
+    document.getElementById("icon-" + id).style.display = "block";
+    document.getElementById("delete-" + id).style.display = "none";
 }
 
-// ⚡ IMAGE COMPRESSION FUNCTION (ছবির সাইজ ছোট করার ফাংশন)
+// ==================== IMAGE COMPRESSION ====================
 function compressImage(file, maxWidth = 1000, quality = 0.7) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -337,7 +338,6 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
                 let width = img.width;
                 let height = img.height;
 
-                // যদি ছবি ১০০০ পিক্সেলের চেয়ে বড় হয়, তবে অনুপাত ঠিক রেখে ছোট করা হবে
                 if (width > maxWidth) {
                     height = Math.round((height * maxWidth) / width);
                     width = maxWidth;
@@ -350,7 +350,6 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
                 const ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // ছবির কোয়ালিটি ৭০% রেখে ফাইল ফরম্যাটে রূপান্তর
                 canvas.toBlob((blob) => {
                     if (blob) {
                         const compressedFile = new File([blob], file.name, {
@@ -369,7 +368,7 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
     });
 }
 
-// UPLOAD TO CLOUDINARY
+// ==================== CLOUDINARY UPLOAD ====================
 async function uploadToCloudinary(file) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
     const formData = new FormData();
@@ -389,7 +388,7 @@ async function uploadToCloudinary(file) {
     return data.secure_url;
 }
 
-// FORM SUBMISSION
+// ==================== FORM SUBMIT ====================
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -406,24 +405,20 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
     let imageUrls = [];
 
     try {
-
         // =====================================
-        // GET SELLER NAME — শুধু একবার
+        // GET SELLER NAME
         // =====================================
         const userRef = doc(db, "users", currentUser.uid);
         const userSnap = await getDoc(userRef);
-
-        const userData = userSnap.exists()
-            ? userSnap.data()
-            : {};
+        const userData = userSnap.exists() ? userSnap.data() : {};
 
         const sellerName =
             userData.name ||
             currentUser.displayName ||
+            currentUser.email ||
             "Seller";
 
         console.log("Seller Name:", sellerName);
-
 
         // =====================================
         // UPLOAD IMAGES
@@ -431,68 +426,39 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
         btn.innerText = "Compressing & Uploading images...";
 
         for (let i = 1; i <= 5; i++) {
-
             const input = document.getElementById("input-" + i);
 
             if (input.files && input.files[0]) {
-
                 const originalFile = input.files[0];
-
-                // Compress image
-                const compressedFile =
-                    await compressImage(originalFile);
-
-                // Upload to Cloudinary
-                const uploadedUrl =
-                    await uploadToCloudinary(compressedFile);
-
+                const compressedFile = await compressImage(originalFile);
+                const uploadedUrl = await uploadToCloudinary(compressedFile);
                 imageUrls.push(uploadedUrl);
             }
         }
-
 
         // =====================================
         // SAVE PRODUCT
         // =====================================
         btn.innerText = "Saving product info...";
 
-        const price =
-            document.getElementById("productprice").value;
+        const price = document.getElementById("productprice").value;
 
         const product = {
-
             id: productId,
 
-            name:
-                document.getElementById("productName")
-                .value
-                .trim(),
+            name: document.getElementById("productName").value.trim(),
 
-            size:
-                document.getElementById("Size")
-                .value
-                .trim(),
+            size: document.getElementById("Size").value.trim(),
 
-            color:
-                document.getElementById("Color")
-                .value
-                .trim(),
+            color: document.getElementById("Color").value.trim(),
 
             category: [
-                document.getElementById("productCategory")
-                .value
+                document.getElementById("productCategory").value.toLowerCase()
             ],
 
-            details:
-                document.getElementById("productDescription")
-                .value
-                .trim(),
+            details: document.getElementById("productDescription").value.trim(),
 
-            ppieces: [
-                "1-5",
-                "6-10",
-                "11-20"
-            ],
+            ppieces: ["1-5", "6-10", "11-20"],
 
             price: [
                 price + " TK",
@@ -503,42 +469,29 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
             images: imageUrls,
 
             // =====================================
-            // USER INFORMATION
+            // USER / SELLER INFO
             // =====================================
-            userId: currentUser.uid,
-
+            userId: currentUser.uid,      // পুরাতন (backward compatibility)
+            sellerId: currentUser.uid,    // ✅ Chat/Order এর জন্য জরুরি
             userName: sellerName,
-
             ownerEmail: currentUser.email || "",
 
             createdAt: serverTimestamp()
         };
 
-
         // Save to Firestore
-        await setDoc(
-            doc(db, "products", productId),
-            product
-        );
+        await setDoc(doc(db, "products", productId), product);
 
-
-        console.log("Product saved:", product);
+        console.log("✅ Product saved:", product);
 
         alert("✅ Product Added Successfully!");
-
 
         // Reset form
         document.getElementById("productForm").reset();
 
         for (let i = 1; i <= 5; i++) {
-            window.deleteImage(
-                {
-                    stopPropagation: () => {}
-                },
-                i
-            );
+            window.deleteImage({ stopPropagation: () => {} }, i);
         }
-
 
         // Go back
         if (window.history.length > 1) {
@@ -548,13 +501,9 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
         }
 
     } catch (error) {
-
         console.error("Product Error:", error);
-
         alert("Error: " + error.message);
-
     } finally {
-
         btn.disabled = false;
         btn.innerText = "Add Product";
     }
