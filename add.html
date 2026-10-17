@@ -339,6 +339,7 @@ function compressImage(file, maxWidth = 1000, quality = 0.7) {
                 let height = img.height;
 
                 if (width > maxWidth) {
+                    // সিনট্যাক্স ঠিক করা হয়েছে (* চিহ্ন দেওয়া হয়েছে)
                     height = Math.round((height * maxWidth) / width);
                     width = maxWidth;
                 }
@@ -405,9 +406,7 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
     let imageUrls = [];
 
     try {
-        // =====================================
-        // GET SELLER NAME
-        // =====================================
+        // ====================== GET SELLER NAME====================================
         const userRef = doc(db, "users", currentUser.uid);
         const userSnap = await getDoc(userRef);
         const userData = userSnap.exists() ? userSnap.data() : {};
@@ -418,11 +417,7 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
             currentUser.email ||
             "Seller";
 
-        console.log("Seller Name:", sellerName);
-
-        // =====================================
-        // UPLOAD IMAGES
-        // =====================================
+        // ============== UPLOAD IMAGES=====================================
         btn.innerText = "Compressing & Uploading images...";
 
         for (let i = 1; i <= 5; i++) {
@@ -435,54 +430,37 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
                 imageUrls.push(uploadedUrl);
             }
         }
-
-        // =====================================
-        // SAVE PRODUCT
-        // =====================================
+        
+        // ==========SAVE PRODUCT ====================
         btn.innerText = "Saving product info...";
 
         const price = document.getElementById("productprice").value;
 
         const product = {
             id: productId,
-
             name: document.getElementById("productName").value.trim(),
-
             size: document.getElementById("Size").value.trim(),
-
             color: document.getElementById("Color").value.trim(),
-
             category: [
                 document.getElementById("productCategory").value.toLowerCase()
             ],
-
             details: document.getElementById("productDescription").value.trim(),
-
             ppieces: ["1-5", "6-10", "11-20"],
-
             price: [
                 price + " TK",
                 price + " TK",
                 price + " TK"
             ],
-
             images: imageUrls,
-
-            // =====================================
-            // USER / SELLER INFO
-            // =====================================
-            userId: currentUser.uid,      // পুরাতন (backward compatibility)
-            sellerId: currentUser.uid,    // ✅ Chat/Order এর জন্য জরুরি
+            userId: currentUser.uid,
+            sellerId: currentUser.uid,
             userName: sellerName,
             ownerEmail: currentUser.email || "",
-
             createdAt: serverTimestamp()
         };
 
         // Save to Firestore
         await setDoc(doc(db, "products", productId), product);
-
-        console.log("✅ Product saved:", product);
 
         alert("✅ Product Added Successfully!");
 
@@ -492,13 +470,9 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
         for (let i = 1; i <= 5; i++) {
             window.deleteImage({ stopPropagation: () => {} }, i);
         }
-
-        // Go back
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            location.href = "home.html";
-        }
+        
+        // সফলভাবে সেভ হওয়ার পর সরাসরি ইউজার পেজে রিডাইরেক্ট
+        location.href = "user.html"; 
 
     } catch (error) {
         console.error("Product Error:", error);

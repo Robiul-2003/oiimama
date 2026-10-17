@@ -8,7 +8,7 @@
 <style>
   body { font-family:sans-serif; background:#e5e7ea; margin:0; }
    .header1{
-    max-width:1000px;margin:auto;background:white;border:1px solid rgb(233, 220, 220);
+    max-width:1000px;margin:auto;background:white;border-bottom:1px solid rgb(239, 234, 234);
    }
    .headone {
   justify-content: space-between;
@@ -29,11 +29,10 @@
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:12%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
 
-  
   .chat-item {
     max-width:975px;margin:auto;
     background:#fff; padding:12px; display:flex; gap:12px;
-    border-bottom:1px solid #e0d2d2; cursor:pointer;
+    border-bottom:1px solid rgb(239, 234, 234); cursor:pointer;
   }
   .chat-item img { width:35px; height:35px; border-radius:50%; object-fit:cover;}
   .chat-item .info { flex:1; }
@@ -42,7 +41,7 @@
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px;}
   .chat-item .time { font-size:11px; color:#999; }
    @media(max-width:600px){
-     #homeimg { width: 35px; height: 28px; margin-left: 2%; }
+      #homeimg { width: 35px; height: 28px; margin-left: 2%; }
             #pentoimg, #messageimg { width: 32px; height: 30px; margin-left: 10%; }
             #videoimg { width: 36px; height: 32px; margin-left: 8%; }
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right:7%; }
@@ -71,8 +70,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { 
-  getFirestore, collection, query, where, onSnapshot 
+  getFirestore, collection, query, where, onSnapshot, doc, setDoc 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -86,12 +86,45 @@ const firebaseConfig = {
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
+const messaging = getMessaging(app);
 
 onAuthStateChanged(auth, user => {
   if (!user) { window.location.href = "login.html"; return; }
   console.log("🔑 My UID:", user.uid);
   console.log("📧 My Email:", user.email);
+  
+  requestNotificationPermission(user.uid);
   loadChats(user.uid);
+});
+
+async function requestNotificationPermission(uid) {
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      
+      const currentToken = await getToken(messaging, { 
+        vapidKey: "BGhwKO6KN6oSk7S8DqjF4xUzJudhektpCkqP8MlkpEP3WyyaXyZ5IAsVYR0wnhxaeD99E0A9bpxLN0gVjPHAE-I" 
+      });
+
+      if (currentToken) {
+        console.log("FCM Token:", currentToken);
+        const userRef = doc(db, "users", uid);
+        await setDoc(userRef, { fcmToken: currentToken }, { merge: true });
+      } else {
+        console.warn('No registration token available.');
+      }
+    } else {
+      console.log('Unable to get permission to notify.');
+    }
+  } catch (err) {
+    console.error('An error occurred while retrieving token. ', err);
+  }
+}
+
+onMessage(messaging, (payload) => {
+  console.log('Message received in foreground: ', payload);
+  alert(`${payload.notification.title}: ${payload.notification.body}`);
 });
 
 function loadChats(uid) {
@@ -113,7 +146,6 @@ function loadChats(uid) {
 
     const chats = [];
     snap.forEach(d => {
-      console.log("💬 Chat doc:", d.id, d.data());
       chats.push({ id: d.id, ...d.data() });
     });
 
@@ -143,9 +175,6 @@ function loadChats(uid) {
     });
   }, (error) => {
     console.error("❌ onSnapshot error:", error);
-    console.error("Error code:", error.code);
-    console.error("Error message:", error.message);
-    
     const box = document.getElementById("chatList");
     box.innerHTML = `<p style='padding:20px;text-align:center;color:#e74c3c'>
       Error: ${error.message}
