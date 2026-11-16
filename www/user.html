@@ -1692,16 +1692,19 @@ if (uploadBtn) {
         };
 
         video.onerror = function () {
+    console.error("Video Read Error:", video.error);
+    console.log("File type:", file.type);
+    console.log("File name:", file.name);
+    console.log("File size:", file.size);
 
-            URL.revokeObjectURL(video.src);
+    URL.revokeObjectURL(video.src);
 
-            alert("ভিডিওটি পড়া যাচ্ছে না।");
+    alert("ভিডিওটি পড়া যাচ্ছে না। MP4 (H.264) ফরম্যাটের ভিডিও ব্যবহার করুন।");
 
-            videoInput.value = "";
-            status.textContent = "";
-
-            uploadBtn.disabled = false;
-        };
+    videoInput.value = "";
+    status.textContent = "";
+    uploadBtn.disabled = false;
+};
 
         video.src = URL.createObjectURL(file);
 
