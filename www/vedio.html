@@ -338,11 +338,8 @@
 }
 /*phone size*/
         @media(max-width:600px) {
-            header { height: 78px; }
-            .feed-container {
-                margin-top: 78px;
-                height: calc(100vh - 78px);
-            }
+            header {    background: white;  position: fixed; width: 100%;  top: 0;  z-index: 999;  height: 78px; }
+            .feed-container {   margin-top: 78px;  height: calc(100vh - 78px);   }
             .single-video-card, .premium-ad-card {
                 width: 100%;
                 height: calc(100vh - 78px);
@@ -350,130 +347,111 @@
             }
             .header1 { width: 100%; }
             .headone { display: flex; align-items: center; }
-            .name { font-size: 22px; margin-left: 4%; margin-top: 2px; }
-            .headtwo { display: flex; align-items: center; margin-top: 0; }
+            .name { font-family: "Open Sans", sans-serif; font-size: 20px; font-weight: 700;  margin-left: 4%;  margin-top: 0px; color: #031f50; }
+            .headtwo { display: flex; align-items: center; margin-top:7px; }
             #search { display: none; }
             .fa-list { font-size: 23px; margin-left: auto; margin-right: 4%; }
-            #homeimg { width: 35px; height: 28px; margin-left: 2%; }
-            #pentoimg, #messageimg { width: 32px; height: 30px; margin-left: 10%; }
-            #videoimg { width: 36px; height: 32px; margin-left: 8%; }
-            #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
-            #userimg { width: 28px; height: 28px; margin-right: 2%; }
+            #homeimg {
+    width: 35px;
+    height: 25px;
+    margin-left: 3%;
+  }
+  #pentoimg {
+    width: 32px;
+    height: 28px;
+    margin-left: 8%;
+  }
+  #messageimg {
+    width: 30px;
+    height: 28px;
+    margin-left: 8%;
+  }
+  #videoimg {
+    width: 35px;
+    height: 32px;
+    margin-left: 8%;
+  }
+  #bellimg {
+    width: 29px;
+    height: 29px;
+    margin-left: auto;
+    margin-right: 1%;
+  }
+  #userimg {
+    width: 25px;
+    height: 25px;
+    margin-left: auto;
+    margin-right: 4%;
+  }
             .video-player { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
             .reels-actions { right: 12px; bottom: 35%; gap: 20px; }
             .reels-info { bottom: 58px; left: 12px; right: 70px; }
             .ad-thumbnails img { width: 50px; height: 50px; }
-/* ফেইসবুক রিলস স্টাইল কমেন্ট বক্স */
 .commentbox {
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: 0;
+    transform: translateX(-50%);
     width: 100%;
-    height: 70%; /* ফেইসবুক রিলসের মতো স্ক্রিনের প্রায় ৬০% জায়গা নেবে */
-    background: #242526; /* ফেইসবুক ডার্ক মোড/মডার্ন লুকের জন্য, চাইলে সাদা (#fff) ও রাখতে পারেন */
-    color: #fff;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    height: 60%;
+    background: #fff;
+    color: #222;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.4);
+    z-index: 50;
     display: flex;
     flex-direction: column;
-    padding: 12px 16px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* আইফোনের হোম বারের জন্য */
+    padding:8px;
+    padding-bottom:0px; 
     box-sizing: border-box;
     overflow: hidden;
-    animation: slideUp 0.3s ease-out; /* নিচ থেকে উপরে ওঠার অ্যানিমেশন */
-}
-
-/* নিচ থেকে ওপরের অ্যানিমেশন */
-@keyframes slideUp {
-    from {
-        transform: translateY(100%);
-    }
-    to {
-        transform: translateY(0);
-    }
 }
 
 .comment-header {
+    height:30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    border-bottom: 1px solid #393a3b;
-    padding-bottom: 10px;
-    font-weight: bold;
-    font-size: 16px;
 }
 
-/* শুধু কমেন্ট লিস্ট স্ক্রল হবে, ইনপুট বক্স বা হেডার নড়বে না */
 .comment-list {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    margin: 12px 0;
+    margin: 10px 0;
     padding-right: 4px;
-    scrollbar-width: thin;
 }
 
-.user-comment {
-    background: #3a3b3c;
-    padding: 8px 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    overflow-wrap: anywhere;
-}
-
-.user-comment p {
-    margin: 4px 0 0;
-    font-size: 14px;
-}
-
-/* ইনপুট বক্স সবসময় নিচে ফিক্সড বা পিন করা থাকবে */
 .comment-input {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
     width: 100%;
-    background: transparent;
-    padding-top: 8px;
-    border-top: 1px solid #393a3b;
+    background: #fff;
+  
 }
 
 .comment-input input {
     flex: 1;
     width: 0;
     min-width: 0;
-    height: 44px;
+    height:35px;
     box-sizing: border-box;
-    padding: 10px 14px;
-    border: 1px solid #3f4041;
-    background: #3a3b3c;
-    color: #fff;
-    border-radius: 22px; /* ফেইসবুকের মতো গোল গোল ক্যাপসুল স্টাইল ইনপুট */
-    font-size: 15px;
-    outline: none;
-}
-
-.comment-input input::placeholder {
-    color: #b0b3b8;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
 }
 
 .comment-input button {
     flex-shrink: 0;
-    min-width: 60px;
-    height: 44px;
+    min-width: 55px;
+    height:35px;
     border: none;
-    background: #1877f2; /* ফেইসবুক ব্লু কালার */
+    background: #031f50;
     color: white;
-    border-radius: 22px;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.comment-input button:active {
-    background: #166fe5;
+    border-radius: 6px;
 }
         }
     </style>
@@ -634,7 +612,7 @@ async function loadAllContent() {
         <div class="commentbox" style="display:none;">
             <div class="comment-header">
                 <h4>Comments</h4>
-                <button onclick="commentclose(this)">✕</button>
+                <button onclick="commentclose(this)" style="color:red;font-size:20px;font-weight:bold;border:1px solid white;">✕</button>
             </div>
             <div class="comment-list">Loading comments...</div>
             <div class="comment-input">
@@ -1138,19 +1116,13 @@ window.loadReelsComments = function(videoId, card) {
             snapshot.forEach((commentDoc) => {
 
                 const data = commentDoc.data();
-
                 const name = escapeHTML(data.userName || "User");
                 const message = escapeHTML(data.text || "");
-
-                const time = data.createdAt
-                    ? data.createdAt.toDate().toLocaleString()
-                    : "Just now";
 
                 list.innerHTML += `
                     <div class="comment-item">
                         <strong>${name}</strong>
                         <p>${message}</p>
-                        <small>${time}</small>
                     </div>
                 `;
 

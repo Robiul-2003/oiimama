@@ -12,13 +12,9 @@
   "url": "https://adarshabd.com/"
 }
 </script>
-
-<title>Adarsha BD Profile</title>
-
+<title> Profile</title>
 <link rel="icon" href="logo.png">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <meta name="description"
 content="Adarsha BD is an online shopping store in Bangladesh.">
@@ -29,15 +25,9 @@ content="Buy fashion, electronics & gadgets online in Bangladesh">
 <meta property="og:image" content="banner.png">
 <meta property="og:url" content="https://adarshabd.com/">
 <meta property="og:type" content="website">
-
 <link rel="canonical" href="https://adarshabd.com/">
-
 <style>
-
-*{
-    box-sizing:border-box;
-}
-
+*{ box-sizing:border-box;}
 body{
     font-family:Arial,sans-serif;
     margin:0;
@@ -452,35 +442,6 @@ header{
     padding: 3px 0;
     font-size: 14px;
 }
-/* Comment Box */
-.commentbox {
-    display: none;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 60%;
-    background: white;
-    color: black;
-    z-index: 100;
-    border-radius: 15px 15px 0 0;
-    box-sizing: border-box;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.comment-header button {
-    border: none;
-    background: transparent;
-    font-size:22px;
-    cursor: pointer;
-}
 /* Product Details Box */
 #productsearch {
     display: none;
@@ -645,64 +606,88 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
    border-radius:5px;font-size:16px;border:none;font-family: Arial, sans-serif;
 }
 .commentbox {
-    background: #fff;
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height:70%;
+    background: white;
+    z-index: 100;
+    border-radius: 12px 12px 0 0;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 10px;
+    box-sizing: border-box;
+
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .comment-header {
+    height:30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: 0 0 auto;
 }
 
+/* শুধু কমেন্টের অংশ scroll হবে */
 .comment-list {
-    max-height: 250px;
+    flex: 1 1 0;
+    min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     margin: 12px 0;
 }
 
-.user-comment {
-    background: #f1f1f1;
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    overflow-wrap: anywhere;
-}
-
-.user-comment p {
-    margin: 5px 0 0;
-}
-
+/* Input সবসময় নিচে থাকবে */
 .comment-input {
     display: flex;
+    align-items: center;
     gap: 6px;
+    width: 100%;
+    flex: 0 0 auto;
+    margin-top: auto;
 }
 
 .comment-input input {
     flex: 1;
     min-width: 0;
+    height: 35px;
+    font-size: 16px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
 }
 
 .comment-input button {
-    padding: 8px 15px;
+    flex: 0 0 60px;
+    height:35px;
     border: none;
     background: #031f50;
     color: white;
     border-radius: 6px;
 }
 
+.view-num { display: flex;  justify-content: flex-end;   align-items: center;    gap: 5px;}
+.view-num i {  font-size: 12px;}
+.btn-like.liked {
+    color: #1877f2;
+}
+
+.btn-like.liked i {
+    color: #1877f2;
+}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
 
     header{
-        height:78px;
+        background: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    height: 78px;
     }
 
     .header1{
@@ -715,15 +700,18 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
     }
 
     .name{
-        font-size:22px;
-        margin-left:4%;
-        margin-top:2px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 4%;
+    margin-top: 0px;
+    color: #031f50;
     }
 
     .headtwo{
         display:flex;
         align-items:center;
-        margin-top:0;
+        margin-top:7px;
     }
      #productsearch {
     display: none;
@@ -741,15 +729,9 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
     height: 350px;
     object-fit: contain;
 }
-.p-d{
-   
-   left:90%;
-   
-}
-#phobe{width:92%;}
-    #search{
-        display:none;
-    }
+    .p-d{   left:90%; }
+    #phobe{width:92%;}
+    #search{ display:none; }
 
     .fa-list{
         font-size:23px;
@@ -757,72 +739,24 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
         margin-right:4%;
     }
 
-    .fa-magnifying-glass{
-        display:inline-block;
-        font-size:23px;
-        margin-top:10px;
-        margin-left:auto;
-        margin-right:20px;
-        color:black;
-    }
+    .fa-magnifying-glass{  display:inline-block;  font-size:23px;  margin-top:10px;  margin-left:auto;  margin-right:20px; color:black;  }
 
-    #openlistbox{
-        left:0;
-        width:100%;
-    }
+    #openlistbox{  left:0;   width:100%;  }
 
-    .userfile{
-        width:100%;
-        margin-top:78px;
-        border:none;
-    }
+    .userfile{  width:100%;  margin-top:78px; border:none; }
 
-    #profilebox{
-        width:220px;
-        height:220px;
-    }
+    #profilebox{   width:220px; height:220px;  }
+     /*img icon */
+      #homeimg { width: 35px;  height: 25px;  margin-left: 3%;}
+      #pentoimg { width: 32px;  height: 28px; margin-left: 8%;}
+      #messageimg {  width: 30px; height: 28px; margin-left: 8%; }
+      #videoimg { width: 35px; height: 32px; margin-left: 8%;}
+      #bellimg { width: 29px; height: 29px; margin-left: auto; margin-right: 1%;}
+      #userimg { width: 25px; height: 25px;   margin-left: auto; margin-right: 4%;}
 
-    #homeimg{
-        width:35px;
-        height:28px;
-        margin-left:2%;
-    }
-
-    #pentoimg,
-    #messageimg{
-        width:32px;
-        height:30px;
-        margin-left:10%;
-    }
-
-    #bellimg{
-        width:30px;
-        height:30px;
-        margin-left:auto;
-        margin-right:2%;
-    }
-
-    #userimg{
-        width:28px;
-        height:28px;
-        margin-right:2%;
-    }
-
-    .product-card{
-        width:160px;
-        flex-basis:160px;
-    }
-
-    .product-card img{
-        height:140px;
-    }
-        #videoimg{
-        width:36px;
-        height:32px;
-        margin-left:8%;
-       
-    }
-    
+     .product-card{ width:160px; flex-basis:160px; }
+     .product-card img{   height:140px; }
+      #videoimg{ width:36px; height:32px;   margin-left:8%;  }
       #viewcount{margin-left:85%; font-size:13px;}
 }
 </style>
@@ -941,28 +875,12 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 
 </script>
 <script type="module">
-
 /* ===================== FIREBASE IMPORT========================== */
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged,updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { 
-    getFirestore, 
-    collection, 
-    query, 
-    where, 
-    doc, 
-    getDoc, 
-    setDoc,
-    deleteDoc, 
-    getDocs,
-    addDoc,
-    serverTimestamp,
-    onSnapshot,
-    orderBy,
-    increment,
-    updateDoc,
-    runTransaction
+    getFirestore,  collection,   query,  where,  doc,  getDoc, setDoc,  deleteDoc,   getDocs,  addDoc,
+    serverTimestamp, onSnapshot, orderBy,  increment,  updateDoc, runTransaction
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 /* ========== FIREBASE CONFIG==== */
@@ -1645,10 +1563,15 @@ const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud 
 const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
 
 /* =============== UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRES================================== */
+
+/* =============== VIDEO UPLOAD: MAX 30 SECONDS =============== */
+
 const uploadBtn = document.getElementById("btnop");
 
 if (uploadBtn) {
+
     uploadBtn.addEventListener("click", async () => {
+
         const videoInput = document.getElementById("videoInput");
         const captionText = document.getElementById("captionText");
         const status = document.getElementById("status");
@@ -1657,74 +1580,133 @@ if (uploadBtn) {
         const caption = captionText.value.trim();
 
         if (!file) {
-            alert("অনুগ্রহ করে একটি ভিডিও ফাইল সিলেক্ট করুন।");
+            alert("অনুগ্রহ করে একটি ভিডিও সিলেক্ট করুন।");
             return;
         }
 
         const user = auth.currentUser;
+
         if (!user) {
             alert("আগে Login করুন।");
             return;
         }
 
-        try {
-            status.textContent = "Uploading video...";
-
-            // 1. Get User Name from Firestore
-            let userName = user.displayName || "User";
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-
-            if (userSnap.exists()) {
-                userName = userSnap.data().name || userName;
-            }
-
-            // 2. Upload Video to Cloudinary
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", UPLOAD_PRESET);
-
-            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`, {
-                method: "POST",
-                body: formData
-            });
-
-            const cloudinaryData = await res.json();
-
-            if (!res.ok) {
-                throw new Error(cloudinaryData.error?.message || "Cloudinary Upload Failed");
-            }
-
-            const videoUrl = cloudinaryData.secure_url;
-
-            // 3. Save Data to Firestore "videos" Collection
-            status.textContent = "Saving details";
-
-            await addDoc(collection(db, "videos"), {
-                videoUrl: videoUrl,
-                caption: caption,
-                userId: user.uid,
-                userName: userName,
-                likeCount: 0,
-                viewCount: 0,
-                createdAt: serverTimestamp()
-            });
-
-            status.textContent = "Video uploaded successfully!";
-            captionText.value = "";
+        if (!file.type.startsWith("video/")) {
+            alert("সঠিক ভিডিও ফাইল সিলেক্ট করুন।");
             videoInput.value = "";
-
-            alert("Video Uploaded Successfully!");
-            displayVideos(); // Refresh Video List
-
-        } catch (error) {
-            console.error("Video Upload Error:", error);
-            status.textContent = "Upload Failed!";
-            alert("Upload Failed: " + error.message);
+            return;
         }
+
+        uploadBtn.disabled = true;
+        status.textContent = "Checking video duration...";
+
+        const video = document.createElement("video");
+        video.preload = "metadata";
+
+        video.onloadedmetadata = async function () {
+
+            URL.revokeObjectURL(video.src);
+
+            // ৩০ সেকেন্ডের বেশি হলে Upload হবে না
+            if (video.duration > 30) {
+
+                alert("ভিডিওর দৈর্ঘ্য ৩০ সেকেন্ডের বেশি হতে পারবে না!");
+
+                videoInput.value = "";
+                status.textContent = "";
+                uploadBtn.disabled = false;
+                return;
+            }
+
+            try {
+
+                status.textContent = "Uploading video...";
+
+                // Get Username
+                let userName = user.displayName || "User";
+
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    userName = userSnap.data().name || userName;
+                }
+
+                // Upload to Cloudinary
+                const formData = new FormData();
+
+                formData.append("file", file);
+                formData.append("upload_preset", UPLOAD_PRESET);
+
+                const res = await fetch(
+                    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const cloudinaryData = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(
+                        cloudinaryData.error?.message || "Upload Failed"
+                    );
+                }
+
+                // Save to Firebase
+                await addDoc(collection(db, "videos"), {
+
+                    videoUrl: cloudinaryData.secure_url,
+                    caption: caption,
+                    userId: user.uid,
+                    userName: userName,
+                    likeCount: 0,
+                    viewCount: 0,
+                    createdAt: serverTimestamp()
+
+                });
+
+                status.textContent = "Video uploaded successfully!";
+
+                captionText.value = "";
+                videoInput.value = "";
+
+                alert("Video Uploaded Successfully!");
+
+                await displayVideos();
+
+            } catch (error) {
+
+                console.error("Video Upload Error:", error);
+
+                status.textContent = "Upload Failed!";
+
+                alert("Upload Failed: " + error.message);
+
+            } finally {
+
+                uploadBtn.disabled = false;
+
+            }
+        };
+
+        video.onerror = function () {
+
+            URL.revokeObjectURL(video.src);
+
+            alert("ভিডিওটি পড়া যাচ্ছে না।");
+
+            videoInput.value = "";
+            status.textContent = "";
+
+            uploadBtn.disabled = false;
+        };
+
+        video.src = URL.createObjectURL(file);
+
     });
 }
-
 /* =============== LOAD & DISPLAY VIDEOS====================== */
 async function displayVideos() {
     const videoList = document.getElementById("videoList");
@@ -1777,7 +1759,10 @@ async function displayVideos() {
 ` : ''}
 
             <video src="${escapeHTML(data.videoUrl)}" controls style="width:100%; max-height:350px; border-radius:6px; background:#000;"></video>
-          <div class="view-num">Views: 0</div>
+    <div class="view-num">
+    <i class="fa-regular fa-eye"></i>
+    <span class="view-count">0</span>
+</div>
 
 <div class="video-actions" style="margin-top: 10px; display: flex; gap: 8px;">
 
@@ -1796,7 +1781,7 @@ async function displayVideos() {
 
     <div class="comment-header">
         <h4>Comments</h4>
-        <button onclick="commentclose(this)">❌</button>
+        <button onclick="commentclose(this)" style="border:1px solid white; font-size:18px;">❌</button>
     </div>
 
     <div class="comment-list"></div>
@@ -1849,7 +1834,7 @@ function bindUserVideoActions(card) {
     const viewRef = doc(db, "videoViews", viewId);
 
     const likeBtn = card.querySelector(".btn-like");
-    const viewNum = card.querySelector(".view-num");
+    const viewNum = card.querySelector(".view-count");
     const likeNum = card.querySelector(".like-num");
     const video = card.querySelector("video");
 
@@ -1863,7 +1848,7 @@ function bindUserVideoActions(card) {
         const data = snap.data();
 
         likeNum.textContent = data.likeCount || 0;
-        viewNum.textContent = "Views: " + (data.viewCount || 0);
+       viewNum.textContent = data.viewCount || 0;
 
     }, (error) => {
         console.error("Video Count Error:", error);
@@ -2009,7 +1994,7 @@ window.commentopen = function(btn) {
 
     const box = card.querySelector(".commentbox");
 
-    box.style.display = "block";
+    box.style.display = "flex";
 
     const videoId = card.dataset.videoId;
 
