@@ -644,6 +644,58 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
    margin:auto;display:block;width:180px;height:30px;background:#092e6e;color:white;
    border-radius:5px;font-size:16px;border:none;font-family: Arial, sans-serif;
 }
+.commentbox {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-list {
+    max-height: 250px;
+    overflow-y: auto;
+    margin: 12px 0;
+}
+
+.user-comment {
+    background: #f1f1f1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
+.user-comment p {
+    margin: 5px 0 0;
+}
+
+.comment-input {
+    display: flex;
+    gap: 6px;
+}
+
+.comment-input input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.comment-input button {
+    padding: 8px 15px;
+    border: none;
+    background: #031f50;
+    color: white;
+    border-radius: 6px;
+}
 
 /* ================= MOBILE ================= */
 
@@ -856,10 +908,12 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
     <p onclick="adsbtnclose()" class="pchclose">X</p>
     <button class="c">c</button><br><br>
     <img src="pi.png" class="logoimg">
-    <div id="adsviwe">Estimated Views: 0</div>
-    <div id="adsammount">0  ৳</div>
-    <input type="range" min="0" max="100" value="50" id="rage"><br><br>
-    <button id="publish">publish</button>
+   <div id="adsviwe">Estimated Views: 0</div>
+<div id="adsammount">0 ৳</div>
+<input type="range" min="0" max="100" value="50" id="rage"><br><br>
+
+<!-- Remove inline onclick, we'll attach a handler in JS -->
+<button id="publish">publish</button>
     </div>
     </div>
     
@@ -867,43 +921,25 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
         <img id="mainImg" alt="Product">
         <div id="thumbnailBox"></div>
     </div>
-
     <span id="pname"></span>
     <p>Color: <span id="pcolor"></span></p>
-
     <p> Size: <span id="psize"></span></p>
-
     <span id="pprice"></span>
     </div>
 </div>
-
 <div id="productList">
     <p></p>
 </div>
 
 <script>
-  function openbox(){
-  document.getElementById('box').style.display ="block";
-  }
-  function closebox(){
-   document.getElementById('box').style.display ="none";
-  }
-
-    function pd(){
-  document.getElementById('phobe').style.display ="block";
-  }
-  function pch(){
-   document.getElementById('phobe').style.display ="none";
-  }
-      function adsopenbtn(){
-  document.getElementById('adsid').style.display ="block";
-  }
-  function adsbtnclose(){
-   document.getElementById('adsid').style.display ="none";
-  }
+    function openbox(){ document.getElementById('box').style.display ="block";}
+    function closebox(){  document.getElementById('box').style.display ="none"; }
+    function pd(){ document.getElementById('phobe').style.display ="block"; }
+    function pch(){ document.getElementById('phobe').style.display ="none"; }
+    function adsopenbtn(){ document.getElementById('adsid').style.display ="block"; }
+    function adsbtnclose(){ document.getElementById('adsid').style.display ="none"; }
 
 </script>
-
 <script type="module">
 
 /* ===================== FIREBASE IMPORT========================== */
@@ -921,7 +957,12 @@ import {
     deleteDoc, 
     getDocs,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    onSnapshot,
+    orderBy,
+    increment,
+    updateDoc,
+    runTransaction
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 /* ========== FIREBASE CONFIG==== */
@@ -1145,6 +1186,8 @@ window.productshow = async function(productId){
         document.getElementById("productsearch").style.display = "block";
 
         document.getElementById("pname").textContent =   p.name || "No Name";
+        window.selectedProductName = p.name || "Product";
+        localStorage.setItem("selectedProductName", window.selectedProductName);
 
         document.getElementById("pcolor").textContent = p.color || "";
 
@@ -1233,8 +1276,7 @@ onAuthStateChanged(auth, async (user)=>{
 
 });
 
-/* ================ FIRESTORE POST SYSTEM============================= */
-// ================= LOAD POSTS =================
+/* ================ FIRESTORE POST SYSTEM============================= */// ================= LOAD POSTS =================
 function makePostLinks(text) {
 
     // HTML Safe করা (XSS Prevention)
@@ -1359,7 +1401,7 @@ async function displayPosts() {
                     </span>
                 </div>
 
-                 <!-- পোস্টের লেখা -->
+                 <!-- পোস্টের লেখা --
                 <div style="padding:8px 0; word-wrap:break-word;">
                     ${postTextWithHashtag}
                 </div>
@@ -1663,6 +1705,8 @@ if (uploadBtn) {
                 caption: caption,
                 userId: user.uid,
                 userName: userName,
+                likeCount: 0,
+                viewCount: 0,
                 createdAt: serverTimestamp()
             });
 
@@ -1708,12 +1752,11 @@ async function displayVideos() {
         querySnapshot.forEach((docSnap) => {
     const data = docSnap.data();
     const videoId = docSnap.id;
-
     const safeCaption = escapeHTML(data.caption || "");
     const safeUserName = escapeHTML(data.userName || "User");
 
     videoList.innerHTML += `
-        <div class="single-video">
+        <div class="single-video" data-video-id="${videoId}">
             <div class="video-header">
                 <strong>${safeUserName}</strong>
                 <span onclick="this.nextElementSibling.style.display='block'" style="font-size:16px; cursor:pointer; padding:0 5px;">&#8226;&#8226;&#8226;</span>
@@ -1734,29 +1777,42 @@ async function displayVideos() {
 ` : ''}
 
             <video src="${escapeHTML(data.videoUrl)}" controls style="width:100%; max-height:350px; border-radius:6px; background:#000;"></video>
-            <div id="viewcount">view 0</div>
-             <div class="video-actions" style="margin-top: 10px; display: flex; gap: 8px;">
-            <button class="btn-like"><i class="fa-regular fa-thumbs-up"></i> 0</button> 
-            <button class="btn-comment"> Comment</button> 
+          <div class="view-num">Views: 0</div>
+
+<div class="video-actions" style="margin-top: 10px; display: flex; gap: 8px;">
+
+    <button class="btn-like" type="button">
+        <i class="fa-regular fa-thumbs-up"></i>
+        <span class="like-num">0</span>
+    </button>
+          <button class="btn-comment" onclick="commentopen(this)">
+    <i class="fa-regular fa-comment"></i> Comment
+</button>
         <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share</button>
 
         </div>
         <!-- Comment Box: reels-actions-এর বাইরে -->
     <div class="commentbox" style="display:none;">
 
-        <div class="comment-header">
-            <h4>Comments</h4>
-            <button onclick="commentclose(this)">❌</button>
-        </div>
-
-        <input type="text" id="inputtext" placeholder="Comment"><button id="sent">Sent</button>
-
+    <div class="comment-header">
+        <h4>Comments</h4>
+        <button onclick="commentclose(this)">❌</button>
     </div>
 
+    <div class="comment-list"></div>
+    <div class="comment-input">
+        <input type="text" class="inputtext"  placeholder="Write a comment...">
+        <button onclick="sendUserComment(this)">  Send  </button>
+    </div>
+</div>
         </div>
     `;
 });
-    
+     // Like ও View চালু করা
+        videoList.querySelectorAll(".single-video").forEach(card => {
+            bindUserVideoActions(card);
+        });
+        
     } catch (error) {
         console.error("Load Videos Error:", error);
         videoList.innerHTML = `<p style="color:red;text-align:center;">Failed to load videos.</p>`;
@@ -1776,17 +1832,336 @@ window.toggleCaption = function(button) {
 };
 
 
+/* ================= USER PAGE LIKE & VIEW ================= */
+
+function bindUserVideoActions(card) {
+
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const videoId = card.dataset.videoId;
+
+    const videoRef = doc(db, "videos", videoId);
+    const likeId = videoId + "_" + user.uid;
+    const viewId = videoId + "_" + user.uid;
+
+    const likeRef = doc(db, "videoLikes", likeId);
+    const viewRef = doc(db, "videoViews", viewId);
+
+    const likeBtn = card.querySelector(".btn-like");
+    const viewNum = card.querySelector(".view-num");
+    const likeNum = card.querySelector(".like-num");
+    const video = card.querySelector("video");
+
+    if (!likeBtn || !video || !viewNum || !likeNum) return;
+
+    // ভিডিওর Like ও View Count Live Update
+    onSnapshot(videoRef, (snap) => {
+
+        if (!snap.exists()) return;
+
+        const data = snap.data();
+
+        likeNum.textContent = data.likeCount || 0;
+        viewNum.textContent = "Views: " + (data.viewCount || 0);
+
+    }, (error) => {
+        console.error("Video Count Error:", error);
+    });
+
+    // নিজের Like Status Live Update
+    onSnapshot(likeRef, (snap) => {
+
+        const icon = likeBtn.querySelector("i");
+
+        if (snap.exists()) {
+            icon.className = "fa-solid fa-thumbs-up";
+            likeBtn.classList.add("liked");
+        } else {
+            icon.className = "fa-regular fa-thumbs-up";
+            likeBtn.classList.remove("liked");
+        }
+
+    }, (error) => {
+        console.error("Like Status Error:", error);
+    });
+
+    // LIKE / UNLIKE
+    likeBtn.addEventListener("click", async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser || currentUser.isAnonymous) {
+            alert("Like করতে Login করুন।");
+            return;
+        }
+
+        likeBtn.disabled = true;
+
+        try {
+
+            await runTransaction(db, async (transaction) => {
+
+                const likeSnap = await transaction.get(likeRef);
+                const videoSnap = await transaction.get(videoRef);
+
+                if (!videoSnap.exists()) {
+                    throw new Error("Video পাওয়া যায়নি।");
+                }
+
+                const currentCount =
+                    videoSnap.data().likeCount || 0;
+
+                if (likeSnap.exists()) {
+
+                    // UNLIKE
+                    if (currentCount <= 0) {
+                        throw new Error("Like Count ঠিক নেই।");
+                    }
+
+                    transaction.delete(likeRef);
+
+                    transaction.update(videoRef, {
+                        likeCount: currentCount - 1
+                    });
+
+                } else {
+
+                    // LIKE
+                    transaction.set(likeRef, {
+                        videoId: videoId,
+                        userId: currentUser.uid,
+                        createdAt: serverTimestamp()
+                    });
+
+                    transaction.update(videoRef, {
+                        likeCount: currentCount + 1
+                    });
+                }
+            });
+
+        } catch (error) {
+
+            console.error("Like Error:", error);
+            alert("Like করতে সমস্যা হয়েছে: " + error.message);
+
+        } finally {
+            likeBtn.disabled = false;
+        }
+    });
+
+    // VIEW COUNT: ৩ সেকেন্ড দেখলে একবার গণনা
+    video.addEventListener("timeupdate", async () => {
+
+        if (video.currentTime < 3) return;
+        if (card.dataset.viewAttempted === "true") return;
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser || currentUser.isAnonymous) return;
+
+        card.dataset.viewAttempted = "true";
+
+        try {
+
+            await runTransaction(db, async (transaction) => {
+
+                const viewSnap = await transaction.get(viewRef);
+                const videoSnap = await transaction.get(videoRef);
+
+                if (viewSnap.exists()) return;
+
+                if (!videoSnap.exists()) {
+                    throw new Error("Video পাওয়া যায়নি।");
+                }
+
+                const currentCount =
+                    videoSnap.data().viewCount || 0;
+
+                transaction.set(viewRef, {
+                    videoId: videoId,
+                    userId: currentUser.uid,
+                    createdAt: serverTimestamp()
+                });
+
+                transaction.update(videoRef, {
+                    viewCount: currentCount + 1
+                });
+            });
+
+        } catch (error) {
+
+            card.dataset.viewAttempted = "false";
+            console.error("View Count Error:", error);
+
+        }
+    });
+}
+
+
+// ================= USER PAGE COMMENT SYSTEM =================
+
+// Comment Box Open
 window.commentopen = function(btn) {
-    const card = btn.closest(".single-video-card");
+
+    const card = btn.closest(".single-video");
+    if (!card) return;
+
     const box = card.querySelector(".commentbox");
+
     box.style.display = "block";
+
+    const videoId = card.dataset.videoId;
+
+    loadUserComments(videoId, card);
 };
 
+
+// Comment Box Close
 window.commentclose = function(btn) {
-    const card = btn.closest(".single-video-card");
+
+    const card = btn.closest(".single-video");
+    if (!card) return;
+
     const box = card.querySelector(".commentbox");
+
     box.style.display = "none";
+
+    // Listener বন্ধ
+    if (card.commentUnsubscribe) {
+        card.commentUnsubscribe();
+        card.commentUnsubscribe = null;
+    }
 };
+
+
+// Load Comments From Firebase
+window.loadUserComments = function(videoId, card) {
+
+    // আগের listener বন্ধ
+    if (card.commentUnsubscribe) {
+        card.commentUnsubscribe();
+    }
+
+    const commentList = card.querySelector(".comment-list");
+
+    const commentsRef = collection(
+        db,
+        "videos",
+        videoId,
+        "comments"
+    );
+
+    const commentsQuery = query(
+        commentsRef,
+        orderBy("createdAt", "asc")
+    );
+
+    card.commentUnsubscribe = onSnapshot(
+        commentsQuery,
+
+        (snapshot) => {
+
+            commentList.innerHTML = "";
+
+            if (snapshot.empty) {
+                commentList.innerHTML =
+                    '<p style="text-align:center;">No comments yet.</p>';
+                return;
+            }
+
+            snapshot.forEach((commentDoc) => {
+
+                const data = commentDoc.data();
+
+                const userName = escapeHTML(data.userName || "User");
+                const commentText = escapeHTML(data.text || "");
+
+                const div = document.createElement("div");
+
+                div.className = "user-comment";
+
+                div.innerHTML = `
+                    <strong>${userName}</strong>
+                    <p>${commentText}</p>
+                `;
+
+                commentList.appendChild(div);
+            });
+        },
+
+        (error) => {
+            console.error("Comment Load Error:", error);
+        }
+    );
+};
+
+
+// Send Comment
+window.sendUserComment = async function(btn) {
+
+    const card = btn.closest(".single-video");
+    if (!card) return;
+
+    const videoId = card.dataset.videoId;
+
+    const input = card.querySelector(".inputtext");
+
+    const text = input.value.trim();
+
+    if (!text) {
+        alert("Comment লিখুন।");
+        return;
+    }
+
+    const user = auth.currentUser;
+
+    if (!user || user.isAnonymous) {
+        alert("Comment করতে Login করুন।");
+        return;
+    }
+
+    try {
+
+        btn.disabled = true;
+
+        // User Name Load
+        let userName = user.displayName || "User";
+
+        const userRef = doc(db, "users", user.uid);
+
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+            userName = userSnap.data().name || userName;
+        }
+
+        // Save Comment
+        await addDoc(
+            collection(db, "videos", videoId, "comments"),
+            {
+                videoId: videoId,
+                userId: user.uid,
+                userName: userName,
+                text: text,
+                createdAt: serverTimestamp()
+            }
+        );
+
+        input.value = "";
+
+    } catch (error) {
+
+        console.error("User Page Comment Error:", error);
+
+        alert("Comment Failed: " + error.message);
+
+    } finally {
+
+        btn.disabled = false;
+    }
+};
+
 /* =====DELETE VIDEO============= */
 window.deleteVideo = async function(videoId) {
     if (!confirm("আপনি কি এই Video ডিলিট করতে চান?")) return;
@@ -1942,6 +2317,38 @@ document.addEventListener("click", async function(event) {
         console.error("❌ Ads Error:", error);
         alert("অ্যাড তৈরি করতে সমস্যা হয়েছে: " + error.message);
     }
+});
+           // পেজ লোডে একবার চালাবে 
+const rage = document.getElementById("rage");
+const adsviwe = document.getElementById("adsviwe");
+const adsammount = document.getElementById("adsammount");
+const publishBtn = document.getElementById("publish");
+
+function updateAdEstimate() {
+  const budget = Number(rage.value);   // 0–100
+  const views = budget * 17;           // 1৳ = 17 views
+  adsviwe.textContent = `Estimated Views: ${views.toLocaleString()}`;
+  adsammount.textContent = `${budget} ৳`;
+}
+
+rage.addEventListener("input", updateAdEstimate);
+updateAdEstimate();
+
+publishBtn.addEventListener("click", () => {
+  const budget = Number(rage.value);
+  const views  = budget * 17;
+
+  const productName =
+    window.selectedProductName ||
+    localStorage.getItem("selectedProductName") ||
+    "-";
+
+  const url = new URL("payment.html", location.href);
+  url.searchParams.set("amount",      budget);
+  url.searchParams.set("views",       views);
+  url.searchParams.set("productName", productName);
+
+  window.location.href = url.toString();
 });
 </script>
 </body>

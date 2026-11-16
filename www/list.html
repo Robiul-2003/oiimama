@@ -9,6 +9,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Menu</title>
     <style>
+
+body.dark-mode {
+    background: #121212;
+    color: white;
+}
+
+body.dark-mode h2 {
+    background: #1e1e1e;
+    color: white;
+    border-color: #333;
+}
+
+body.dark-mode #setting {
+    background: #1e1e1e;
+    color: white;
+    border-color: #444;
+}
+
+body.dark-mode #settingclose {
+    color: #ff5555;
+}
       body{
            width:500px;margin: auto;background:rgb(255, 255, 255);
       } 
@@ -123,26 +144,167 @@ h2:active {
     width:40%; height:30px;border:1px solid #ccc;margin-left:30%; border-radius:5px;margin-bottom:10px;
     font-family: "Open Sans", sans-serif; font-size:18px;font-weight:650;background:#031f50;color:white;
   }
+  #setting {
+    display: none;
+    position: fixed;
+    top: 20%;
+
+    width:27%;
+    min-height: 200px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+#settingclose {
+    text-align: right;
+    color: red;
+    cursor: pointer;
+    font-size: 22px;
+    margin: 10px;
+}
+label{
+  font-size:20px;margin-left:5%;
+}
   @media(max-width:600px){
     body{
       width:100%;
     }
+      #setting {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left:5%;
+    width:90%;
+    min-height: 200px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
   }
     </style>
 </head>
 <body>
     <i class="fa-solid fa-angle-left" onclick="window.location='index.html'"> <span> Menu </span></i>
-    <h2 onclick="window.location='add.html'">📦 Add product</h2>
-     <h2 onclick="window.location='user.html'">Video</h2>  
-    <h2 onclick="window.location.href='user.html'">📝 Post</h2>
+    <h2 onclick="window.location='add.html'"  data-i18n="addProduct">📦 Add product</h2>
+     <h2 onclick="window.location='user.html'"   data-i18n="video">Video</h2>  
+    <h2 onclick="window.location.href='user.html'" data-i18n="post">📝 Post</h2>
     <div class="soja">
-      <h2>💬 Chat</h2>
-      <h2>🔔 Notifications</h2>
+      <h2 onclick="window.location.href='message.html'"  data-i18n="chat">💬 Chat</h2>
+      <h2  data-i18n="notifications">🔔 Notifications</h2>
     </div>
-    <h2 onclick="window.location ='https://adarshaagent.com/'">🎰 Service</h2>
-    <h2 onclick="window.location ='https://adarshaagent.com/'">⚙️ Settings</h2>
-    <h2 onclick="window.location ='login.html'">📱 Login</h2>
-    <h2 onclick="window.location ='signin.html'">📲 Sign in</h2>
+    <h2 onclick="window.location ='https://adarshaagent.com/'"  data-i18n="service">🎰 Service</h2>
+    <h2 onclick="settingsopen()" data-i18n="settings">⚙️ Settings</h2>
+    <div id="setting">
+      <p id="settingclose" onclick="settingclose()">X</p>
+      <div class="color">
+    <label>
+        <input type="checkbox" id="darkToggle">
+        Dark mode
+    </label>
+</div><br>
+     <div class="language">
+    <label for="languageSelect" data-i18n="language">
+        Language:
+    </label>
 
+    <select id="languageSelect">
+        <option value="bn">বাংলা</option>
+        <option value="en">English</option>
+    </select>
+</div>
+    </div>
+    <h2 onclick="window.location ='login.html'"  data-i18n="login">📱 Login</h2>
+    <h2 onclick="window.location ='signin.html'"  data-i18n="signIn">📲 Sign in</h2>
+    <script>
+       function settingsopen(){
+        document.getElementById('setting').style.display ='block';
+       }
+         function settingclose(){
+        document.getElementById('setting').style.display ='none';
+       }
+       
+       const darkToggle = document.getElementById('darkToggle');
+
+darkToggle.addEventListener('change', function () {
+    document.body.classList.toggle('dark-mode', this.checked);
+    localStorage.setItem('darkMode', this.checked);
+});
+
+// আগে Dark mode চালু করা থাকলে সেটি ফিরিয়ে আনবে
+darkToggle.checked = localStorage.getItem('darkMode') === 'true';
+document.body.classList.toggle('dark-mode', darkToggle.checked);
+
+
+const translations = {
+    en: {
+        language: "Language:",
+        menu: "Menu",
+        addProduct: "📦 Add product",
+        video: "Video",
+        post: "📝 Post",
+        chat: "💬 Chat",
+        notifications: "🔔 Notifications",
+        service: "🎰 Service",
+        settings: "⚙️ Settings",
+        darkMode: "Dark mode",
+        login: "📱 Login",
+        signIn: "📲 Sign in"
+    },
+
+    bn: {
+        language: "ভাষা:",
+        menu: "মেনু",
+        addProduct: "📦 পণ্য যোগ করুন",
+        video: "ভিডিও",
+        post: "📝 পোস্ট",
+        chat: "💬 চ্যাট",
+        notifications: "🔔 বিজ্ঞপ্তি",
+        service: "🎰 সার্ভিস",
+        settings: "⚙️ সেটিংস",
+        darkMode: "ডার্ক মোড",
+        login: "📱 লগইন",
+        signIn: "📲 সাইন আপ"
+    }
+};
+
+function applyLanguage(lang) {
+    const selected = translations[lang] || translations.en;
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(element => {
+        const key = element.dataset.i18n;
+
+        if (selected[key] !== undefined) {
+            element.textContent = selected[key];
+        }
+    });
+
+    localStorage.setItem("appLanguage", lang);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const languageSelect = document.getElementById("languageSelect");
+    const savedLanguage = localStorage.getItem("appLanguage") || "en";
+
+    applyLanguage(savedLanguage);
+
+    if (languageSelect) {
+        languageSelect.value = savedLanguage;
+
+        languageSelect.addEventListener("change", () => {
+            applyLanguage(languageSelect.value);
+        });
+    }
+});
+
+
+
+    </script>
 </body>
 </html>

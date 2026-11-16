@@ -6,23 +6,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>Reels</title>
     <style>
-        /* html এবং body-র উচ্চতা ফিক্স করা জরুরি */
-        html, body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background: rgb(251, 249, 249); 
+        html, body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(251, 249, 249);
             height: 100vh;
             overflow: hidden;
         }
-
-        /* header */
         header {
             background: white;
-            position: fixed; 
-            width: 100%; 
-            top: 0; 
-            z-index: 999; 
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 999;
             height: 90px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
@@ -31,8 +28,6 @@
         .name { font-size: 23px; padding-top: 10px; color: #031f50; font-weight: bold; cursor: pointer; }
         .headtwo { display: flex; align-items: center; margin-top: 7px; }
         .fa-list { font-size: 25px; cursor: pointer; padding-top: 10px; }
-
-        /* search */
         #search { height: 30px; width: 40%; margin-left: 5%; }
         #homeimg { width: 40px; height: 30px; margin-left: 3%; border-radius: 5%; cursor: pointer; }
         #pentoimg { width: 35px; height: 32px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
@@ -40,8 +35,6 @@
         #videoimg { width: 40px; height: 35px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
         #bellimg { width: 33px; height: 33px; margin-left: 7%; border-radius: 5%; cursor: pointer; }
         #userimg { width: 30px; height: 30px; margin-left: auto; margin-right: 4%; border-radius: 5%; cursor: pointer; }
-
-        /* Feed Container - স্ক্রোলিং এর মূল জায়গা */
         .feed-container {
             margin-top: 90px;
             height: calc(100vh - 90px);
@@ -51,8 +44,6 @@
             scrollbar-width: none;
         }
         .feed-container::-webkit-scrollbar { display: none; }
-
-        /* Video Card */
         .single-video-card {
             position: relative;
             width: 100%;
@@ -66,7 +57,6 @@
             box-sizing: border-box;
         }
 
-        /* VIDEO */
         .video-player {
             width: 100%;
             height: 100%;
@@ -75,7 +65,25 @@
             background: #000;
         }
 
-        /* RIGHT SIDE LIKE COMMENT SHARE */
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-btn:active { background: rgba(0,0,0,0.7); }
+
         .reels-actions {
             position: absolute;
             right: 12px;
@@ -98,44 +106,35 @@
             color: white;
             padding: 0;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .reels-actions .count {
+            color: white;
+            font-size: 12px;
+            margin-top: 2px;
+            text-shadow: 0 1px 3px black;
         }
 
-        /* BOTTOM USER + CAPTION */
-        .reels-info { position: absolute; left: 15px; right: 80px; bottom: 20px; color: white; z-index: 10; text-shadow: 0 2px 5px black; }
+        .reels-info {
+            position: absolute;
+            left: 15px;
+            right: 80px;
+            bottom: 20px;
+            color: white;
+            z-index: 10;
+            text-shadow: 0 2px 5px black;
+        }
         .user-info { display: flex; align-items: center; gap: 8px; }
         .user-info i { font-size: 32px; }
         .user-name { font-size: 16px; font-weight: bold; }
 
-        /* Comment Box */
-        .commentbox {
-            display: none;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 60%;
-            background: white;
-            color: black;
-            z-index: 100;
-            border-radius: 15px 15px 0 0;
-            box-sizing: border-box;
-            padding: 20px;
-            overflow-y: auto;
+        .view-count-display {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
         }
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .comment-header button {
-            border: none;
-            background: transparent;
-            font-size: 22px;
-            cursor: pointer;
-        }
-        #inputtext { width: 80%; bottom: 5%; height: 25px; border-radius: 5px 0px 0px 5px; border: 2px solid rgb(81, 79, 79); position: absolute; }
-        #sent { height: 32px; background: #031f50; border: none; color: white; width: 12%; border-radius: 0px 5px 5px 0px; bottom: 5%; position: absolute; left: 80%; }
-
         .video-caption {
             margin: 4px 0 0 0;
             line-height: 1.4;
@@ -149,10 +148,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        .video-caption.expanded {
-            display: block;
-            overflow: visible;
-        }
+        .video-caption.expanded { display: block; overflow: visible; }
         .more-btn {
             display: inline-block;
             background: none;
@@ -180,7 +176,6 @@
             z-index: 9999;
         }
 
-        /* ============ PREMIUM AD CARD ============ */
         .premium-ad-card {
             position: relative;
             width: 100%;
@@ -195,7 +190,6 @@
             scroll-snap-stop: always;
             box-sizing: border-box;
         }
-
         .ad-sponsored {
             position: absolute;
             top: 15px;
@@ -208,7 +202,6 @@
             font-weight: bold;
             z-index: 5;
         }
-
         .ad-main-area {
             flex: 1;
             display: flex;
@@ -217,7 +210,6 @@
             gap: 5px;
             min-height: 0;
         }
-
         .ad-image-wrapper {
             flex: 1;
             display: flex;
@@ -225,32 +217,12 @@
             align-items: center;
             height: 100%;
         }
-
         .ad-image-wrapper img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
             border-radius: 12px;
         }
-
-        .ad-info {
-            padding: 2px 15px;
-            text-align: center;
-        }
-
-        .ad-info h3 {
-            margin: 3px 0;
-            color: #031f50;
-            font-size: 17px;
-        }
-
-        .ad-info p {
-            margin: 0;
-            color: #164595;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
         .ad-thumbnails {
             display: flex;
             gap: 8px;
@@ -259,9 +231,7 @@
             justify-content: center;
             scrollbar-width: none;
         }
-
         .ad-thumbnails::-webkit-scrollbar { display: none; }
-
         .ad-thumbnails img {
             width: 55px;
             height: 55px;
@@ -273,14 +243,10 @@
             transition: border-color 0.2s;
             background: #fff;
         }
-
-        .ad-thumbnails img:hover { border-color: #031f50; }
-
         .ad-thumbnails img.active {
             border-color: #031f50;
             border-width: 3px;
         }
-
         .ad-order-btn {
             display: block;
             margin: 8px 15px 20px;
@@ -294,20 +260,93 @@
             font-size: 18px;
             transition: opacity 0.2s;
         }
-
         .ad-order-btn:hover { opacity: 0.9; }
 
-        /* মোবাইল রেসপন্সিভ */
+.commentbox {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width:100%;
+    height:50%;
+    background: #fff;
+    color: #222;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.4);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    box-sizing: border-box;
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.comment-list {
+    max-height: 250px;
+    overflow-y: auto;
+    margin: 12px 0;
+}
+.user-comment {
+    background: #f1f1f1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+.user-comment p {
+    margin: 5px 0 0;
+}
+.comment-input {
+   display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 100%;
+}
+.comment-input input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.comment-input button {
+    flex-shrink: 0;
+    min-width: 55px;
+    border: none;
+    background: #031f50;
+    color: white;
+    border-radius: 6px;
+}
+.view-count-display {
+    position: absolute;
+    right: 12px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: white;
+    font-size: 12px;
+    z-index: 10;
+    text-shadow: 0 2px 5px black;
+}
+/*phone size*/
         @media(max-width:600px) {
             header { height: 78px; }
             .feed-container {
                 margin-top: 78px;
                 height: calc(100vh - 78px);
             }
-            .single-video-card, .premium-ad-card { 
-                width: 100%; 
+            .single-video-card, .premium-ad-card {
+                width: 100%;
                 height: calc(100vh - 78px);
-                border-radius: 0px; 
+                border-radius: 0px;
             }
             .header1 { width: 100%; }
             .headone { display: flex; align-items: center; }
@@ -320,20 +359,126 @@
             #videoimg { width: 36px; height: 32px; margin-left: 8%; }
             #bellimg { width: 30px; height: 30px; margin-left: auto; margin-right: 2%; }
             #userimg { width: 28px; height: 28px; margin-right: 2%; }
-
             .video-player { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
             .reels-actions { right: 12px; bottom: 35%; gap: 20px; }
-            .user-info { display: flex; align-items: center; gap: 8px; }
             .reels-info { bottom: 58px; left: 12px; right: 70px; }
-
             .ad-thumbnails img { width: 50px; height: 50px; }
-            .ad-info h3 { font-size: 16px; }
-            .ad-info p { font-size: 16px; }
+/* ফেইসবুক রিলস স্টাইল কমেন্ট বক্স */
+.commentbox {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 70%; /* ফেইসবুক রিলসের মতো স্ক্রিনের প্রায় ৬০% জায়গা নেবে */
+    background: #242526; /* ফেইসবুক ডার্ক মোড/মডার্ন লুকের জন্য, চাইলে সাদা (#fff) ও রাখতে পারেন */
+    color: #fff;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* আইফোনের হোম বারের জন্য */
+    box-sizing: border-box;
+    overflow: hidden;
+    animation: slideUp 0.3s ease-out; /* নিচ থেকে উপরে ওঠার অ্যানিমেশন */
+}
+
+/* নিচ থেকে ওপরের অ্যানিমেশন */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid #393a3b;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* শুধু কমেন্ট লিস্ট স্ক্রল হবে, ইনপুট বক্স বা হেডার নড়বে না */
+.comment-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 12px 0;
+    padding-right: 4px;
+    scrollbar-width: thin;
+}
+
+.user-comment {
+    background: #3a3b3c;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow-wrap: anywhere;
+}
+
+.user-comment p {
+    margin: 4px 0 0;
+    font-size: 14px;
+}
+
+/* ইনপুট বক্স সবসময় নিচে ফিক্সড বা পিন করা থাকবে */
+.comment-input {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 100%;
+    background: transparent;
+    padding-top: 8px;
+    border-top: 1px solid #393a3b;
+}
+
+.comment-input input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    border: 1px solid #3f4041;
+    background: #3a3b3c;
+    color: #fff;
+    border-radius: 22px; /* ফেইসবুকের মতো গোল গোল ক্যাপসুল স্টাইল ইনপুট */
+    font-size: 15px;
+    outline: none;
+}
+
+.comment-input input::placeholder {
+    color: #b0b3b8;
+}
+
+.comment-input button {
+    flex-shrink: 0;
+    min-width: 60px;
+    height: 44px;
+    border: none;
+    background: #1877f2; /* ফেইসবুক ব্লু কালার */
+    color: white;
+    border-radius: 22px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.comment-input button:active {
+    background: #166fe5;
+}
         }
     </style>
 </head>
 <body>
-
 <header>
     <div class="header1">
         <div class="headone">
@@ -353,235 +498,745 @@
 </header>
 <i id="refreshIcon" class="fa-solid fa-rotate-right" onclick="location.reload()"></i>
 
-<!-- ভিডিও ও অ্যাড Feed কনটেইনার -->
 <div class="feed-container">
     <div id="allVideoList">
         <p style="text-align:center; color:#666; margin-top:50px;">Loading content...</p>
     </div>
 </div>
 
-<!-- Firebase SDK & Script -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {
+    getFirestore, collection, query, orderBy, getDocs,
+    doc, setDoc, deleteDoc, getDoc, updateDoc, increment,
+    onSnapshot, serverTimestamp, addDoc, runTransaction
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import {
+    getAuth, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
-        authDomain: "robiul-84377.firebaseapp.com",
-        projectId: "robiul-84377",
-        storageBucket: "robiul-84377.firebasestorage.app",
-        messagingSenderId: "476907665212",
-        appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+};
+
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+let authReady   = false;
+
+// ================= AUTH =================
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    authReady = true;
+
+    document.querySelectorAll(".like-btn").forEach(btn => {
+        bindLikeButton(btn);
+    });
+
+    // Login হওয়ার আগে ভিডিও ৩ সেকেন্ড দেখা হয়ে থাকলে
+    document.querySelectorAll(".video-player").forEach(video => {
+        if (video.currentTime >= 3) {
+            video.tryCountView?.();
+        }
+    });
+});
+
+
+// ================= HELPERS =================
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>'"]/g,
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+}
+
+function formatCount(n) {
+    n = Number(n) || 0;
+    if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1000)    return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return String(n);
+}
+
+// ================= LOAD CONTENT =================
+async function loadAllContent() {
+    const videoContainer = document.getElementById("allVideoList");
+
+    try {
+        const videosQuery = query(collection(db, "videos"), orderBy("createdAt", "desc"));
+        const videosSnapshot = await getDocs(videosQuery);
+
+        if (videosSnapshot.empty) {
+            videoContainer.innerHTML = `<p style="text-align:center; color:#666; margin-top:50px;">No videos available.</p>`;
+            return;
+        }
+
+        const videos = videosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        let userAds = [];
+        try {
+            const adsSnapshot = await getDocs(query(collection(db, "user-ads")));
+            userAds = adsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } catch (adError) {
+            console.error("❌ Ads error:", adError);
+        }
+
+        let html = "";
+        let adIndex = 0;
+
+        videos.forEach((data, index) => {
+            const safeUserName  = escapeHTML(data.userName || "User");
+            const safeCaption   = escapeHTML(data.caption || "");
+            const safeVideoUrl  = data.videoUrl || "";
+            const likeCount     = data.likeCount || 0;
+            const viewCount     = data.viewCount || 0;
+
+     html += `
+    <div class="single-video-card" data-video-id="${data.id}">
+        
+        <button class="back-btn" onclick="history.back()">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+
+        <video class="video-player"
+               src="${safeVideoUrl}"
+               controls playsinline preload="metadata"
+               data-video-id="${data.id}"></video>
+
+        <!-- ✅ ACTIONS: শুধু ৩টা বাটন থাকবে -->
+        <div class="reels-actions">
+            <button class="like-btn" data-video-id="${data.id}">
+
+                <i class="fa-regular fa-thumbs-up"></i>
+                <div class="count">${formatCount(likeCount)}</div>
+            </button>
+
+            <button onclick="commentopen(this)">
+                <i class="fa-regular fa-comment"></i>
+            </button>
+
+            <button class="btn-share"
+                    data-username="${safeUserName}"
+                    data-caption="${safeCaption}"
+                    data-videoid="${data.id}"
+                    onclick="shareVideo(this)">
+                <i class="fa-solid fa-share"></i>
+            </button>
+        </div>
+
+        <!-- ✅ COMMENTBOX: card এর ভিতরে, actions এর বাইরে -->
+        <div class="commentbox" style="display:none;">
+            <div class="comment-header">
+                <h4>Comments</h4>
+                <button onclick="commentclose(this)">✕</button>
+            </div>
+            <div class="comment-list">Loading comments...</div>
+            <div class="comment-input">
+                <input type="text" class="inputtext" placeholder="Write a comment...">
+                <button onclick="sendComment(this)">Send</button>
+            </div>
+        </div>
+
+        <!-- ✅ INFO -->
+        <div class="reels-info">
+            <div class="user-info">
+                <i class="fa-solid fa-circle-user"></i>
+                <span class="user-name">${safeUserName}</span>
+            </div>
+            ${safeCaption ? `
+                <div class="caption-container">
+                    <p class="video-caption clamped">${safeCaption}</p>
+                    <button class="more-btn" onclick="toggleCaption(this)">More</button>
+                </div>
+            ` : ''}
+        </div>
+        <div class="view-count-display">
+                <i class="fa-regular fa-eye"></i>
+                <span class="view-num">${formatCount(viewCount)}</span> views
+            </div>
+    </div>
+`;
+            if ((index + 1) % 4 === 0 && userAds.length > 0) {
+                const currentAd = userAds[adIndex % userAds.length];
+                const safeProductName = escapeHTML(currentAd.productName || "Product");
+
+                let adImages = [];
+                if (Array.isArray(currentAd.images) && currentAd.images.length > 0) {
+                    adImages = currentAd.images;
+                } else if (currentAd.imageUrl) {
+                    adImages = [currentAd.imageUrl];
+                } else {
+                    adImages = ["logo.png"];
+                }
+                const mainImage = adImages[0];
+                const thumbnailsHTML = adImages.map((img, i) =>
+                    `<img src="${escapeHTML(img)}"
+                        alt="Thumb ${i+1}"
+                        class="${i === 0 ? 'active' : ''}"
+                        onclick="changeAdImage(this, '${escapeHTML(img)}')">`
+                ).join('');
+
+                html += `
+                    <div class="premium-ad-card">
+                        <span class="ad-sponsored">Sponsored</span>
+                        <div class="ad-main-area">
+                            <div class="ad-image-wrapper">
+                                <img class="ad-main-img" src="${escapeHTML(mainImage)}" alt="${safeProductName}">
+                            </div>
+                        </div>
+                        <div class="ad-thumbnails">${thumbnailsHTML}</div>
+                        <button class="ad-order-btn" data-ad-id="${escapeHTML(currentAd.id)}">Order Now</button>
+                    </div>
+                `;
+                adIndex++;
+            }
+        });
+
+        videoContainer.innerHTML = html;
+
+        // Bind Like + Real-time + View
+        document.querySelectorAll(".like-btn").forEach(btn => {
+            bindLikeButton(btn);
+            btn.dataset.bound = "1";
+        });
+
+        setupAutoPlayObserver();
+        setupViewTracking();
+
+        // ✅ URL থেকে videoId পড়ে সেই video-তে scroll
+        scrollToVideoFromURL();
+
+    } catch (error) {
+        console.error("Error fetching content:", error);
+        videoContainer.innerHTML = `<p style="color:red; text-align:center; margin-top:50px;">Failed to load content: ${escapeHTML(error.message)}</p>`;
+    }
+}
+
+// ================= URL SCROLL =================
+function scrollToVideoFromURL() {
+
+    const params = new URLSearchParams(location.search);
+    const targetVideoId = params.get("videoId");
+
+    if (!targetVideoId) return;
+
+    const container = document.getElementById("allVideoList");
+
+    if (!container) return;
+
+    let observer = null;
+
+    const tryOpenVideo = () => {
+
+        const cards = container.querySelectorAll(".single-video-card");
+
+        let targetCard = null;
+
+        cards.forEach(card => {
+            if (card.dataset.videoId === targetVideoId) {
+                targetCard = card;
+            }
+        });
+
+        if (!targetCard) return false;
+
+        if (observer) {
+            observer.disconnect();
+        }
+
+        const targetVideo = targetCard.querySelector(".video-player");
+
+        if (!targetVideo) return false;
+
+        // নির্দিষ্ট ভিডিওর কাছে নিয়ে যাবে
+        targetCard.scrollIntoView({
+            behavior: "auto",
+            block: "center"
+        });
+
+        // অন্য ভিডিও বন্ধ করবে
+        document.querySelectorAll(".video-player").forEach(video => {
+            if (video !== targetVideo) {
+                video.pause();
+            }
+        });
+
+        // Browser autoplay policy মেনে ভিডিও চালু করার চেষ্টা
+        targetVideo.muted = true;
+
+        targetVideo.play().catch(error => {
+            console.log("Autoplay blocked:", error);
+        });
+
+        return true;
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    // আগে থেকেই ভিডিও লোড হয়ে থাকলে
+    if (tryOpenVideo()) return;
 
-    function escapeHTML(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>'"]/g,
-            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    // ভিডিও পরে লোড হলে খুঁজে বের করবে
+    observer = new MutationObserver(() => {
+        tryOpenVideo();
+    });
+
+    observer.observe(container, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// ================= LIKE SYSTEM =================
+
+function bindLikeButton(btn) {
+    const videoId = btn.dataset.videoId;
+    if (!videoId) return;
+
+    // Like count listener একবারই চালু হবে
+    if (!btn.countUnsubscribe) {
+        btn.countUnsubscribe = onSnapshot(
+            doc(db, "videos", videoId),
+            (snap) => {
+                if (!snap.exists()) return;
+
+                const countEl = btn.querySelector(".count");
+                if (countEl) {
+                    countEl.textContent = formatCount(
+                        snap.data().likeCount || 0
+                    );
+                }
+            },
+            (error) => console.error("Like count listener:", error)
         );
     }
 
-    async function loadAllContent() {
-        const videoContainer = document.getElementById("allVideoList");
+    // আগের user-এর listener বন্ধ
+    if (btn.userLikeUnsubscribe) {
+        btn.userLikeUnsubscribe();
+        btn.userLikeUnsubscribe = null;
+    }
 
-        try {
-            const videosQuery = query(collection(db, "videos"), orderBy("createdAt", "desc"));
-            const videosSnapshot = await getDocs(videosQuery);
+    // বর্তমান user-এর Like status দেখাবে
+    if (authReady && currentUser && !currentUser.isAnonymous) {
+        const likeRef = doc(
+            db, "videoLikes", `${videoId}_${currentUser.uid}`
+        );
 
-            if (videosSnapshot.empty) {
-                videoContainer.innerHTML = `<p style="text-align:center; color:#666; margin-top:50px;">No videos available.</p>`;
+        btn.userLikeUnsubscribe = onSnapshot(
+            likeRef,
+            (snap) => {
+                const icon = btn.querySelector("i");
+                if (!icon) return;
+
+                icon.classList.toggle("fa-solid", snap.exists());
+                icon.classList.toggle("fa-regular", !snap.exists());
+                icon.style.color = snap.exists() ? "#3897f0" : "";
+            },
+            (error) => console.error("User like listener:", error)
+        );
+    }
+
+    // Click handler একবারই bind হবে
+    if (!btn.dataset.clickBound) {
+        btn.dataset.clickBound = "1";
+        btn.addEventListener("click", () => toggleLike(btn));
+    }
+}
+
+async function toggleLike(btn) {
+    const user = currentUser;
+
+    if (!user || user.isAnonymous) {
+        alert("Like করতে Login করুন।");
+        return;
+    }
+
+    const videoId = btn.dataset.videoId;
+    const userId = user.uid;
+
+    const likeRef = doc(db, "videoLikes", `${videoId}_${userId}`);
+    const videoRef = doc(db, "videos", videoId);
+
+    btn.disabled = true;
+
+    try {
+        await runTransaction(db, async (transaction) => {
+            const likeSnap = await transaction.get(likeRef);
+            const videoSnap = await transaction.get(videoRef);
+
+            if (!videoSnap.exists()) {
+                throw new Error("ভিডিওটি পাওয়া যায়নি।");
+            }
+
+            const currentCount = videoSnap.data().likeCount || 0;
+
+            if (likeSnap.exists()) {
+                transaction.delete(likeRef);
+
+                transaction.update(videoRef, {
+                    likeCount: Math.max(0, currentCount - 1)
+                });
+            } else {
+                transaction.set(likeRef, {
+                    videoId: videoId,
+                    userId: userId,
+                    createdAt: serverTimestamp()
+                });
+
+                transaction.update(videoRef, {
+                    likeCount: currentCount + 1
+                });
+            }
+        });
+
+    } catch (error) {
+        console.error("Like Error:", error);
+        alert("Like সংরক্ষণ হয়নি: " + error.message);
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+// ================= VIEW TRACKING =================
+
+function setupViewTracking() {
+    document.querySelectorAll(".video-player").forEach(video => {
+        const videoId = video.dataset.videoId;
+
+        if (!videoId || video.dataset.viewBound) return;
+
+        video.dataset.viewBound = "1";
+
+        const videoRef = doc(db, "videos", videoId);
+        const viewNumEl = video.closest(".single-video-card")
+            ?.querySelector(".view-num");
+
+        // Live View Count
+        if (viewNumEl) {
+            onSnapshot(videoRef, (snap) => {
+                if (snap.exists()) {
+                    viewNumEl.textContent = formatCount(
+                        snap.data().viewCount || 0
+                    );
+                }
+            });
+        }
+
+        const countView = async () => {
+            const user = currentUser;
+
+            if (!user || user.isAnonymous) return;
+            if (video.currentTime < 3) return;
+
+            const userId = user.uid;
+            const viewRef = doc(
+                db, "videoViews", `${videoId}_${userId}`
+            );
+
+            // একই ভিডিও একই user-এর জন্য একবারই গণনা হবে
+            if (video.dataset.viewCounted === userId) return;
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const viewSnap = await transaction.get(viewRef);
+                    const videoSnap = await transaction.get(videoRef);
+
+                    if (viewSnap.exists()) return;
+
+                    if (!videoSnap.exists()) {
+                        throw new Error("ভিডিও পাওয়া যায়নি।");
+                    }
+
+                    const currentCount = videoSnap.data().viewCount || 0;
+
+                    transaction.set(viewRef, {
+                        videoId: videoId,
+                        userId: userId,
+                        createdAt: serverTimestamp()
+                    });
+
+                    transaction.update(videoRef, {
+                        viewCount: currentCount + 1
+                    });
+                });
+
+                video.dataset.viewCounted = userId;
+
+            } catch (error) {
+                console.error("View count error:", error);
+            }
+        };
+
+        video.tryCountView = countView;
+        video.addEventListener("timeupdate", countView);
+    });
+}
+
+// ================= AUTOPLAY =================
+function setupAutoPlayObserver() {
+    const options = { root: null, rootMargin: "0px", threshold: 0.6 };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                video.muted = true;
+                video.play().then(() => {
+                    video.muted = false;
+                    video.volume = 1;
+                }).catch(err => console.log("Autoplay blocked:", err));
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+    }, options);
+
+    document.querySelectorAll(".video-player").forEach(v => observer.observe(v));
+}
+
+// ================= UI HELPERS =================
+window.changeAdImage = function(thumbElement, imgUrl) {
+    const adCard = thumbElement.closest('.premium-ad-card');
+    if (!adCard) return;
+    const mainImg = adCard.querySelector('.ad-main-img');
+    if (mainImg) mainImg.src = imgUrl;
+    adCard.querySelectorAll('.ad-thumbnails img').forEach(img => img.classList.remove('active'));
+    thumbElement.classList.add('active');
+};
+
+window.toggleCaption = function(button) {
+    const container = button.closest(".caption-container");
+    const caption = container.querySelector(".video-caption");
+    if (caption.classList.contains("expanded")) {
+        caption.classList.remove("expanded");
+        caption.classList.add("clamped");
+        button.textContent = "More";
+    } else {
+        caption.classList.remove("clamped");
+        caption.classList.add("expanded");
+        button.textContent = "Less";
+    }
+};
+
+window.shareVideo = async function(btn) {
+    const userName = btn.dataset.username || "User";
+    const caption = btn.dataset.caption || "";
+    const videoId = btn.dataset.videoid;
+
+    if (!videoId) {
+        alert("Video ID পাওয়া যায়নি!");
+        return;
+    }
+
+    // বর্তমান ভিডিও পেজের URL-এ নির্দিষ্ট videoId যোগ হবে
+  const shareURL = new URL(
+    "https://adarshabd.com/vedio.html"
+);
+
+    shareURL.searchParams.set("videoId", videoId);
+    shareURL.hash = "";
+
+    const url = shareURL.toString();
+
+    const title = `${userName} shared a video`;
+
+    try {
+        if (navigator.share) {
+            await navigator.share({
+                title: title,
+                text: caption,
+                url: url
+            });
+            return;
+        }
+    } catch (error) {
+        if (error.name === "AbortError") return;
+
+        console.warn("Share failed:", error);
+    }
+
+    // Fallback: Copy link
+    try {
+        await navigator.clipboard.writeText(url);
+        alert("ভিডিওর লিংক কপি হয়েছে!");
+    } catch (error) {
+        prompt("এই লিংকটি কপি করুন:", url);
+    }
+};
+
+
+/* =================================
+   REELS COMMENT SYSTEM
+================================= */
+
+// OPEN COMMENT
+window.commentopen = function(btn) {
+
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+
+    box.style.display = "block";
+
+    const videoId = card.dataset.videoId;
+
+    loadReelsComments(videoId, card);
+};
+
+
+// CLOSE COMMENT
+window.commentclose = function(btn) {
+
+    const card = btn.closest(".single-video-card");
+    const box = card.querySelector(".commentbox");
+
+    box.style.display = "none";
+
+    // বন্ধ হলে Live Listener বন্ধ
+    if (card.commentUnsubscribe) {
+        card.commentUnsubscribe();
+        card.commentUnsubscribe = null;
+    }
+};
+
+
+// LOAD COMMENTS - REAL TIME
+window.loadReelsComments = function(videoId, card) {
+
+    const list = card.querySelector(".comment-list");
+
+    // আগের Listener বন্ধ
+    if (card.commentUnsubscribe) {
+        card.commentUnsubscribe();
+    }
+
+    const commentsRef = collection(
+        db, "videos", videoId, "comments"
+    );
+
+    const commentsQuery = query(
+        commentsRef,
+        orderBy("createdAt", "asc")
+    );
+
+    card.commentUnsubscribe = onSnapshot(
+        commentsQuery,
+        (snapshot) => {
+
+            list.innerHTML = "";
+
+            if (snapshot.empty) {
+                list.innerHTML = "<p>No comments yet.</p>";
                 return;
             }
 
-            const videos = videosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            snapshot.forEach((commentDoc) => {
 
-            let userAds = [];
-            try {
-                const adsQuery = query(collection(db, "user-ads"));
-                const adsSnapshot = await getDocs(adsQuery);
-                userAds = adsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } catch (adError) {
-                console.error("❌ Ads error:", adError);
-            }
+                const data = commentDoc.data();
 
-            let html = "";
-            let adIndex = 0;
+                const name = escapeHTML(data.userName || "User");
+                const message = escapeHTML(data.text || "");
 
-            videos.forEach((data, index) => {
-                const safeUserName = escapeHTML(data.userName || "User");
-                const safeCaption = escapeHTML(data.caption || "");
-                const safeVideoUrl = data.videoUrl || "";
+                const time = data.createdAt
+                    ? data.createdAt.toDate().toLocaleString()
+                    : "Just now";
 
-                html += `
-                    <div class="single-video-card">
-                        <video class="video-player" src="${safeVideoUrl}" controls playsinline preload="metadata"></video>
-                        <div class="reels-actions">
-                            <button class="like-btn" data-video-id="${data.id}">
-                                <i class="fa-regular fa-thumbs-up"></i><br>
-                                <div class="count" style="color:white; font-size:12px; margin-top:2px;">0</div>
-                            </button>
-                            <button onclick="commentopen(this)"><i class="fa-regular fa-comment"></i></button>
-                            <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${safeVideoUrl}')"><i class="fa-solid fa-share"></i></button>
-                        </div>
-                        <div class="commentbox" style="display:none;">
-                            <div class="comment-header">
-                                <h4>Comments</h4>
-                                <button onclick="commentclose(this)">❌</button>
-                            </div>
-                            <input type="text" id="inputtext" placeholder="Comment">
-                            <button id="sent">Sent</button>
-                        </div>
-                        <div class="reels-info">
-                            <div class="user-info">
-                                <i class="fa-solid fa-circle-user"></i>
-                                <span class="user-name">${safeUserName}</span>
-                            </div>
-                            ${safeCaption ? `
-                                <div class="caption-container">
-                                    <p class="video-caption clamped">${safeCaption}</p>
-                                    <button class="more-btn" onclick="toggleCaption(this)">More</button>
-                                </div>
-                            ` : ''}
-                        </div>
+                list.innerHTML += `
+                    <div class="comment-item">
+                        <strong>${name}</strong>
+                        <p>${message}</p>
+                        <small>${time}</small>
                     </div>
                 `;
 
-                if ((index + 1) % 4 === 0 && userAds.length > 0) {
-                    const currentAd = userAds[adIndex % userAds.length];
-
-                    const safeProductName = escapeHTML(currentAd.productName || "Product");
-                    const safeProductPrice = escapeHTML(currentAd.price || "0");
-                    const safeProductLink = currentAd.productLink || "#";
-
-                    let adImages = [];
-                    if (Array.isArray(currentAd.images) && currentAd.images.length > 0) {
-                        adImages = currentAd.images;
-                    } else if (currentAd.imageUrl) {
-                        adImages = [currentAd.imageUrl];
-                    } else {
-                        adImages = ["logo.png"];
-                    }
-
-                    const mainImage = adImages[0];
-
-                    const thumbnailsHTML = adImages.map((img, i) =>
-                        `<img src="${escapeHTML(img)}"
-                            alt="Thumb ${i+1}"
-                            class="${i === 0 ? 'active' : ''}"
-                            onclick="changeAdImage(this, '${escapeHTML(img)}')">`
-                    ).join('');
-
-                    html += `
-                        <div class="premium-ad-card">
-                            <span class="ad-sponsored">Sponsored</span>
-                            <div class="ad-main-area">
-                                <div class="ad-image-wrapper">
-                                    <img class="ad-main-img" src="${escapeHTML(mainImage)}" alt="${safeProductName}">
-                                </div>
-                            </div>
-                            <div class="ad-thumbnails">${thumbnailsHTML}</div>
-                            <a href="${safeProductLink}" class="ad-order-btn">Order Now</a>
-                        </div>
-                    `;
-                    adIndex++;
-                }
             });
 
-            videoContainer.innerHTML = html;
-            setupAutoPlayObserver();
+            list.scrollTop = list.scrollHeight;
 
-        } catch (error) {
-            console.error("Error fetching content:", error);
-            videoContainer.innerHTML = `<p style="color:red; text-align:center; margin-top:50px;">Failed to load content: ${escapeHTML(error.message)}</p>`;
+        },
+        (error) => {
+            console.error("Comment Listener Error:", error);
+            list.textContent = "Comments load failed.";
         }
+    );
+
+};
+
+
+// SEND COMMENT
+window.sendComment = async function(btn) {
+
+    const user = auth.currentUser;
+
+    if (!user || user.isAnonymous) {
+        alert("Please Login First!");
+        return;
     }
 
-    window.changeAdImage = function(thumbElement, imgUrl) {
-        const adCard = thumbElement.closest('.premium-ad-card');
-        if (!adCard) return;
+    const card = btn.closest(".single-video-card");
 
-        const mainImg = adCard.querySelector('.ad-main-img');
-        if (mainImg) mainImg.src = imgUrl;
+    const videoId = card.dataset.videoId;
 
-        adCard.querySelectorAll('.ad-thumbnails img').forEach(img => {
-            img.classList.remove('active');
-        });
-        thumbElement.classList.add('active');
-    };
+    const input = card.querySelector(".inputtext");
 
-    window.toggleCaption = function(button) {
-        const container = button.closest(".caption-container");
-        const caption = container.querySelector(".video-caption");
+    const message = input.value.trim();
 
-        if (caption.classList.contains("expanded")) {
-            caption.classList.remove("expanded");
-            caption.classList.add("clamped");
-            button.textContent = "More";
-        } else {
-            caption.classList.remove("clamped");
-            caption.classList.add("expanded");
-            button.textContent = "Less";
-        }
-    };
-
-    window.shareContent = async function(title, text, url) {
-        try {
-            if (navigator.share) {
-                await navigator.share({ title: title || 'Check this out!', text: text || '', url: url });
-                return;
-            }
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
-                await window.Capacitor.Plugins.Share.share({ title: title, text: text, url: url, dialogTitle: "Share Content" });
-                return;
-            }
-            if (navigator.clipboard) {
-                await navigator.clipboard.writeText(url);
-                alert("Link copied to clipboard!");
-                return;
-            }
-            alert("Sharing is not supported on this browser.");
-        } catch (error) {
-            if (error.name !== 'AbortError') console.error("Share Error:", error);
-        }
-    };
-
-    function setupAutoPlayObserver() {
-        const options = { root: null, rootMargin: "0px", threshold: 0.5 };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                const video = entry.target;
-                if (entry.isIntersecting) {
-                    video.muted = false;
-                    video.volume = 1;
-                    video.play().catch(error => console.log("Autoplay blocked:", error));
-                } else {
-                    video.pause();
-                }
-            });
-        }, options);
-
-        document.querySelectorAll(".video-player").forEach((video) => {
-            observer.observe(video);
-        });
+    if (!message) {
+        alert("Write a comment!");
+        return;
     }
 
-    window.commentopen = function(btn) {
-        const card = btn.closest(".single-video-card");
-        const box = card.querySelector(".commentbox");
-        box.style.display = "block";
-    };
+    btn.disabled = true;
 
-    window.commentclose = function(devBtn) {
-        const card = devBtn.closest(".single-video-card");
-        const box = card.querySelector(".commentbox");
-        box.style.display = "none";
-    };
+    try {
 
-    window.addEventListener("DOMContentLoaded", loadAllContent);
+        // Get User Name
+        let userName = user.displayName || "User";
+
+        const userSnap = await getDoc(
+            doc(db, "users", user.uid)
+        );
+
+        if (userSnap.exists()) {
+            userName = userSnap.data().name || userName;
+        }
+
+        // Save in Firebase
+        await addDoc(
+            collection(db, "videos", videoId, "comments"),
+            {
+                videoId: videoId,
+                userId: user.uid,
+                userName: userName,
+                text: message,
+                createdAt: serverTimestamp()
+            }
+        );
+
+        input.value = "";
+
+        // onSnapshot automatically displays comment
+
+    } catch(error) {
+
+        console.error("Send Comment Error:", error);
+
+        alert("Comment failed: " + error.message);
+
+    } finally {
+
+        btn.disabled = false;
+
+    }
+
+};
+
+window.addEventListener("DOMContentLoaded", loadAllContent);
 </script>
 </body>
 </html>

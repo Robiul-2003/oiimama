@@ -12,8 +12,6 @@
     display:flex; 
     justify-content: center;
   }
-
-  /* পুরো চ্যাট সেকশনটি ধরে রাখার জন্য মেইন কন্টেইনার */
   .chat-container {
     width: 100%;
     max-width: 800px;
@@ -23,7 +21,6 @@
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
-
   .chat-header {
     background:#042867; color:#fff; padding:12px 16px;
     display:flex; align-items:center; gap:10px;
@@ -86,12 +83,25 @@
   </div>
 </div>
 
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { 
-  getFirestore, collection, addDoc, doc, getDoc, setDoc,
-  serverTimestamp, query, orderBy, onSnapshot, updateDoc
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  onSnapshot,
+  updateDoc,
+  increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -103,107 +113,234 @@ const firebaseConfig = {
   appId: "1:476907665212:web:b4dc619f0290a2241b1039"
 };
 
-const app  = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
+const db = getFirestore(app);
 
-const params  = new URLSearchParams(location.search);
-const chatId  = params.get("chatId");
+const params = new URLSearchParams(location.search);
+const chatId = params.get("chatId");
 
 let currentUser = null;
+let receiverUid = null;
+let messagesUnsubscribe = null;
+let sending = false;
+
+if (!chatId) {
+  alert("Chat ID পাওয়া যায়নি।");
+  location.href = "message.html";
+}
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = "login.html"; return; }
-  currentUser = user;
-  await loadChatInfo();
-  listenMessages();
-});
-
-async function loadChatInfo() {
-  const chatSnap = await getDoc(doc(db, "chats", chatId));
-  if (!chatSnap.exists()) return;
-
-  const data = chatSnap.data();
-  const otherUid = data.members.find(uid => uid !== currentUser.uid);
-  const other = data.membersInfo?.[otherUid];
-
-  document.getElementById("chatName").innerText = other?.name || "User";
-
-  if (data.productName) {
-    document.getElementById("productBar").innerHTML = `
-      <img src="${data.productImage || 'logo.png'}">
-      <span>${data.productName}</span>
-    `;
+  if (!user) {
+    location.href = "login.html";
+    return;
   }
 
-  if (data.lastMessage === "") {
-    await addDoc(collection(db, "chats", chatId, "messages"), {
-      sender: currentUser.uid,
-      text: `Hi, "${data.productName}" নিয়ে কথা বলতে চাই।`,
-      time: serverTimestamp(),
-      seen: false
-    });
+  currentUser = user;
+
+  try {
+    await loadChatInfo();
+    if (!receiverUid) return;
+
+    await markAsRead();
+    listenMessages();
+  } catch (error) {
+    console.error("Chat loading error:", error);
+    alert("Chat লোড করা যায়নি। আবার চেষ্টা করো।");
+  }
+});
+
+// --------------------
+// Chat information
+// --------------------
+async function loadChatInfo() {
+  const chatRef = doc(db, "chats", chatId);
+  const chatSnap = await getDoc(chatRef);
+
+  if (!chatSnap.exists()) {
+    throw new Error("Chat document পাওয়া যায়নি");
+  }
+
+  const data = chatSnap.data();
+
+  if (!Array.isArray(data.members) ||
+      !data.members.includes(currentUser.uid)) {
+    throw new Error("তুমি এই chat-এর member নও");
+  }
+
+  receiverUid = data.members.find(
+    uid => uid !== currentUser.uid
+  );
+
+  if (!receiverUid) {
+    throw new Error("Receiver UID পাওয়া যায়নি");
+  }
+
+  const other = data.membersInfo?.[receiverUid] || {};
+
+  document.getElementById("chatName").textContent =
+    other.name || "User";
+
+  const productBar = document.getElementById("productBar");
+  productBar.replaceChildren();
+
+  if (data.productName) {
+    const image = document.createElement("img");
+    image.src = data.productImage || "logo.png";
+    image.alt = data.productName;
+
+    const title = document.createElement("span");
+    title.textContent = data.productName;
+
+    productBar.append(image, title);
   }
 }
 
+// --------------------
+// Mark this user's chat as read
+// --------------------
+async function markAsRead() {
+  if (!currentUser || !chatId) return;
+
+  await updateDoc(doc(db, "chats", chatId), {
+    [`unreadCount.${currentUser.uid}`]: 0
+  });
+}
+
+// --------------------
+// Listen to messages
+// --------------------
 function listenMessages() {
-  const q = query(
+  if (messagesUnsubscribe) {
+    messagesUnsubscribe();
+  }
+
+  const messagesQuery = query(
     collection(db, "chats", chatId, "messages"),
     orderBy("time", "asc")
   );
 
-  onSnapshot(q, (snap) => {
-    const box = document.getElementById("messages");
-    box.innerHTML = "";
+  messagesUnsubscribe = onSnapshot(
+    messagesQuery,
+    (snapshot) => {
+      const box = document.getElementById("messages");
+      box.replaceChildren();
 
-    snap.forEach(docSnap => {
-      const m = docSnap.data();
-      const isMe = m.sender === currentUser.uid;
-      const time = m.time?.toDate 
-        ? m.time.toDate().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-        : "now";
+      snapshot.forEach((messageDoc) => {
+        const message = messageDoc.data();
+        const bubble = document.createElement("div");
 
-      box.innerHTML += `
-        <div class="msg ${isMe ? 'me' : 'other'}">
-          ${escapeHtml(m.text)}
-          <div class="time">${time}</div>
-        </div>
-      `;
-    });
+        bubble.className =
+          "msg " +
+          (message.sender === currentUser.uid ? "me" : "other");
 
-    box.scrollTop = box.scrollHeight;
-  });
+        bubble.appendChild(
+          document.createTextNode(message.text || "")
+        );
+
+        const time = document.createElement("div");
+        time.className = "time";
+        time.textContent = message.time?.toDate
+          ? message.time.toDate().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })
+          : "now";
+
+        bubble.appendChild(time);
+        box.appendChild(bubble);
+      });
+
+      box.scrollTop = box.scrollHeight;
+    },
+    (error) => {
+      console.error("Message listener error:", error);
+    }
+  );
 }
 
+// --------------------
+// Send message
+// --------------------
 window.sendMessage = async function () {
+  if (!currentUser || !receiverUid || sending) return;
+
   const input = document.getElementById("msgInput");
   const text = input.value.trim();
+
   if (!text) return;
 
-  input.value = "";
+  sending = true;
+  input.disabled = true;
 
-  await addDoc(collection(db, "chats", chatId, "messages"), {
-    sender: currentUser.uid,
-    text,
-    time: serverTimestamp(),
-    seen: false
-  });
+  try {
+    const chatRef = doc(db, "chats", chatId);
 
-  await updateDoc(doc(db, "chats", chatId), {
-    lastMessage: text,
-    lastTime: serverTimestamp()
-  });
-};
+    // Ensure the chat document still exists.
+    const chatSnap = await getDoc(chatRef);
 
-document.getElementById("msgInput").addEventListener("keypress", e => {
-  if (e.key === "Enter") sendMessage();
+    if (!chatSnap.exists()) {
+      throw new Error("Chat পাওয়া যায়নি");
+    }
+
+    const members = chatSnap.data().members || [];
+
+    if (!members.includes(receiverUid)) {
+      throw new Error("Receiver এই chat-এর member নন");
+    }
+
+    // Increment receiver's unread count and update preview.
+    // This update happens only after a message is saved.
+    await addDoc(
+      collection(db, "chats", chatId, "messages"),
+      {
+        sender: currentUser.uid,
+        text: text,
+        time: serverTimestamp(),
+        seen: false
+      }
+    );
+
+ if (!receiverUid) {
+  console.error("Receiver UID পাওয়া যায়নি");
+  return;
+}
+
+await updateDoc(doc(db, "chats", chatId), {
+  lastMessage: text,
+  lastTime: serverTimestamp(),
+  [`unreadCount.${receiverUid}`]: increment(1)
 });
 
-function escapeHtml(str) { 
-  return String(str).replace(/[&<>"']/g, s => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[s]));
-}
+console.log("Unread count increased for:", receiverUid);
+
+    input.value = "";
+  } catch (error) {
+    console.error("Send message error:", error);
+    alert("মেসেজ পাঠানো যায়নি। আবার চেষ্টা করো।");
+  } finally {
+    sending = false;
+    input.disabled = false;
+    input.focus();
+  }
+};
+
+// Send with Enter
+document.getElementById("msgInput").addEventListener(
+  "keydown",
+  (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      window.sendMessage();
+    }
+  }
+);
+
+window.addEventListener("pagehide", () => {
+  if (messagesUnsubscribe) {
+    messagesUnsubscribe();
+  }
+});
 </script>
 </body>
 </html>

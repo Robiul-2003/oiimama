@@ -13,7 +13,7 @@
 </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3623063870984881"
      crossorigin="anonymous"></script>
-<title>Adarsh BD - Online Shopping in Bangladesh | Fashion, Electronics & More</title>
+<title>Adarsha </title>
 <link rel="icon" href="logo.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <meta name="description" content="Adarsha BD is an online shopping store in Bangladesh. Buy fashion, electronics, gadgets, home products at best price with fast delivery.">
@@ -55,8 +55,12 @@ header {
   display: flex;
 }
 .name {
-  font-size: 23px;
-  padding-top: 10px;
+font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 4%;
+    margin-top: 0px;
+    color: #031f50;
 }
 .headtwo {
   display: flex;
@@ -161,7 +165,7 @@ header {
 .product {
   width: 200px;
   border-radius: 4px;
-  height: 280px;
+  
   border: 1px solid #ccc;
   cursor: pointer;
   background: white;
@@ -242,7 +246,7 @@ h2 {
 .pprice {
   font-size: 18px;
   font-weight: 700;
-  margin-top: 2px;
+  margin-top: 2px;color:#164595;
 }
 #pcolor {
   font-size: 16px;
@@ -277,7 +281,7 @@ h2 {
 }
 
 #Obtn {
-  width: 45%;
+  width: 42%;
   background: #031f50;
   height: 35px;
   color: white;
@@ -288,7 +292,7 @@ h2 {
   cursor: pointer;
 }
 #Obtn1 {
-  width: 45%;
+  width: 42%;
   background: tomato;
   height: 35px;
   color: white;
@@ -297,6 +301,14 @@ h2 {
   border: none;
   border-radius: 3px;
   cursor: pointer;
+}
+#Obtn2{
+  width:13%;
+  height: 35px;
+  border:#fff;
+}
+.fa-share{
+  font-size:18px;
 }
 /* modal */
 .modal {
@@ -538,7 +550,7 @@ h2 {
   }
   .name {
     font-family: "Open Sans", sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     margin-left: 4%;
     margin-top: 0px;
@@ -547,7 +559,7 @@ h2 {
   .headtwo {
     display: flex;
     align-items: center;
-    margin-top: 0px;
+    margin-top:7px;
   }
   .header1 {
     width: 100%;
@@ -730,13 +742,11 @@ h2 {
   #vedioline {
     display: none;
   }
-
   .related-products {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
-
   .related-products .product {
     width: 100%;
     height: 250px;
@@ -746,34 +756,34 @@ h2 {
     object-fit: contain;
   }
   #homeimg {
-    width: 40px;
-    height: 30px;
+    width: 35px;
+    height: 25px;
     margin-left: 3%;
   }
   #pentoimg {
-    width: 35px;
-    height: 32px;
+    width: 32px;
+    height: 28px;
     margin-left: 8%;
   }
   #messageimg {
+    width: 30px;
+    height: 28px;
+    margin-left: 8%;
+  }
+  #videoimg {
     width: 35px;
     height: 32px;
     margin-left: 8%;
   }
-  #videoimg {
-    width: 40px;
-    height: 35px;
-    margin-left: 8%;
-  }
   #bellimg {
-    width: 33px;
-    height: 33px;
+    width: 29px;
+    height: 29px;
     margin-left: auto;
     margin-right: 1%;
   }
   #userimg {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     margin-left: auto;
     margin-right: 4%;
   }
@@ -885,6 +895,7 @@ h2 {
       <div id="pprice"></div><br>
        <button id="Obtn">Order Now</button>
       <button  id="Obtn1">Chat</button>
+      <button id="Obtn2"><i class="fa-solid fa-share"></i></button>
       <div id="userName"></div>
        <h5>Details</h5>
       <hr>
@@ -896,7 +907,7 @@ h2 {
     </div>
 
   </div>
-</div></div>
+</div>
 <script src="capacitor.js"></script>
 <script>
   async function fixStatusBar() {
@@ -1205,12 +1216,12 @@ window.allProducts = [];
 const localProducts = [
   {
     id: 1,
-    category: ["man", "woman", "accessories"],
-    name: "knight ride",
+    category: ["man", "woman"],
+    name: "knight ride bike 150 cc Bike",
     color: ["red"],
     size:  [""],
     ppieces: ["pieces 1-6", "pieces 8-15", "pieces 16-30"],
-    price: ["450 TK", "420 TK", "400 TK"],
+    price: [" 159,000 TK", " 159,000 TK", " 159,000 TK"],
     images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR91pYkoZN1WVfWJNA7rcoltAfMWXsVu68HRnIaEfT2Qpediagscf5Mo2c&s=10"],
     details: `Apple AirPods Pro (2nd generation) feature Apple's H2 chip...`
   },
@@ -1353,25 +1364,99 @@ function filterProducts(category){
   }
 }
 
-// ==================== FIREBASE LOAD ====================
+
+
+// ==================== OPEN SHARED PRODUCT ====================
+function openSharedProduct() {
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("product");
+
+  if (!productId) return;
+
+  const product = window.allProducts.find(
+    p => String(p.id) === String(productId)
+  );
+
+  if (product) {
+    openModal(product.id);
+    console.log("Shared Product Opened:", product.name);
+  } else {
+    console.log("Shared Product Not Found:", productId);
+    alert("দুঃখিত! এই Product পাওয়া যায়নি।");
+  }
+}
+
 async function loadFirebaseProducts() {
   try {
     const querySnapshot = await getDocs(collection(db, "products"));
+
     querySnapshot.forEach((doc) => {
       let p = doc.data();
-      if(!p.id) p.id = doc.id; 
-      if (!window.allProducts.some(x => String(x.id) === String(p.id))) {
-         window.allProducts.push(p);
+
+      if (!p.id) p.id = doc.id;
+
+      if (!window.allProducts.some(
+        x => String(x.id) === String(p.id)
+      )) {
+        window.allProducts.push(p);
       }
     });
 
     window.allProducts = shuffleArray(window.allProducts);
+
     renderProducts(window.allProducts);
+
+    // Shared link থেকে নির্দিষ্ট Product খুলবে
+    openSharedProduct();
+
   } catch (error) {
-    console.error("Error loading products: ", error);
+    console.error("Error loading products:", error);
+
+    // Firebase load ব্যর্থ হলেও local product খুঁজবে
+    openSharedProduct();
   }
 }
 
+
+// ---------- SHARE BUTTON (Obtn2) ----------
+document.getElementById("Obtn2").addEventListener("click", async function () {
+  const p = window.currentProduct;
+  if (!p) return;
+const shareUrl =
+  `https://adarshabd.com/?product=${encodeURIComponent(p.id)}`;
+  const priceText = Array.isArray(p.price) ? p.price[0] : `${p.price} TK`;
+  // আপনার ওয়েবসাইট/অ্যাপের লিংক (প্রোডাক্ট আইডিসহ)
+ 
+  const shareText = `🛍️ *${p.name}*\n💰 দাম: ${priceText}\n\nবিস্তারিত দেখতে নিচের লিংকে ক্লিক করুন:\n${shareUrl}`;
+
+  try {
+    // ১. Capacitor Native Share (Android/iOS অ্যাপের জন্য)
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
+      const { Share } = window.Capacitor.Plugins;
+      await Share.share({
+        title: p.name,
+        text: shareText,
+        url: shareUrl,
+        dialogTitle: 'প্রোডাক্টটি শেয়ার করুন'
+      });
+    } 
+    // ২. Web Share API (মোবাইল ব্রাউজারের জন্য)
+    else if (navigator.share) {
+      await navigator.share({
+        title: p.name,
+        text: shareText,
+        url: shareUrl
+      });
+    } 
+    // ৩. Fallback: ডেস্কটপ ব্রাউজারে সরাসরি WhatsApp বা লিংক কপি
+    else {
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  } catch (err) {
+    console.log("Share cancelled or failed:", err);
+  }
+});
 // ==================== BANNER SLIDER ====================
 const banners = document.querySelectorAll(".banner");
 let current = 0;
@@ -1399,4 +1484,3 @@ loadFirebaseProducts();
 </script>
 </body>
 </html>
-

@@ -1,0 +1,684 @@
+<!--<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADARSHA BD Payment</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px 12px;
+  font-family: Arial, sans-serif;
+  background: #f1f4f9;
+  color: #172033;
+}
+
+#box {
+  max-width: 420px;
+  margin: auto;
+  padding: 22px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 5px 24px #00000012;
+}
+
+.header {
+  text-align: center;
+  color: #031f50;
+  margin-bottom: 22px;
+}
+
+.header h2 {
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: #697386;
+  font-size: 14px;
+}
+
+.methods {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.method {
+  flex: 1;
+  border: 2px solid #e1e6ee;
+  border-radius: 12px;
+  padding: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.method img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.method span {
+  display: block;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.method.active {
+  border-color: #031f50;
+  background: #f0f5ff;
+}
+
+.info {
+  padding: 14px;
+  background: #f5f7fb;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.info p {
+  margin: 9px 0;
+  overflow-wrap: anywhere;
+}
+
+#qrArea {
+  text-align: center;
+  display: none;
+  margin-top: 20px;
+}
+
+#qr {
+  width: 210px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 15px auto;
+}
+
+.note {
+  font-size: 13px;
+  color: #667085;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0 8px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d3d9e4;
+  border-radius: 9px;
+  font-size: 15px;
+}
+
+.submit {
+  width: 100%;
+  border: none;
+  background: #031f50;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 18px;
+  cursor: pointer;
+}
+
+#message {
+  font-size: 14px;
+  line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+<div id="box">
+
+  <div class="header">
+    <h2>ADARSHA BD</h2>
+    <p>Secure Payment</p>
+  </div>
+
+  <div class="methods">
+    <button class="method" id="bkBtn"
+      onclick="selectMethod('bkash')">
+      <img src="bkash.png" alt="bKash">
+      <span>bKash</span>
+    </button>
+
+    <button class="method" id="ngBtn"
+      onclick="selectMethod('nagad')">
+      <img src="nagad.png" alt="Nagad">
+      <span>Nagad</span>
+    </button>
+  </div>
+
+ <div class="info">
+  <p>Name: <span id="userName">Loading...</span></p>
+  <p>Amount: <span id="amount">0</span> ৳</p>
+  <p>Views: <span id="views">0</span></p>
+  <p>Product Name: <span id="productName">-</span></p>
+</div>
+
+  <div id="qrArea">
+    <h3 id="methodTitle">Payment QR Code</h3>
+
+    <img id="qr" src="8842240.jpg" alt="Payment QR Code">
+
+    <p class="note">
+      QR Code স্ক্যান করে পেমেন্ট করুন।
+      পেমেন্ট করার আগে সঠিক প্রাপক ও টাকার পরিমাণ নিশ্চিত করুন।
+    </p>
+
+    <label for="trxId">Transaction ID</label>
+    <input id="trxId" type="text"
+      placeholder="আপনার Transaction ID লিখুন">
+
+    <button class="submit" onclick="submitPayment()">
+      Payment Submitted
+    </button>
+
+    <p id="message" role="status"></p>
+  </div>
+
+</div>
+
+<script>
+  
+let selectedMethod = "";
+
+function selectMethod(method) {
+  selectedMethod = method;
+
+  document.getElementById("bkBtn")
+    .classList.toggle("active", method === "bkash");
+
+  document.getElementById("ngBtn")
+    .classList.toggle("active", method === "nagad");
+
+  document.getElementById("qrArea").style.display = "block";
+
+  document.getElementById("methodTitle").textContent =
+    method === "bkash"
+      ? "bKash Payment QR"
+      : "Nagad Payment QR";
+
+  // নিজের যাচাইকৃত ব্যবসায়িক QR Code এখানে বসাবেন।
+  document.getElementById("qr").src =
+    method === "bkash"
+      ? "bkash-qr.png"
+      : "nagad-qr.png";
+
+  document.getElementById("message").textContent = "";
+}
+
+function submitPayment() {
+  const trxId = document.getElementById("trxId")
+    .value.trim();
+
+  if (!selectedMethod) {
+    alert("প্রথমে bKash অথবা Nagad নির্বাচন করুন।");
+    return;
+  }
+
+  if (!trxId) {
+    alert("Transaction ID লিখুন।");
+    return;
+  }
+
+  // এটি শুধু UI demo। এখানে কোনো পেমেন্ট যাচাই
+  // বা Firebase-এ পেমেন্ট নিশ্চিত করা হচ্ছে না।
+  document.getElementById("message").textContent =
+    "আপনার Payment Request জমা দেওয়ার জন্য প্রস্তুত। " +
+    "বাস্তব ব্যবহারের আগে নিরাপদ সার্ভার ও পেমেন্ট যাচাই যুক্ত করতে হবে।";
+}
+
+// ডেমো নাম। বাস্তবে Firebase Auth ও users
+// collection থেকে নাম লোড করবেন।
+document.getElementById("userName").textContent =
+  "Loading from Firebase...";
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
+    authDomain: "robiul-84377.firebaseapp.com",
+    projectId: "robiul-84377",
+    storageBucket: "robiul-84377.firebasestorage.app",
+    messagingSenderId: "476907665212",
+    appId: "1:476907665212:web:874ccf5a0f2825f71b1039"
+ };
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const nameEl = document.getElementById("userName");
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    nameEl.textContent = "Guest User";
+    return;
+  }
+
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists()) {
+      nameEl.textContent = snap.data().name || user.displayName || "User";
+    } else {
+      nameEl.textContent = user.displayName || "User";
+    }
+  } catch (err) {
+    console.error("Name load error:", err);
+    nameEl.textContent = user.displayName || "User";
+  }
+});
+
+
+// Read values from the URL query string
+const params = new URLSearchParams(window.location.search);
+
+const amount = parseInt(params.get("amount"), 10);
+const views  = parseInt(params.get("views"), 10);
+const productName =
+  params.get("productName") ||
+  localStorage.getItem("selectedProductName") ||
+  "-";
+
+const amountEl = document.getElementById("amount");
+const viewsEl  = document.getElementById("views");
+
+if (!isNaN(amount)) {
+  amountEl.textContent = amount.toLocaleString();
+}
+
+if (!isNaN(views)) {
+  viewsEl.textContent = views.toLocaleString();
+}
+
+// ✅ Product Name show
+document.getElementById("productName").textContent = productName;
+</script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adarsha BD - Admin Products</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f3f6;
+}
+header {
+  background: #031f50;
+  color: white;
+  padding: 18px;
+  text-align: center;
+}
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 15px;
+}
+#adminPanel {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+input, textarea, button {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0;
+  border-radius: 7px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+button {
+  background: #031f50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: .6;
+}
+#productList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 15px;
+}
+.product {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  overflow: hidden;
+}
+.product img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.delete {
+  background: #dc2626;
+}
+#status {
+  text-align: center;
+  padding: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>ADARSHA BD</h2>
+  <p>Product Store</p>
+</header>
+
+<div class="container">
+
+  <div id="status">Checking account...</div>
+
+  <!-- Admin Only -->
+  <section id="adminPanel">
+    <h2>Admin Product Panel</h2>
+
+    <form id="productForm">
+
+      <input id="productName"
+        placeholder="Product Name" required>
+
+      <input id="productPrice"
+        type="number" min="0"
+        placeholder="Product Price" required>
+
+      <input id="productCategory"
+        placeholder="Product Category" required>
+
+      <input id="productImage"
+        type="url"
+        placeholder="Product Image URL" required>
+
+      <textarea id="productDetails"
+        placeholder="Product Details"></textarea>
+
+      <button id="addButton" type="submit">
+        Add Product
+      </button>
+
+    </form>
+  </section>
+
+  <h2>All Products</h2>
+
+  <div id="productList">
+    Loading Products...
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+// 1. Firebase Configuration
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "robiul-84377.firebaseapp.com",
+  projectId: "robiul-84377",
+  storageBucket: "robiul-84377.firebasestorage.app",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+// 2. Admin UID
+const ADMIN_UID = "YOUR_ADMIN_UID";
+
+const adminPanel = document.getElementById("adminPanel");
+const productList = document.getElementById("productList");
+const statusBox = document.getElementById("status");
+const productForm = document.getElementById("productForm");
+const addButton = document.getElementById("addButton");
+
+let currentUser = null;
+
+
+// 3. Authentication
+onAuthStateChanged(auth, async (user) => {
+
+  currentUser = user;
+
+  const isAdmin =
+    user !== null && user.uid === ADMIN_UID;
+
+  adminPanel.style.display =
+    isAdmin ? "block" : "none";
+
+  statusBox.textContent = isAdmin
+    ? "Admin Account"
+    : user
+      ? "Visitor Account - View Only"
+      : "Guest - View Only";
+
+  await loadProducts(isAdmin);
+
+});
+
+
+// 4. Add Product
+productForm.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  if (!currentUser ||
+      currentUser.uid !== ADMIN_UID) {
+    alert("Permission denied!");
+    return;
+  }
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const price =
+    Number(document.getElementById("productPrice").value);
+
+  const category =
+    document.getElementById("productCategory").value.trim();
+
+  const image =
+    document.getElementById("productImage").value.trim();
+
+  const details =
+    document.getElementById("productDetails").value.trim();
+
+  if (!name || !category || !image ||
+      !Number.isFinite(price) || price < 0) {
+    alert("Please enter valid product information.");
+    return;
+  }
+
+  addButton.disabled = true;
+
+  try {
+
+    await addDoc(collection(db, "products"), {
+
+      name: name,
+      price: price,
+      category: category,
+      images: [image],
+      details: details,
+
+      userId: currentUser.uid,
+
+      createdAt: serverTimestamp()
+
+    });
+
+    alert("Product Added Successfully!");
+
+    productForm.reset();
+
+    await loadProducts(true);
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Product Add Failed: " + error.message);
+
+  } finally {
+    addButton.disabled = false;
+  }
+
+});
+
+
+// 5. Load All Products
+async function loadProducts(isAdmin) {
+
+  productList.textContent = "Loading...";
+
+  try {
+
+    const q = query(
+      collection(db, "products"),
+      orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    productList.innerHTML = "";
+
+    if (snapshot.empty) {
+      productList.textContent = "No Products Found.";
+      return;
+    }
+
+    snapshot.forEach((item) => {
+
+      const p = item.data();
+
+      const card = document.createElement("div");
+      card.className = "product";
+
+      const img = document.createElement("img");
+      img.src = p.images?.[0] || "logo.png";
+      img.alt = p.name || "Product";
+      img.onerror = () => {
+        img.src = "logo.png";
+      };
+
+      const name = document.createElement("h3");
+      name.textContent = p.name || "Product";
+
+      const price = document.createElement("h3");
+      price.textContent = "৳" + (p.price ?? 0);
+
+      const category = document.createElement("p");
+      category.textContent = p.category || "";
+
+      const details = document.createElement("p");
+      details.textContent = p.details || "";
+
+      card.append(img, name, price, category, details);
+
+      // Admin can delete only their own products
+      if (isAdmin && p.userId === ADMIN_UID) {
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete";
+        deleteBtn.textContent = "Delete Product";
+
+        deleteBtn.onclick = async () => {
+
+          if (!confirm("Are you sure you want to delete?")) {
+            return;
+          }
+
+          try {
+
+            await deleteDoc(
+              doc(db, "products", item.id)
+            );
+
+            card.remove();
+
+          } catch (error) {
+
+            console.error(error);
+            alert("Delete Failed!");
+
+          }
+
+        };
+
+        card.appendChild(deleteBtn);
+
+      }
+
+      productList.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+    productList.textContent =
+      "Unable to load products. Check Firebase Rules.";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
