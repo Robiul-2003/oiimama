@@ -102,8 +102,39 @@
          .hashtag-link {
     text-decoration: none; font-size:18px;
   }
-        /* মোবাইল রেসপন্সিভ */
+
+  /*massage icon */
+  .msg-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7%;       /* আপনার পেজ অনুযায়ী ঠিক করুন */
+  cursor: pointer;
+}
+
+.msg-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e41e3f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  line-height: 1;
+}
+      /* মোবাইল রেসপন্সিভ */
         @media(max-width:600px) {
+            .msg-wrap { margin-left: 8%; }
             header{
                 height:78px;
             }
@@ -141,38 +172,12 @@
                 margin-left:auto;
                 margin-right:4%;
             }
-           #homeimg {
-    width: 35px;
-    height: 25px;
-    margin-left: 3%;
-  }
-  #pentoimg {
-    width: 32px;
-    height: 28px;
-    margin-left: 8%;
-  }
-  #messageimg {
-    width: 30px;
-    height: 28px;
-    margin-left: 8%;
-  }
-  #videoimg {
-    width: 35px;
-    height: 32px;
-    margin-left: 8%;
-  }
-  #bellimg {
-    width: 29px;
-    height: 29px;
-    margin-left: auto;
-    margin-right: 1%;
-  }
-  #userimg {
-    width: 25px;
-    height: 25px;
-    margin-left: auto;
-    margin-right: 4%;
-  }
+  #homeimg {  width: 35px;  height: 25px;   margin-left: 3%; }
+  #pentoimg {  width: 32px;  height: 28px; margin-left: 8%;}
+  #messageimg { width: 30px; height: 28px; margin-left: 8%;}
+  #videoimg { width: 35px; height: 32px;   margin-left: 8%; }
+  #bellimg {width: 29px;  height: 29px; margin-left: auto;  margin-right: 1%;}
+  #userimg { width: 25px; height: 25px; margin-left: auto;  margin-right: 4%;}
             #postList { margin-top: 70px; padding: 10px; }            
         }
     </style>
@@ -186,7 +191,10 @@
     <div class="headtwo">
       <img src="home.png" id="homeimg" onclick="window.location.href='index.html'" >
       <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
-      <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+     <div class="msg-wrap" onclick="window.location.href='message.html'">
+  <img src="message.png" id="messageimg">
+  <span class="msg-badge" id="msgBadge">0</span>
+</div>
       <input id="search" placeholder="Search product ... ." onkeyup="searchProduct()">
       <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
       <img src="bell.png" id="bellimg">
@@ -197,7 +205,7 @@
 </header>
 
 <div id="postList"></div>
-
+<script type="module" src="sobiconmassage.js"></script>
 <script type="module">
 /* =====================================================
    FIREBASE IMPORT

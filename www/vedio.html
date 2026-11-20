@@ -268,7 +268,7 @@
     bottom: 0;
     transform: translateX(-50%);
     width:100%;
-    height:50%;
+    height:70%;
     background: #fff;
     color: #222;
     border-radius: 12px 12px 0 0;
@@ -280,12 +280,11 @@
     box-sizing: border-box;
 }
 .comment-header {
-    display: flex;
+    display: flex;height:37px;
     justify-content: space-between;
     align-items: center;
 }
 .comment-list {
-    max-height: 250px;
     overflow-y: auto;
     margin: 12px 0;
 }
@@ -300,10 +299,14 @@
     margin: 5px 0 0;
 }
 .comment-input {
-   display: flex;
+    display: flex;              
+    flex-direction: row;        
+    margin-top: auto;
+    margin-bottom: 10px;
     gap: 6px;
     flex-shrink: 0;
     width: 100%;
+    box-sizing: border-box;
 }
 .comment-input input {
     flex: 1;
@@ -336,8 +339,38 @@
     z-index: 10;
     text-shadow: 0 2px 5px black;
 }
+/*massage icon */
+  .msg-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7%;       /* আপনার পেজ অনুযায়ী ঠিক করুন */
+  cursor: pointer;
+}
+
+.msg-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e41e3f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  line-height: 1;
+}
 /*phone size*/
         @media(max-width:600px) {
+              .msg-wrap { margin-left: 8%; }
             header {    background: white;  position: fixed; width: 100%;  top: 0;  z-index: 999;  height: 78px; }
             .feed-container {   margin-top: 78px;  height: calc(100vh - 78px);   }
             .single-video-card, .premium-ad-card {
@@ -387,72 +420,6 @@
             .reels-actions { right: 12px; bottom: 35%; gap: 20px; }
             .reels-info { bottom: 58px; left: 12px; right: 70px; }
             .ad-thumbnails img { width: 50px; height: 50px; }
-.commentbox {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 60%;
-    background: #fff;
-    color: #222;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 -6px 24px rgba(0,0,0,0.4);
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    padding:8px;
-    padding-bottom:0px; 
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.comment-header {
-    height:30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.comment-list {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    margin: 10px 0;
-    padding-right: 4px;
-}
-
-.comment-input {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-    width: 100%;
-    background: #fff;
-  
-}
-
-.comment-input input {
-    flex: 1;
-    width: 0;
-    min-width: 0;
-    height:35px;
-    box-sizing: border-box;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-}
-
-.comment-input button {
-    flex-shrink: 0;
-    min-width: 55px;
-    height:35px;
-    border: none;
-    background: #031f50;
-    color: white;
-    border-radius: 6px;
-}
         }
     </style>
 </head>
@@ -466,7 +433,10 @@
         <div class="headtwo">
             <img src="home.png" id="homeimg" onclick="window.location.href='index.html'">
             <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'">
-            <img src="message.png" id="messageimg" onclick="window.location.href='message.html'">
+         <div class="msg-wrap" onclick="window.location.href='message.html'">
+  <img src="message.png" id="messageimg">
+  <span class="msg-badge" id="msgBadge">0</span>
+</div>
             <input id="search" placeholder="Search product...">
             <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'">
             <img src="bell.png" id="bellimg">
@@ -481,7 +451,7 @@
         <p style="text-align:center; color:#666; margin-top:50px;">Loading content...</p>
     </div>
 </div>
-
+<script type="module" src="sobiconmassage.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
@@ -1059,7 +1029,7 @@ window.commentopen = function(btn) {
     const card = btn.closest(".single-video-card");
     const box = card.querySelector(".commentbox");
 
-    box.style.display = "block";
+    box.style.display = "flex";
 
     const videoId = card.dataset.videoId;
 

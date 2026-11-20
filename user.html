@@ -140,9 +140,7 @@ header{
     border-radius:5%;
     cursor:pointer;
 }
-
 /* ================= SEARCH MOBILE ================= */
-
 #opensearchbox{
     position:fixed;
     top:0;
@@ -677,10 +675,56 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 .btn-like.liked i {
     color: #1877f2;
 }
+
+.product-card {
+    position: relative;
+}
+
+.product-ad-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e53935;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 9px;
+    border-radius: 4px;
+    z-index: 2;
+}
+  /*massage icon */
+  .msg-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7%;       /* আপনার পেজ অনুযায়ী ঠিক করুন */
+  cursor: pointer;
+}
+
+.msg-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e41e3f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  line-height: 1;
+}
 /* ================= MOBILE ================= */
 
 @media(max-width:700px){
-
+ .msg-wrap { margin-left: 8%; }
     header{
         background: white;
     position: fixed;
@@ -773,7 +817,10 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 <div class="headtwo">
 <img src="home.png" id="homeimg" onclick="window.location.href='index.html'" alt="Home">
 <img src="pento.png" id="pentoimg" onclick="window.location.href='post.html'" alt="Post">
-<img src="message.png" id="messageimg" onclick="window.location.href='message.html'" alt="Message">
+     <div class="msg-wrap" onclick="window.location.href='message.html'">
+  <img src="message.png" id="messageimg">
+  <span class="msg-badge" id="msgBadge">0</span>
+</div>
 
 <input id="search" placeholder="Search product..." onkeyup="searchProduct()">
 <img src="VIDEO.png" id="videoimg" onclick="window.location.href='vedio.html'" alt="Video">
@@ -811,7 +858,7 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
    <div id="uploadSection">
         <h3>Upload New Video</h3>
         <textarea id="captionText"  placeholder="What's on your mind?"  rows="2"  style="width:90%; padding:10px; border-radius:5px;" ></textarea>
-        <input type="file" id="videoInput" accept="video/*"><br><br>
+        <input type="file" id="videoInput" accept="video/*,.mp4,.mov,.webm,.3gp,.mkv,.avi"><br><br>
         <button id="btnop" style="width:180px;height:30px; background:green;color:white;border:none;font-size:18px;border-radius:5px;">Save Video</button>
         <p id="status" style="margin: 0; font-size: 13px; color: blue;"></p>
     </div>
@@ -840,7 +887,6 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
      <button id="productADS" onclick="adsopenbtn()"> Ads </button>
      <div id="adsid">
     <p onclick="adsbtnclose()" class="pchclose">X</p>
-    <button class="c">c</button><br><br>
     <img src="pi.png" class="logoimg">
    <div id="adsviwe">Estimated Views: 0</div>
 <div id="adsammount">0 ৳</div>
@@ -864,7 +910,8 @@ width:100px;height:30px;background:green;color:white;border:none;border-radius:5
 <div id="productList">
     <p></p>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/tus-js-client@4.3.1/dist/tus.min.js"></script>
+<script type="module" src="sobiconmassage.js"></script>
 <script>
     function openbox(){ document.getElementById('box').style.display ="block";}
     function closebox(){  document.getElementById('box').style.display ="none"; }
@@ -880,9 +927,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
 import { getAuth, onAuthStateChanged,updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { 
     getFirestore,  collection,   query,  where,  doc,  getDoc, setDoc,  deleteDoc,   getDocs,  addDoc,
-    serverTimestamp, onSnapshot, orderBy,  increment,  updateDoc, runTransaction
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
+    serverTimestamp, onSnapshot, orderBy,  increment,  updateDoc, runTransaction} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+    getFunctions,
+    httpsCallable
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-functions.js";
 /* ========== FIREBASE CONFIG==== */
 
 const firebaseConfig = {
@@ -900,7 +949,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app, "asia-southeast1");
 
+const createBunnyVideo = httpsCallable(functions, "createBunnyVideo");
+const completeBunnyVideo = httpsCallable(functions, "completeBunnyVideo");
+const deleteBunnyVideo = httpsCallable(functions, "deleteBunnyVideo");
+
+const BUNNY_CDN_HOSTNAME = "vz-0e2ec309-725.b-cdn.net";
+const CLOUD_NAME = "sykfzqhs";
+const UPLOAD_PRESET = "robiul_preset";
 /* 👉 ১. সিলেক্ট করা প্রোডাক্ট আইডি সেভ রাখার গ্লোবাল ভ্যারিয়েবল 👈 */
 let selectedProductId = null;
 /* =============== HELPER===================== */
@@ -1023,64 +1080,95 @@ window.deleteCurrentProduct = async function() {
 
 /* ===================LOAD SPECIFIC USER PRODUCTS (শুধুমাত্র নিজ আইডি-র প্রোডাক্ট)============================ */
 
-async function loadProducts(userId){
+async function loadProducts(userId) {
     const productList = document.getElementById("productList");
 
-    try{
+    try {
+        // এই User-এর বিজ্ঞাপনগুলো লোড
+        const adsQuery = query(
+            collection(db, "user-ads"),
+            where("userId", "==", userId)
+        );
+
+        const adsSnapshot = await getDocs(adsQuery);
+
+        // যেসব Product-এর Ad আছে তাদের ID
+        const adProductIds = new Set(
+            adsSnapshot.docs.map(ad => ad.data().productId)
+        );
+
+        // User-এর Product লোড
         const productQuery = query(
-            collection(db,"products"),
-            where("userId","==",userId)
+            collection(db, "products"),
+            where("userId", "==", userId)
         );
 
         const querySnapshot = await getDocs(productQuery);
+
         productList.innerHTML = "";
 
-        if(querySnapshot.empty){
+        if (querySnapshot.empty) {
             productList.innerHTML = `
-                <p style="text-align:center;width:100%;">No Products Found</p>
+                <p style="text-align:center;width:100%;">
+                    No Products Found
+                </p>
             `;
             return;
         }
 
-        querySnapshot.forEach((docSnap)=>{
+        querySnapshot.forEach((docSnap) => {
             const p = docSnap.data();
             const productId = docSnap.id;
 
+            const hasAd = adProductIds.has(productId);
+
             let img = "logo.png";
-            if(Array.isArray(p.images) && p.images.length > 0){
+
+            if (Array.isArray(p.images) && p.images.length > 0) {
                 img = p.images[0];
             }
 
             let price = p.price;
-            if(Array.isArray(price)){
+
+            if (Array.isArray(price)) {
                 price = price[0] || "0";
             }
-            if(price === undefined || price === null || price === ""){
+
+            if (price === undefined || price === null || price === "") {
                 price = "0";
             }
 
             const safeName = escapeHTML(p.name || "No Name");
             const safePrice = escapeHTML(price);
-         productList.innerHTML += `
-    <div class="product-card" onclick="productshow('${productId}')">
 
-        <img src="${escapeHTML(img)}" alt="${safeName}" onerror="this.src='logo.png'">
+            productList.innerHTML += `
+                <div class="product-card"
+                     onclick="productshow('${productId}')">
 
-        <p class="product-name">${safeName}</p>
+                    ${hasAd ? `<span class="product-ad-badge">AD</span>` : ""}
 
-        <div class="product-price">${safePrice} TK</div>
-    </div>
-`;  
-           
+                    <img src="${escapeHTML(img)}"
+                         alt="${safeName}"
+                         onerror="this.src='logo.png'">
+
+                    <p class="product-name">${safeName}</p>
+
+                    <div class="product-price">${safePrice} TK</div>
+                </div>
+            `;
         });
 
-    }catch(error){
+    } catch (error) {
         console.error("Load Products Error:", error);
+
         productList.innerHTML = `
-            <p style="color:red;text-align:center;width:100%;">Products load failed.</p>
+            <p style="color:red;text-align:center;width:100%;">
+                Products load failed.
+            </p>
         `;
     }
 }
+
 
 window.productshow = async function(productId){
 
@@ -1319,7 +1407,7 @@ async function displayPosts() {
                     </span>
                 </div>
 
-                 <!-- পোস্টের লেখা --
+                 <!-- পোস্টের লেখা -->
                 <div style="padding:8px 0; word-wrap:break-word;">
                     ${postTextWithHashtag}
                 </div>
@@ -1557,14 +1645,7 @@ onAuthStateChanged(
         }
     }
 );
-
-/* =========== CLOUDINARY CONFIG============================= */
-const CLOUD_NAME = "sykfzqhs"; // Cloudinary থেকে আপনার Cloud Name বসান
-const UPLOAD_PRESET = "robiul_preset"; // Unsigned Upload Preset এর নাম বসান
-
-/* =============== UPLOAD VIDEO TO CLOUDINARY & SAVE TO FIRES================================== */
-
-/* =============== VIDEO UPLOAD: MAX 30 SECONDS =============== */
+/* =============== BUNNY STREAM VIDEO UPLOAD =============== */
 
 const uploadBtn = document.getElementById("btnop");
 
@@ -1578,27 +1659,30 @@ if (uploadBtn) {
 
         const file = videoInput.files[0];
         const caption = captionText.value.trim();
-
+ const allowedVideo = /\.(mp4|m4v|mov|webm|3gp|3g2|mkv|avi|mts|m2ts)$/i;
         if (!file) {
-            alert("অনুগ্রহ করে একটি ভিডিও সিলেক্ট করুন।");
+            alert("একটি ভিডিও সিলেক্ট করুন।");
             return;
         }
 
         const user = auth.currentUser;
 
-        if (!user) {
+        if (!user || user.isAnonymous) {
             alert("আগে Login করুন।");
             return;
         }
 
-        if (!file.type.startsWith("video/")) {
-            alert("সঠিক ভিডিও ফাইল সিলেক্ট করুন।");
-            videoInput.value = "";
-            return;
-        }
+      
+
+if (
+    !file.type.startsWith("video/") &&
+    !allowedVideo.test(file.name)
+) {
+    alert("একটি সঠিক Video File সিলেক্ট করুন।");
+    return;
+}
 
         uploadBtn.disabled = true;
-        status.textContent = "Checking video duration...";
 
         const video = document.createElement("video");
         video.preload = "metadata";
@@ -1607,11 +1691,8 @@ if (uploadBtn) {
 
             URL.revokeObjectURL(video.src);
 
-            // ৩০ সেকেন্ডের বেশি হলে Upload হবে না
             if (video.duration > 30) {
-
-                alert("ভিডিওর দৈর্ঘ্য ৩০ সেকেন্ডের বেশি হতে পারবে না!");
-
+                alert("ভিডিও ৩০ সেকেন্ডের বেশি হতে পারবে না!");
                 videoInput.value = "";
                 status.textContent = "";
                 uploadBtn.disabled = false;
@@ -1620,9 +1701,12 @@ if (uploadBtn) {
 
             try {
 
-                status.textContent = "Uploading video...";
+                if (!window.tus) {
+                    throw new Error("TUS Upload Library Load হয়নি।");
+                }
 
-                // Get Username
+                status.textContent = "Preparing Bunny Upload...";
+
                 let userName = user.displayName || "User";
 
                 const userRef = doc(db, "users", user.uid);
@@ -1632,53 +1716,84 @@ if (uploadBtn) {
                     userName = userSnap.data().name || userName;
                 }
 
-                // Upload to Cloudinary
-                const formData = new FormData();
+                const createResult = await createBunnyVideo({
+                    title: caption || file.name,
+                    caption: caption,
+                    userName: userName
+                });
 
-                formData.append("file", file);
-                formData.append("upload_preset", UPLOAD_PRESET);
+                const {
+                    videoId,
+                    libraryId,
+                    expirationTime,
+                    signature,
+                    tusEndpoint
+                } = createResult.data;
 
-                const res = await fetch(
-                    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`,
-                    {
-                        method: "POST",
-                        body: formData
-                    }
-                );
-
-                const cloudinaryData = await res.json();
-
-                if (!res.ok) {
-                    throw new Error(
-                        cloudinaryData.error?.message || "Upload Failed"
-                    );
+                if (!videoId || !signature || !tusEndpoint) {
+                    throw new Error("Bunny Authorization পাওয়া যায়নি।");
                 }
 
-                // Save to Firebase
-                await addDoc(collection(db, "videos"), {
+                status.textContent = "Uploading to Bunny Stream...";
 
-                    videoUrl: cloudinaryData.secure_url,
-                    caption: caption,
-                    userId: user.uid,
-                    userName: userName,
-                    likeCount: 0,
-                    viewCount: 0,
-                    createdAt: serverTimestamp()
+                await new Promise((resolve, reject) => {
 
+                    const upload = new window.tus.Upload(file, {
+
+                        endpoint: tusEndpoint,
+
+                        headers: {
+                            AuthorizationSignature: signature,
+                            AuthorizationExpire: String(expirationTime),
+                            LibraryId: String(libraryId),
+                            VideoId: videoId
+                        },
+
+                        metadata: {
+                            filename: file.name,
+                            filetype: file.type,
+                            title: caption || file.name
+                        },
+
+                        chunkSize: 5 * 1024 * 1024,
+                        retryDelays: [0, 3000, 5000, 10000, 20000],
+
+                        onError: reject,
+
+                        onProgress: function (uploaded, total) {
+                            const percent =
+                                ((uploaded / total) * 100).toFixed(1);
+
+                            status.textContent =
+                                `Uploading: ${percent}%`;
+                        },
+
+                        onSuccess: resolve
+
+                    });
+
+                    upload.start();
+
+                });
+
+                status.textContent = "Completing Upload...";
+
+                await completeBunnyVideo({
+                    videoId: videoId
                 });
 
                 status.textContent = "Video uploaded successfully!";
 
-                captionText.value = "";
                 videoInput.value = "";
+                captionText.value = "";
 
-                alert("Video Uploaded Successfully!");
+                alert("Video Bunny Stream-এ Upload হয়েছে!");
 
                 await displayVideos();
 
             } catch (error) {
 
-                console.error("Video Upload Error:", error);
+                console.error("Bunny Upload Error:", error);
 
                 status.textContent = "Upload Failed!";
 
@@ -1690,23 +1805,19 @@ if (uploadBtn) {
 
             }
         };
-
-        video.onerror = function () {
-    console.error("Video Read Error:", video.error);
-    console.log("File type:", file.type);
-    console.log("File name:", file.name);
-    console.log("File size:", file.size);
-
+video.onerror = function () {
     URL.revokeObjectURL(video.src);
 
-    alert("ভিডিওটি পড়া যাচ্ছে না। MP4 (H.264) ফরম্যাটের ভিডিও ব্যবহার করুন।");
+    alert("এই ভিডিওর তথ্য পড়া যাচ্ছে না। অন্য ভিডিও ব্যবহার করুন।");
 
     videoInput.value = "";
     status.textContent = "";
     uploadBtn.disabled = false;
 };
 
-        video.src = URL.createObjectURL(file);
+video.src = URL.createObjectURL(file);
+video.load();
+
 
     });
 }
@@ -2174,7 +2285,9 @@ window.deleteVideo = async function(videoId) {
             return;
         }
 
-        await deleteDoc(videoRef);
+        await deleteBunnyVideo({
+    videoId: videoId
+});
         alert("Video Deleted Successfully");
         await displayVideos();
 
@@ -2234,110 +2347,56 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-/* =================== 'c' Button Click to Make Product an Ad =================== */
-document.addEventListener("click", async function(event) {
-    const cButton = event.target.closest(".c");
-    if (!cButton) return;
+/* =================== PRODUCT ADS PAYMENT =================== */
 
-    console.log("🎯 c button clicked!");
-
-    if (!selectedProductId) {
-        alert("অনুগ্রহ করে প্রথমে যেকোনো একটি প্রডাক্ট সিলেক্ট করুন!");
-        return;
-    }
-
-    const user = auth.currentUser;
-    if (!user) {
-        alert("আগে Login করুন।");
-        return;
-    }
-
-    try {
-        console.log("📦 Product ID:", selectedProductId);
-
-        // ⭐ ডুপ্লিকেট চেক — এই প্রোডাক্ট আগে থেকেই অ্যাড কিনা
-        const existingAdQuery = query(
-            collection(db, "user-ads"),
-            where("productId", "==", selectedProductId),
-            where("userId", "==", user.uid)
-        );
-        const existingAds = await getDocs(existingAdQuery);
-
-        if (!existingAds.empty) {
-            alert("এই প্রোডাক্টটি ইতিমধ্যেই অ্যাড হিসেবে যোগ করা হয়েছে!");
-            document.getElementById('adsid').style.display = 'none';
-            document.getElementById('phobe').style.display = 'none';
-            document.getElementById('productsearch').style.display = 'none';
-            return;
-        }
-
-        // প্রডাক্ট ডেটা ফেচ করা
-        const productRef = doc(db, "products", selectedProductId);
-        const productSnap = await getDoc(productRef);
-
-        if (!productSnap.exists()) {
-            alert("প্রডাক্টটি পাওয়া যায়নি।");
-            return;
-        }
-
-        const productData = productSnap.data();
-        console.log("📦 Product Data:", productData);
-
-        // 'user-ads' কালেকশনে সেভ
-        const adDocRef = await addDoc(collection(db, "user-ads"), {
-            productId: selectedProductId,
-            userId: user.uid,
-            productName: productData.name || "Product",
-            price: Array.isArray(productData.price) ? productData.price[0] : (productData.price || "0"),
-            imageUrl: (Array.isArray(productData.images) && productData.images.length > 0) ? productData.images[0] : "logo.png",
-            productLink: `product.html?id=${selectedProductId}`,
-            createdAt: serverTimestamp()
-        });
-
-        console.log("✅ Ad saved with ID:", adDocRef.id);
-        alert("সফল! এই প্রডাক্টটি এখন ভিডিও পেজে অ্যাড (Ad) হিসেবে দেখানো হবে।");
-
-        document.getElementById('adsid').style.display = 'none';
-        document.getElementById('phobe').style.display = 'none';
-        document.getElementById('productsearch').style.display = 'none';
-
-    } catch (error) {
-        console.error("❌ Ads Error:", error);
-        alert("অ্যাড তৈরি করতে সমস্যা হয়েছে: " + error.message);
-    }
-});
-           // পেজ লোডে একবার চালাবে 
 const rage = document.getElementById("rage");
 const adsviwe = document.getElementById("adsviwe");
 const adsammount = document.getElementById("adsammount");
 const publishBtn = document.getElementById("publish");
 
-function updateAdEstimate() {
-  const budget = Number(rage.value);   // 0–100
-  const views = budget * 17;           // 1৳ = 17 views
-  adsviwe.textContent = `Estimated Views: ${views.toLocaleString()}`;
-  adsammount.textContent = `${budget} ৳`;
+if (rage && adsviwe && adsammount && publishBtn) {
+
+    function updateAdEstimate() {
+        const budget = Number(rage.value);
+        const views = budget * 17;
+
+        adsviwe.textContent =
+            `Estimated Views: ${views.toLocaleString()}`;
+
+        adsammount.textContent = `${budget} ৳`;
+    }
+
+    rage.addEventListener("input", updateAdEstimate);
+    updateAdEstimate();
+
+    publishBtn.addEventListener("click", () => {
+
+        const budget = Number(rage.value);
+        const views = budget * 17;
+
+        if (!selectedProductId) {
+            alert("প্রথমে একটি Product সিলেক্ট করুন।");
+            return;
+        }
+
+        if (budget <= 0) {
+            alert("বিজ্ঞাপনের Budget নির্বাচন করুন।");
+            return;
+        }
+
+        const productName =
+            window.selectedProductName || "Product";
+
+        const url = new URL("payment.html", location.href);
+
+        url.searchParams.set("productId", selectedProductId);
+        url.searchParams.set("amount", budget);
+        url.searchParams.set("views", views);
+        url.searchParams.set("productName", productName);
+
+        window.location.href = url.toString();
+    });
 }
-
-rage.addEventListener("input", updateAdEstimate);
-updateAdEstimate();
-
-publishBtn.addEventListener("click", () => {
-  const budget = Number(rage.value);
-  const views  = budget * 17;
-
-  const productName =
-    window.selectedProductName ||
-    localStorage.getItem("selectedProductName") ||
-    "-";
-
-  const url = new URL("payment.html", location.href);
-  url.searchParams.set("amount",      budget);
-  url.searchParams.set("views",       views);
-  url.searchParams.set("productName", productName);
-
-  window.location.href = url.toString();
-});
 </script>
 </body>
 </html>
