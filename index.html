@@ -1218,52 +1218,72 @@ onAuthStateChanged(auth, async (user) => {
     }
 
 });
-// ==================== ORDER & CHAT BUTTON ====================
-document.getElementById("Obtn1").addEventListener("click", async function () {
-  const p = window.currentProduct;
-  if (!p) return;
+// ==================== CHAT BUTTON ====================
+const chatBtn = document.getElementById("Obtn1");
 
-  const user = auth.currentUser;
-  if (!user) {
-    alert("Chat করতে আগে Login করুন");
-    window.location.href = "login.html";
-    return;
-  }
+if (chatBtn) {
+  chatBtn.addEventListener("click", async function () {
+    const p = window.currentProduct;
 
-  const sellerId = p.sellerId;
-  if (!sellerId) {
-    alert("এই প্রোডাক্টে Seller তথ্য নেই।");
-    return;
-  }
+    if (!p) {
+      alert("Product পাওয়া যায়নি!");
+      return;
+    }
 
-  if (sellerId === user.uid) {
-    alert("এটি আপনার নিজের প্রোডাক্ট।");
-    return;
-  }
+    // Auth restore এর জন্য অপেক্ষা
+    let user = auth.currentUser;
+    if (!user) {
+      user = await new Promise(resolve => {
+        const unsub = onAuthStateChanged(auth, u => { unsub(); resolve(u); });
+      });
+    }
+    if (!user) {
+      alert("Chat করতে আগে Login করুন");
+      window.location.href = "login.html";
+      return;
+    }
 
-  const chatId = [user.uid, sellerId].sort().join("_");
-  const chatRef = doc(db, "chats", chatId);
-  const chatSnap = await getDoc(chatRef);
+    const sellerId = p.sellerId || p.userId;
+    if (!sellerId) {
+      alert("Seller ID পাওয়া যায়নি!");
+      console.log("Product Data:", p);
+      return;
+    }
+    if (sellerId === user.uid) {
+      alert("এটি আপনার নিজের Product!");
+      return;
+    }
 
-  if (!chatSnap.exists()) {
-    await setDoc(chatRef, {
-      members: [user.uid, sellerId],
-      membersInfo: {
-        [user.uid]: { name: user.displayName || user.email || "Buyer" },
-        [sellerId]: { name: p.userName || "Seller" }
-      },
-      productId: p.id,
-      productName: p.name,
-      productImage: (p.images && p.images[0]) ? p.images[0] : "",
-      lastMessage: "",
-      lastTime: serverTimestamp(),
-      createdAt: serverTimestamp()
-    });
-  }
+    try {
+      const chatId = [user.uid, sellerId].sort().join("_");
+      const chatRef = doc(db, "chats", chatId);
+      const chatSnap = await getDoc(chatRef);
 
-  window.location.href = `chat.html?chatId=${chatId}`;
-});
+      if (!chatSnap.exists()) {
+        await setDoc(chatRef, {
+          members: [user.uid, sellerId],
+          membersInfo: {
+            [user.uid]: { name: user.displayName || user.email || "Buyer" },
+            [sellerId]: { name: p.userName || "Seller" }
+          },
+          productId: p.id,
+          productName: p.name,
+          productImage: p.images?.[0] || "",
+          lastMessage: "",
+          lastTime: serverTimestamp(),
+          createdAt: serverTimestamp()
+        });
+      }
 
+      window.location.href = "chat.html?chatId=" + encodeURIComponent(chatId);
+    } catch (error) {
+      console.error("Chat Error:", error);
+      alert("Chat চালু হয়নি: " + error.message);
+    }
+  });
+} else {
+  console.warn("⚠️ #Obtn1 element পাওয়া যায়নি");
+}
 // ---------- ORDER BUTTON ----------
 document.getElementById("Obtn").addEventListener("click", async function () {
   const p = window.currentProduct;

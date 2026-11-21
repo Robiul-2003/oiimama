@@ -1,8 +1,15 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  initializeApp,
+  getApp,
+  getApps
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getAuth,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 import {
   getFirestore,
   collection,
@@ -12,12 +19,14 @@ import {
   doc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 import {
   getMessaging,
   getToken,
   onMessage,
   isSupported
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9Ed_6mJEZ_fhITCrf-d9P6KlgpQBLD14",
@@ -30,7 +39,7 @@ const firebaseConfig = {
 
 const VAPID_KEY = "BGhwKO6KN6oSk7S8DqjF4xUzJudhektpCkqP8MlkpEP3WyyaXyZ5IAsVYR0wnhxaeD99E0A9bpxLN0gVjPHAE-I";
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
