@@ -368,6 +368,14 @@
   box-sizing: border-box;
   line-height: 1;
 }
+.reels-actions button .comment-count,
+.reels-actions button .share-count {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 4px;
+    color: white;
+}
 /*phone size*/
         @media(max-width:600px) {
               .msg-wrap { margin-left: 8%; }
@@ -543,6 +551,8 @@ async function loadAllContent() {
             const safeCaption   = escapeHTML(data.caption || "");
             const safeVideoUrl  = data.videoUrl || "";
             const likeCount     = data.likeCount || 0;
+            const commentCount = data.commentCount || 0;
+            const shareCount = data.shareCount || 0;
             const viewCount     = data.viewCount || 0;
 
      html += `
@@ -560,22 +570,24 @@ async function loadAllContent() {
         <!-- ✅ ACTIONS: শুধু ৩টা বাটন থাকবে -->
         <div class="reels-actions">
             <button class="like-btn" data-video-id="${data.id}">
-
                 <i class="fa-regular fa-thumbs-up"></i>
                 <div class="count">${formatCount(likeCount)}</div>
             </button>
+             <button onclick="commentopen(this)">
+        <i class="fa-regular fa-comment"></i>
+        <div class="comment-count">${formatCount(commentCount)}</div>
+    </button>
 
-            <button onclick="commentopen(this)">
-                <i class="fa-regular fa-comment"></i>
-            </button>
+    <button class="btn-share"
+        data-username="${safeUserName}"
+        data-caption="${safeCaption}"
+        data-videoid="${data.id}"
+        onclick="shareVideo(this)">
 
-            <button class="btn-share"
-                    data-username="${safeUserName}"
-                    data-caption="${safeCaption}"
-                    data-videoid="${data.id}"
-                    onclick="shareVideo(this)">
-                <i class="fa-solid fa-share"></i>
-            </button>
+        <i class="fa-solid fa-share"></i>
+        <div class="share-count">${formatCount(shareCount)}</div>
+    </button>
+           
         </div>
 
         <!-- ✅ COMMENTBOX: card এর ভিতরে, actions এর বাইরে -->
@@ -647,7 +659,47 @@ async function loadAllContent() {
         });
 
         videoContainer.innerHTML = html;
+ // SHARE COUNT LIVE UPDATE
+document.querySelectorAll(".single-video-card").forEach(card => {
 
+    const videoId = card.dataset.videoId;
+    const shareCountEl = card.querySelector(".share-count");
+
+    if (!videoId || !shareCountEl) return;
+
+    onSnapshot(doc(db, "videos", videoId), (snap) => {
+
+        if (!snap.exists()) return;
+
+        shareCountEl.textContent = formatCount(
+            snap.data().shareCount || 0
+        );
+
+    }, error => {
+        console.error("Share Count Listener:", error);
+    });
+
+});
+
+// COMMENT COUNT ALWAYS LIVE
+document.querySelectorAll(".single-video-card").forEach(card => {
+
+    const videoId = card.dataset.videoId;
+    const countEl = card.querySelector(".comment-count");
+
+    if (!videoId || !countEl) return;
+
+    const commentsRef = collection(
+        db, "videos", videoId, "comments"
+    );
+
+    onSnapshot(commentsRef, snapshot => {
+        countEl.textContent = formatCount(snapshot.size);
+    }, error => {
+        console.error("Comment Count Listener:", error);
+    });
+
+});
         // Bind Like + Real-time + View
         document.querySelectorAll(".like-btn").forEach(btn => {
             bindLikeButton(btn);
@@ -972,7 +1024,10 @@ window.toggleCaption = function(button) {
     }
 };
 
+//=========== share button =============
+
 window.shareVideo = async function(btn) {
+
     const userName = btn.dataset.username || "User";
     const caption = btn.dataset.caption || "";
     const videoId = btn.dataset.videoid;
@@ -982,41 +1037,49 @@ window.shareVideo = async function(btn) {
         return;
     }
 
-    // বর্তমান ভিডিও পেজের URL-এ নির্দিষ্ট videoId যোগ হবে
-  const shareURL = new URL(
-    "https://adarshabd.com/vedio.html"
-);
+    const shareURL = new URL(
+        "https://adarshabd.com/vedio.html"
+    );
 
     shareURL.searchParams.set("videoId", videoId);
-    shareURL.hash = "";
 
     const url = shareURL.toString();
 
     const title = `${userName} shared a video`;
 
     try {
+
         if (navigator.share) {
+
             await navigator.share({
                 title: title,
                 text: caption,
                 url: url
             });
+
+        } else {
+
+            await navigator.clipboard.writeText(url);
+
+        }
+
+        // Share successful হলে Count বাড়বে
+        await updateDoc(doc(db, "videos", videoId), {
+            shareCount: increment(1)
+        });
+
+    } catch (error) {
+
+        if (error.name === "AbortError") {
             return;
         }
-    } catch (error) {
-        if (error.name === "AbortError") return;
 
-        console.warn("Share failed:", error);
-    }
-
-    // Fallback: Copy link
-    try {
-        await navigator.clipboard.writeText(url);
-        alert("ভিডিওর লিংক কপি হয়েছে!");
-    } catch (error) {
-        prompt("এই লিংকটি কপি করুন:", url);
+        console.error("Share Error:", error);
+        alert("Share Count Update হয়নি: " + error.message);
     }
 };
+
+
 
 
 /* =================================
@@ -1054,11 +1117,11 @@ window.commentclose = function(btn) {
 
 
 // LOAD COMMENTS - REAL TIME
+
 window.loadReelsComments = function(videoId, card) {
 
     const list = card.querySelector(".comment-list");
 
-    // আগের Listener বন্ধ
     if (card.commentUnsubscribe) {
         card.commentUnsubscribe();
     }
@@ -1075,6 +1138,13 @@ window.loadReelsComments = function(videoId, card) {
     card.commentUnsubscribe = onSnapshot(
         commentsQuery,
         (snapshot) => {
+
+            // Live Comment Count
+            const countEl = card.querySelector(".comment-count");
+
+            if (countEl) {
+                countEl.textContent = formatCount(snapshot.size);
+            }
 
             list.innerHTML = "";
 
@@ -1106,9 +1176,7 @@ window.loadReelsComments = function(videoId, card) {
             list.textContent = "Comments load failed.";
         }
     );
-
 };
-
 
 // SEND COMMENT
 window.sendComment = async function(btn) {

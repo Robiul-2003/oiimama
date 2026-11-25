@@ -402,9 +402,11 @@ header{
 
 
  .btn-like{ width:32%; border:none; background:white;}
-     .fa-thumbs-up{font-size:18px;}
-      .btn-comment{ width:32%;border:none; background:white;}
-      .btn-share{ width:32%;border:none; background:white;}
+     .fa-thumbs-up{font-size:22px;}
+     .btn-comment{width:32%; border:none; background:white;font-size:18px;}
+      .btn-share{ width:32%;border:none; background:white;text-align:end;font-size:18px;}
+
+
 #alladd{width:120px;height:35px;font-size:16px;font-weight:600;background:tomato;color:white;border:none;border-radius:3px;gap:5px;}
 #viewcount{margin-left:90%; font-size:15px;}
 .caption-container {
@@ -1884,10 +1886,14 @@ async function displayVideos() {
         <i class="fa-regular fa-thumbs-up"></i>
         <span class="like-num">0</span>
     </button>
-          <button class="btn-comment" onclick="commentopen(this)">
-    <i class="fa-regular fa-comment"></i> Comment
+    <button onclick="commentopen(this)" class="btn-comment">
+    <i class="fa-regular fa-comment"></i>
+    <span class="comment-count">0</span>
 </button>
-        <button class="btn-share" onclick="shareContent('${safeUserName} shared a video', '${safeCaption}', '${escapeHTML(data.videoUrl)}')"> Share</button>
+       <button class="btn-share">
+    <i class="fa-solid fa-share"></i>
+    <span class="share-count">0</span>
+</button>
 
         </div>
         <!-- Comment Box: reels-actions-এর বাইরে -->
@@ -1907,29 +1913,7 @@ async function displayVideos() {
         </div>
     `;
 });
-     // Like ও View চালু করা
-        videoList.querySelectorAll(".single-video").forEach(card => {
-            bindUserVideoActions(card);
-        });
-        
-    } catch (error) {
-        console.error("Load Videos Error:", error);
-        videoList.innerHTML = `<p style="color:red;text-align:center;">Failed to load videos.</p>`;
-    }
-}
-window.toggleCaption = function(button) {
-    const container = button.closest(".caption-container");
-    const caption = container.querySelector(".caption-text");
-
-    caption.classList.toggle("expanded");
-
-    if (caption.classList.contains("expanded")) {
-        button.textContent = "Less";
-    } else {
-        button.textContent = "More";
-    }
-};
-
+    
 
 /* ================= USER PAGE LIKE & VIEW ================= */
 
@@ -1963,7 +1947,10 @@ function bindUserVideoActions(card) {
 
         likeNum.textContent = data.likeCount || 0;
        viewNum.textContent = data.viewCount || 0;
-
+        const shareNum = card.querySelector(".share-count");
+       if (shareNum) {
+        shareNum.textContent = data.shareCount || 0;
+      }
     }, (error) => {
         console.error("Video Count Error:", error);
     });
@@ -2050,53 +2037,103 @@ function bindUserVideoActions(card) {
     });
 
     // VIEW COUNT: ৩ সেকেন্ড দেখলে একবার গণনা
-    video.addEventListener("timeupdate", async () => {
+  // VIEW COUNT: ৩ সেকেন্ড দেখলে একবার গণনা
+video.addEventListener("timeupdate", async () => {
 
-        if (video.currentTime < 3) return;
-        if (card.dataset.viewAttempted === "true") return;
+    if (video.currentTime < 3) return;
 
-        const currentUser = auth.currentUser;
+    if (card.dataset.viewAttempted === "true") return;
 
-        if (!currentUser || currentUser.isAnonymous) return;
+    const currentUser = auth.currentUser;
 
-        card.dataset.viewAttempted = "true";
+    if (!currentUser || currentUser.isAnonymous) return;
 
-        try {
+    card.dataset.viewAttempted = "true";
 
-            await runTransaction(db, async (transaction) => {
+    try {
 
-                const viewSnap = await transaction.get(viewRef);
-                const videoSnap = await transaction.get(videoRef);
+        await runTransaction(db, async (transaction) => {
 
-                if (viewSnap.exists()) return;
+            const viewSnap = await transaction.get(viewRef);
+            const videoSnap = await transaction.get(videoRef);
 
-                if (!videoSnap.exists()) {
-                    throw new Error("Video পাওয়া যায়নি।");
-                }
+            if (viewSnap.exists()) return;
 
-                const currentCount =
-                    videoSnap.data().viewCount || 0;
+            if (!videoSnap.exists()) {
+                throw new Error("Video পাওয়া যায়নি।");
+            }
 
-                transaction.set(viewRef, {
-                    videoId: videoId,
-                    userId: currentUser.uid,
-                    createdAt: serverTimestamp()
-                });
+            const currentCount =
+                videoSnap.data().viewCount || 0;
 
-                transaction.update(videoRef, {
-                    viewCount: currentCount + 1
-                });
+            transaction.set(viewRef, {
+                videoId: videoId,
+                userId: currentUser.uid,
+                createdAt: serverTimestamp()
             });
 
-        } catch (error) {
+            transaction.update(videoRef, {
+                viewCount: currentCount + 1
+            });
+        });
 
-            card.dataset.viewAttempted = "false";
-            console.error("View Count Error:", error);
+    } catch (error) {
 
-        }
-    });
+        card.dataset.viewAttempted = "false";
+        console.error("View Count Error:", error);
+
+    }
+});
 }
 
+
+// ================= LIVE COMMENT COUNT =================
+
+videoList.querySelectorAll(".single-video").forEach(card => {
+    const videoId = card.dataset.videoId;
+
+    onSnapshot(
+        collection(db, "videos", videoId, "comments"),
+        snapshot => {
+            const count = card.querySelector(".comment-count");
+            if (count) count.textContent = snapshot.size;
+        },
+        error => console.error("Comment Count Error:", error)
+    );
+});
+
+// ================= LIKE BUTTON CONNECT =================
+
+videoList.querySelectorAll(".single-video").forEach(card => {
+    bindUserVideoActions(card);
+});
+
+// ================= SHARE BUTTON CONNECT =================
+
+videoList.querySelectorAll(".single-video").forEach(card => {
+    const btn = card.querySelector(".btn-share");
+    const videoId = card.dataset.videoId;
+
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+        const url = new URL(location.href);
+        url.searchParams.set("videoId", videoId);
+
+        window.shareContent(
+            "Adarsha BD Video",
+            "এই ভিডিওটি দেখুন!",
+            url.toString(),
+            videoId
+        );
+    });
+});
+
+} catch (error) {
+    console.error("Display Videos Error:", error);
+    videoList.innerHTML = "Videos load failed.";
+}
+}
 
 // ================= USER PAGE COMMENT SYSTEM =================
 
@@ -2299,46 +2336,54 @@ window.deleteVideo = async function(videoId) {
 
 
 /* ================ share button ====================== */
-window.shareContent = async function(title, text, url) {
-  try {
-    // Web Share API support check (Mobile Browsers & WebView)
-    if (navigator.share) {
-      await navigator.share({
-        title: title || 'Check this out!',
-        text: text || '',
-        url: url
-      });
-      return;
-    }
+window.shareContent = async function(title, text, url, videoId) {
 
-    // Capacitor Native Share (Android/iOS App fallback)
-    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share) {
-      await window.Capacitor.Plugins.Share.share({
-        title: title,
-        text: text,
-        url: url,
-        dialogTitle: "Share Content"
-      });
-      return;
-    }
+    try {
 
-    // Fallback for Desktop Browsers (Clipboard Copy)
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(url);
-      alert("Link copied to clipboard!");
-      return;
-    }
+        if (navigator.share) {
 
-    alert("Sharing is not supported on this browser.");
+            await navigator.share({
+                title: title || "Check this out!",
+                text: text || "",
+                url: url
+            });
 
-  } catch (error) {
-    // User share cancel করলে AbortError আসে, যা ইগনোর করা ভালো
-    if (error.name !== 'AbortError') {
-      console.error("Share Error:", error);
+        } else if (
+            window.Capacitor?.Plugins?.Share
+        ) {
+
+            await window.Capacitor.Plugins.Share.share({
+                title: title,
+                text: text,
+                url: url,
+                dialogTitle: "Share Content"
+            });
+
+        } else if (navigator.clipboard) {
+
+            await navigator.clipboard.writeText(url);
+
+            alert("Link copied to clipboard!");
+
+        } else {
+
+            alert("Sharing is not supported.");
+            return;
+        }
+
+        // সফল Share/Copy হলে Count বাড়বে
+        await updateDoc(doc(db, "videos", videoId), {
+            shareCount: increment(1)
+        });
+
+    } catch (error) {
+
+        if (error.name !== "AbortError") {
+            console.error("Share Error:", error);
+        }
+
     }
-  }
 };
-
 /* ================AUTH STATE UPDATES================== */
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -2348,7 +2393,6 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 /* =================== PRODUCT ADS PAYMENT =================== */
-
 const rage = document.getElementById("rage");
 const adsviwe = document.getElementById("adsviwe");
 const adsammount = document.getElementById("adsammount");
